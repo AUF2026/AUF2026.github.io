@@ -3682,6 +3682,914 @@ if (theoremRegistry) {
   );
 
 </script>
+<script>
+
+/* =========================================================
+   AUF2026 — WOW LAB CONTROLLER
+   =========================================================
+ *
+ * FINAL SCRIPT
+ *
+ * This controller is intentionally placed AFTER all existing
+ * AUF2026 scripts.
+ *
+ * It does not:
+ * - generate document URLs
+ * - parse Markdown
+ * - modify archive.html
+ * - modify the theorem registry generator
+ * - replace existing application logic
+ *
+ * It only adds interactive presentation effects.
+ *
+ * ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    "use strict";
+
+
+    /* =======================================================
+       CORE
+       ======================================================= */
+
+    const body =
+      document.body;
+
+
+    if (!body) {
+      return;
+    }
+
+
+    /* =======================================================
+       SAFE HELPERS
+       ======================================================= */
+
+    const all =
+      (
+        selector,
+        root = document
+      ) =>
+        root
+          ? [
+              ...root.querySelectorAll(
+                selector
+              )
+            ]
+          : [];
+
+
+    const one =
+      (
+        selector,
+        root = document
+      ) =>
+        root
+          ? root.querySelector(
+              selector
+            )
+          : null;
+
+
+    /* =======================================================
+       EFFECT SWITCHES
+       ======================================================= */
+
+    const switches =
+      all(
+        ".switch"
+      );
+
+
+    function setEffect(
+      effect,
+      enabled
+    ) {
+
+      if (!effect) {
+        return;
+      }
+
+
+      const className =
+        effect === "text-glow"
+          ? "text-glow-on"
+          : effect + "-on";
+
+
+      body.classList.toggle(
+        className,
+        Boolean(enabled)
+      );
+
+    }
+
+
+    switches.forEach(
+      control => {
+
+        const effect =
+          control.dataset.effect;
+
+
+        if (!effect) {
+          return;
+        }
+
+
+        setEffect(
+          effect,
+          control.checked
+        );
+
+
+        control.addEventListener(
+          "change",
+          () => {
+
+            setEffect(
+              effect,
+              control.checked
+            );
+
+
+            if (
+              effect === "reveal"
+            ) {
+
+              if (
+                control.checked
+              ) {
+
+                startReveal();
+
+              } else {
+
+                all(
+                  ".reveal"
+                )
+                .forEach(
+                  element => {
+
+                    element.classList.add(
+                      "visible"
+                    );
+
+                  }
+                );
+
+              }
+
+            }
+
+
+            if (
+              effect === "validation"
+            ) {
+
+              const validation =
+                one(
+                  ".validation-banner"
+                );
+
+
+              if (validation) {
+
+                validation.classList.toggle(
+                  "active",
+                  control.checked
+                );
+
+              }
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =======================================================
+       REVEAL
+       ======================================================= */
+
+    let revealObserver =
+      null;
+
+
+    function startReveal() {
+
+      const elements =
+        all(
+          ".reveal"
+        );
+
+
+      if (!elements.length) {
+        return;
+      }
+
+
+      /*
+       * If IntersectionObserver is unavailable,
+       * reveal everything safely.
+       */
+
+      if (
+        !("IntersectionObserver" in window)
+      ) {
+
+        elements.forEach(
+          element =>
+            element.classList.add(
+              "visible"
+            )
+        );
+
+        return;
+
+      }
+
+
+      if (revealObserver) {
+
+        revealObserver.disconnect();
+
+      }
+
+
+      revealObserver =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(
+              entry => {
+
+                if (
+                  entry.isIntersecting
+                ) {
+
+                  entry.target.classList.add(
+                    "visible"
+                  );
+
+                  revealObserver.unobserve(
+                    entry.target
+                  );
+
+                }
+
+              }
+            );
+
+          },
+          {
+            threshold: .18
+          }
+        );
+
+
+      elements.forEach(
+        element =>
+          revealObserver.observe(
+            element
+          )
+      );
+
+    }
+
+
+    startReveal();
+
+
+    /* =======================================================
+       TILT
+       ======================================================= */
+
+    const tiltCards =
+      all(
+        ".card"
+      );
+
+
+    tiltCards.forEach(
+      card => {
+
+        card.addEventListener(
+          "pointermove",
+          event => {
+
+            if (
+              !body.classList.contains(
+                "tilt-on"
+              )
+            ) {
+              return;
+            }
+
+
+            const rect =
+              card.getBoundingClientRect();
+
+
+            if (
+              !rect.width ||
+              !rect.height
+            ) {
+              return;
+            }
+
+
+            const x =
+              (
+                event.clientX -
+                rect.left
+              ) /
+              rect.width;
+
+
+            const y =
+              (
+                event.clientY -
+                rect.top
+              ) /
+              rect.height;
+
+
+            const rotateY =
+              (x - .5) * 7;
+
+
+            const rotateX =
+              (.5 - y) * 7;
+
+
+            card.style.transform =
+              `
+              perspective(900px)
+              rotateX(${rotateX}deg)
+              rotateY(${rotateY}deg)
+              translateZ(6px)
+              `;
+
+          },
+          {
+            passive: true
+          }
+        );
+
+
+        card.addEventListener(
+          "pointerleave",
+          () => {
+
+            card.style.transform =
+              "";
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =======================================================
+       THEOREM REGISTRY
+       =======================================================
+       Uses the REAL registry container from index.html.
+       The existing theorem generator remains untouched.
+       ======================================================= */
+
+    const registry =
+      document.getElementById(
+        "theoremRegistryLinks"
+      );
+
+
+    let registryLinks = [];
+
+
+    function refreshRegistryLinks() {
+
+      if (!registry) {
+
+        registryLinks = [];
+
+        return;
+
+      }
+
+
+      registryLinks =
+        [
+          ...registry.querySelectorAll(
+            ".archive-link"
+          )
+        ];
+
+    }
+
+
+    refreshRegistryLinks();
+
+
+    /* -------------------------------------------------------
+       Dynamic registry observer
+       ------------------------------------------------------- */
+
+    if (registry) {
+
+      const registryObserver =
+        new MutationObserver(
+          () => {
+
+            refreshRegistryLinks();
+
+          }
+        );
+
+
+      registryObserver.observe(
+        registry,
+        {
+          childList: true,
+          subtree: true
+        }
+      );
+
+    }
+
+
+    /* -------------------------------------------------------
+       Registry scan
+       ------------------------------------------------------- */
+
+    let scanRunning =
+      false;
+
+
+    if (registry) {
+
+      registry.addEventListener(
+        "mouseenter",
+        () => {
+
+          if (
+            !body.classList.contains(
+              "scan-on"
+            )
+          ) {
+            return;
+          }
+
+
+          if (scanRunning) {
+            return;
+          }
+
+
+          refreshRegistryLinks();
+
+
+          if (
+            !registryLinks.length
+          ) {
+            return;
+          }
+
+
+          scanRunning =
+            true;
+
+
+          registry.classList.add(
+            "scanning"
+          );
+
+
+          registryLinks.forEach(
+            (link, index) => {
+
+              window.setTimeout(
+                () => {
+
+                  link.classList.add(
+                    "lit"
+                  );
+
+                  link.classList.add(
+                    "wow-registry-active"
+                  );
+
+
+                  window.setTimeout(
+                    () => {
+
+                      link.classList.remove(
+                        "lit"
+                      );
+
+                      link.classList.remove(
+                        "wow-registry-active"
+                      );
+
+                    },
+                    500
+                  );
+
+                },
+                index * 260
+              );
+
+            }
+          );
+
+
+          window.setTimeout(
+            () => {
+
+              registry.classList.remove(
+                "scanning"
+              );
+
+              scanRunning =
+                false;
+
+            },
+            1500
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =======================================================
+       VALIDATION
+       ======================================================= */
+
+    const validation =
+      one(
+        ".validation-banner"
+      );
+
+
+    if (validation) {
+
+      validation.classList.add(
+        "active"
+      );
+
+    }
+
+
+    /* =======================================================
+       GRAPH
+       ======================================================= */
+
+    const nodes =
+      all(
+        ".node"
+      );
+
+
+    nodes.forEach(
+      node => {
+
+        node.addEventListener(
+          "mouseenter",
+          () => {
+
+            nodes.forEach(
+              other =>
+                other.classList.remove(
+                  "active"
+                )
+            );
+
+
+            node.classList.add(
+              "active"
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =======================================================
+       MAGNETIC LINKS
+       ======================================================= */
+
+    function initMagneticLinks() {
+
+      refreshRegistryLinks();
+
+
+      registryLinks.forEach(
+        link => {
+
+          if (
+            link.dataset.magneticBound ===
+            "true"
+          ) {
+            return;
+          }
+
+
+          link.dataset.magneticBound =
+            "true";
+
+
+          link.addEventListener(
+            "pointermove",
+            event => {
+
+              if (
+                !body.classList.contains(
+                  "magnetic-on"
+                )
+              ) {
+                return;
+              }
+
+
+              const rect =
+                link.getBoundingClientRect();
+
+
+              if (
+                !rect.width ||
+                !rect.height
+              ) {
+                return;
+              }
+
+
+              const x =
+                event.clientX -
+                rect.left -
+                rect.width / 2;
+
+
+              const y =
+                event.clientY -
+                rect.top -
+                rect.height / 2;
+
+
+              link.style.transform =
+                `
+                translate(
+                  ${x * .08}px,
+                  ${y * .08}px
+                )
+                `;
+
+            },
+            {
+              passive: true
+            }
+          );
+
+
+          link.addEventListener(
+            "pointerleave",
+            () => {
+
+              link.style.transform =
+                "";
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    initMagneticLinks();
+
+
+    /*
+     * New theorem links may be generated after
+     * this controller starts.
+     */
+
+    if (registry) {
+
+      const magneticObserver =
+        new MutationObserver(
+          () => {
+
+            initMagneticLinks();
+
+          }
+        );
+
+
+      magneticObserver.observe(
+        registry,
+        {
+          childList: true,
+          subtree: true
+        }
+      );
+
+    }
+
+
+    /* =======================================================
+       CURSOR
+       ======================================================= */
+
+    const cursor =
+      document.getElementById(
+        "cursor"
+      );
+
+
+    if (cursor) {
+
+      let cursorX =
+        0;
+
+      let cursorY =
+        0;
+
+      let currentX =
+        0;
+
+      let currentY =
+        0;
+
+
+      document.addEventListener(
+        "pointermove",
+        event => {
+
+          cursorX =
+            event.clientX;
+
+          cursorY =
+            event.clientY;
+
+
+          cursor.style.opacity =
+            body.classList.contains(
+              "cursor-on"
+            )
+              ? "1"
+              : "0";
+
+        },
+        {
+          passive: true
+        }
+      );
+
+
+      function animateCursor() {
+
+        currentX +=
+          (
+            cursorX -
+            currentX
+          ) * .12;
+
+
+        currentY +=
+          (
+            cursorY -
+            currentY
+          ) * .12;
+
+
+        cursor.style.left =
+          currentX + "px";
+
+
+        cursor.style.top =
+          currentY + "px";
+
+
+        requestAnimationFrame(
+          animateCursor
+        );
+
+      }
+
+
+      animateCursor();
+
+    }
+
+
+    /* =======================================================
+       RESET
+       ======================================================= */
+
+    const reset =
+      document.getElementById(
+        "reset"
+      );
+
+
+    if (reset) {
+
+      reset.addEventListener(
+        "click",
+        () => {
+
+          switches.forEach(
+            control => {
+
+              control.checked =
+                true;
+
+
+              setEffect(
+                control.dataset.effect,
+                true
+              );
+
+            }
+          );
+
+
+          all(
+            ".reveal"
+          )
+          .forEach(
+            element => {
+
+              element.classList.remove(
+                "visible"
+              );
+
+            }
+          );
+
+
+          startReveal();
+
+
+          if (validation) {
+
+            validation.classList.add(
+              "active"
+            );
+
+          }
+
+
+          refreshRegistryLinks();
+
+
+          registryLinks.forEach(
+            link => {
+
+              link.classList.remove(
+                "lit"
+              );
+
+              link.classList.remove(
+                "wow-registry-active"
+              );
+
+              link.style.transform =
+                "";
+
+            }
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =======================================================
+       INITIAL STATE
+       ======================================================= */
+
+    document.documentElement.dataset.wow =
+      "active";
+
+
+  }
+);
+
+</script>
 
 </body>
 </html>
