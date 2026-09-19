@@ -17,11 +17,47 @@
     href="style.css"
   >
 
+  <script>
+    /*
+     * Apply the saved theme before the page is painted.
+     * This prevents a white/light flash when dark mode is saved.
+     */
+
+    (function () {
+
+      const key = "auf2026-theme";
+
+      let theme =
+        localStorage.getItem(key);
+
+      if (
+        theme !== "dark" &&
+        theme !== "light"
+      ) {
+
+        theme =
+          window.matchMedia &&
+          window.matchMedia(
+            "(prefers-color-scheme: light)"
+          ).matches
+            ? "light"
+            : "dark";
+
+      }
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        theme
+      );
+
+    })();
+  </script>
+
+
   <style>
 
     /* =========================================================
        AUF2026 ARCHIVE
-       Theme follows the visual language of index.html.
        ========================================================= */
 
     :root {
@@ -94,27 +130,50 @@
 
 
     /* =========================================================
-       PAGE
+       GLOBAL THEME
        ========================================================= */
 
-    html {
+    html,
+    body {
+
+      margin: 0;
+      padding: 0;
+
+      min-height: 100%;
+
       background:
         var(--archive-bg);
 
       color:
         var(--archive-text);
 
+    }
+
+
+    html {
+
+      color-scheme:
+        dark;
+
       transition:
         background .25s ease,
         color .25s ease;
+
+    }
+
+
+    html[data-theme="light"] {
+
+      color-scheme:
+        light;
+
     }
 
 
     body {
 
-      min-height: 100vh;
-
-      margin: 0;
+      min-height:
+        100vh;
 
       background:
 
@@ -143,9 +202,24 @@
       color:
         var(--archive-text);
 
+      font:
+        inherit;
+
       transition:
+
         background .25s ease,
+
         color .25s ease;
+
+    }
+
+
+    *,
+    *::before,
+    *::after {
+
+      box-sizing:
+        border-box;
 
     }
 
@@ -294,9 +368,6 @@
           var(--archive-border)
         );
 
-      color:
-        var(--archive-text);
-
       transform:
         translateX(-2px);
 
@@ -337,6 +408,9 @@
       align-items:
         center;
 
+      justify-content:
+        center;
+
       gap:
         8px;
 
@@ -352,6 +426,9 @@
 
       padding:
         9px 13px;
+
+      min-height:
+        36px;
 
       background:
         color-mix(
@@ -603,8 +680,11 @@
         var(--archive-muted);
 
       transition:
+
         background .25s ease,
+
         border-color .25s ease,
+
         color .25s ease;
 
     }
@@ -757,6 +837,15 @@
     }
 
 
+    .archive-document h5,
+    .archive-document h6 {
+
+      margin-top:
+        1.4rem;
+
+    }
+
+
     .archive-document p {
 
       margin:
@@ -790,6 +879,29 @@
 
       line-height:
         1.7;
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    /* =========================================================
+       STRONG / EMPHASIS
+       ========================================================= */
+
+    .archive-document strong {
+
+      color:
+        var(--archive-text);
+
+      font-weight:
+        700;
+
+    }
+
+
+    .archive-document em {
 
       color:
         var(--archive-text);
@@ -1339,7 +1451,7 @@
 
 
     /* =========================================================
-       FOCUS ACCESSIBILITY
+       FOCUS
        ========================================================= */
 
     .archive-back:focus-visible,
@@ -1566,7 +1678,7 @@
           type="button"
           class="archive-theme-toggle"
           id="theme-toggle"
-          aria-label="Toggle dark theme"
+          aria-label="Switch theme"
           aria-pressed="true"
         >
 
@@ -1711,7 +1823,6 @@
 
   <script>
 
-
     /* =========================================================
        THEME
        ========================================================= */
@@ -1720,68 +1831,23 @@
       "auf2026-theme";
 
 
-    function getInitialTheme() {
+    function getCurrentTheme() {
 
-      const savedTheme =
-        localStorage.getItem(
-          THEME_STORAGE_KEY
-        );
-
-
-      if (
-        savedTheme === "dark" ||
-        savedTheme === "light"
-      ) {
-
-        return savedTheme;
-
-      }
-
-
-      /*
-       * Follow the user's operating-system preference
-       * when no explicit AUF2026 preference exists.
-       */
-
-      if (
-        window.matchMedia &&
-        window.matchMedia(
-          "(prefers-color-scheme: light)"
-        ).matches
-      ) {
-
-        return "light";
-
-      }
-
-
-      return "dark";
+      return (
+        document.documentElement.getAttribute(
+          "data-theme"
+        ) || "dark"
+      );
 
     }
 
 
-    function applyTheme(
+    function updateThemeControls(
       theme
     ) {
 
-      const root =
-        document.documentElement;
-
-
       const isLight =
         theme === "light";
-
-
-      root.setAttribute(
-        "data-theme",
-        theme
-      );
-
-
-      localStorage.setItem(
-        THEME_STORAGE_KEY,
-        theme
-      );
 
 
       const toggle =
@@ -1802,9 +1868,7 @@
         );
 
 
-      if (
-        toggle
-      ) {
+      if (toggle) {
 
         toggle.setAttribute(
           "aria-pressed",
@@ -1824,9 +1888,7 @@
       }
 
 
-      if (
-        icon
-      ) {
+      if (icon) {
 
         icon.textContent =
           isLight
@@ -1836,9 +1898,7 @@
       }
 
 
-      if (
-        label
-      ) {
+      if (label) {
 
         label.textContent =
           isLight
@@ -1850,8 +1910,41 @@
     }
 
 
-    applyTheme(
-      getInitialTheme()
+    function applyTheme(
+      theme
+    ) {
+
+      if (
+        theme !== "dark" &&
+        theme !== "light"
+      ) {
+
+        theme = "dark";
+
+      }
+
+
+      document.documentElement.setAttribute(
+        "data-theme",
+        theme
+      );
+
+
+      localStorage.setItem(
+        THEME_STORAGE_KEY,
+        theme
+      );
+
+
+      updateThemeControls(
+        theme
+      );
+
+    }
+
+
+    updateThemeControls(
+      getCurrentTheme()
     );
 
 
@@ -1861,16 +1954,14 @@
       )
       .addEventListener(
         "click",
-        () => {
+        function () {
 
-          const currentTheme =
-            document.documentElement.getAttribute(
-              "data-theme"
-            );
+          const current =
+            getCurrentTheme();
 
 
           applyTheme(
-            currentTheme === "light"
+            current === "light"
               ? "dark"
               : "light"
           );
@@ -1981,8 +2072,8 @@
     function goBack() {
 
       /*
-       * Prefer browser history so the user returns to
-       * the exact previous archive state.
+       * If this document was opened from another archive
+       * page, return to that exact browser state.
        */
 
       if (
@@ -1997,11 +2088,11 @@
 
 
       /*
-       * Fallback when archive.html is opened directly.
+       * Direct navigation fallback.
        */
 
       window.location.href =
-        "index.html";
+        "index.html#verification";
 
     }
 
@@ -2039,14 +2130,14 @@
         .forEach(
           link => {
 
-            const href =
+            const rawHref =
               link.getAttribute(
                 "href"
               );
 
 
             if (
-              !href
+              !rawHref
             ) {
 
               return;
@@ -2054,11 +2145,16 @@
             }
 
 
+            const href =
+              rawHref.trim();
+
+
             /*
-             * Ignore absolute URLs.
+             * Keep external and special links untouched.
              */
 
             if (
+
               href.startsWith(
                 "http://"
               ) ||
@@ -2072,8 +2168,13 @@
               ) ||
 
               href.startsWith(
+                "tel:"
+              ) ||
+
+              href.startsWith(
                 "#"
               )
+
             ) {
 
               return;
@@ -2082,42 +2183,126 @@
 
 
             /*
-             * Markdown document links.
+             * Remove query/hash from a local Markdown path
+             * while preserving them separately if needed.
+             */
+
+            const hashIndex =
+              href.indexOf("#");
+
+
+            const queryIndex =
+              href.indexOf("?");
+
+
+            let splitIndex =
+              -1;
+
+
+            if (
+              hashIndex >= 0 &&
+              queryIndex >= 0
+            ) {
+
+              splitIndex =
+                Math.min(
+                  hashIndex,
+                  queryIndex
+                );
+
+            } else if (
+              hashIndex >= 0
+            ) {
+
+              splitIndex =
+                hashIndex;
+
+            } else if (
+              queryIndex >= 0
+            ) {
+
+              splitIndex =
+                queryIndex;
+
+            }
+
+
+            const path =
+              splitIndex >= 0
+                ? href.slice(
+                    0,
+                    splitIndex
+                  )
+                : href;
+
+
+            const suffix =
+              splitIndex >= 0
+                ? href.slice(
+                    splitIndex
+                  )
+                : "";
+
+
+            /*
+             * Only rewrite Markdown documents.
              */
 
             if (
-              href
+              !path
                 .toLowerCase()
                 .endsWith(
                   ".md"
                 )
             ) {
 
-              /*
-               * Remove a possible docs/ prefix.
-               */
-
-              const filename =
-                href
-                  .split("/")
-                  .pop();
-
-
-              if (
-                allowedDocuments.includes(
-                  filename
-                )
-              ) {
-
-                link.href =
-                  "archive.html?doc=" +
-                  encodeURIComponent(
-                    filename
-                  );
-
-              }
+              return;
 
             }
+
+
+            /*
+             * Normalize:
+             *
+             * docs/FILE.md
+             * ./FILE.md
+             * ../FILE.md
+             * FILE.md
+             */
+
+            const filename =
+              path
+                .split("/")
+                .filter(Boolean)
+                .pop();
+
+
+            if (
+              !filename
+            ) {
+
+              return;
+
+            }
+
+
+            if (
+              !allowedDocuments.includes(
+                filename
+              )
+            ) {
+
+              return;
+
+            }
+
+
+            link.href =
+              "archive.html?doc=" +
+              encodeURIComponent(
+                filename
+              ) +
+              suffix;
 
           }
         );
@@ -2138,16 +2323,14 @@
         .forEach(
           table => {
 
-            /*
-             * Avoid wrapping the same table twice.
-             */
-
             if (
+
               table.parentElement &&
 
               table.parentElement.classList.contains(
                 "archive-table-wrap"
               )
+
             ) {
 
               return;
@@ -2189,10 +2372,13 @@
 
 
       if (
+
         !requestedDocument ||
+
         !allowedDocuments.includes(
           requestedDocument
         )
+
       ) {
 
 
@@ -2216,6 +2402,10 @@
 
         sourceElement.textContent =
           "not specified";
+
+
+        document.title =
+          "AUF2026 — Research Archive";
 
 
         return;
@@ -2277,13 +2467,7 @@
             true,
 
           breaks:
-            true,
-
-          headerIds:
-            true,
-
-          mangle:
-            false
+            true
 
         });
 
@@ -2355,7 +2539,6 @@
        ========================================================= */
 
     loadDocument();
-
 
   </script>
 
