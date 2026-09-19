@@ -846,6 +846,11 @@
 
 .scientific-scope {
   position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
 }
 
 .section-kicker {
@@ -856,19 +861,32 @@
   margin-bottom: 0.8rem;
 }
 
+.section-heading {
+  width: 100%;
+  margin: 0 auto;
+}
+
 .section-heading h2 {
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
 }
 
 .section-lead {
-  max-width: 920px;
+  max-width: 900px;
+  margin: 0 auto;
   line-height: 1.75;
   opacity: 0.86;
 }
 
+/* ---------------------------------------------------------
+   EQUATIONS
+   --------------------------------------------------------- */
+
 .scope-equation {
-  margin: 1.4rem 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 1.4rem auto;
   padding: 1rem 1.2rem;
+  box-sizing: border-box;
   border-left: 3px solid currentColor;
   background: rgba(127, 127, 127, 0.07);
   overflow-x: auto;
@@ -883,18 +901,30 @@
   opacity: 0.82;
 }
 
+/* ---------------------------------------------------------
+   SCOPE GRID
+   --------------------------------------------------------- */
+
 .scope-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  margin: 2rem 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
 }
 
+/* ---------------------------------------------------------
+   SCOPE CARDS
+   --------------------------------------------------------- */
+
 .scope-card {
+  min-width: 0;
   padding: 1.35rem;
   border: 1px solid rgba(127, 127, 127, 0.22);
   border-radius: 12px;
   background: rgba(127, 127, 127, 0.045);
+  box-sizing: border-box;
 }
 
 .scope-card h3 {
@@ -912,9 +942,16 @@
   opacity: 0.55;
 }
 
+/* ---------------------------------------------------------
+   VALIDATION BANNER
+   --------------------------------------------------------- */
+
 .validation-banner {
-  margin: 2rem 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
   padding: 1.5rem;
+  box-sizing: border-box;
   border-radius: 14px;
   border: 1px solid rgba(90, 160, 255, 0.30);
   background:
@@ -926,15 +963,23 @@
 }
 
 .validation-banner p {
-  max-width: 920px;
+  max-width: 900px;
+  margin: 0;
   line-height: 1.7;
 }
+
+/* ---------------------------------------------------------
+   ARCHIVE / SCOPE LINKS
+   --------------------------------------------------------- */
 
 .scope-links {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.7rem;
-  margin: 1.5rem 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 1.5rem auto;
 }
 
 .archive-link {
@@ -943,7 +988,9 @@
   border: 1px solid rgba(127, 127, 127, 0.25);
   border-radius: 999px;
   text-decoration: none;
-  transition: transform 0.18s ease, background 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease;
 }
 
 .archive-link:hover {
@@ -951,27 +998,55 @@
   background: rgba(127, 127, 127, 0.08);
 }
 
+/* ---------------------------------------------------------
+   NOTE
+   --------------------------------------------------------- */
+
 .scope-note {
-  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 1.5rem auto 0;
   padding: 1rem 1.2rem;
+  box-sizing: border-box;
   font-size: 0.9rem;
   line-height: 1.65;
   opacity: 0.72;
   border-top: 1px solid rgba(127, 127, 127, 0.18);
 }
 
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
 @media (max-width: 760px) {
+
+  .scientific-scope {
+    padding: 0 1rem;
+  }
+
   .scope-grid {
     grid-template-columns: 1fr;
+  }
+
+  .scope-equation {
+    padding: 0.9rem 1rem;
   }
 
   .scope-equation code {
     font-size: 0.86rem;
   }
 
+  .validation-banner {
+    padding: 1.2rem;
+  }
+
   .scope-links {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .archive-link {
+    text-align: center;
   }
 }
 
