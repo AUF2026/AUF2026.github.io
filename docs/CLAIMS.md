@@ -1,415 +1,326 @@
-FAURE — CLAIM-BY-CLAIM MASTER VALIDATION MATRIX
+# AUF2026 — Claim-by-Claim Master Validation Matrix
 
-Repository: AUF2026/AUF2026.github.io
-Directory: /docs/
-Status: Living Research Document
-Purpose: Claim-by-Claim Scientific Validation, Traceability and Evidence Registry
-Framework: FAURE / FDM / Universal Tuple / AOS144
-Maintainer: Alain Faure — AUF2026
+**Repository:** `AUF2026/AUF2026.github.io`
+**Directory:** `/docs/`
+**Status:** Living research document
+**Framework:** FAURE / FDM / Universal Faure Tuple / AOS144
+**Maintainer:** Alain Faure — AUF2026
 
-1. Purpose
+---
 
-This document is the central claim-by-claim validation matrix for the Faure Framework.
+## 1. Purpose and Scope
 
-It does not replace:
+This document is the central validation and traceability registry for substantive claims in the AUF2026 research corpus.
 
-primary mathematical manuscripts;
+It connects claims to their mathematical statements, derivations, formal proofs, computational artifacts, bibliographic comparisons and application evidence.
 
-Lean source files;
+It does not replace the underlying research artifacts. Those remain authoritative in their respective locations:
 
-Python implementations;
+- `/papers/` — manuscripts
+- `/proofs/` — formal proofs
+- `/code/` — source code
+- `/datasets/` — datasets
+- `/validation/` — validation records
+- `/bibliography/` — bibliographic material
+- `/docs/` — archival and methodological records
 
-validation reports;
+The governing chain is:
 
-bibliographic records;
-
-experimental records;
-
-submission packages.
-
-It connects them.
-
-The governing principle is:
-
+```text
 CLAIM
-→
-FORMAL STATEMENT
-→
+  ↓
+FORMAL STATEMENT
+  ↓
 DERIVATION
-→
+  ↓
 FORMALIZATION
-→
-COMPUTATIONAL EVIDENCE
-→
+  ↓
+COMPUTATIONAL EVIDENCE
+  ↓
 APPLICATION
-→
-EXTERNAL COMPARISON
+  ↓
+EXTERNAL COMPARISON
+````
 
-The purpose is to make every substantive scientific assertion independently traceable.
+ The objective is simple: every substantive claim must be independently traceable.
 
-2. Six Validation Axes
+---
 
-Every substantive claim is evaluated along six independent axes.
+ ## 2\. Validation Axes
 
-A1 — Mathematical Originality
+ Each substantive claim is evaluated across six independent dimensions.
 
-Question:
+ ### A1 — Mathematical Originality
 
-Is the mathematical object, proposition, construction or theorem new in the relevant prior literature?
+ Determines whether the mathematical result or construction is already established in the relevant literature.
 
-Required evidence:
+ Required evidence:
 
-exact mathematical statement;
+ - exact mathematical statement;
+- closest prior result;
+- bibliographic reference;
+- hypothesis comparison;
+- conclusion comparison;
+- equivalence or non-equivalence analysis.
 
-closest prior results;
+ Status:
 
-bibliographic references;
+ `OPEN` · `UNDER REVIEW` · `DOCUMENTED` · `INDEPENDENTLY CONFIRMED`
 
-comparison of hypotheses;
+ ### A2 — Derivation Novelty
 
-comparison of conclusions;
+ Determines whether the dependency path leading to the result is materially distinct.
 
-equivalence/non-equivalence analysis.
+ The canonical representation is:
 
-Status values:
+```
+D = (V, E)
+```
 
-OPEN
+ where `V` contains mathematical artifacts and `E` contains logical dependencies.
 
-UNDER REVIEW
+ Required evidence:
 
-DOCUMENTED
+ - definitions;
+- lemmas;
+- intermediate propositions;
+- dependency graph;
+- comparison with prior derivations.
 
-INDEPENDENTLY CONFIRMED
+ ### A3 — Generality
 
-A2 — Derivation Novelty
+ Records the exact domain in which a result is valid.
 
-Question:
+ Required information:
 
-Is the derivation or dependency path from the foundational assumptions to the result new?
+ - carrier or type;
+- hypotheses;
+- dimensions;
+- parameters;
+- boundary conditions;
+- exceptional cases;
+- quantified variables;
+- formal theorem statement.
 
-Required evidence:
+ The archive distinguishes:
 
-dependency graph;
+```
+example ≠ instance ≠ family ≠ general theorem
+```
 
-definitions used;
+ ### A4 — Semantic Correctness
 
-lemmas used;
+ Determines whether the formal statement corresponds to the intended mathematical or physical claim.
 
-intermediate propositions;
+ Required chain:
 
-derivation path;
+```
+INFORMAL CLAIM
+  ↓
+FORMAL SPECIFICATION
+  ↓
+LEAN STATEMENT
+  ↓
+VERIFIED PROOF
+```
 
-comparison with prior derivations.
+ Successful Lean compilation establishes evidence about the proposition encoded in Lean. It does not, by itself, establish that the encoded proposition faithfully represents the intended scientific claim.
 
-Canonical representation:
+ ### A5 — Computational Performance
 
-𝐷
-=
-(
-𝑉
-,
-𝐸
-)
+ Records the resources required to reproduce or evaluate a computational result.
 
-where:
+ Relevant evidence includes:
 
-𝑉
- = mathematical artifacts;
+ - algorithm;
+- implementation;
+- complexity;
+- runtime;
+- memory;
+- numerical precision;
+- hardware;
+- software versions;
+- benchmark dataset;
+- competing implementation where available.
 
-𝐸
- = logical dependencies.
+```
+correctness ≠ performance
+```
 
-A3 — Generality
+ ### A6 — Application Validity
 
-Question:
+ Determines whether a mathematical construction produces a testable application.
 
-What is the exact domain of validity of the result?
+ Required chain:
 
-Required evidence:
+```
+THEOREM
+  ↓
+MODEL
+  ↓
+PARAMETERS
+  ↓
+PREDICTION
+  ↓
+INDEPENDENT DATA
+  ↓
+COMPARISON
+```
 
-carrier/type;
+ Mathematical consequence, model construction, numerical prediction, empirical observation and independent confirmation remain separate categories.
 
-hypotheses;
+---
 
-dimensional assumptions;
+ ## 3\. Evidence Classes
 
-boundary conditions;
+ Claims receive an evidence class according to the strongest evidence actually documented.
 
-parameter ranges;
+ | Class | Meaning |
+| --- | --- |
+| E0 | Declared |
+| E1 | Internally documented |
+| E2 | Formally verified |
+| E3 | Computationally reproducible |
+| E4 | Bibliographically compared |
+| E5 | Independently validated |
+| E6 | Externally accepted |
 
-exceptional cases;
+### E0 — Declared
 
-quantified variables;
+ The claim exists in the corpus but has not yet undergone systematic validation.
 
-formal theorem statement.
+ ### E1 — Internally Documented
 
-The following distinctions must remain explicit:
+ The claim has a complete internal mathematical and documentary representation.
 
-example
-≠
-instance
-≠
-family
-≠
-general theorem
-.
+ ### E2 — Formally Verified
 
-A4 — Semantic Correctness
+ A formal proof artifact exists and has been checked in the declared formal environment.
 
-Question:
+ ### E3 — Computationally Reproducible
 
-Does the formalized proposition correspond exactly to the intended mathematical or physical claim?
+ The relevant computational artifact has been independently executed and the result documented.
 
-Required evidence:
+ ### E4 — Bibliographically Compared
 
-informal claim
-→
-formal specification
-→
-Lean statement
-→
-verified proof
-.
+ The claim has undergone a documented prior-art comparison.
 
-A successful Lean compilation establishes evidence concerning the formal proposition actually encoded.
+ ### E5 — Independently Validated
 
-Semantic correspondence between the encoded proposition and the intended scientific statement must be documented separately.
+ Evidence has been reproduced or assessed independently of the author-controlled corpus.
 
-A5 — Computational Performance
+ ### E6 — Externally Accepted
 
-Question:
+ The result has received documented external recognition, such as publication, independent peer review, institutional validation, adoption or an equivalent mechanism.
 
-What computational resources are required to evaluate, verify or reproduce the result?
+ No evidence class is inferred automatically from another.
 
-Required evidence:
+---
 
-algorithm;
+ ## 4\. Canonical Claim Registry
 
-implementation;
+ Every completed claim record should contain the following fields.
 
-complexity;
+ ### Identity
 
-runtime;
-
-memory;
-
-precision;
-
-hardware;
-
-software versions;
-
-benchmark dataset;
-
-competing implementation where available.
-
-Required distinction:
-
-correctness
-≠
-performance
-.
-
-A6 — Application Validity
-
-Question:
-
-Does the mathematical framework produce a valid and independently testable application?
-
-Required evidence:
-
-theorem
-→
-model
-→
-parameters
-→
-prediction
-→
-independent data
-→
-comparison
-.
-
-The following must not be conflated:
-
-mathematical consequence;
-
-model construction;
-
-numerical prediction;
-
-empirical observation;
-
-independent experimental confirmation.
-
-3. Evidence Classes
-
-Each claim receives an evidence classification.
-
-E0 — Declared
-
-Claim exists in the corpus but has not yet been systematically validated.
-
-E1 — Internally Documented
-
-Claim has a complete internal mathematical/documentary representation.
-
-E2 — Formally Verified
-
-A formal proof artifact exists and has been checked by the declared formal environment.
-
-E3 — Computationally Reproducible
-
-Independent execution of the relevant computational artifact is documented.
-
-E4 — Bibliographically Compared
-
-Prior-art and literature comparison has been completed.
-
-E5 — Independently Validated
-
-Evidence has been reproduced or assessed independently of the author-controlled corpus.
-
-E6 — Externally Accepted
-
-The result has received formal external recognition through publication, independent peer review, institutional validation, award, adoption or equivalent documented mechanism.
-
-No evidence class is inferred automatically from another class.
-
-4. Canonical Claim Record
-
-Every claim should ultimately have the following record:
-
+```
 CLAIM_ID
 TITLE
 PUBLIC_NAME
 INTERNAL_IDENTIFIER
+```
 
+ ### Mathematical record
+
+```
 MATHEMATICAL_STATEMENT
-
 FOUNDATIONAL_DEPENDENCIES
-
 PRIMARY_SOURCE
+```
 
+ ### Formal record
+
+```
 LEAN_SOURCE
 LEAN_ENVIRONMENT
 LEAN_STATUS
+```
 
+ ### Computational record
+
+```
 PYTHON_SOURCE
 COMPUTATIONAL_ENVIRONMENT
+```
 
+ ### Validation axes
+
+```
 A1_ORIGINALITY
 A2_DERIVATION
 A3_GENERALITY
 A4_SEMANTICS
 A5_COMPUTATION
 A6_APPLICATION
+```
 
+ ### External evidence
+
+```
 BIBLIOGRAPHIC_PRECEDENTS
-
 CLOSEST_PRIOR_RESULT
-
 DIFFERENCE_FROM_PRIOR_ART
-
 EVIDENCE_CLASS
-
 INDEPENDENT_VALIDATION
+```
 
+ ### Current state
+
+```
 CURRENT_STATUS
-
 OPEN_QUESTIONS
-
 DATE
+```
 
-5. Master Matrix
-ID	Claim / Result	Mathematical Core	Lean	Python	A1	A2	A3	A4	A5	A6	Evidence	Status
-FDM-001	Faure Deterministic Mathematics	FDM foundational structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	—	E1	OPEN
-UF-001	Universal Faure Tuple	
-𝑈
-𝐹
-=
-(
-𝑀
-,
-𝐺
-,
-𝐴
-,
-Ψ
-,
-Λ
-,
-Π
-)
-	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	—	E1/E2	OPEN
-AOS-001	AOS144	144-state structural kernel	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1/E2	OPEN
-PSI-001	
-Ψ
- structural identity	operator constraints	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E2	OPEN
-P9-001	
-𝑃
-9
-=
-Ψ
-9
-4
-	
-𝑃
-9
-2
-=
-𝑃
-9
-	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	—	E2	OPEN
-INV-001	Invariant Axis	invariant structural derivation	REQUIRED	—	OPEN	OPEN	OPEN	OPEN	—	—	E2	OPEN
-TR-001	Transport Rigidity	relational transport structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1/E2	OPEN
-DAL-001	Dual Arc Length	dual arc-length construction	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1	OPEN
-SCH-001	Schur Irreducibility	irreducibility/uniqueness	REQUIRED	—	OPEN	OPEN	OPEN	OPEN	—	—	E1/E2	OPEN
-WIE-001	Wielandt Primitivity	primitivity structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	—	E1/E2	OPEN
-FFT-001	Faure=Fourier	transform structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1/E2	OPEN
-FUB-001	Faure-Fubini-Fourier	kernel/range structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1	OPEN
-CT-001	Discrete → Continuous	representation mechanism	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1	OPEN
-RT-001	Relational Temporality	universal relational law	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1	OPEN
-MEAS-001	Measure Gate	
-𝜇
-𝐹
- structure	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1/E2	OPEN
-BORN-001	Born-type derivation	
-𝜇
-𝐹
-(
-𝑊
-)
-=
-𝑡
-𝑟
-(
-𝜌
-𝐹
-𝑃
-𝑊
-)
-	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	OPEN	E1/E2	OPEN
-ARITH-001	Prime lattice	
-𝑍
-(
-𝑃
-)
-	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	OPEN	—	E1	OPEN
-WATER-001	Water-density application	structural prediction	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	REQUIRED	REQUIRED	E1	OPEN
-FDM-APP-001	FDM computational applications	deterministic computational framework	REQUIRED	REQUIRED	OPEN	OPEN	OPEN	OPEN	REQUIRED	REQUIRED	E1	OPEN
+ A claim should not be considered complete until its primary artifact and current evidence state are identifiable.
 
-This matrix is intentionally conservative.
+---
 
-OPEN does not mean false.
+ ## 5\. Master Claim Matrix
 
-It means that the corresponding axis has not yet received the evidence required for classification.
+ | ID | Claim | Mathematical core | Lean | Python | A1 | A2 | A3 | A4 | A5 | A6 | Evidence | Status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| FDM-001 | Faure Deterministic Mathematics | FDM foundational structure | Required | Required | Open | Open | Open | Open | Open | — | E1 | Open |
+| UF-001 | Universal Faure Tuple | `U_F = (M,G,A,Ψ,Λ,Π)` | Required | Required | Open | Open | Open | Open | Open | — | E1/E2 | Open |
+| AOS-001 | AOS144 | 144-state structural kernel | Required | Required | Open | Open | Open | Open | Open | Open | E1/E2 | Open |
+| PSI-001 | Ψ structural identity | Operator constraints | Required | Required | Open | Open | Open | Open | Open | Open | E2 | Open |
+| P9-001 | P9 projection | `P9 = Ψ9⁴`, `P9² = P9` | Required | Required | Open | Open | Open | Open | Open | — | E2 | Open |
+| INV-001 | Invariant Axis | Invariant structural derivation | Required | — | Open | Open | Open | Open | — | — | E2 | Open |
+| TR-001 | Transport Rigidity | Relational transport structure | Required | Required | Open | Open | Open | Open | Open | Open | E1/E2 | Open |
+| DAL-001 | Dual Arc Length | Dual arc-length construction | Required | Required | Open | Open | Open | Open | Open | Open | E1 | Open |
+| SCH-001 | Schur Irreducibility | Irreducibility / uniqueness | Required | — | Open | Open | Open | Open | — | — | E1/E2 | Open |
+| WIE-001 | Wielandt Primitivity | Primitivity structure | Required | Required | Open | Open | Open | Open | Open | — | E1/E2 | Open |
+| FFT-001 | Faure=Fourier | Transform structure | Required | Required | Open | Open | Open | Open | Open | Open | E1/E2 | Open |
+| FUB-001 | Faure-Fubini-Fourier | Kernel/range structure | Required | Required | Open | Open | Open | Open | Open | Open | E1 | Open |
+| CT-001 | Discrete → Continuous | Representation mechanism | Required | Required | Open | Open | Open | Open | Open | Open | E1 | Open |
+| RT-001 | Relational Temporality | Universal relational law | Required | Required | Open | Open | Open | Open | Open | Open | E1 | Open |
+| MEAS-001 | Measure Gate | `μ_F` structure | Required | Required | Open | Open | Open | Open | Open | Open | E1/E2 | Open |
+| BORN-001 | Born-type derivation | `μ_F(W) = tr(ρ_F P_W)` | Required | Required | Open | Open | Open | Open | Open | Open | E1/E2 | Open |
+| ARITH-001 | Prime lattice | `Z^(P)` | Required | Required | Open | Open | Open | Open | Open | — | E1 | Open |
+| WATER-001 | Water-density application | Structural prediction | Required | Required | Open | Open | Open | Open | Required | Required | E1 | Open |
+| FDM-APP-001 | FDM applications | Deterministic computational framework | Required | Required | Open | Open | Open | Open | Required | Required | E1 | Open |
 
-6. Formal Verification Registry
+`OPEN` means that the required evidence for that axis has not yet been established. It does not mean that the claim is false.
 
-For every Lean artifact record:
+---
 
+ ## 6\. Formal Verification and Bibliographic Protocols
+
+ ### 6.1 Lean verification record
+
+ Each formal artifact should record:
+
+```
 FILE
 PATH
 LEAN_VERSION
@@ -426,318 +337,221 @@ BUILD_COMMAND
 BUILD_RESULT
 HASH
 DATE
+```
 
+ For a completed artifact:
 
-For a completed artifact:
+```
+sorry = 0
+errors = 0
+```
 
-sorry
-=
-0
-errors
-=
-0
+ must be accompanied by the exact environment and build information.
 
-must be recorded together with the exact environment.
+ A successful build is evidence about the formal artifact. It is not, by itself, evidence of mathematical originality or semantic correspondence.
 
-A successful build is evidence about the formal artifact.
+ ### 6.2 Bibliographic comparison
 
-It is not by itself a bibliographic originality certificate or a semantic equivalence certificate.
+ Each claim follows the same procedure:
 
-7. Bibliographic Comparison Protocol
+ 1. Search the exact terminology.
+2. Search mathematical equivalents.
+3. Search the underlying structure independently of AUF2026 terminology.
+4. Identify adjacent established results.
+5. Compare hypotheses, construction, derivation, conclusion and generality.
+6. Record the closest prior result.
+7. Record the precise difference.
 
-For each claim:
+ Absence of a search result is not sufficient evidence of global mathematical novelty.
 
-Step 1
+ ### 6.3 Originality categories
 
-Search exact terminology.
+ | Code | Classification |
+| --- | --- |
+| O0 | Known result |
+| O1 | Known structure, new formulation |
+| O2 | Known components, new composition |
+| O3 | Extension |
+| O4 | New derivation |
+| O5 | New result |
+| O6 | Undetermined |
 
-Step 2
+`O5` should only be used when the documented comparison supports that classification.
 
-Search mathematical equivalents.
+---
 
-Step 3
+ ## 7\. Architecture and Corpus Traceability
 
-Search the underlying structure independently of Faure terminology.
+ The current architecture under investigation is:
 
-Step 4
+```
+K_min
+  ↓
+F
+  ↓
+U_F
+  ↓
+AOS144
+```
 
-Search the strongest known adjacent results.
+ with additional developments including:
 
-Step 5
-
-Compare:
-
-hypotheses
-
-construction
-
-derivation
-
-conclusion
-
-generality
-.
-
-Step 6
-
-Record the closest prior result.
-
-Step 7
-
-Record the precise difference.
-
-The absence of a search hit is not sufficient to claim global mathematical novelty.
-
-8. Originality Categories
-
-Every completed bibliographic comparison must classify the relationship with prior art as one of:
-
-O0 — Known Result
-
-Equivalent result already established.
-
-O1 — Known Structure, New Formulation
-
-Underlying mathematics is known; formulation differs.
-
-O2 — Known Components, New Composition
-
-Components are known but their combination is documented as a distinct construction.
-
-O3 — Extension
-
-The Faure result extends an established result to a larger class or weaker assumptions.
-
-O4 — New Derivation
-
-The conclusion is known or related, but the derivation is materially different.
-
-O5 — New Result
-
-The mathematical conclusion itself is not identified in the searched prior literature.
-
-O6 — Undetermined
-
-Evidence is insufficient for classification.
-
-Only O5 should be described publicly as a candidate new mathematical result, and even then the supporting comparison must be linked.
-
-9. Foundational Architecture Record
-
-The central architecture currently under investigation is:
-
-𝐾
-min
-⁡
-→
-𝐹
-→
-𝑈
-𝐹
-→
-𝐴
-𝑂
-𝑆
-144
-
-with subsequent structural developments including:
-
+```
 Ψ
-→
-𝑃
-9
+  ↓
+P9
+```
 
-𝑁
-𝐹
-→
-𝜇
-𝐹
-→
-𝐿
-𝐹
-→
-⊥
-𝐹
+ and:
 
-and the corresponding measure construction.
+```
+N_F
+  ↓
+μ_F
+  ↓
+L_F
+  ↓
+⊥_F
+```
 
-The purpose of this record is to determine, claim-by-claim, which arrows are:
+ The registry must determine, for every arrow, whether it represents:
 
-definitions;
+ - a definition;
+- a derivation;
+- an equivalence;
+- a theorem;
+- a computational implementation;
+- an empirical application.
 
-derivations;
+ These categories must remain distinct.
 
-equivalences;
+ ### Corpus traceability
 
-theorems;
+ Every claim should point to the relevant artifact in:
 
-computational implementations;
+```
+/docs/
+/papers/
+/proofs/
+/code/
+/datasets/
+/validation/
+/bibliography/
+```
 
-empirical applications.
+ and, where applicable, to the local source corpus.
 
-These categories must not be conflated.
+ No substantive claim should remain without an identifiable primary artifact.
 
-10. Public Naming Convention
+ ### Public naming
 
-Internal identifiers may use:
+ Internal identifiers may use:
 
+```
 T1
 T2
 T3
 ...
+```
 
+ Public documents should use descriptive names such as:
 
-Public documents should use descriptive names:
-
+```
 Faure Theorem of [subject]
-
 Faure Theorem on [subject]
+Faure Theorem for [property]
+```
 
-Faure Theorem of [property]
+ Internal identifiers exist for traceability and do not replace descriptive mathematical terminology.
 
-The internal numbering exists exclusively for traceability.
+---
 
-11. Corpus Traceability
+ ## 8\. Current State, Priorities and Governing Rule
 
-The master matrix must link every claim to:
+ ### Current corpus
 
-/docs/
-papers/
-proofs/
-validation/
-bibliography/
-applications/
+ The research corpus contains, among other materials:
 
+ - Lean formalizations;
+- Python programs;
+- LaTeX sources;
+- compiled PDFs;
+- Markdown documentation;
+- validation records;
+- audit documents;
+- submission packages;
+- reproducibility material;
+- dependency graphs;
+- traceability matrices;
+- manifests;
+- application studies.
 
-and, where appropriate, to the local research corpus.
+ The author's current local inventory reports a corpus exceeding 35 GB. This is a corpus-management fact, not evidence of correctness, originality or scientific importance.
 
-No claim should remain without a primary artifact reference.
+ ### Current evidence state
 
-12. Current Corpus Scale
+ | Dimension | Current state |
+| --- | --- |
+| Architectural documentation | Documented |
+| Corpus traceability | Documented |
+| Formalization | Claim-specific / partial |
+| Bibliographic comparison | In progress |
+| Independent reproduction | Claim-specific |
+| External peer review | Not assigned globally |
+| External scientific acceptance | Claim-specific / not global |
 
-The local research corpus includes:
+### Immediate priority
 
-Lean formalizations;
+ The next validation sequence is:
 
-Python programs;
+ 1. Freeze the canonical claim list.
+2. Assign one immutable `CLAIM_ID` to each substantive result.
+3. Attach every Lean artifact to its claim.
+4. Attach every computational artifact to its claim.
+5. Build the dependency graph.
+6. Complete claim-level bibliographic comparisons.
+7. Record exact hypotheses and conclusions.
+8. Verify semantic correspondence between prose and formal statements.
+9. Record computational benchmarks.
+10. Record independent application evidence.
+11. Generate the public evidence index.
+12. Generate submission-specific views from the master registry.
 
-LaTeX sources;
+ ### Version control
 
-compiled PDFs;
+ Every substantive revision of this matrix should record:
 
-Markdown research documents;
+```
+VERSION
+DATE
+CHANGE
+CLAIMS AFFECTED
+NEW EVIDENCE
+REMOVED OR REPLACED EVIDENCE
+```
 
-validation reports;
+ ### Governing rule
 
-audit documents;
+ Every important claim should have:
 
-submission packages;
+```
+ONE IDENTIFIER
+ONE FORMAL STATEMENT
+ONE DEPENDENCY PATH
+ONE EVIDENCE RECORD
+ONE BIBLIOGRAPHIC COMPARISON
+ONE VALIDATION STATUS
+```
 
-reproducibility material;
+ Verification of one claim does not upgrade another claim.
 
-dependency graphs;
+ Absence of external validation does not, by itself, invalidate a claim.
 
-traceability matrices;
+ Each result retains its own evidence state.
 
-canonical manifests;
+ ### Status vocabulary
 
-application studies.
-
-The current corpus exceeds 35 GB according to the author's local inventory.
-
-This number is a corpus-management fact.
-
-It is not itself evidence of mathematical correctness, originality or scientific importance.
-
-13. Current Scientific Assessment
-
-The corpus supports the classification:
-
-Faure
- 
-Framework
- 
-=
- 
-mathematical-computational
- 
-foundational
- 
-research
- 
-program
-
-and, at the architectural level:
-
-foundational
- 
-+
- 
-paradigmatic
-
-in the sense that the project proposes a common structural framework connecting mathematical constructions, formal verification, computation and applications.
-
-The six validation axes remain independent.
-
-Therefore:
-
-Program scale
-≠
-mathematical novelty
-≠
-formal correctness
-≠
-semantic correctness
-≠
-computational superiority
-≠
-application validation
-
-The purpose of this matrix is to measure these dimensions separately.
-
-14. Immediate Priority Queue
-
-The next work sequence is:
-
-Freeze the canonical claim list.
-
-Assign one immutable CLAIM_ID to every substantive result.
-
-Attach every Lean artifact to its claim.
-
-Attach every Python artifact to its claim.
-
-Build the dependency graph.
-
-Build the bibliographic comparison for each claim.
-
-Record exact hypotheses and conclusions.
-
-Verify semantic correspondence between prose and formal statement.
-
-Record computational benchmarks.
-
-Record independent application evidence.
-
-Generate the public evidence index.
-
-Generate submission-specific views from this master registry.
-
-15. Governing Principle
-
-The corpus must be treated as a traceable scientific system.
-
-The governing rule is:
-
-Every important claim gets: one identifier, one statement, one dependency path, one evidence record, one bibliographic comparison, one validation status.
-
-No claim is upgraded merely because another claim in the same framework has been verified.
-
-No claim is downgraded merely because external validation has not yet occurred.
-
-Each result receives its own evidence state.
-
-16. Status Legend
+```
 OPEN
 UNDER FORMAL VALIDATION
 FORMALLY VERIFIED
@@ -745,22 +559,10 @@ COMPUTATIONALLY REPRODUCIBLE
 BIBLIOGRAPHICALLY COMPARED
 INDEPENDENTLY VALIDATED
 EXTERNALLY ACCEPTED
+```
 
+ These statuses are assigned only when the corresponding evidence has actually been documented.
 
-These statuses are cumulative only when the underlying evidence has actually been established.
+---
 
-17. Versioning
-
-Every substantive modification to this matrix should record:
-
-VERSION
-DATE
-CHANGE
-CLAIMS AFFECTED
-NEW EVIDENCE
-REMOVED/REPLACED EVIDENCE
-
-
-The matrix itself is part of the reproducibility infrastructure.
-
-End of canonical master matrix.
+ **End of canonical master validation matrix.**
