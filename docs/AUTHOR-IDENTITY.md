@@ -1,513 +1,316 @@
-AUF2026 — Author Identity
+# AUF2026 — Author Identity
 
-Document type: Author Identity and Bibliographic Disambiguation
-Status: Active
-Scope: AUF2026 research corpus
-Canonical identity: Alain Faure — AUF2026
+**Document type:** Author Identity and Bibliographic Disambiguation  
+**Status:** Active  
+**Scope:** AUF2026 Research Corpus  
+**Canonical identity:** Alain Faure — AUF2026
 
-1. Author Identity
+---
 
-The canonical author identity for the AUF2026 research corpus is:
+## 1. Author Identity
 
-Alain Faure
+The canonical author identity associated with the AUF2026 research corpus is:
 
-Project identity:
+**Alain Faure**
 
-AUF2026
+The corresponding research identity is:
 
-Canonical public identifiers:
+**AUF2026**
 
-ORCID: 0009-0009-5333-1181
+### Canonical identifiers
 
-GitHub: AUF2026
+| Identifier | Value |
+|---|---|
+| Author | Alain Faure |
+| Research identity | AUF2026 |
+| ORCID | [0009-0009-5333-1181](https://orcid.org/0009-0009-5333-1181) |
+| GitHub | [AUF2026](https://github.com/AUF2026) |
+| Repository | [AUF2026/AUF2026.github.io](https://github.com/AUF2026/AUF2026.github.io) |
+| Public archive | [auf2026.github.io](https://auf2026.github.io/) |
+| Medium | @auf2026 |
+| LinkedIn | Alain Faure — AUF2026 |
 
-Repository: AUF2026/AUF2026.github.io
+These identifiers define the primary attribution boundary of the AUF2026 research corpus.
 
-GitHub Pages: https://auf2026.github.io/
+---
 
-Medium: @auf2026
+## 2. Purpose of This Record
 
-LinkedIn: Alain Faure — AUF2026
+This document establishes the canonical identity used for:
 
-All documents, proofs, manuscripts, computational artifacts and research records explicitly assigned to this corpus must preserve this Author Identity.
+- author attribution;
+- bibliographic disambiguation;
+- repository provenance;
+- research-corpus traceability;
+- prior-art investigation;
+- theorem and claim attribution;
+- formal-proof attribution;
+- computational-artifact attribution.
 
-2. Author Identity is not a surname
+Author identity is maintained separately from the mathematical evaluation of individual claims.
 
-The string:
+This distinction is essential because establishing **who authored a source** is a different question from establishing **what the source mathematically proves or contributes**.
 
-Faure
+---
 
-is not sufficient to identify an author.
+## 3. Identity Definition
 
-The canonical bibliographic identity is therefore:
+The surname alone is not sufficient to establish author identity.
 
-Author Identity
-=
-(
-Name
-,
-Identifier
-,
-Publication Context
-)
+For AUF2026, bibliographic identity should be established from the combination of:
 
-For AUF2026:
+**author name + persistent identifier + publication context**
 
-Alain Faure
-+
-ORCID 
-0009
--
-0009
--
-5333
--
-1181
-+
-AUF2026
+For the canonical AUF2026 identity:
 
-A bibliographic record containing only the surname Faure is considered unresolved until its Author Identity has been established.
+> **Alain Faure — ORCID 0009-0009-5333-1181 — AUF2026**
 
-3. Primary AUF2026 Author Identity
-Field	Canonical value
-Author Identity	Alain Faure
-Research identity	AUF2026
-ORCID	0009-0009-5333-1181
-GitHub identity	AUF2026
-Primary repository	AUF2026/AUF2026.github.io
-Publication channel	Medium @auf2026
-Public research archive	https://auf2026.github.io/
+A record containing only the name or surname `Faure` should therefore not automatically be attributed to the AUF2026 corpus.
 
-These identifiers form the primary identity boundary for the corpus.
+---
 
-4. Homonymous Author Identity
+## 4. AUF2026 Research Corpus
 
-A distinct mathematical author is:
+The AUF2026 identity may be associated with multiple types of research artifacts, including:
 
-Claude-Alain Faure
+- mathematical manuscripts;
+- theorem statements;
+- formal proofs;
+- Lean source files;
+- Python and computational source;
+- LaTeX source;
+- PDF documents;
+- datasets;
+- numerical experiments;
+- validation reports;
+- research notes;
+- technical documentation;
+- bibliographic records;
+- submission packages;
+- archival records.
 
-Claude-Alain Faure is associated with mathematical publications including work in projective geometry, lattices and related mathematical structures.
+Different artifact formats do not constitute different author identities when their provenance is established as part of the same AUF2026 corpus.
 
-A principal bibliographic record is:
+The repository provides the principal version-controlled archival layer.
 
-Claude-Alain Faure and Alfred Frölicher, Modern Projective Geometry, Mathematics and Its Applications, vol. 521, Springer/Kluwer, 2000.
+---
 
-DOI:
+## 5. Author Disambiguation
 
-10.1007/978-94-015-9590-2
+The surname `Faure` is shared by multiple researchers and therefore requires bibliographic disambiguation.
 
-Publisher record:
+A relevant independent mathematical identity is:
 
-{"fallbackMarkdown":"Springer — Modern Projective Geometry
-","reference":{"matched_text":"","prefix":null,"start_idx":2589,"end_idx":2689,"safe_urls":[],"refs":[],"alt":"Springer — Modern Projective Geometry
-","prompt_text":"Springer — Modern Projective Geometry
-","type":"url","title":"Springer — Modern Projective Geometry","item":{"title":"Springer — Modern Projective Geometry","url":"https://link.springer.com/book/10.1007/978-94-015-9590-2?utm_source=chatgpt.com","attribution":"link.springer.com","pub_date":null,"snippet":null,"attribution_segments":null,"supporting_websites":null,"refs":[],"hue":null,"attributions":null},"layout":null,"logo":null},"showLoginRequiredCard":false}
+### Claude-Alain Faure
 
-This Author Identity is distinct from:
+Claude-Alain Faure is associated with mathematical publications including work in projective geometry, lattices and related structures.
 
-Alain Faure — AUF2026
+One documented publication is:
 
-5. Identity separation rule
+> Claude-Alain Faure and Alfred Frölicher, *Modern Projective Geometry*, Mathematics and Its Applications, volume 521, Springer/Kluwer, 2000.
 
-The following identities must remain separate:
+**DOI:** [10.1007/978-94-015-9590-2](https://doi.org/10.1007/978-94-015-9590-2)
 
-Author Identity	Corpus relationship
-Alain Faure — AUF2026	Primary AUF2026 identity
-Claude-Alain Faure	Independent author
-Other authors named Faure	Independent identity requiring verification
+This identity is distinct from:
 
-Therefore:
+> **Alain Faure — AUF2026**
 
-Alain Faure
-≠
-Claude-Alain Faure
+Therefore, surname similarity must not be interpreted as author identity.
 
-This distinction is mandatory even when a mathematical subject overlaps.
+---
 
-6. Mathematical relevance is independent from Author Identity
+## 6. Identity Separation Rule
 
-Author disambiguation does not determine mathematical relevance.
+The AUF2026 bibliography must preserve the distinction between:
 
-A work authored by another Faure may be mathematically relevant to an AUF2026 claim.
+| Identity | Relationship to AUF2026 |
+|---|---|
+| **Alain Faure — AUF2026** | Canonical AUF2026 author identity |
+| **Claude-Alain Faure** | Independent author |
+| **Other authors named Faure** | Independent identity requiring verification |
+| **Unresolved Faure record** | Identity not yet established |
 
-Conversely, an apparently similar title does not establish mathematical equivalence.
+The fundamental rule is:
 
-Each potentially relevant work must therefore be evaluated independently according to:
+> **Similar names do not establish common authorship.**
 
-Author Identity
+The same principle applies to initials, abbreviated names and incomplete metadata.
 
-publication date
+---
 
-mathematical statement
+## 7. Identity Resolution
 
-definitions
+When an author's identity is uncertain, the following evidence should be considered, in descending order of reliability:
 
-assumptions
+1. ORCID or another persistent researcher identifier;
+2. institutional profile;
+3. publisher metadata;
+4. DOI metadata;
+5. repository ownership;
+6. author-controlled publication archive;
+7. author-controlled professional profile;
+8. established bibliographic database;
+9. search-engine results.
 
-proof or derivation
+Search engines are useful for discovery, but a search result alone should not be treated as authoritative proof of author identity.
 
-mathematical objects
+---
 
-relationship to the AUF2026 claim
+## 8. Name Normalization
 
-7. Prior-art control
+Where the evidence establishes that the record belongs to the AUF2026 author, the following forms may be normalized for bibliographic indexing:
 
-For each AUF2026 theorem or mathematical claim, the bibliography must distinguish:
+- Alain Faure
+- Faure Alain
+- A. Faure
+- Alain Faure — AUF2026
+- AUF2026 / Alain Faure
 
-A. Same Author Identity
+The normalized bibliographic form may be:
 
-Work belonging to:
+> **Faure, Alain**
 
-Alain Faure — AUF2026
+Normalization must not be performed solely from the surname.
 
-B. Different Author Identity — potentially relevant
+A persistent identifier, publication context or equivalent evidence should support the normalization.
 
-Work authored by another researcher whose mathematics may intersect the claim.
+---
 
-C. Different Author Identity — unrelated
+## 9. Identity-Aware Bibliographic Search
 
-Work sharing terminology or surname but not mathematical substance.
+Surname-only searches are insufficient for reliable corpus attribution.
 
-D. Identity unresolved
+Examples of weak searches include:
 
-Record requiring additional bibliographic verification.
+- `Faure theorem`
+- `Faure mathematics`
+- `Faure lattice`
+- `Faure geometry`
+- `Faure invariant`
+- `Faure transform`
+- `Faure proof`
 
-No unresolved record may be used as evidence of mathematical priority or mathematical precedence.
+Identity-aware searches provide stronger disambiguation:
 
-8. Required bibliographic fields
+- `"Alain Faure" AUF2026`
+- `"Alain Faure" "0009-0009-5333-1181"`
+- `"Alain Faure" AUF2026 mathematics`
+- `"Alain Faure" AUF2026 theorem`
 
-Every bibliographic record entering the AUF2026 corpus should contain:
+Independent authors should be searched using their own established identity, for example:
 
-AUTHOR IDENTITY
-AUTHOR NAME
-AUTHOR IDENTIFIER
-TITLE
-YEAR
-VENUE
-DOI
-PUBLIC URL
-MATHEMATICAL OBJECT
-RELEVANT STATEMENT
-RELATION TO AUF2026
-IDENTITY STATUS
-BIBLIOGRAPHIC STATUS
+- `"Claude-Alain Faure"`
 
-AUTHOR IDENTITY
+Search strategy should therefore combine **identity evidence** with **mathematical content**.
 
-The normalized identity of the author.
+---
 
-AUTHOR NAME
+## 10. Bibliographic Record Requirements
 
-The exact name appearing in the source.
+A bibliographic record entering the AUF2026 corpus should contain, where available:
 
-AUTHOR IDENTIFIER
+| Field | Purpose |
+|---|---|
+| **Author Identity** | Normalized author attribution |
+| **Author Name** | Exact name appearing in the source |
+| **Author Identifier** | ORCID or other persistent identifier |
+| **Title** | Bibliographic title |
+| **Year** | Publication or release year |
+| **Venue** | Journal, book, repository or other venue |
+| **DOI** | Persistent publication identifier |
+| **Public URL** | Accessible source |
+| **Mathematical Object** | Relevant mathematical structure |
+| **Relevant Statement** | Claim potentially related to AUF2026 |
+| **Relation to AUF2026** | Documented mathematical relationship |
+| **Identity Status** | Resolved, unresolved or independent |
+| **Bibliographic Status** | Current state of the record |
 
-ORCID, institutional identifier, DOI metadata or other authoritative identifier where available.
+Not every source will contain every field. Missing information should remain explicitly marked rather than inferred.
 
-RELATION TO AUF2026
+---
 
-The documented mathematical relationship between the source and the relevant AUF2026 claim.
+## 11. Prior-Art Identity Classification
 
-9. Identity resolution hierarchy
+For claim-level prior-art analysis, sources should be separated into four categories.
 
-Identity resolution should use the following evidence hierarchy:
+### Same Author Identity
 
-ORCID
+The source is demonstrably associated with:
 
-institutional profile
+**Alain Faure — AUF2026**
 
-publisher metadata
+### Different Author Identity — Potentially Relevant
 
-DOI metadata
+The source belongs to another researcher but may contain mathematical results relevant to an AUF2026 claim.
 
-repository ownership
+### Different Author Identity — Unrelated
 
-author-controlled publication archive
+The source shares terminology, surname or general subject vocabulary without an established mathematical relationship.
 
-author-controlled professional profile
+### Identity Unresolved
 
-bibliographic database
+Available evidence is insufficient to determine the author's identity.
 
-search-engine result
+An unresolved identity should not be used as evidence of authorship, priority or precedence.
 
-Search-engine results are discovery mechanisms.
+---
 
-They are not, by themselves, sufficient evidence for Author Identity.
+## 12. Identity and Mathematical Relevance
 
-10. AUF2026 publication identity
+Author attribution and mathematical relevance are separate analytical dimensions.
 
-AUF2026 material may be distributed through multiple public channels.
+A work by another author may be mathematically relevant to an AUF2026 theorem.
 
-The presence of an AUF2026 document outside the GitHub repository does not create a new author identity.
+Conversely, a work associated with a similar name does not become mathematically relevant merely because of the name.
 
-Where the publication is demonstrably connected to the canonical AUF2026 identity, it remains part of the same Author Identity:
+Potentially relevant literature should therefore be examined through its actual mathematical content:
 
-Alain Faure — AUF2026
-
-The corpus may therefore contain:
-
-manuscripts;
-
-mathematical papers;
-
-formal proofs;
-
-Lean source;
-
-Python source;
-
-LaTeX source;
-
-PDFs;
-
-validation reports;
-
-research notes;
-
-computational experiments;
-
-datasets;
-
-technical documentation;
-
-submission packages;
-
-archival records.
-
-The artifact type does not alter Author Identity.
-
-11. Name normalization
-
-For bibliographic indexing, the following forms should be normalized to:
-
-Faure, Alain
-
-when they demonstrably refer to the AUF2026 author.
-
-Examples:
-
-Alain Faure
-Faure Alain
-A. Faure
-Alain Faure — AUF2026
-AUF2026 / Alain Faure
-
-
-Normalization must never be performed solely from the surname.
-
-An identifier or publication-context match is required.
-
-12. Homonym collision examples
-
-The following search terms are insufficient by themselves:
-
-Faure theorem
-Faure mathematics
-Faure lattice
-Faure geometry
-Faure invariant
-Faure transform
-Faure proof
-
-
-Preferred identity-aware searches are:
-
-"Alain Faure" AUF2026
-"Alain Faure" "0009-0009-5333-1181"
-"Alain Faure" AUF2026 mathematics
-"Alain Faure" AUF2026 theorem
-
-
-For independent mathematical literature:
-
-"Claude-Alain Faure"
-
-
-This prevents surname-level contamination of the bibliography.
-
-13. Canonical identity equation
-
-For the AUF2026 corpus:
-
-𝐴
-𝐼
-A
-U
-F
-2026
-=
-(
-A
-l
-a
-i
-n
- 
-F
-a
-u
-r
-e
-,
-O
-R
-C
-I
-D
-,
-A
-U
-F
-2026
-)
-
-where:
-
-O
-R
-C
-I
-D
-=
-0009
--
-0009
--
-5333
--
-1181
-
-and:
-
-𝐴
-𝐼
-A
-U
-F
-2026
-≠
-𝐴
-𝐼
-C
-l
-a
-u
-d
-e
--
-A
-l
-a
-i
-n
- 
-F
-a
-u
-r
-e
-
-14. Relation to mathematical priority
-
-Author Identity establishes who authored a source.
-
-It does not, by itself, establish:
-
-mathematical novelty;
-
-mathematical priority;
-
-originality;
-
-correctness;
-
-generality;
-
-scientific importance;
-
-precedence of a theorem.
-
-Those questions require separate claim-level analysis.
+- definitions;
+- assumptions;
+- mathematical objects;
+- constructions;
+- transformations;
+- propositions;
+- theorems;
+- proofs;
+- conclusions;
+- domain of validity.
 
 Accordingly:
 
-Author Identity
-≠
-Mathematical Priority
+> **Author Identity does not establish Mathematical Equivalence.**
 
-and:
+And:
 
-Bibliographic Identity
-≠
-Mathematical Equivalence
+> **Author Identity does not establish Mathematical Priority.**
 
-15. Repository implementation
+---
 
-This document is the canonical Author Identity record for the AUF2026 repository.
+## 13. Relation to Mathematical Priority
 
-It should be referenced from:
+The author record establishes attribution and provenance.
 
-docs/README.md
-docs/BIBLIOGRAPHY.md
-docs/RESEARCH-REGISTER.md
-docs/SOURCE-MANIFEST.md
-docs/CORPUS-INDEX.md
-docs/CLAIMS.md
+It does **not** independently establish:
 
+- mathematical novelty;
+- mathematical priority;
+- originality;
+- correctness;
+- generality;
+- scientific importance;
+- theorem precedence.
 
-Any future bibliography or prior-art document should use the field:
+Those questions belong to the claim-level mathematical and bibliographic analysis.
 
+The evidence chain is therefore separated as follows:
+
+```text
 AUTHOR IDENTITY
-
-
-rather than relying on surname matching.
-
-16. Current canonical record
-
-AUTHOR IDENTITY
-
-Alain Faure — AUF2026
-
-ORCID
-
-0009-0009-5333-1181
-
-GitHub
-
-AUF2026
-
-Repository
-
-AUF2026/AUF2026.github.io
-
-Public archive
-
-https://auf2026.github.io/
-
-Medium
-
-@auf2026
-
-17. Status
-
-Document: AUTHOR-DISAMBIGUATION.md
-
-Canonical role: Author Identity control
-
-Status: Active
-
-Applies to: AUF2026 research corpus, bibliography, claims registry, proof registry, validation registry, manuscripts, computational artifacts and public archive.
-
-Identity rule:
-
-AUTHOR
- 
-IDENTITY:
- 
-Alain
- 
-Faure
- 
-—
- 
-AUF2026
+      ↓
+SOURCE ATTRIBUTION
+      ↓
+MATHEMATICAL CLAIM
+      ↓
+PRIOR-ART SEARCH
+      ↓
+MATHEMATICAL COMPARISON
