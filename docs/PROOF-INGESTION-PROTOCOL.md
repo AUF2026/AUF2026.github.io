@@ -1,266 +1,315 @@
-AUF2026 — Proof Ingestion Protocol
-Purpose
+# AUF2026 — Proof Ingestion Protocol
 
-This document defines the procedure for importing the original local formal corpus into the AUF2026 public research archive.
+**Status:** Active
+**Scope:** Local formal corpus → public AUF2026 archive
+**Primary source:** Local filesystem
+**Primary formal artifact:** Lean source
 
-The local source corpus is treated as a primary research artifact.
+---
 
-The procedure preserves:
+## 1. Purpose
 
-original source;
+This protocol defines how formal source material is identified, inspected, recorded, and transferred into the AUF2026 research archive.
 
-file path;
+The process preserves:
 
-version;
+- source provenance;
+- formal environment;
+- version information;
+- dependencies;
+- theorem declarations;
+- compilation evidence;
+- historical versions;
+- links to claims and applications.
 
-formal environment;
+This protocol defines the ingestion procedure. Detailed inventories and theorem records belong in the corresponding registry documents.
 
-dependencies;
+---
 
-theorem statements;
+## 2. Source discovery
 
-proof status;
+The initial search root is:
 
-compilation status;
-
-provenance.
-
-1. Primary local source
-
-The next extraction begins from:
-
+```text
 D:\
+````
 
+ The exact Lean project root must be determined from the filesystem.
 
-The exact project root must be identified from the local filesystem.
+ Primary source files:
 
-No directory name is assumed in advance.
-
-2. Discovery
-
-The first operation is source discovery.
-
-Target files:
-
+```
 *.lean
+```
 
+ Project metadata to collect when present:
 
-Additional project-control files:
-
+```
 lakefile.toml
 lakefile.lean
 lean-toolchain
 README.md
 LICENSE
 .git/
+```
 
+ No project root, version, or dependency is assumed before inspection.
 
-where present.
+---
 
-3. Project identification
+ ## 3\. Project identification
 
-Before extracting individual proofs, identify:
+ Before interpreting formal results, record:
 
+```
 PROJECT ROOT
 LEAN VERSION
 MATHLIB VERSION
 GIT COMMIT
 BRANCH
 REMOTE
+```
 
+ The formal environment is part of the provenance record.
 
-The formal environment must be recorded before interpreting theorem results.
+---
 
-4. Source inventory
+ ## 4\. Source inventory
 
-Every Lean source file receives an inventory record.
+ Each imported Lean file receives a stable file record.
 
-Required fields:
+ Minimum metadata:
 
+```
 FILE-ID
-absolute path
-relative path
-filename
-size
-modified date
-git status
-git commit
-Lean version
-imports
-namespaces
-definitions
-theorems
-lemmas
-examples
-tests
-
-5. Formal object extraction
-
-For each file:
-
-SOURCE
-  ↓
+PATH
+FILENAME
+SIZE
+MODIFIED DATE
+GIT STATUS
+GIT COMMIT
+LEAN VERSION
 IMPORTS
-  ↓
-NAMESPACE
-  ↓
+NAMESPACES
+```
+
+ Declarations are then classified as:
+
+```
+DEFINITION
+THEOREM
+LEMMA
+EXAMPLE
+TEST
+OTHER
+```
+
+ The detailed inventory is maintained in:
+
+```
+SOURCE-INVENTORY.md
+```
+
+---
+
+ ## 5\. Formal object extraction
+
+ For each source file, use the following extraction order:
+
+```
+SOURCE FILE
+    ↓
+IMPORTS
+    ↓
+NAMESPACES
+    ↓
 DEFINITIONS
-  ↓
+    ↓
 THEOREMS
-  ↓
+    ↓
 LEMMAS
-  ↓
+    ↓
 EXAMPLES
-  ↓
+    ↓
 TESTS
+```
 
+ Formal declarations take precedence over descriptions appearing only in comments or manuscripts.
 
-No theorem is inferred from comments or manuscript prose when an actual formal declaration is available.
+---
 
-6. Proof identifiers
+ ## 6\. Identifier assignment
 
-Formal proof artifacts receive:
+ Formal proof artifacts use:
 
+```
 PRF-0001
 PRF-0002
 PRF-0003
 ...
+```
 
+ Mathematical theorem objects use:
 
-Mathematical theorem objects receive:
-
+```
 THM-001
 THM-002
 THM-003
 ...
+```
 
+ Claim records use:
 
-The two identifiers are related but not assumed to be identical.
+```
+CLM-0001
+CLM-0002
+...
+```
 
-One theorem may have:
+ These identifiers represent different archival objects.
 
-multiple proof files;
+ A theorem may be supported by several lemmas or proof files, and a single source file may contain several theorem declarations.
 
-multiple lemmas;
+---
 
-multiple computational checks.
+ ## 7\. Compilation record
 
-One proof file may contain multiple theorem objects.
+ For each principal formal artifact, record:
 
-7. Compilation evidence
+```
+LEAN VERSION
+MATHLIB REVISION
+BUILD COMMAND
+EXIT STATUS
+ERROR COUNT
+WARNING COUNT
+BUILD RESULT
+DATE
+```
 
-For every principal proof record, record:
+ Where applicable, also record:
 
-compiler
-Lean version
-Mathlib revision
-command executed
-exit status
-errors
-warnings
+```
+SORRY COUNT
+AXIOMS
+NONCOMPUTABLE DECLARATIONS
+```
 
+ A source file being present does not establish compilation.
 
-A source file being present is not equivalent to successful compilation.
+ A successful compilation establishes evidence about the encoded formal artifact; it does not by itself establish semantic correspondence, originality, or independent validation.
 
-Successful compilation is not equivalent to independent mathematical validation.
+---
 
-8. Dependency graph
+ ## 8\. Dependency record
 
-For every theorem:
+ For every principal theorem, preserve its formal dependency chain:
 
-THM
- ↓
-definitions
- ↓
-lemmas
- ↓
-imports
- ↓
-Mathlib
-
-
-Dependencies should be preserved explicitly.
-
-9. Claim correspondence
-
-A manuscript claim is assigned:
-
-CLM-XXXX
-
-
-A formal theorem is assigned:
-
-THM-XXX
-
-
-The archive records the relationship:
-
-PAP-XXXX
+```
+THEOREM
    ↓
-CLM-XXXX
+DEFINITIONS
    ↓
-THM-XXX
+LEMMAS
    ↓
-PRF-XXXX
+IMPORTS
+   ↓
+LEAN / MATHLIB
+```
 
+ Dependencies must refer to identifiable source artifacts whenever possible.
 
-The relationship itself must be supported by the source material.
+---
 
-10. No silent translation
+ ## 9\. Claim correspondence
 
-If manuscript notation differs from Lean notation, both forms are preserved.
+ When a formal theorem corresponds to a documented research claim, record the relationship:
 
-Example:
+```
+PAP-ID
+   ↓
+CLM-ID
+   ↓
+THM-ID
+   ↓
+PRF-ID
+```
 
-PUBLIC NOTATION
+ The relationship must be supported by the manuscript or source material.
+
+ No correspondence is inferred solely from similar names.
+
+---
+
+ ## 10\. Notation preservation
+
+ Original notation must be preserved.
+
+ For example:
+
+```
+Public notation:
 Ψ⁴ = Ψ⁵
 
-LEAN NOTATION
-exact source expression
+Lean:
+[exact source expression]
+```
 
+ If a normalized or simplified mathematical form is added, it must remain distinguishable from the original source.
 
-The archive must not silently replace one with the other.
+ The processing order is:
 
-11. Mathematical normalization
-
-A normalized mathematical description may be added after the original source has been captured.
-
-The order is:
-
-ORIGINAL
+```
+ORIGINAL SOURCE
     ↓
 TRANSCRIPTION
     ↓
 NORMALIZATION
     ↓
 INTERPRETATION
+```
 
+---
 
-Never reverse this order.
+ ## 11\. Version preservation
 
-12. Version preservation
+ Historical versions remain separate records.
 
-When multiple versions exist:
-
+```
 VERSION A
+    ↓
 VERSION B
+    ↓
 VERSION C
+```
 
+ Later versions must not silently overwrite earlier artifacts.
 
-they remain separate historical artifacts.
+ Where available, record:
 
-Later versions do not overwrite earlier source records.
+```
+GIT COMMIT
+SHA-256
+FILE SIZE
+DATE
+```
 
-13. Configuration preservation
+ The SHA-256 identifies the exact byte-level artifact associated with the record.
 
-Different numerical or computational configurations are recorded separately.
+---
 
-Examples may include:
+ ## 12\. Configuration preservation
 
+ Different computational configurations must be recorded independently.
+
+ Examples:
+
+```
 AOS V1.0
 AOS120
 AOS250
 AOS600
+
 DEC-80
 DEC-90
 DEC-100
@@ -268,80 +317,118 @@ DEC-110
 DEC-120
 DEC-130
 DEC-660
+```
 
+ A configuration difference does not automatically imply a mathematical difference.
 
-The archive does not assume that configuration differences imply mathematical differences.
+ The relationship must be determined from the source and recorded explicitly.
 
-The distinction is determined from source evidence.
+---
 
-14. Hashing
+ ## 13\. Local-to-public transfer
 
-Where practical, the archive should record a cryptographic hash of imported source artifacts.
+ Local material is not copied directly into the public archive.
 
-Suggested fields:
+ The ingestion sequence is:
 
-SHA-256
-file size
-commit
-
-
-The hash identifies the exact byte-level artifact used for the record.
-
-15. Local-to-public mapping
-
-The local corpus is not copied blindly into the public repository.
-
-First:
-
+```
 LOCAL SOURCE
-   ↓
+    ↓
+DISCOVERY
+    ↓
 INVENTORY
-   ↓
+    ↓
 CLASSIFICATION
-   ↓
+    ↓
 PROVENANCE
-   ↓
-PUBLIC ARCHIVE
+    ↓
+INSPECTION
+    ↓
+VALIDATION STATUS
+    ↓
+PUBLICATION DECISION
+```
 
+ Sensitive, private, obsolete, or irrelevant material remains outside the public archive unless there is a documented reason to publish it.
 
-Sensitive or irrelevant local material must not be published automatically.
+---
 
-16. First extraction target
+ ## 14\. First formal artifact
 
-The first formal source receives:
+ The first formal artifact is assigned only after actual source inspection.
 
+ If the first eligible proof source is identified, assign:
+
+```
 PRF-0001
+```
 
+ If a corresponding theorem is identified:
 
-The first corresponding theorem receives:
-
+```
 THM-001
+```
 
+ No identifier is assigned from filenames alone.
 
-The assignment occurs only after inspection of the actual source.
+---
 
-17. Required first-session output
+ ## 15\. Controlled status vocabulary
 
-The first extraction session should produce:
+ Formal ingestion uses the following states:
 
-docs/
-├── PROOF-INGESTION-PROTOCOL.md
-├── SOURCE-INVENTORY.md
-└── PROOF-REGISTRY.md
+```
+LOCATED
+IMPORTED
+INSPECTED
+COMPILES
+FORMALLY_VERIFIED
+REPRODUCED
+INDEPENDENTLY_REPRODUCED
+PEER_REVIEWED
+```
 
+ A stronger state must not be assigned unless the corresponding evidence exists.
 
-and the first formal records:
+---
 
-PRF-0001
-THM-001
+ ## 16\. First extraction session
 
+ The first extraction session should perform:
 
-if a corresponding theorem is identified.
+```
+1. Inspect D:\
+2. Identify the Lean project root
+3. Identify Lean and Mathlib versions
+4. Enumerate *.lean
+5. Generate the source inventory
+6. Inspect the first central source
+7. Assign PRF-0001
+8. Identify THM-001, if applicable
+9. Record dependencies
+10. Compile the relevant source
+```
 
-18. Final traceability model
+ Expected registry outputs:
 
-The target structure is:
+```
+SOURCE-INVENTORY.md
+PROOF-REGISTRY.md
+```
 
+ The protocol itself remains:
+
+```
+PROOF-INGESTION-PROTOCOL.md
+```
+
+---
+
+ ## 17\. Traceability model
+
+ The completed archive should support the following chain:
+
+```
 LOCAL FILE
     ↓
 FILE-ID
@@ -357,42 +444,30 @@ PAP-ID
 VALIDATION-ID
     ↓
 APPLICATION-ID
+```
 
+ Each relationship must be supported by identifiable source evidence.
 
-Every connection must be traceable to source evidence.
+---
 
-19. Status vocabulary
+ ## 18\. Governing rule
 
-Use only the following controlled states:
+ The formal source is the starting point.
 
-LOCATED
-IMPORTED
-INSPECTED
-COMPILES
-FORMALLY_VERIFIED
-REPRODUCED
-INDEPENDENTLY_REPRODUCED
-PEER_REVIEWED
+ The archive must distinguish:
 
+```
+SOURCE EXISTENCE
+≠
+SOURCE INSPECTION
+≠
+COMPILATION
+≠
+FORMAL VERIFICATION
+≠
+REPRODUCTION
+≠
+INDEPENDENT VALIDATION
+```
 
-Do not use a stronger status merely because a weaker status has been established.
-
-20. Next operation
-
-At the beginning of the next extraction session:
-
-1. inspect D:\
-2. identify Lean project root
-3. identify Lean and Mathlib versions
-4. enumerate *.lean
-5. generate source inventory
-6. inspect the first central source
-7. assign PRF-0001
-8. identify THM-001
-9. record dependencies
-10. compile/reproduce
-
-
-The source corpus is the starting point.
-
-No application claim is derived before the underlying formal or computational object has been identified.
+ No application, originality, or scientific-status conclusion is inferred merely from successful ingestion or compilation.
