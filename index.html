@@ -1597,40 +1597,12 @@
 
   </div>
 
-  <div class="scope-links">
-
-    <a
-      href="docs/THEOREM-ORIGINALITY-MATRIX.md"
-      class="archive-link"
-    >
-      Theorem Originality Matrix →
-    </a>
-
-    <a
-      href="docs/CLAIMS.md"
-      class="archive-link"
-    >
-      Master Claim Matrix →
-    </a>
-
-    <a
-      href="docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md"
-      class="archive-link"
-    >
-      Bibliographic Novelty Matrix →
-    </a>
-
-    <a
-      href="docs/PROOF-REGISTRY.md"
-      class="archive-link"
-    >
-      Proof Registry →
-    </a>
-
-  </div>
+  <div
+    class="scope-links"
+    id="theoremRegistryLinks"
+  ></div>
 
 </section>
-
 
 <!-- =========================================================
      MATHEMATICS
@@ -2042,7 +2014,6 @@
 
 </section>
 
-
 <!-- =========================================================
      APPLICATIONS
      ========================================================= -->
@@ -2187,7 +2158,6 @@
   </div>
 
 </section>
-
 
 <!-- =========================================================
      DOCUMENTS · RESEARCH ARCHIVE
@@ -3397,6 +3367,66 @@
 
   }
 
+/*
+ * =========================================================
+ * THEOREM REGISTRY
+ * =========================================================
+ *
+ * The theorem registry uses the same archive URL generator
+ * as the main research archive.
+ */
+
+const theoremRegistry =
+  document.getElementById(
+    "theoremRegistryLinks"
+  );
+
+const theoremDocuments = [
+  {
+    file: "THEOREM-ORIGINALITY-MATRIX.md",
+    title: "Theorem Originality Matrix"
+  },
+  {
+    file: "CLAIMS.md",
+    title: "Master Claim Matrix"
+  },
+  {
+    file: "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    title: "Bibliographic Novelty Matrix"
+  },
+  {
+    file: "PROOF-REGISTRY.md",
+    title: "Proof Registry"
+  }
+];
+
+if (theoremRegistry) {
+
+  theoremDocuments.forEach(
+    theorem => {
+
+      const link =
+        document.createElement("a");
+
+      link.className =
+        "archive-link";
+
+      link.href =
+        documentUrl(
+          theorem.file
+        );
+
+      link.textContent =
+        theorem.title + " →";
+
+      theoremRegistry.appendChild(
+        link
+      );
+
+    }
+  );
+
+}
 
   /*
    * =========================================================
