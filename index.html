@@ -840,6 +840,141 @@
       }
     }
 
+    /* =========================================================
+   03B · SCIENTIFIC SCOPE
+   ========================================================= */
+
+.scientific-scope {
+  position: relative;
+}
+
+.section-kicker {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  opacity: 0.62;
+  margin-bottom: 0.8rem;
+}
+
+.section-heading h2 {
+  margin-bottom: 1rem;
+}
+
+.section-lead {
+  max-width: 920px;
+  line-height: 1.75;
+  opacity: 0.86;
+}
+
+.scope-equation {
+  margin: 1.4rem 0;
+  padding: 1rem 1.2rem;
+  border-left: 3px solid currentColor;
+  background: rgba(127, 127, 127, 0.07);
+  overflow-x: auto;
+}
+
+.scope-equation code {
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+.scope-equation.secondary {
+  opacity: 0.82;
+}
+
+.scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.scope-card {
+  padding: 1.35rem;
+  border: 1px solid rgba(127, 127, 127, 0.22);
+  border-radius: 12px;
+  background: rgba(127, 127, 127, 0.045);
+}
+
+.scope-card h3 {
+  margin-top: 0.45rem;
+}
+
+.scope-card p {
+  line-height: 1.65;
+  opacity: 0.82;
+}
+
+.scope-id {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  opacity: 0.55;
+}
+
+.validation-banner {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 14px;
+  border: 1px solid rgba(90, 160, 255, 0.30);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(90, 160, 255, 0.08),
+      rgba(127, 127, 127, 0.04)
+    );
+}
+
+.validation-banner p {
+  max-width: 920px;
+  line-height: 1.7;
+}
+
+.scope-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin: 1.5rem 0;
+}
+
+.archive-link {
+  display: inline-block;
+  padding: 0.7rem 0.95rem;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+.archive-link:hover {
+  transform: translateY(-1px);
+  background: rgba(127, 127, 127, 0.08);
+}
+
+.scope-note {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  opacity: 0.72;
+  border-top: 1px solid rgba(127, 127, 127, 0.18);
+}
+
+@media (max-width: 760px) {
+  .scope-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .scope-equation code {
+    font-size: 0.86rem;
+  }
+
+  .scope-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
   </style>
 </head>
 
@@ -1103,112 +1238,37 @@
      THEOREMS
      ========================================================= -->
 
-<section id="theorems" class="math-section">
+<div class="theorem-status-panel">
 
-  <div class="container">
+  <p>
+    Public theorem names use descriptive Faure Theorem names.
+    Internal identifiers T1, T2, T3 ... are retained exclusively
+    for traceability inside the research archive.
+  </p>
 
-    <div class="section-heading">
+  <p>
+    Each theorem is tracked independently through:
+  statement → dependencies → formalization → Lean verification →
+  bibliographic comparison → validation status.
+  </p>
 
-      <p class="eyebrow">
-        02 · THEOREMS
-      </p>
+  <div class="scope-links">
 
-      <h2>
-        Faure Theorems
-      </h2>
+    <a href="docs/CLAIMS.md" class="archive-link">
+      Master Claim Matrix →
+    </a>
 
-      <p class="section-description">
+    <a href="docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md" class="archive-link">
+      Bibliographic Novelty Matrix →
+    </a>
 
-        Public-facing theorem names are used here.
-        Internal identifiers such as T1, T2 and subsequent
-        identifiers belong to the research archive.
-
-      </p>
-
-    </div>
-
-
-    <div class="documents">
-
-
-      <article class="document">
-
-        <h3>
-          Faure Theorem T1
-        </h3>
-
-        <p>
-          Structural statement and complete proof are
-          maintained in the corresponding research document.
-        </p>
-
-        <code>
-          status: documentation pending
-        </code>
-
-      </article>
-
-
-      <article class="document">
-
-        <h3>
-          Faure Theorem T2
-        </h3>
-
-        <p>
-          Formal statement, hypotheses, dependencies and
-          Lean verification will be archived separately.
-        </p>
-
-        <code>
-          status: documentation pending
-        </code>
-
-      </article>
-
-
-      <article class="document">
-
-        <h3>
-          Faure Theorem T3
-        </h3>
-
-        <p>
-          The theorem archive distinguishes mathematical
-          statements from their formal implementation.
-        </p>
-
-        <code>
-          status: documentation pending
-        </code>
-
-      </article>
-
-
-      <article class="document">
-
-        <h3>
-          Faure Theorem T4
-        </h3>
-
-        <p>
-          Additional theorem documentation will be added
-          from the canonical research manuscripts.
-        </p>
-
-        <code>
-          status: documentation pending
-        </code>
-
-      </article>
-
-
-    </div>
+    <a href="docs/PROOF-REGISTRY.md" class="archive-link">
+      Proof Registry →
+    </a>
 
   </div>
 
-</section>
-
+</div>
 
 <!-- =========================================================
      MATHEMATICS
@@ -1330,7 +1390,127 @@
 
 </section>
 
+<!-- 03B · SCIENTIFIC SCOPE & BIBLIOGRAPHIC NOVELTY -->
 
+<section id="scientific-scope" class="section scientific-scope">
+
+  <div class="section-kicker">
+    03B · SCIENTIFIC SCOPE
+  </div>
+
+  <div class="section-heading">
+    <h2>Foundational architecture and claim-by-claim validation</h2>
+
+    <p class="section-lead">
+      The AUF2026 research archive documents a mathematical-computational
+      foundational research program whose central architecture connects
+      the primordial Faure object F, the Universal Faure Tuple U_F,
+      AOS144, spectral structures, arithmetic lattices, measure structures,
+      formal verification and application models.
+    </p>
+  </div>
+
+  <div class="scope-equation">
+    <code>
+      K_min → F → U_F → AOS144 → N_F → μ_F → L_F → ⊥_F → Born
+    </code>
+  </div>
+
+  <div class="scope-equation secondary">
+    <code>
+      F → Ψ → Ψ⁴ ≡ Ψ⁵ → P₉ → representation / witness elimination
+    </code>
+  </div>
+
+  <div class="scope-grid">
+
+    <article class="scope-card">
+      <span class="scope-id">S01</span>
+      <h3>Foundational architecture</h3>
+      <p>
+        The public corpus records an explicit dependency architecture
+        connecting multiple mathematical structures rather than presenting
+        the research as a single isolated theorem.
+      </p>
+    </article>
+
+    <article class="scope-card">
+      <span class="scope-id">S02</span>
+      <h3>Formal verification</h3>
+      <p>
+        Formal claims are linked to Lean artifacts, declared environments,
+        theorem dependencies and reproducibility records.
+      </p>
+    </article>
+
+    <article class="scope-card">
+      <span class="scope-id">S03</span>
+      <h3>Bibliographic comparison</h3>
+      <p>
+        Each substantive claim is compared independently against the closest
+        mathematical prior art, including hypotheses, construction,
+        derivation, conclusion and generality.
+      </p>
+    </article>
+
+    <article class="scope-card">
+      <span class="scope-id">S04</span>
+      <h3>Independent evidence axes</h3>
+      <p>
+        Mathematical originality, derivation novelty, generality, semantic
+        correctness, computational performance and application validity are
+        maintained as separate validation dimensions.
+      </p>
+    </article>
+
+  </div>
+
+  <div class="validation-banner">
+    <strong>Current scientific classification</strong>
+    <p>
+      The AUF2026 corpus supports the description
+      <strong>mathematical-computational foundational research program</strong>.
+      At the architectural level, the project presents a
+      <strong>foundational + paradigmatic</strong> research architecture.
+    </p>
+    <p>
+      This architectural classification is maintained separately from
+      claim-specific mathematical novelty, formal correctness, semantic
+      correspondence, computational performance, empirical validation and
+      external acceptance.
+    </p>
+  </div>
+
+  <div class="scope-links">
+
+    <a href="docs/CLAIMS.md" class="archive-link">
+      Claim-by-Claim Validation Matrix →
+    </a>
+
+    <a href="docs/CORE-GENEALOGY.md" class="archive-link">
+      Core Genealogy →
+    </a>
+
+    <a href="docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md" class="archive-link">
+      Bibliographic Novelty Matrix →
+    </a>
+
+    <a href="docs/RESEARCH-REGISTER.md" class="archive-link">
+      Research Register →
+    </a>
+
+  </div>
+
+  <div class="scope-note">
+    <strong>Research rule:</strong>
+    the absence of a bibliographic match is not treated as a global
+    mathematical novelty certificate. Every result receives its own
+    evidence state and comparison record.
+  </div>
+
+</section>
+
+  
 <!-- =========================================================
      FORMAL VERIFICATION
      ========================================================= -->
@@ -2145,7 +2325,7 @@
 
 </main>
 
-
+  
 <!-- =========================================================
      FOOTER
      ========================================================= -->
