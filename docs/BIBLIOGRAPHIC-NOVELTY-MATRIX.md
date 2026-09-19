@@ -1,822 +1,901 @@
-# AUF2026 — BIBLIOGRAPHIC NOVELTY MATRIX
+# AUF2026 · Bibliographic Novelty Matrix
 
-## Status
+> **Claim-level prior-art comparison**
 
-Research document — living bibliographic comparison.
+**Status:** Living research record
+**Review date:** 2026-09-19
+**Repository:** AUF2026/AUF2026.github.io
+**Public archive:** https://auf2026.github.io/
 
-Date of current review: 2026-09-19
+Related records:
 
-Repository:
-
-https://github.com/AUF2026/AUF2026.github.io
-
-Primary public archive:
-
-https://auf2026.github.io/
-
-Related registry:
-
-`docs/CLAIMS.md`
-
-Related genealogy:
-
-`docs/CORE-GENEALOGY.md`
+- `CLAIMS.md`
+- `CORE-GENEALOGY.md`
+- `THEOREM-ORIGINALITY-MATRIX.md`
 
 ---
 
-# 1. Purpose
+## Purpose
 
-This document performs claim-by-claim bibliographic comparison of the principal mathematical structures currently identified in the AUF2026 / Faure Framework.
+This matrix records the bibliographic and mathematical comparison of individual AUF2026 claims.
 
-The purpose is not to assign a global originality label to the framework.
+It does **not** assign a global originality score to the framework.
 
-The purpose is to determine, for each individual claim:
+Each claim is examined through:
 
+```text
 CLAIM
-→ exact mathematical statement
-→ closest established literature
-→ overlap
-→ difference
-→ derivation difference
-→ scope difference
-→ formalization status
-→ originality classification
+  ↓
+EXACT STATEMENT
+  ↓
+PRIOR ART
+  ↓
+MATHEMATICAL OVERLAP
+  ↓
+DIFFERENCES
+  ↓
+DERIVATION
+  ↓
+SCOPE
+  ↓
+EVIDENCE STATE
+````
 
-The classification vocabulary follows `docs/CLAIMS.md`:
-
-- O0 — Known Result
-- O1 — Known Structure, New Formulation
-- O2 — Known Components, New Composition
-- O3 — Extension
-- O4 — New Derivation
-- O5 — New Result
-- O6 — Undetermined
-
-No claim is assigned O5 without a completed mathematical comparison.
+ The comparison distinguishes established mathematics from the specific construction, derivation or composition claimed within AUF2026.
 
 ---
 
-# 2. Foundational architecture under review
+ ## Originality Classification
 
-The public repository records the principal genealogy:
+ The working classification used by the claim registry is:
 
+ | Code | Classification |
+| --- | --- |
+| **O0** | Known result |
+| **O1** | Known structure, new formulation |
+| **O2** | Known components, new composition |
+| **O3** | Extension |
+| **O4** | New derivation |
+| **O5** | New result |
+| **O6** | Undetermined |
+
+`O5` is not assigned until the relevant mathematical comparison has been completed.
+
+ The classification is claim-specific and may change as additional evidence is examined.
+
+---
+
+ # Framework Architecture Under Review
+
+ The current public genealogy records:
+
+```
 K_min
-→ F
-→ U_F
-→ AOS144
-→ N_F
-→ μ_F
-→ L_F
-→ ⊥_F
-→ Born
-
-and separately:
-
+  ↓
 F
-→ Ψ
-→ Ψ⁴ ≡ Ψ⁵
-→ Fiber Constant
-→ Representation / Witness Elimination
+  ↓
+U_F
+  ↓
+AOS144
+  ↓
+N_F
+  ↓
+μ_F
+  ↓
+L_F
+  ↓
+⊥_F
+  ↓
+Born
+```
 
-with
+ A separate structural chain records:
 
-F = (A,A',S,S',R,R',T,φ)
+```
+F
+  ↓
+Ψ
+  ↓
+Ψ⁴ ≡ Ψ⁵
+  ↓
+Fiber Constant
+  ↓
+Representation / Witness Elimination
+```
 
-and
+ The principal structures include:
 
-U_F = (M,G,A,Ψ,Λ,Π).
-
-The repository explicitly distinguishes the genealogy from the proof records of the individual arrows.
-
-Source:
-
-`docs/CORE-GENEALOGY.md`
-
----
-
-# 3. Bibliographic comparison — 10 principal claims
-
-## BF-001 — Faure Deterministic Mathematics / FDM
-
-### Faure claim
-
-A deterministic mathematical framework is defined as a foundational computational structure from which the subsequent Faure objects and applications are organized.
-
-### Established prior art
-
-Deterministic computation, deterministic numerical methods, quasi-Monte Carlo, dynamical systems and formal mathematics are all established research areas.
-
-The literature contains extensive work on deterministic numerical methods and deterministic sampling.
-
-The name "Faure" itself also has established mathematical usage through Faure sequences and generalized Faure constructions.
-
-### Relevant prior literature
-
-Henri Faure, Peter Kritzer, Friedrich Pillichshammer,
-"From van der Corput to modern constructions of sequences for quasi-Monte Carlo rules", 2015.
-
-The literature explicitly treats Faure sequences as deterministic constructions for quasi-Monte Carlo. 
-
-### Difference
-
-The AUF2026 FDM object is not identified with the classical Faure sequence literature.
-
-The relevant originality question is therefore not whether deterministic mathematics exists.
-
-The relevant question is whether the specific FDM foundational architecture and its dependency graph constitute a distinct mathematical construction.
-
-### Current classification
-
-O6 — Undetermined.
-
-### Required next evidence
-
-Exact axioms of FDM.
-
-Exact theorem list.
-
-Formal dependency graph.
-
-Comparison against existing deterministic mathematics and formal mathematics frameworks.
-
----
-
-# BF-002 — Universal Faure Tuple
-
-## Claim
+```
+F  = (A,A',S,S',R,R',T,φ)
 
 U_F = (M,G,A,Ψ,Λ,Π)
+```
 
-with:
+ The genealogy itself is distinguished from the proof status of its individual arrows.
 
+ See `CORE-GENEALOGY.md`.
+
+---
+
+ # Claim Comparison
+
+ ## BF-001 · Faure Deterministic Mathematics
+
+ ### AUF2026 claim
+
+ FDM is presented as a deterministic mathematical framework from which subsequent Faure structures and applications are organized.
+
+ ### Established literature
+
+ Deterministic computation, deterministic numerical methods, quasi-Monte Carlo, dynamical systems and formal mathematics are established fields.
+
+ The surname **Faure** also has established mathematical usage through Faure sequences and related constructions in quasi-Monte Carlo theory.
+
+ ### Relevant prior work
+
+ Henri Faure, Peter Kritzer and Friedrich Pillichshammer,\
+ _From van der Corput to modern constructions of sequences for quasi-Monte Carlo rules_ (2015).
+
+ ### Mathematical issue
+
+ The relevant comparison is not whether deterministic mathematics already exists.
+
+ The question is whether the specific FDM object, axioms and dependency architecture constitute a distinct mathematical construction.
+
+ ### Current state
+
+ **O6 · Undetermined**
+
+ ### Required evidence
+
+ - exact FDM definition;
+- axioms;
+- theorem list;
+- formal dependency graph;
+- comparison with established deterministic and formal mathematical frameworks.
+
+---
+
+ ## BF-002 · Universal Faure Tuple
+
+ ### AUF2026 claim
+
+ The Universal Faure Tuple is defined as:
+
+```
+U_F = (M,G,A,Ψ,Λ,Π)
+```
+
+ with:
+
+```
 M : α → Prop
 
 G,A,Π : α → α → Prop
 
-Ψ,Λ : α → α → Real.
+Ψ,Λ : α → α → Real
+```
 
-The framework further asserts informational independence of the tuple components through component-removal tests.
+ The framework additionally proposes component-independence through component-removal tests.
 
-## Prior art
+ ### Established mathematics
 
-Tuple-based mathematical structures, relational structures, predicates and operators are standard mathematical constructions.
+ Tuples, predicates, binary relations and operator-valued components are standard mathematical constructions.
 
-The particular six-component object U_F was not identified in the searched literature under the exact terminology.
+ The comparison therefore concerns the complete six-component structure and its claimed independence properties.
 
-## Important distinction
+ ### Mathematical issue
 
-The novelty question concerns the complete mathematical structure and its stated independence properties.
+ The relevant distinction is between:
 
-It does not concern the generic use of tuples, predicates or binary relations.
+```
+known mathematical components
+```
 
-## Current classification
+ and:
 
-O6 — Undetermined.
+```
+the specific composition + independence theorem
+```
 
-Potentially:
+ ### Current state
 
-O2 — Known Components, New Composition
+ **O6 · Undetermined**
 
-if the component structures are established individually but the complete composition and independence theorem are new.
+ Potentially **O2 · Known components, new composition** if the component structures are known individually but the complete composition and independence result are established as new.
 
-## Required evidence
+ ### Required evidence
 
-Exact Lean theorem names.
-
-Full Bool countermodel.
-
-Proof that removal of each component destroys extensional equivalence.
-
-Bibliographic comparison with relational algebra, model theory, category-theoretic structures and universal algebra.
+ - exact Lean definitions;
+- complete countermodel;
+- component-removal proofs;
+- independence theorem;
+- comparison with relational algebra;
+- model theory;
+- universal algebra;
+- related structural formalisms.
 
 ---
 
-# BF-003 — AOS144 structural kernel
+ ## BF-003 · AOS144
 
-## Claim
+ ### AUF2026 claim
 
-AOS144 is a 144-state relational kernel associated with the Universal Faure architecture.
+ AOS144 is presented as a 144-state relational kernel associated with the Universal Faure architecture.
 
-The public genealogy identifies:
+ The public genealogy describes:
 
-AOS144 = 144-node relational lattice.
+```
+AOS144 = 144-node relational lattice
+```
 
-The numerical identity
+ with:
 
+```
 144 = 12²
+```
 
-is distinguished from
+ distinguished from:
 
-1728 = 12³.
+```
+1728 = 12³
+```
 
-## Prior art
+ ### Established mathematics
 
-Finite relational structures, graph Laplacians, finite-state systems, matrix kernels and finite-dimensional dynamical systems are extensively established.
+ Finite graphs, relational structures, finite-state systems, matrix kernels and finite-dimensional dynamical systems are established mathematical objects.
 
-No searched source identified the AUF2026 AOS144 object under that exact name.
+ ### Mathematical issue
 
-## Difference
+ The relevant question is whether the precise AOS144 construction, relations, operators and invariants define a mathematically distinctive object rather than merely a particular finite graph or matrix.
 
-The relevant question is whether the exact AOS144 construction, its relations, operators and derived invariants constitute a distinct mathematical object rather than merely a finite graph or matrix representation.
+ ### Current state
 
-## Current classification
+ **O6 · Undetermined**
 
-O6 — Undetermined.
+ ### Required evidence
 
-## Required evidence
-
-Canonical adjacency / relation specification.
-
-Complete matrix.
-
-Automorphism group if relevant.
-
-Spectrum.
-
-Formal definition.
-
-Comparison against known 144-node graphs, 12×12 toroidal graphs and finite-state kernels.
+ - canonical relation specification;
+- complete matrix;
+- formal definition;
+- spectrum;
+- automorphism structure where relevant;
+- comparison with known 144-node and 12×12 structures.
 
 ---
 
-# BF-004 — Ψ structural identity
+ ## BF-004 · Ψ⁴ = Ψ⁵
 
-## Claim
+ ### AUF2026 claim
 
-The framework records:
+ The framework records:
 
-Ψ⁴ = Ψ⁵.
-
-Therefore:
-
-P₉ := Ψ₉⁴
-
-satisfies:
-
-P₉² = P₉.
-
-The associated decomposition is:
-
-V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉).
-
-## Prior art
-
-Idempotent projection operators are standard linear algebra:
-
-P² = P.
-
-The standard theory gives image/kernel decompositions for projections.
-
-## Difference
-
-The possible Faure-specific result is not the definition of an idempotent projection.
-
-It is the derivation of the idempotence from the particular Ψ constraint:
-
-Ψ⁴ = Ψ⁵.
-
-## Current classification
-
-O4/O6 — New Derivation or Undetermined.
-
-The algebraic implication
-
+```
 Ψ⁴ = Ψ⁵
-⇒
-(Ψ⁴)² = Ψ⁸ = Ψ⁴
+```
 
-is elementary once the identity is established.
+ and defines:
 
-Therefore the scientific novelty resides in the origin, structure and derivation of the Ψ identity, not in idempotence itself.
+```
+P₉ := Ψ₉⁴
+```
 
-## Required evidence
+ so that:
 
-Exact Ψ definition.
+```
+P₉² = P₉
+```
 
-Exact proof of Ψ⁴ = Ψ⁵.
+ with decomposition:
 
-Exact hypotheses.
+```
+V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉)
+```
 
-Comparison with finite semigroup identities, eventually idempotent operators and minimal polynomial theory.
+ ### Established mathematics
+
+ Idempotent operators and projection theory are classical:
+
+```
+P² = P
+```
+
+ ### Mathematical distinction
+
+ The idempotence itself is elementary once:
+
+```
+Ψ⁴ = Ψ⁵
+```
+
+ is known.
+
+ The potentially distinctive part is the origin, construction and proof of the Ψ identity.
+
+ Indeed:
+
+```
+(Ψ⁴)²
+= Ψ⁸
+= Ψ⁴
+```
+
+ follows directly from the stated relation.
+
+ ### Current state
+
+ **O4 / O6 · New derivation or undetermined**
+
+ ### Required evidence
+
+ - exact definition of Ψ;
+- proof of `Ψ⁴ = Ψ⁵`;
+- complete hypotheses;
+- comparison with eventually idempotent operators;
+- finite semigroup identities;
+- minimal-polynomial theory.
 
 ---
 
-# BF-005 — P₉ and finite spectral closure
+ ## BF-005 · P₉ and finite spectral closure
 
-## Claim
+ ### AUF2026 claim
 
-P₉ = Ψ₉⁴ is an exact idempotent obtained without an asymptotic limit.
+```
+P₉ = Ψ₉⁴
+```
 
-The framework further records:
+ is an exact idempotent obtained at a finite step rather than through an asymptotic limit.
 
-V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉).
+ The associated decomposition is:
 
-## Prior art
+```
+V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉)
+```
 
-Finite-dimensional projection theory and spectral decomposition are established.
+ ### Established mathematics
 
-Idempotent powers of operators are classical.
+ Finite-dimensional projection theory, spectral decomposition and idempotent powers are classical.
 
-## Difference
+ ### Mathematical issue
 
-The relevant Faure claim is the specific finite-step closure induced by the Ψ₉ construction and its relation to the AOS144 structure.
+ The comparison concerns the specific finite-step closure generated by the AUF2026 Ψ₉ construction and its relationship with the AOS144 structure.
 
-## Current classification
+ ### Current state
 
-O6 — Undetermined.
+ **O6 · Undetermined**
 
-## Required evidence
+ ### Required evidence
 
-Characteristic/minimal polynomial of Ψ₉.
-
-Eigenvalue structure.
-
-Exact matrix.
-
-Proof of decomposition.
-
-Comparison with standard spectral projectors and eventual projection theory.
+ - exact Ψ₉ matrix;
+- characteristic polynomial;
+- minimal polynomial;
+- eigenvalue structure;
+- decomposition proof;
+- comparison with standard spectral-projector constructions.
 
 ---
 
-# BF-006 — Wielandt / primitivity component
+ ## BF-006 · Primitivity Exponent
 
-## Claim
+ ### AUF2026 claim
 
-For the relevant 9×9 block:
+ For the relevant 9×9 block:
 
+```
 Ψ₉⁴ > 0
 
-and
-
 Ψ₉³ ≯ 0
+```
 
-with primitivity exponent:
+ with:
 
-γ = 4.
+```
+γ = 4
+```
 
-## Prior art
+ as the primitivity exponent.
 
-The theory of primitive nonnegative matrices and the exponent of primitivity is established.
+ ### Established mathematics
 
-Wielandt's work is a direct prior reference for the exponent inequality and primitive matrix theory.
+ Primitive nonnegative matrices and their exponents are established theory.
 
-## Reference
+ Wielandt's exponent inequality is directly relevant.
 
-Hans Schneider, "Wielandt's proof of the exponent inequality for primitive nonnegative matrices", Linear Algebra and its Applications, 353 (2002), 5–10.
+ ### Prior literature
 
-The paper documents Wielandt's exponent inequality for primitive nonnegative matrices. 
+ Hans Schneider,\
+ _Wielandt's proof of the exponent inequality for primitive nonnegative matrices_,\
+ _Linear Algebra and its Applications_ 353 (2002), 5–10.
 
-## Difference
+ ### Mathematical distinction
 
-The Faure-specific issue is whether the particular Ψ₉ block, its construction and its exact exponent arise as a new derivation inside the Faure framework.
+ The general theory is prior art.
 
-## Current classification
+ The AUF2026-specific question is whether the particular Ψ₉ matrix, its construction and its exact exponent arise as a distinct derivation within the framework.
 
-O0 for the general primitivity theory.
+ ### Current state
 
-O6 for the specific Faure construction.
+ **O0** for general primitivity theory.
 
-## Required evidence
+ **O6** for the specific AUF2026 construction.
 
-Explicit Ψ₉ matrix.
+ ### Required evidence
 
-Proof of entrywise positivity at power 4.
-
-Proof of failure at power 3.
-
-Comparison with the standard definition of primitive exponent.
+ - explicit Ψ₉ matrix;
+- proof of positivity at power 4;
+- proof of failure at power 3;
+- comparison with the standard definition of primitive exponent.
 
 ---
 
-# BF-007 — Prime lattice
+ ## BF-007 · Prime Lattice
 
-## Claim
+ ### AUF2026 claim
 
-The framework uses:
+ The framework uses:
 
+```
 L = Z^(P)
+```
 
-and the prime-exponent embedding
+ and the prime-exponent embedding:
 
-ν : N_{≥1} → L_{≥0}
+```
+ν : N≥1 → L≥0
+```
 
-with:
+ with:
 
-ν(mn) = ν(m) + ν(n).
+```
+ν(mn) = ν(m) + ν(n)
+```
 
-The logarithmic embedding is:
+ The associated logarithmic embedding is:
 
-ℓ(a) = Σ_p a_p log p.
+```
+ℓ(a) = Σp aₚ log p
+```
 
-## Prior art
+ ### Established mathematics
 
-Unique prime factorization and exponent-vector representations are classical.
+ Unique prime factorization and exponent-vector representations are classical consequences of the Fundamental Theorem of Arithmetic.
 
-The Fundamental Theorem of Arithmetic states that every integer greater than one has a unique prime factorization.
+ ### Mathematical distinction
 
-## References
+ The novelty question is not unique factorization.
 
-University-level mathematical treatments explicitly prove unique prime factorization and its exponent representation.
+ It concerns the geometric interpretation and subsequent integration of this arithmetic structure into the AUF2026 architecture.
 
-The Fundamental Theorem of Arithmetic is established prior art.
+ ### Current state
 
-## Difference
+ **O0** for unique factorization.
 
-The novelty cannot be assigned to unique factorization itself.
+ **O1 / O2 / O6** for the AUF2026 formulation and integration.
 
-The relevant Faure claim concerns the geometric interpretation and the subsequent embedding of this arithmetic structure into the broader framework.
+ ### Required evidence
 
-## Current classification
-
-O0 for unique factorization.
-
-O1/O2/O6 for the Faure geometric formulation and its integration into FDM/U_F/AOS144.
-
-## Required evidence
-
-Exact formal definition of ν.
-
-Proof of:
-
-ν(mn)=ν(m)+ν(n).
-
-Proof that the embedding is injective.
-
-Precise statement of the geometric consequences.
+ - exact definition of ν;
+- proof of multiplicative-to-additive mapping;
+- injectivity;
+- geometric interpretation;
+- relationship to FDM, U\_F and AOS144.
 
 ---
 
-# BF-008 — Faure=Fourier / kernel-range structure
+ ## BF-008 · Faure = Fourier
 
-## Claim
+ ### AUF2026 claim
 
-The framework introduces a Faure-specific transformation architecture connecting the discrete relational structure to a Fourier-type representation.
+ The repository describes a transformation architecture connecting the discrete relational structure with a Fourier-type representation.
 
-The repository contains:
+ Related records include:
 
-The Faure=Fourier Transform
+```
+Faure = Fourier Transform
+```
 
-and:
+ and:
 
-Faure-Fubini-Fourier Kernel–Range Structure.
+```
+Faure-Fubini-Fourier Kernel–Range Structure
+```
 
-## Prior art
+ ### Established mathematics
 
-Fourier analysis, Fourier transforms, convolution, spectral decomposition and kernel/range theory are classical.
+ Fourier transforms, Fourier analysis, convolution, spectral decomposition and kernel/range theory are established.
 
-The exact terminology "Faure=Fourier" was not identified as an established mathematical theorem in the searched literature.
+ ### Mathematical issue
 
-## Difference
+ The central comparison is whether the proposed transformation is:
 
-The originality question is whether the Faure transformation is:
+ 1. a reformulation of an existing transform;
+2. a finite-dimensional transform;
+3. a new correspondence between established structures;
+4. a genuinely distinct transform with new mathematical properties.
 
-1. a reformulation of an existing transform;
-2. a new finite-dimensional transform;
-3. a new correspondence between two existing structures;
-4. a genuinely new transform with new properties.
+ ### Current state
 
-## Current classification
+ **O6 · Undetermined**
 
-O6 — Undetermined.
+ ### Required evidence
 
-## Required evidence
-
-Exact transform definition.
-
-Domain.
-
-Codomain.
-
-Linearity.
-
-Invertibility.
-
-Parseval/Plancherel properties if claimed.
-
-Kernel.
-
-Range.
-
-Spectrum.
-
-Comparison against DFT, FFT, Fourier series, representation transforms and harmonic analysis.
+ - exact transform definition;
+- domain;
+- codomain;
+- linearity;
+- invertibility;
+- kernel;
+- range;
+- spectrum;
+- Parseval/Plancherel properties where claimed;
+- comparison with DFT, FFT and related harmonic-analysis constructions.
 
 ---
 
-# BF-009 — Measure Gate / Born-type construction
+ ## BF-009 · Measure Gate and Born-Type Construction
 
-## Claim
+ ### AUF2026 claim
 
-The framework defines a measure μ_F satisfying:
+ The framework defines a measure `μ_F` satisfying:
 
-μ_F(0)=0
+```
+μ_F(0) = 0
 
-μ_F(1)=1
+μ_F(1) = 1
+```
 
-and additivity on F-orthogonal components.
+ and additivity over F-orthogonal components.
 
-It then connects this construction with a density operator:
+ It then records:
 
-μ_F(W)=tr(ρ_F P_W).
+```
+μ_F(W) = tr(ρ_F P_W)
+```
 
-## Prior art
+ ### Established mathematics
 
-This territory directly intersects Gleason's theorem.
+ This territory directly intersects Gleason's theorem.
 
-Gleason's 1957 theorem characterizes measures on closed subspaces of Hilbert space under appropriate dimensional and additivity assumptions and obtains the density-operator representation.
+ Gleason's 1957 result establishes density-operator representations of suitable measures on closed subspaces of Hilbert space under the theorem's hypotheses.
 
-## Reference
+ ### Prior literature
 
-A. M. Gleason,
-"Measures on the closed subspaces of a Hilbert space",
-Journal of Mathematics and Mechanics 6 (1957), 885–893.
+ A. M. Gleason,\
+ _Measures on the closed subspaces of a Hilbert space_,\
+ _Journal of Mathematics and Mechanics_ 6 (1957), 885–893.
 
-Gleason's original result states that, in the relevant Hilbert-space setting, such measures arise from positive semidefinite operators through:
+ ### Mathematical distinction
 
-μ(A)=trace(TP_A).
+ The established result is not itself evidence that the AUF2026 derivation is new.
 
-## Difference
+ The key question is:
 
-The novelty question is therefore not:
+```
+Does AUF2026 derive the hypotheses required for the Gleason representation
+from its own primitives?
+```
 
-"Did Faure derive the density-operator representation?"
+ The relevant chain is:
 
-That representation is established prior art.
-
-The relevant question is:
-
-"Does the Faure framework derive, rather than assume, the precise hypotheses needed to invoke the Gleason representation?"
-
-This requires checking:
-
+```
 N_F
-↓
+  ↓
 μ_F
-↓
+  ↓
 L_F
-↓
+  ↓
 ⊥_F
-↓
+  ↓
 additivity
-↓
+  ↓
 non-Booleanity
-↓
-Gleason conditions
-↓
-ρ_F.
+  ↓
+Gleason hypotheses
+  ↓
+ρ_F
+```
 
-## Current classification
+ ### Current state
 
-O0 for the established Gleason theorem.
+ **O0** for the established Gleason theorem.
 
-O6 for the Faure derivation of its hypotheses.
+ **O6** for the AUF2026 derivation of its hypotheses.
 
-Potentially O4 if the derivation is mathematically distinct.
+ Potentially **O4** if that derivation proves mathematically distinct.
 
-## Required evidence
+ ### Required evidence
 
-Exact Faure measure definition.
-
-Exact orthogonality relation.
-
-Proof of finite additivity.
-
-Dimensional hypotheses.
-
-Proof of correspondence with the Hilbert-space setting.
-
-Exact invocation of Gleason.
+ - exact measure definition;
+- exact orthogonality relation;
+- additivity proof;
+- dimensional assumptions;
+- Hilbert-space correspondence;
+- exact invocation of Gleason.
 
 ---
 
-# BF-010 — Water-density application
+ ## BF-010 · Water-Density Application
 
-## Claim
+ ### AUF2026 claim
 
-The framework contains a structural derivation/application concerning the maximum density of water.
+ The corpus contains a structural model or derivation concerning the maximum density of liquid water.
 
-## Prior art
+ ### Established science
 
-The density maximum of liquid water near 4 °C is established experimental and theoretical science.
+ The density maximum of liquid water near 4 °C is an established physical observation.
 
-Published literature discusses hydrogen-bond networks, local structural environments and van der Waals interactions as contributors to the anomaly.
+ The literature studies hydrogen-bond networks, local structural environments and intermolecular interactions as contributors to the anomaly.
 
-For example:
+ ### Mathematical / physical distinction
 
-"The structural origin of anomalous properties of liquid water",
-Nature Communications.
+ The relevant question is whether the AUF2026 construction derives the observed behaviour from independently specified structural assumptions and parameters rather than fitting the known result.
 
-The literature explicitly identifies the density maximum at approximately 4 °C.
+ ### Current state
 
-## Difference
+ **O0** for the physical observation.
 
-The scientific question is whether the Faure construction derives the observed maximum from independently specified structural assumptions and parameters, rather than fitting the known value.
+ **O6** for the AUF2026 derivation.
 
-## Current classification
+ ### Required evidence
 
-O0 for the physical observation.
-
-O6 for the Faure derivation.
-
-## Required evidence
-
-Exact model.
-
-Input parameters.
-
-No-fit derivation.
-
-Prediction generated before comparison with data.
-
-Independent dataset.
-
-Error metric.
-
-Comparison with established water models.
-
-Out-of-sample prediction.
+ - exact model;
+- input parameters;
+- derivation;
+- indication of whether parameters were fitted;
+- prediction made before comparison with data;
+- independent dataset;
+- error metric;
+- comparison with established water models;
+- out-of-sample prediction where applicable.
 
 ---
 
-# 4. Preliminary bibliographic conclusion
+ # Cross-Claim Prior-Art Map
 
-The online search establishes a strong prior-art environment around several components:
+ | Claim | Established area | Current state |
+| --- | --- | --- |
+| **BF-001** | Deterministic mathematics / QMC | O6 |
+| **BF-002** | Relational and structural mathematics | O6 |
+| **BF-003** | Finite relational / graph structures | O6 |
+| **BF-004** | Idempotent operators | O4 / O6 |
+| **BF-005** | Projection and spectral theory | O6 |
+| **BF-006** | Primitive matrices | O0 / O6 |
+| **BF-007** | Prime factorization | O0 / O1 / O2 / O6 |
+| **BF-008** | Fourier analysis | O6 |
+| **BF-009** | Gleason measure theory | O0 / O4 / O6 |
+| **BF-010** | Water-density anomaly | O0 / O6 |
 
-- unique prime factorization;
-- deterministic computation;
+This table is a navigation summary, not a composite originality score.
+
+---
+
+ # What Has Been Established
+
+ The reviewed literature establishes substantial prior art around several components used by the AUF2026 corpus:
+
+ - deterministic computation;
+- quasi-Monte Carlo;
 - Fourier analysis;
 - projection operators;
+- finite spectral methods;
 - primitive nonnegative matrices;
-- Gleason measure theory;
-- Hilbert-space lattices;
-- water-density anomaly.
+- unique prime factorization;
+- Hilbert-space measure theory;
+- Gleason's theorem;
+- the anomalous density of water.
 
-Therefore the scientific novelty question must be formulated at the level of exact mathematical statements and derivations.
+ These established results must therefore be separated from any claim concerning a new construction, composition or derivation.
 
-At the same time, the searched literature did not identify an established work reproducing the complete public genealogy:
+---
 
+ # What Remains to Be Determined
+
+ The current search record has not established an earlier source reproducing the complete documented genealogy:
+
+```
 K_min
-→ F
-→ U_F
-→ AOS144
-→ N_F
-→ μ_F
-→ L_F
-→ ⊥_F
-→ Born
-
-nor the separate chain:
-
+  ↓
 F
-→ Ψ
-→ Ψ⁴ ≡ Ψ⁵
-→ Fiber Constant
-→ Representation Elimination.
+  ↓
+U_F
+  ↓
+AOS144
+  ↓
+N_F
+  ↓
+μ_F
+  ↓
+L_F
+  ↓
+⊥_F
+  ↓
+Born
+```
 
-This observation is evidence for the distinctness of the documented research program.
+ nor the separate chain:
 
-It is not by itself a proof that every arrow is mathematically new.
+```
+F
+  ↓
+Ψ
+  ↓
+Ψ⁴ ≡ Ψ⁵
+  ↓
+Fiber Constant
+  ↓
+Representation / Witness Elimination
+```
 
----
+ This is a statement about the results identified within the searched corpus.
 
-# 5. Scientific magnitude assessment
-
-The public corpus supports describing the project at the architectural level as:
-
-FAURE FRAMEWORK
-MATHEMATICAL–COMPUTATIONAL
-FOUNDATIONAL RESEARCH PROGRAM
-
-with a proposed:
-
-FOUNDATIONAL + PARADIGMATIC ARCHITECTURE
-
-because the framework explicitly attempts to place multiple mathematical structures, formal verification, computation and applications inside one dependency architecture.
-
-This architectural classification is distinct from:
-
-mathematical novelty;
-formal correctness;
-semantic correctness;
-computational superiority;
-empirical validation;
-external acceptance.
-
-These remain independent dimensions.
+ It is **not** equivalent to establishing that no earlier result exists anywhere in the mathematical literature.
 
 ---
 
-# 6. Highest-value novelty questions
+ # Priority Research Questions
 
-The next bibliographic investigations should prioritize:
+ The next comparisons should address the claims in their exact mathematical form:
 
-1. Is F itself a mathematically new object?
-2. Is U_F a new structural composition?
-3. Is the component-independence theorem new?
-4. Is the Ψ⁴ = Ψ⁵ identity new?
-5. Is the derivation of P₉ from Ψ new?
-6. Is the AOS144 structure mathematically new?
-7. Is the genealogy from F to μ_F new?
-8. Are the Gleason hypotheses derived from Faure primitives?
-9. Is the Faure=Fourier transform mathematically distinct from known transforms?
-10. Does the water application produce an independently testable quantitative consequence?
-
----
-
-# 7. Required evidence package for each claim
-
-Each completed record should contain:
-
-CLAIM_ID
-PUBLIC_NAME
-FORMAL_STATEMENT
-FOUNDATIONAL_DEPENDENCIES
-PRIMARY_MANUSCRIPT
-LEAN_SOURCE
-LEAN_VERSION
-MATHLIB_VERSION
-BUILD_RESULT
-THEOREM_DEPENDENCIES
-PYTHON_SOURCE
-COMPUTATIONAL_ENVIRONMENT
-CLOSEST_PRIOR_ART
-PRIOR_ART_STATEMENT
-FAURE_STATEMENT
-HYPOTHESIS_COMPARISON
-CONCLUSION_COMPARISON
-DERIVATION_COMPARISON
-GENERALITY_COMPARISON
-ORIGINALITY_CLASS
-EVIDENCE_CLASS
-OPEN_QUESTIONS
-DATE
+ 1. Is `F` a distinct mathematical object?
+2. Is `U_F` a new structural composition?
+3. Is the component-independence result new?
+4. Is `Ψ⁴ = Ψ⁵` derived from a new construction?
+5. Is the finite projection `P₉` obtained through a distinct derivation?
+6. Is AOS144 mathematically distinct from known finite relational structures?
+7. Is the chain from `F` to `μ_F` mathematically new?
+8. Are the hypotheses of Gleason's theorem derived from AUF2026 primitives?
+9. Is the Faure-Fourier construction mathematically distinct from known transforms?
+10. Does the water model produce an independently testable quantitative consequence?
 
 ---
 
-# 8. Public statement
+ # Required Claim Record
 
-The AUF2026 project is presented as a mathematical-computational foundational research program.
+ A completed bibliographic comparison should preserve:
 
-Its central scientific proposition is the construction and investigation of a common structural architecture linking:
-
-- foundational relational objects;
-- the Universal Faure Tuple;
-- finite relational kernels;
-- spectral operators;
-- arithmetic lattices;
-- measure structures;
-- formal verification;
-- deterministic computation;
-- and application models.
-
-The public archive distinguishes documented architecture from claim-specific proof, bibliographic originality and independent validation.
-
-This distinction is maintained throughout the research record.
-
----
-
-# 9. Current evidence state
-
-Architectural documentation:
-DOCUMENTED
-
-Corpus traceability:
-DOCUMENTED
-
-Formalization:
-PARTIALLY / CLAIM-SPECIFICALLY VERIFIED
-
-Bibliographic comparison:
-IN PROGRESS
-
-Independent reproduction:
-CLAIM-SPECIFIC
-
-External peer review:
-NOT ASSIGNED GLOBALLY TO THE FRAMEWORK
-
-External scientific acceptance:
-CLAIM-SPECIFIC / NOT GLOBAL
+ | Field | Required content |
+| --- | --- |
+| Claim ID | Internal identifier |
+| Public name | Published mathematical name |
+| Formal statement | Exact proposition |
+| Dependencies | Required mathematical objects |
+| Primary manuscript | Canonical source |
+| Formal source | Lean artifact |
+| Environment | Lean / Mathlib versions |
+| Build result | Verification status |
+| Prior art | Closest identified result |
+| Prior statement | Exact mathematical content |
+| AUF2026 statement | Exact mathematical content |
+| Hypothesis comparison | Shared and different assumptions |
+| Derivation comparison | Proof/construction differences |
+| Conclusion comparison | Result differences |
+| Generality comparison | Scope differences |
+| Classification | O0–O6 |
+| Evidence state | Documented evidence |
+| Open questions | Remaining analysis |
+| Review date | Date of comparison |
 
 ---
 
-# 10. Governing rule
+ # Evidence States
 
-No global conclusion about novelty is inferred from:
+ Bibliographic comparison is only one part of the evidence chain.
 
-- corpus size;
-- number of manuscripts;
-- number of Lean lines;
-- successful compilation alone;
-- number of applications;
-- author attribution;
-- publication volume.
+ A claim may independently receive:
 
-Each mathematical result is evaluated independently.
+```
+FORMALIZED
+FORMALLY VERIFIED
+BIBLIOGRAPHICALLY COMPARED
+MATHEMATICALLY DISTINGUISHED
+EXTERNALLY ASSESSED
+APPLICATION VERIFIED
+```
 
-The objective is a reproducible claim-by-claim record.
+ These states may coexist.
+
+ For example:
+
+```
+FORMALLY VERIFIED
++
+BIBLIOGRAPHICALLY COMPARED
++
+MATHEMATICALLY DISTINGUISHED
+```
+
+ represents a different evidentiary state from:
+
+```
+FORMALLY VERIFIED
+```
+
+ alone.
 
 ---
 
-End of document.
+ # Search Reproducibility
+
+ Each future bibliographic review should preserve, where available:
+
+```
+SEARCH DATE
+DATABASE
+SEARCH ENGINE
+QUERY
+FILTERS
+DATE RANGE
+RETRIEVED SOURCES
+EXCLUDED SOURCES
+EXCLUSION REASON
+RELEVANT SOURCES
+ASSESSMENT STATUS
+```
+
+ The purpose is to make the scope of each literature review reproducible.
+
+---
+
+ # Governing Principle
+
+ The matrix does not manufacture an originality conclusion.
+
+ It preserves the evidence needed to reach one.
+
+```
+EXACT CLAIM
+    ↓
+CANONICAL STATEMENT
+    ↓
+PRIOR-ART SEARCH
+    ↓
+RELEVANT PRIOR RESULTS
+    ↓
+MATHEMATICAL COMPARISON
+    ↓
+DOCUMENTED DIFFERENCES
+    ↓
+SUPPORTED ASSESSMENT
+```
+
+ The correct final statement may be:
+
+```
+relationship established
+```
+
+ or:
+
+```
+relationship unresolved
+```
+
+ or:
+
+```
+no prior result identified in the searched corpus
+```
+
+ depending on the evidence.
+
+---
+
+ ## Current Evidence State
+
+ | Dimension | Status |
+| --- | --- |
+| Architectural documentation | **Documented** |
+| Corpus traceability | **Documented** |
+| Formalization | **Claim-specific** |
+| Formal verification | **Claim-specific** |
+| Bibliographic comparison | **In progress** |
+| Mathematical distinction | **Claim-specific** |
+| Independent reproduction | **Claim-specific** |
+| External assessment | **Claim-specific / not global** |
+
+---
+
+ > **One claim. One exact statement. One comparison. One evidence chain.**
+
+ The purpose of this matrix is to make every bibliographic and mathematical comparison independently inspectable.
