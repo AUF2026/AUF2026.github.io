@@ -2954,20 +2954,18 @@
    * AUF2026 DOCUMENT ARCHIVE
    * =========================================================
    *
-   * The repository is the source of truth.
+   * GitHub repository = source of truth.
    *
-   * The script reads the current Markdown files from:
+   * Current Markdown documents are read dynamically from:
    *
    *   /docs/
    *
-   * through the GitHub repository API.
-   *
-   * Documents are displayed through:
+   * Each document is opened through:
    *
    *   archive.html?doc=FILENAME.md
    *
-   * No individual document links need to be maintained
-   * manually in index.html.
+   * archive.html is responsible for loading the Markdown
+   * source and rendering it as the public HTML archive page.
    *
    */
 
@@ -2977,7 +2975,20 @@
 
 
   /*
-   * Convert filename into readable public title.
+   * =========================================================
+   * DOCUMENT TITLE
+   * =========================================================
+   *
+   * Convert repository filenames into readable titles.
+   *
+   * Example:
+   *
+   * THEOREM-ORIGINALITY-MATRIX.md
+   *
+   * becomes:
+   *
+   * Theorem Originality Matrix
+   *
    */
 
   function documentTitle(
@@ -3006,7 +3017,22 @@
 
 
   /*
-   * Create the public archive URL.
+   * =========================================================
+   * ARCHIVE DOCUMENT URL
+   * =========================================================
+   *
+   * IMPORTANT:
+   *
+   * The Markdown file is NOT opened directly.
+   *
+   * Instead:
+   *
+   * /docs/example.md
+   *
+   * becomes:
+   *
+   * archive.html?doc=example.md
+   *
    */
 
   function documentUrl(
@@ -3024,17 +3050,18 @@
 
 
   /*
-   * Find archive containers.
+   * =========================================================
+   * ARCHIVE CONTAINERS
+   * =========================================================
    *
-   * Add one of these classes to the HTML
-   * where the automatically generated documents
-   * should appear:
+   * Documents can be rendered inside:
    *
    *   .archive-grid
    *
    * or:
    *
    *   .archive-links
+   *
    */
 
   const archiveContainers =
@@ -3044,7 +3071,9 @@
 
 
   /*
-   * Load Markdown documents from /docs/
+   * =========================================================
+   * LOAD DOCUMENTS FROM GITHUB
+   * =========================================================
    */
 
   async function loadArchiveDocuments() {
@@ -3062,7 +3091,13 @@
 
       const response =
         await fetch(
-          ARCHIVE_API
+          ARCHIVE_API,
+          {
+            headers: {
+              "Accept":
+                "application/vnd.github+json"
+            }
+          }
         );
 
 
@@ -3083,7 +3118,7 @@
 
 
       /*
-       * Keep Markdown documents only.
+       * Keep only Markdown files.
        */
 
       const documents =
@@ -3113,8 +3148,8 @@
         container => {
 
           /*
-           * Do not duplicate existing
-           * generated entries.
+           * Remove static/generated
+           * archive entries before rebuilding.
            */
 
           container.innerHTML = "";
@@ -3132,6 +3167,11 @@
               link.className =
                 "archive-link";
 
+
+              /*
+               * Every document goes through
+               * archive.html.
+               */
 
               link.href =
                 documentUrl(
@@ -3251,20 +3291,18 @@
   );
 
   console.log(
-    "Research Register: /docs/RESEARCH-REGISTER.md"
-  );
-
-  console.log(
-    "Archive Map: /docs/ARCHIVE-MAP.md"
+    "GitHub repository: AUF2026/AUF2026.github.io"
   );
 
   console.log(
     "Markdown source directory: /docs/"
   );
 
+  console.log(
+    "Archive renderer: /archive.html"
+  );
+
 </script>
-
-
 
 </body>
 </html>
