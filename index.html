@@ -2900,7 +2900,9 @@
 <script>
 
   /*
-   * Mobile navigation
+   * =========================================================
+   * MOBILE NAVIGATION
+   * =========================================================
    */
 
   const menuButton =
@@ -2910,41 +2912,334 @@
     document.getElementById("navLinks");
 
 
-  menuButton.addEventListener(
-    "click",
-    () => {
+  if (menuButton && navLinks) {
 
-      navLinks.classList.toggle("open");
+    menuButton.addEventListener(
+      "click",
+      () => {
 
-    }
-  );
-
-
-  /*
-   * Close mobile navigation
-   * after selecting a link.
-   */
-
-  document
-    .querySelectorAll("#navLinks a")
-    .forEach(
-      link => {
-
-        link.addEventListener(
-          "click",
-          () => {
-
-            navLinks.classList.remove("open");
-
-          }
-        );
+        navLinks.classList.toggle("open");
 
       }
     );
 
 
+    /*
+     * Close mobile navigation
+     * after selecting a link.
+     */
+
+    document
+      .querySelectorAll("#navLinks a")
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              navLinks.classList.remove("open");
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
   /*
-   * Console identity
+   * =========================================================
+   * AUF2026 DOCUMENT ARCHIVE
+   * =========================================================
+   *
+   * The repository is the source of truth.
+   *
+   * The script reads the current Markdown files from:
+   *
+   *   /docs/
+   *
+   * through the GitHub repository API.
+   *
+   * Documents are displayed through:
+   *
+   *   archive.html?doc=FILENAME.md
+   *
+   * No individual document links need to be maintained
+   * manually in index.html.
+   *
+   */
+
+
+  const ARCHIVE_API =
+    "https://api.github.com/repos/AUF2026/AUF2026.github.io/contents/docs";
+
+
+  /*
+   * Convert filename into readable public title.
+   */
+
+  function documentTitle(
+    filename
+  ) {
+
+    return filename
+
+      .replace(
+        /\.md$/i,
+        ""
+      )
+
+      .replace(
+        /[-_]+/g,
+        " "
+      )
+
+      .replace(
+        /\b\w/g,
+        character =>
+          character.toUpperCase()
+      );
+
+  }
+
+
+  /*
+   * Create the public archive URL.
+   */
+
+  function documentUrl(
+    filename
+  ) {
+
+    return (
+      "archive.html?doc=" +
+      encodeURIComponent(
+        filename
+      )
+    );
+
+  }
+
+
+  /*
+   * Find archive containers.
+   *
+   * Add one of these classes to the HTML
+   * where the automatically generated documents
+   * should appear:
+   *
+   *   .archive-grid
+   *
+   * or:
+   *
+   *   .archive-links
+   */
+
+  const archiveContainers =
+    document.querySelectorAll(
+      ".archive-grid, .archive-links"
+    );
+
+
+  /*
+   * Load Markdown documents from /docs/
+   */
+
+  async function loadArchiveDocuments() {
+
+    if (
+      !archiveContainers.length
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+          ARCHIVE_API
+        );
+
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "GitHub API returned HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const files =
+        await response.json();
+
+
+      /*
+       * Keep Markdown documents only.
+       */
+
+      const documents =
+        files
+
+          .filter(
+            file =>
+              file.type === "file" &&
+              /\.md$/i.test(
+                file.name
+              )
+          )
+
+          .sort(
+            (a, b) =>
+              a.name.localeCompare(
+                b.name
+              )
+          );
+
+
+      /*
+       * Generate archive entries.
+       */
+
+      archiveContainers.forEach(
+        container => {
+
+          /*
+           * Do not duplicate existing
+           * generated entries.
+           */
+
+          container.innerHTML = "";
+
+
+          documents.forEach(
+            file => {
+
+              const link =
+                document.createElement(
+                  "a"
+                );
+
+
+              link.className =
+                "archive-link";
+
+
+              link.href =
+                documentUrl(
+                  file.name
+                );
+
+
+              const strong =
+                document.createElement(
+                  "strong"
+                );
+
+
+              strong.textContent =
+                documentTitle(
+                  file.name
+                );
+
+
+              const span =
+                document.createElement(
+                  "span"
+                );
+
+
+              span.textContent =
+                "AUF2026 Research Document";
+
+
+              link.appendChild(
+                strong
+              );
+
+
+              link.appendChild(
+                span
+              );
+
+
+              container.appendChild(
+                link
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+      console.log(
+        "AUF2026 — " +
+        documents.length +
+        " Markdown documents loaded."
+      );
+
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        "AUF2026 archive loading error:",
+        error
+      );
+
+
+      archiveContainers.forEach(
+        container => {
+
+          container.innerHTML = `
+
+            <div class="archive-error">
+
+              <strong>
+                Research archive unavailable.
+              </strong>
+
+              <p>
+                The AUF2026 document index could not
+                be loaded from the repository.
+              </p>
+
+            </div>
+
+          `;
+
+        }
+      );
+
+    }
+
+  }
+
+
+  /*
+   * =========================================================
+   * INITIALIZE
+   * =========================================================
+   */
+
+  loadArchiveDocuments();
+
+
+  /*
+   * =========================================================
+   * CONSOLE IDENTITY
+   * =========================================================
    */
 
   console.log(
@@ -2963,7 +3258,12 @@
     "Archive Map: /docs/ARCHIVE-MAP.md"
   );
 
+  console.log(
+    "Markdown source directory: /docs/"
+  );
+
 </script>
+
 
 
 </body>
