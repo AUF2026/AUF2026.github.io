@@ -3103,30 +3103,7 @@
       surname matching alone.
     </p>
 
-    <div class="scope-links">
-
-      <a
-        href="docs/AUTHOR-IDENTITY.md"
-        class="archive-link"
-      >
-        Author Identity Record →
-      </a>
-
-      <a
-        href="docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md"
-        class="archive-link"
-      >
-        Bibliographic Novelty Matrix →
-      </a>
-
-      <a
-        href="docs/SOURCE-MANIFEST.md"
-        class="archive-link"
-      >
-        Source Manifest →
-      </a>
-
-    </div>
+    <div class="scope-links" id="authorRegistryLinks"></div>
 
   </div>
 
@@ -3420,6 +3397,60 @@ if (theoremRegistry) {
         theorem.title + " →";
 
       theoremRegistry.appendChild(
+        link
+      );
+
+    }
+  );
+
+}
+
+  /*
+ * =========================================================
+ * AUTHOR REGISTRY
+ * =========================================================
+ */
+
+const authorRegistry =
+  document.getElementById(
+    "authorRegistryLinks"
+  );
+
+const authorDocuments = [
+  {
+    file: "AUTHOR-IDENTITY.md",
+    title: "Author Identity Record"
+  },
+  {
+    file: "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    title: "Bibliographic Novelty Matrix"
+  },
+  {
+    file: "SOURCE-MANIFEST.md",
+    title: "Source Manifest"
+  }
+];
+
+if (authorRegistry) {
+
+  authorDocuments.forEach(
+    author => {
+
+      const link =
+        document.createElement("a");
+
+      link.className =
+        "archive-link";
+
+      link.href =
+        documentUrl(
+          author.file
+        );
+
+      link.textContent =
+        author.title + " →";
+
+      authorRegistry.appendChild(
         link
       );
 
