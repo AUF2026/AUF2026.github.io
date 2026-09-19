@@ -1,132 +1,108 @@
-AUF2026 Research Register
+# AUF2026 — Research Register
 
-Archive: AUF2026
-Author: Alain Faure
-Repository: AUF2026.github.io
-Status: Living research archive
+**Archive:** AUF2026
+**Author:** Alain Faure
+**Repository:** `AUF2026.github.io`
+**Status:** Living Research Archive
 
-1. Purpose
+## 1. Purpose
 
-This register provides the central index of research objects contained in the AUF2026 archive.
+This register is the central index of research objects in the AUF2026 archive.
 
-Every major claim, manuscript, formal theorem, computational artifact and validation record should eventually receive a stable identifier.
+Each substantive object receives a stable identifier and may be linked to its source, evidence, dependencies, and related objects.
 
-2. Identifier scheme
-Research claims
-CLM-0001
-CLM-0002
-CLM-0003
+## 2. Identifier Scheme
 
-Theorems
-THM-0001
-THM-0002
-THM-0003
+| Object type | Identifier |
+|---|---|
+| Claim | `CLM-0001` |
+| Theorem | `THM-0001` |
+| Manuscript | `PAP-0001` |
+| Formal proof | `PRF-0001` |
+| Experiment | `EXP-0001` |
+| Validation | `VAL-0001` |
+| Application | `APP-0001` |
 
-Manuscripts
-PAP-0001
-PAP-0002
-PAP-0003
+Identifiers are permanent archival references.
 
-Formal proofs
-PRF-0001
-PRF-0002
-PRF-0003
+## 3. Evidence States
 
-Computational experiments
-EXP-0001
-EXP-0002
-EXP-0003
+| State | Meaning |
+|---|---|
+| `DOCUMENTED` | Object is recorded in an archived source |
+| `FORMALLY_VERIFIED` | Corresponding formal proof has been verified |
+| `COMPUTATIONALLY_REPRODUCED` | Computational result has been reproduced |
+| `INDEPENDENTLY_REPRODUCED` | Reproduction was performed independently |
+| `PEER_REVIEWED` | Documented peer-reviewed assessment exists |
+| `OPEN_REVIEW` | Public review process is active |
 
-Validation records
-VAL-0001
-VAL-0002
-VAL-0003
+An object may have more than one evidence state.
 
-Applications
-APP-0001
-APP-0002
-APP-0003
+Evidence states are assigned only when the corresponding evidence is recorded.
 
-3. Evidence states
+## 4. Research Object Registry
 
-Each object receives an evidence state only when the corresponding evidence exists.
+| ID | Type | Title | Source | Evidence | Related Objects |
+|---|---|---|---|---|---|
+| — | — | To be populated | — | — | — |
 
-State	Meaning
-DOCUMENTED	Present in an archived source
-FORMALLY_VERIFIED	Formal proof artifact exists
-COMPUTATIONALLY_REPRODUCED	Independent reproduction record exists
-INDEPENDENTLY_REPRODUCED	Independent evaluator reproduced the result
-PEER_REVIEWED	Published peer-reviewed assessment exists
-OPEN_REVIEW	Public review process is active
+## 5. Object Relationships
 
-Multiple states may apply to the same object.
+The archive supports the following relationship model:
 
-4. Research object registry
-ID	Type	Title	Source	Evidence	Related objects
-—	—	To be populated	—	—	—
-5. Dependency graph
+```text
+PAP-ID
+  ├── CLM-ID
+  ├── THM-ID
+  ├── PRF-ID
+  ├── CODE-ID
+  ├── DATA-ID
+  ├── EXP-ID
+  ├── VAL-ID
+  ├── BIB-ID
+  └── APP-ID
+````
 
-The intended relationship is:
+ Relationships are recorded only when supported by source evidence.
 
-MANUSCRIPT
-    |
-    +---- CLAIM
-    |
-    +---- THEOREM
-    |
-    +---- FORMAL PROOF
-    |
-    +---- CODE
-    |
-    +---- DATASET
-    |
-    +---- EXPERIMENT
-    |
-    +---- VALIDATION
-    |
-    +---- BIBLIOGRAPHY
-    |
-    +---- APPLICATION
+ ## 6\. Change Control
 
+ Historical records are preserved.
 
-Each relationship should eventually be represented by an explicit identifier.
+ When an existing record requires correction:
 
-6. Change control
+```
+ORIGINAL RECORD
+      ↓
+CORRECTION
+      ↓
+AFFECTED OBJECT
+      ↓
+DATE / VERSION
+```
 
-Historical documents are not silently rewritten.
+ Corrections must not silently erase the historical record.
 
-When an error or ambiguity is identified:
+ ## 7\. Registry Rule
 
-preserve the original;
+ The register distinguishes the existence of an object from the evidence supporting it.
 
-create a correction record;
+ In particular:
 
-identify the affected object;
+```
+DOCUMENTED
+    ≠
+FORMALLY_VERIFIED
+    ≠
+COMPUTATIONALLY_REPRODUCED
+    ≠
+INDEPENDENTLY_REPRODUCED
+    ≠
+PEER_REVIEWED
+```
 
-explain the modification;
+ Each status must therefore be supported by its own evidence record.
 
-preserve the date and version.
+```
 
-7. Research principle
-
-The archive distinguishes:
-
-what was written
-
-from
-
-what was formally proved
-
-from
-
-what was computationally reproduced
-
-from
-
-what was independently validated
-
-from
-
-what has received external scientific assessment.
-
-These categories are not interchangeable.
+```
