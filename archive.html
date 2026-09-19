@@ -20,13 +20,154 @@
   <style>
 
     /* =========================================================
+       AUF2026 ARCHIVE
+       Theme follows the visual language of index.html.
+       ========================================================= */
+
+    :root {
+
+      --archive-bg: #070a0f;
+      --archive-bg2: #0d121a;
+
+      --archive-panel: #121923;
+      --archive-panel2: #18212d;
+
+      --archive-text: #f2f6fb;
+      --archive-muted: #9ba8b7;
+
+      --archive-green: #63e6be;
+      --archive-blue: #6ea8ff;
+      --archive-gold: #e6c76a;
+      --archive-red: #ff7b7b;
+
+      --archive-border:
+        rgba(255,255,255,.10);
+
+      --archive-border-soft:
+        rgba(255,255,255,.075);
+
+      --archive-shadow:
+        0 20px 60px rgba(0,0,0,.35);
+
+      --archive-code:
+        #05070a;
+
+      --archive-radius:
+        15px;
+
+    }
+
+
+    /* =========================================================
+       LIGHT THEME
+       ========================================================= */
+
+    html[data-theme="light"] {
+
+      --archive-bg: #f4f6f8;
+      --archive-bg2: #e9edf2;
+
+      --archive-panel: #ffffff;
+      --archive-panel2: #f1f4f7;
+
+      --archive-text: #111820;
+      --archive-muted: #5f6b78;
+
+      --archive-green: #087f65;
+      --archive-blue: #2868c7;
+      --archive-gold: #9a7610;
+      --archive-red: #c43f3f;
+
+      --archive-border:
+        rgba(17,24,32,.12);
+
+      --archive-border-soft:
+        rgba(17,24,32,.085);
+
+      --archive-shadow:
+        0 20px 60px rgba(15,23,42,.10);
+
+      --archive-code:
+        #e7ebef;
+
+    }
+
+
+    /* =========================================================
+       PAGE
+       ========================================================= */
+
+    html {
+      background:
+        var(--archive-bg);
+
+      color:
+        var(--archive-text);
+
+      transition:
+        background .25s ease,
+        color .25s ease;
+    }
+
+
+    body {
+
+      min-height: 100vh;
+
+      margin: 0;
+
+      background:
+
+        radial-gradient(
+          circle at 80% 10%,
+          color-mix(
+            in srgb,
+            var(--archive-blue) 10%,
+            transparent
+          ),
+          transparent 35%
+        ),
+
+        radial-gradient(
+          circle at 10% 40%,
+          color-mix(
+            in srgb,
+            var(--archive-green) 6%,
+            transparent
+          ),
+          transparent 30%
+        ),
+
+        var(--archive-bg);
+
+      color:
+        var(--archive-text);
+
+      transition:
+        background .25s ease,
+        color .25s ease;
+
+    }
+
+
+    /* =========================================================
        ARCHIVE PAGE
        ========================================================= */
 
     .archive-page {
-      width: min(940px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 42px 0 90px;
+
+      width:
+        min(
+          940px,
+          calc(100% - 32px)
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        42px 0 90px;
+
     }
 
 
@@ -35,76 +176,304 @@
        ========================================================= */
 
     .archive-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 32px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        16px;
+
+      margin-bottom:
+        32px;
+
     }
 
 
+    .archive-top-actions {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+
+    }
+
+
+    /* =========================================================
+       BACK BUTTON
+       ========================================================= */
+
     .archive-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
 
-      appearance: none;
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 10px;
+      display:
+        inline-flex;
 
-      padding: 9px 15px;
+      align-items:
+        center;
+
+      gap:
+        9px;
+
+      appearance:
+        none;
+
+      border:
+        1px solid
+        var(--archive-border);
+
+      border-radius:
+        9px;
+
+      padding:
+        9px 15px;
 
       background:
-        rgba(255,255,255,.045);
+        color-mix(
+          in srgb,
+          var(--archive-panel) 88%,
+          transparent
+        );
 
-      color: inherit;
+      color:
+        var(--archive-text);
 
-      font: inherit;
-      font-size: .78rem;
-      font-weight: 600;
+      font:
+        inherit;
 
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      font-size:
+        .78rem;
 
-      cursor: pointer;
+      font-weight:
+        650;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+
+      cursor:
+        pointer;
 
       transition:
+
         background .2s ease,
+
         border-color .2s ease,
+
+        color .2s ease,
+
         transform .2s ease;
+
     }
 
 
     .archive-back:hover {
+
       background:
-        rgba(255,255,255,.09);
+        color-mix(
+          in srgb,
+          var(--archive-green) 8%,
+          var(--archive-panel)
+        );
 
       border-color:
-        rgba(255,255,255,.18);
+        color-mix(
+          in srgb,
+          var(--archive-green) 38%,
+          var(--archive-border)
+        );
+
+      color:
+        var(--archive-text);
 
       transform:
         translateX(-2px);
+
     }
 
 
     .archive-back:active {
+
       transform:
         translateX(-1px);
+
     }
 
 
     .archive-back-arrow {
-      font-size: 1rem;
-      line-height: 1;
-      opacity: .8;
+
+      font-size:
+        1rem;
+
+      line-height:
+        1;
+
+      opacity:
+        .82;
+
     }
 
 
+    /* =========================================================
+       THEME TOGGLE
+       ========================================================= */
+
+    .archive-theme-toggle {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      appearance:
+        none;
+
+      border:
+        1px solid
+        var(--archive-border);
+
+      border-radius:
+        9px;
+
+      padding:
+        9px 13px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-panel) 88%,
+          transparent
+        );
+
+      color:
+        var(--archive-text);
+
+      font:
+        inherit;
+
+      font-size:
+        .72rem;
+
+      font-weight:
+        650;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+
+      cursor:
+        pointer;
+
+      transition:
+
+        background .2s ease,
+
+        border-color .2s ease,
+
+        color .2s ease,
+
+        transform .2s ease;
+
+    }
+
+
+    .archive-theme-toggle:hover {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-blue) 8%,
+          var(--archive-panel)
+        );
+
+      border-color:
+        color-mix(
+          in srgb,
+          var(--archive-blue) 35%,
+          var(--archive-border)
+        );
+
+      transform:
+        translateY(-1px);
+
+    }
+
+
+    .archive-theme-icon {
+
+      width:
+        15px;
+
+      height:
+        15px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      font-size:
+        .85rem;
+
+      line-height:
+        1;
+
+    }
+
+
+    .archive-theme-label {
+
+      min-width:
+        40px;
+
+      text-align:
+        left;
+
+    }
+
+
+    /* =========================================================
+       TOP LABEL
+       ========================================================= */
+
     .archive-top-label {
-      font-size: .72rem;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      opacity: .42;
+
+      font-size:
+        .72rem;
+
+      letter-spacing:
+        .13em;
+
+      text-transform:
+        uppercase;
+
+      color:
+        var(--archive-muted);
+
+      opacity:
+        .62;
+
     }
 
 
@@ -113,39 +482,76 @@
        ========================================================= */
 
     .archive-header {
-      margin-bottom: 30px;
+
+      margin-bottom:
+        30px;
+
     }
 
 
     .archive-kicker {
-      margin-bottom: 10px;
 
-      font-size: .72rem;
-      font-weight: 600;
+      margin-bottom:
+        10px;
 
-      letter-spacing: .16em;
-      text-transform: uppercase;
+      font-size:
+        .72rem;
 
-      opacity: .48;
+      font-weight:
+        650;
+
+      letter-spacing:
+        .16em;
+
+      text-transform:
+        uppercase;
+
+      color:
+        var(--archive-green);
+
+      opacity:
+        .78;
+
     }
 
 
     .archive-header h1 {
-      margin: 0 0 12px;
 
-      line-height: 1.12;
-      letter-spacing: -.025em;
+      margin:
+        0 0 12px;
+
+      color:
+        var(--archive-text);
+
+      line-height:
+        1.12;
+
+      letter-spacing:
+        -.025em;
+
     }
 
 
     .archive-subtitle {
-      max-width: 760px;
-      margin: 0;
 
-      line-height: 1.7;
-      font-size: .95rem;
+      max-width:
+        760px;
 
-      opacity: .60;
+      margin:
+        0;
+
+      line-height:
+        1.7;
+
+      font-size:
+        .95rem;
+
+      color:
+        var(--archive-muted);
+
+      opacity:
+        .90;
+
     }
 
 
@@ -154,35 +560,64 @@
        ========================================================= */
 
     .archive-status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
 
-      gap: 20px;
+      display:
+        flex;
 
-      margin-bottom: 14px;
-      padding: 11px 14px;
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        20px;
+
+      margin-bottom:
+        14px;
+
+      padding:
+        11px 14px;
 
       border:
-        1px solid rgba(255,255,255,.075);
+        1px solid
+        var(--archive-border-soft);
 
-      border-radius: 10px;
+      border-radius:
+        10px;
 
       background:
-        rgba(255,255,255,.025);
+        color-mix(
+          in srgb,
+          var(--archive-panel) 72%,
+          transparent
+        );
 
-      font-size: .72rem;
-      line-height: 1.4;
+      font-size:
+        .72rem;
 
-      color: inherit;
+      line-height:
+        1.4;
 
-      opacity: .72;
+      color:
+        var(--archive-muted);
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        color .25s ease;
+
     }
 
 
     .archive-status strong {
-      font-weight: 600;
-      opacity: .95;
+
+      color:
+        var(--archive-text);
+
+      font-weight:
+        650;
+
     }
 
 
@@ -192,34 +627,53 @@
 
     .archive-document {
 
-      padding: 42px 46px;
+      padding:
+        42px 46px;
 
       border:
-        1px solid rgba(255,255,255,.075);
+        1px solid
+        var(--archive-border-soft);
 
-      border-radius: 16px;
-
-      /*
-       * Important:
-       * Do not use a white document background.
-       *
-       * The archive intentionally follows the site's
-       * dark / muted visual language.
-       */
+      border-radius:
+        16px;
 
       background:
+
         linear-gradient(
           145deg,
-          rgba(255,255,255,.045),
-          rgba(255,255,255,.022)
+
+          color-mix(
+            in srgb,
+            var(--archive-panel) 94%,
+            transparent
+          ),
+
+          color-mix(
+            in srgb,
+            var(--archive-panel2) 76%,
+            transparent
+          )
         );
 
       box-shadow:
-        0 18px 55px rgba(0,0,0,.18);
+        var(--archive-shadow);
 
-      color: inherit;
+      color:
+        var(--archive-text);
 
-      overflow-wrap: anywhere;
+      overflow-wrap:
+        anywhere;
+
+      transition:
+
+        background .25s ease,
+
+        border-color .25s ease,
+
+        color .25s ease,
+
+        box-shadow .25s ease;
+
     }
 
 
@@ -234,49 +688,71 @@
     .archive-document h5,
     .archive-document h6 {
 
-      line-height: 1.25;
-      letter-spacing: -.015em;
+      color:
+        var(--archive-text);
+
+      line-height:
+        1.25;
+
+      letter-spacing:
+        -.015em;
 
     }
 
 
     .archive-document h1 {
 
-      margin-top: 0;
-      margin-bottom: 1.2rem;
+      margin-top:
+        0;
 
-      font-size: 2rem;
+      margin-bottom:
+        1.2rem;
+
+      font-size:
+        2rem;
 
     }
 
 
     .archive-document h2 {
 
-      margin-top: 2.8rem;
-      margin-bottom: 1rem;
-      padding-bottom: .65rem;
+      margin-top:
+        2.8rem;
 
-      font-size: 1.45rem;
+      margin-bottom:
+        1rem;
+
+      padding-bottom:
+        .65rem;
+
+      font-size:
+        1.45rem;
 
       border-bottom:
-        1px solid rgba(255,255,255,.09);
+        1px solid
+        var(--archive-border);
 
     }
 
 
     .archive-document h3 {
 
-      margin-top: 2rem;
-      margin-bottom: .8rem;
+      margin-top:
+        2rem;
 
-      font-size: 1.15rem;
+      margin-bottom:
+        .8rem;
+
+      font-size:
+        1.15rem;
 
     }
 
 
     .archive-document h4 {
 
-      margin-top: 1.6rem;
+      margin-top:
+        1.6rem;
 
     }
 
@@ -286,7 +762,11 @@
       margin:
         0 0 1.05rem;
 
-      line-height: 1.78;
+      line-height:
+        1.78;
+
+      color:
+        var(--archive-text);
 
     }
 
@@ -297,15 +777,22 @@
       margin:
         0 0 1.2rem;
 
-      padding-left: 1.5rem;
+      padding-left:
+        1.5rem;
 
     }
 
 
     .archive-document li {
 
-      margin-bottom: .4rem;
-      line-height: 1.7;
+      margin-bottom:
+        .4rem;
+
+      line-height:
+        1.7;
+
+      color:
+        var(--archive-text);
 
     }
 
@@ -316,30 +803,43 @@
 
     .archive-document a {
 
-      color: inherit;
+      color:
+        var(--archive-green);
 
       text-decoration:
         underline;
 
       text-decoration-color:
-        rgba(255,255,255,.28);
+        color-mix(
+          in srgb,
+          var(--archive-green) 38%,
+          transparent
+        );
 
       text-underline-offset:
         3px;
 
       transition:
+
         color .2s ease,
-        text-decoration-color .2s ease;
+
+        text-decoration-color .2s ease,
+
+        opacity .2s ease;
 
     }
 
 
     .archive-document a:hover {
 
+      color:
+        var(--archive-blue);
+
       text-decoration-color:
         currentColor;
 
-      opacity: .8;
+      opacity:
+        .9;
 
     }
 
@@ -350,31 +850,48 @@
 
     .archive-table-wrap {
 
-      width: 100%;
-      overflow-x: auto;
+      width:
+        100%;
+
+      overflow-x:
+        auto;
 
       margin:
         1.5rem 0;
 
       border:
-        1px solid rgba(255,255,255,.075);
+        1px solid
+        var(--archive-border-soft);
 
-      border-radius: 10px;
+      border-radius:
+        10px;
+
+      background:
+        var(--archive-panel);
 
     }
 
 
     .archive-document table {
 
-      width: 100%;
-      min-width: 620px;
+      width:
+        100%;
 
-      margin: 0;
+      min-width:
+        620px;
 
-      border-collapse: collapse;
+      margin:
+        0;
+
+      border-collapse:
+        collapse;
 
       background:
-        rgba(0,0,0,.08);
+        color-mix(
+          in srgb,
+          var(--archive-bg) 30%,
+          transparent
+        );
 
     }
 
@@ -386,12 +903,20 @@
         .72rem .8rem;
 
       border:
-        1px solid rgba(255,255,255,.07);
+        1px solid
+        var(--archive-border-soft);
 
-      text-align: left;
-      vertical-align: top;
+      text-align:
+        left;
 
-      line-height: 1.55;
+      vertical-align:
+        top;
+
+      line-height:
+        1.55;
+
+      color:
+        var(--archive-text);
 
     }
 
@@ -399,9 +924,14 @@
     .archive-document th {
 
       background:
-        rgba(255,255,255,.055);
+        color-mix(
+          in srgb,
+          var(--archive-blue) 7%,
+          var(--archive-panel)
+        );
 
-      font-weight: 600;
+      font-weight:
+        650;
 
     }
 
@@ -409,7 +939,11 @@
     .archive-document tr:nth-child(even) td {
 
       background:
-        rgba(255,255,255,.018);
+        color-mix(
+          in srgb,
+          var(--archive-text) 2%,
+          transparent
+        );
 
     }
 
@@ -421,6 +955,7 @@
     .archive-document code {
 
       font-family:
+
         ui-monospace,
         SFMono-Regular,
         Menlo,
@@ -429,7 +964,11 @@
         "Liberation Mono",
         monospace;
 
-      font-size: .88em;
+      font-size:
+        .88em;
+
+      color:
+        var(--archive-green);
 
     }
 
@@ -439,13 +978,19 @@
       padding:
         .15em .38em;
 
-      border-radius: 5px;
+      border-radius:
+        5px;
 
       background:
-        rgba(0,0,0,.18);
+        color-mix(
+          in srgb,
+          var(--archive-code) 88%,
+          transparent
+        );
 
       border:
-        1px solid rgba(255,255,255,.06);
+        1px solid
+        var(--archive-border-soft);
 
     }
 
@@ -458,33 +1003,50 @@
       padding:
         1.2rem 1.3rem;
 
-      overflow-x: auto;
+      overflow-x:
+        auto;
 
       border:
-        1px solid rgba(255,255,255,.07);
+        1px solid
+        var(--archive-border-soft);
 
-      border-radius: 10px;
+      border-radius:
+        10px;
 
       background:
-        rgba(0,0,0,.25);
+        var(--archive-code);
 
       box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.025);
+        inset
+        0 1px 0
+        color-mix(
+          in srgb,
+          var(--archive-text) 3%,
+          transparent
+        );
 
-      line-height: 1.6;
+      line-height:
+        1.6;
 
     }
 
 
     .archive-document pre code {
 
-      padding: 0;
+      padding:
+        0;
 
-      background: transparent;
+      background:
+        transparent;
 
-      border: 0;
+      border:
+        0;
 
-      font-size: .84rem;
+      color:
+        var(--archive-green);
+
+      font-size:
+        .84rem;
 
     }
 
@@ -502,22 +1064,37 @@
         .9rem 1.2rem;
 
       border-left:
-        3px solid rgba(255,255,255,.25);
+        3px solid
+        var(--archive-blue);
 
       border-radius:
         0 8px 8px 0;
 
       background:
-        rgba(255,255,255,.035);
+        color-mix(
+          in srgb,
+          var(--archive-blue) 5%,
+          transparent
+        );
 
-      opacity: .84;
+      color:
+        var(--archive-muted);
+
+    }
+
+
+    .archive-document blockquote p {
+
+      color:
+        inherit;
 
     }
 
 
     .archive-document blockquote p:last-child {
 
-      margin-bottom: 0;
+      margin-bottom:
+        0;
 
     }
 
@@ -528,15 +1105,17 @@
 
     .archive-document hr {
 
-      height: 1px;
+      height:
+        1px;
 
       margin:
         2.2rem 0;
 
-      border: 0;
+      border:
+        0;
 
       background:
-        rgba(255,255,255,.09);
+        var(--archive-border);
 
     }
 
@@ -547,32 +1126,42 @@
 
     .archive-document img {
 
-      display: block;
+      display:
+        block;
 
-      max-width: 100%;
-      height: auto;
+      max-width:
+        100%;
+
+      height:
+        auto;
 
       margin:
         1.5rem auto;
 
-      border-radius: 10px;
+      border-radius:
+        10px;
 
       border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        var(--archive-border-soft);
+
+      background:
+        var(--archive-panel);
 
     }
 
 
     /* =========================================================
-       LISTS / CHECKBOXES
+       CHECKBOXES
        ========================================================= */
 
     .archive-document input[type="checkbox"] {
 
-      margin-right: .45rem;
+      margin-right:
+        .45rem;
 
       accent-color:
-        currentColor;
+        var(--archive-green);
 
     }
 
@@ -583,25 +1172,46 @@
 
     .archive-error {
 
-      padding: 1.4rem;
+      padding:
+        1.4rem;
 
       border:
-        1px solid rgba(220,80,80,.25);
+        1px solid
+        color-mix(
+          in srgb,
+          var(--archive-red) 35%,
+          transparent
+        );
 
-      border-radius: 12px;
+      border-radius:
+        12px;
 
       background:
-        rgba(220,80,80,.055);
+        color-mix(
+          in srgb,
+          var(--archive-red) 6%,
+          transparent
+        );
 
-      line-height: 1.65;
+      color:
+        var(--archive-text);
+
+      line-height:
+        1.65;
 
     }
 
 
     .archive-error strong {
 
-      display: block;
-      margin-bottom: .5rem;
+      display:
+        block;
+
+      margin-bottom:
+        .5rem;
+
+      color:
+        var(--archive-red);
 
     }
 
@@ -615,11 +1225,17 @@
       padding:
         2rem 0;
 
-      text-align: center;
+      text-align:
+        center;
 
-      opacity: .45;
+      color:
+        var(--archive-muted);
 
-      font-size: .85rem;
+      opacity:
+        .65;
+
+      font-size:
+        .85rem;
 
     }
 
@@ -630,45 +1246,72 @@
 
     .archive-footer {
 
-      display: flex;
-      justify-content: center;
+      display:
+        flex;
 
-      margin-top: 28px;
+      justify-content:
+        center;
+
+      margin-top:
+        28px;
 
     }
 
 
     .archive-back-bottom {
 
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
 
       padding:
         9px 16px;
 
       border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        var(--archive-border);
 
-      border-radius: 9px;
+      border-radius:
+        9px;
 
       background:
-        rgba(255,255,255,.035);
+        var(--archive-panel);
 
-      color: inherit;
+      color:
+        var(--archive-text);
 
-      font: inherit;
-      font-size: .72rem;
-      font-weight: 600;
+      font:
+        inherit;
 
-      letter-spacing: .1em;
-      text-transform: uppercase;
+      font-size:
+        .72rem;
 
-      cursor: pointer;
+      font-weight:
+        650;
+
+      letter-spacing:
+        .1em;
+
+      text-transform:
+        uppercase;
+
+      cursor:
+        pointer;
 
       transition:
+
         background .2s ease,
-        border-color .2s ease;
+
+        border-color .2s ease,
+
+        color .2s ease,
+
+        transform .2s ease;
 
     }
 
@@ -676,10 +1319,39 @@
     .archive-back-bottom:hover {
 
       background:
-        rgba(255,255,255,.075);
+        color-mix(
+          in srgb,
+          var(--archive-green) 7%,
+          var(--archive-panel)
+        );
 
       border-color:
-        rgba(255,255,255,.15);
+        color-mix(
+          in srgb,
+          var(--archive-green) 35%,
+          var(--archive-border)
+        );
+
+      transform:
+        translateY(-1px);
+
+    }
+
+
+    /* =========================================================
+       FOCUS ACCESSIBILITY
+       ========================================================= */
+
+    .archive-back:focus-visible,
+    .archive-back-bottom:focus-visible,
+    .archive-theme-toggle:focus-visible {
+
+      outline:
+        2px solid
+        var(--archive-green);
+
+      outline-offset:
+        3px;
 
     }
 
@@ -693,7 +1365,10 @@
       .archive-page {
 
         width:
-          min(100% - 22px, 940px);
+          min(
+            100% - 22px,
+            940px
+          );
 
         padding:
           24px 0 60px;
@@ -703,45 +1378,87 @@
 
       .archive-topbar {
 
-        margin-bottom: 24px;
+        margin-bottom:
+          24px;
+
+      }
+
+
+      .archive-top-actions {
+
+        gap:
+          6px;
 
       }
 
 
       .archive-top-label {
 
-        display: none;
+        display:
+          none;
+
+      }
+
+
+      .archive-theme-label {
+
+        display:
+          none;
+
+      }
+
+
+      .archive-theme-toggle {
+
+        width:
+          38px;
+
+        height:
+          36px;
+
+        justify-content:
+          center;
+
+        padding:
+          0;
 
       }
 
 
       .archive-header {
 
-        margin-bottom: 24px;
+        margin-bottom:
+          24px;
 
       }
 
 
       .archive-header h1 {
 
-        font-size: 1.65rem;
+        font-size:
+          1.65rem;
 
       }
 
 
       .archive-subtitle {
 
-        font-size: .9rem;
+        font-size:
+          .9rem;
 
       }
 
 
       .archive-status {
 
-        flex-direction: column;
-        align-items: flex-start;
+        flex-direction:
+          column;
 
-        gap: 5px;
+        align-items:
+          flex-start;
+
+        gap:
+          5px;
 
       }
 
@@ -751,21 +1468,24 @@
         padding:
           25px 20px;
 
-        border-radius: 13px;
+        border-radius:
+          13px;
 
       }
 
 
       .archive-document h1 {
 
-        font-size: 1.65rem;
+        font-size:
+          1.65rem;
 
       }
 
 
       .archive-document h2 {
 
-        font-size: 1.3rem;
+        font-size:
+          1.3rem;
 
         margin-top:
           2.2rem;
@@ -775,10 +1495,14 @@
 
       .archive-document pre {
 
-        margin-left: -5px;
-        margin-right: -5px;
+        margin-left:
+          -5px;
 
-        border-radius: 8px;
+        margin-right:
+          -5px;
+
+        border-radius:
+          8px;
 
         padding:
           1rem;
@@ -808,6 +1532,7 @@
 
     <nav class="archive-topbar">
 
+
       <button
         type="button"
         class="archive-back"
@@ -829,9 +1554,42 @@
       </button>
 
 
-      <span class="archive-top-label">
-        AUF2026 · Research Archive
-      </span>
+      <div class="archive-top-actions">
+
+
+        <span class="archive-top-label">
+          AUF2026 · Research Archive
+        </span>
+
+
+        <button
+          type="button"
+          class="archive-theme-toggle"
+          id="theme-toggle"
+          aria-label="Toggle dark theme"
+          aria-pressed="true"
+        >
+
+          <span
+            class="archive-theme-icon"
+            id="theme-icon"
+            aria-hidden="true"
+          >
+            ☾
+          </span>
+
+          <span
+            class="archive-theme-label"
+            id="theme-label"
+          >
+            Dark
+          </span>
+
+        </button>
+
+
+      </div>
+
 
     </nav>
 
@@ -841,6 +1599,7 @@
          ======================================================= -->
 
     <header class="archive-header">
+
 
       <div class="archive-kicker">
         AUF2026 · Research Archive
@@ -857,6 +1616,7 @@
         AUF2026 Markdown corpus.
       </p>
 
+
     </header>
 
 
@@ -865,6 +1625,7 @@
          ======================================================= -->
 
     <div class="archive-status">
+
 
       <span>
 
@@ -878,9 +1639,15 @@
 
 
       <span>
+
         FORMAT:
-        <strong>Markdown → HTML</strong>
+
+        <strong>
+          Markdown → HTML
+        </strong>
+
       </span>
+
 
     </div>
 
@@ -907,6 +1674,7 @@
 
     <div class="archive-footer">
 
+
       <button
         type="button"
         class="archive-back-bottom"
@@ -920,6 +1688,7 @@
         Back to archive
 
       </button>
+
 
     </div>
 
@@ -941,6 +1710,174 @@
        ========================================================= -->
 
   <script>
+
+
+    /* =========================================================
+       THEME
+       ========================================================= */
+
+    const THEME_STORAGE_KEY =
+      "auf2026-theme";
+
+
+    function getInitialTheme() {
+
+      const savedTheme =
+        localStorage.getItem(
+          THEME_STORAGE_KEY
+        );
+
+
+      if (
+        savedTheme === "dark" ||
+        savedTheme === "light"
+      ) {
+
+        return savedTheme;
+
+      }
+
+
+      /*
+       * Follow the user's operating-system preference
+       * when no explicit AUF2026 preference exists.
+       */
+
+      if (
+        window.matchMedia &&
+        window.matchMedia(
+          "(prefers-color-scheme: light)"
+        ).matches
+      ) {
+
+        return "light";
+
+      }
+
+
+      return "dark";
+
+    }
+
+
+    function applyTheme(
+      theme
+    ) {
+
+      const root =
+        document.documentElement;
+
+
+      const isLight =
+        theme === "light";
+
+
+      root.setAttribute(
+        "data-theme",
+        theme
+      );
+
+
+      localStorage.setItem(
+        THEME_STORAGE_KEY,
+        theme
+      );
+
+
+      const toggle =
+        document.getElementById(
+          "theme-toggle"
+        );
+
+
+      const icon =
+        document.getElementById(
+          "theme-icon"
+        );
+
+
+      const label =
+        document.getElementById(
+          "theme-label"
+        );
+
+
+      if (
+        toggle
+      ) {
+
+        toggle.setAttribute(
+          "aria-pressed",
+          String(
+            !isLight
+          )
+        );
+
+
+        toggle.setAttribute(
+          "aria-label",
+          isLight
+            ? "Switch to dark theme"
+            : "Switch to light theme"
+        );
+
+      }
+
+
+      if (
+        icon
+      ) {
+
+        icon.textContent =
+          isLight
+            ? "☀"
+            : "☾";
+
+      }
+
+
+      if (
+        label
+      ) {
+
+        label.textContent =
+          isLight
+            ? "Light"
+            : "Dark";
+
+      }
+
+    }
+
+
+    applyTheme(
+      getInitialTheme()
+    );
+
+
+    document
+      .getElementById(
+        "theme-toggle"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          const currentTheme =
+            document.documentElement.getAttribute(
+              "data-theme"
+            );
+
+
+          applyTheme(
+            currentTheme === "light"
+              ? "dark"
+              : "light"
+          );
+
+        }
+      );
+
 
     /* =========================================================
        URL PARAMETERS
@@ -1044,8 +1981,8 @@
     function goBack() {
 
       /*
-       * Prefer browser history so the user returns to the
-       * exact archive page / previous state.
+       * Prefer browser history so the user returns to
+       * the exact previous archive state.
        */
 
       if (
@@ -1060,7 +1997,7 @@
 
 
       /*
-       * Fallback when archive.html was opened directly.
+       * Fallback when archive.html is opened directly.
        */
 
       window.location.href =
@@ -1125,12 +2062,15 @@
               href.startsWith(
                 "http://"
               ) ||
+
               href.startsWith(
                 "https://"
               ) ||
+
               href.startsWith(
                 "mailto:"
               ) ||
+
               href.startsWith(
                 "#"
               )
@@ -1204,6 +2144,7 @@
 
             if (
               table.parentElement &&
+
               table.parentElement.classList.contains(
                 "archive-table-wrap"
               )
@@ -1246,12 +2187,14 @@
 
     async function loadDocument() {
 
+
       if (
         !requestedDocument ||
         !allowedDocuments.includes(
           requestedDocument
         )
       ) {
+
 
         documentElement.innerHTML = `
 
@@ -1270,8 +2213,10 @@
 
         `;
 
+
         sourceElement.textContent =
           "not specified";
+
 
         return;
 
@@ -1295,11 +2240,13 @@
 
       try {
 
+
         const response =
           await fetch(
             sourcePath,
             {
-              cache: "no-cache"
+              cache:
+                "no-cache"
             }
           );
 
@@ -1326,13 +2273,17 @@
 
         marked.setOptions({
 
-          gfm: true,
+          gfm:
+            true,
 
-          breaks: true,
+          breaks:
+            true,
 
-          headerIds: true,
+          headerIds:
+            true,
 
-          mangle: false
+          mangle:
+            false
 
         });
 
@@ -1371,6 +2322,7 @@
         error
       ) {
 
+
         console.error(
           "AUF2026 Archive:",
           error
@@ -1403,6 +2355,7 @@
        ========================================================= */
 
     loadDocument();
+
 
   </script>
 
