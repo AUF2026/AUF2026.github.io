@@ -1,24 +1,18 @@
-AUF2026 — NEXT SESSION HANDOFF
+AUF2026 — NEXT SESSION BOOTSTRAP
 
-Purpose: operational checkpoint for continuation of the AUF2026 research archive.
+Checkpoint: 19 September 2026
 
-Last checkpoint: 19 September 2026
+1. Current state
 
-1. Current project state
+The public GitHub Pages repository has been structured and the documentation layer is operational.
 
-The public archive has already been created on:
-
-https://auf2026.github.io/
-
-
-The repository is:
+Repository:
 
 AUF2026/AUF2026.github.io
 
 
-The repository currently contains the public website and the archival structure.
+Public archive structure:
 
-2. Existing archive structure
 papers/
 proofs/
 validation/
@@ -26,226 +20,267 @@ bibliography/
 datasets/
 code/
 docs/
+.github/workflows/
 
 
-Important documentation files already created:
+The documentation layer includes the research register, corpus index, claims registry, repository map, object registry, source manifest, configuration matrix, proof-ingestion protocol, source inventory, proof registry, and local corpus mapping.
 
-docs/README.md
-docs/RESEARCH-REGISTER.md
-docs/ARCHIVE-MAP.md
-docs/CORPUS-INDEX.md
-docs/CLAIMS.md
-docs/REPOSITORY-MAP.md
-docs/OBJECT-REGISTRY.md
-docs/SOURCE-MANIFEST.md
-docs/EXTRACTION-STATUS.md
-docs/CORE-GENEALOGY.md
-docs/CONFIGURATION-MATRIX.md
+2. Critical new information
 
-3. Primary objective
+The local research environment is NOT a single Lean project.
 
-The project is now moving from:
+The local corpus exceeds 35 GB and contains multiple classes of research artifacts, including:
 
-website construction
-
-
-to:
-
-research corpus extraction
+LEAN
+PYTHON
+LATEX
+PDF
+MANUSCRIPTS
+FORMAL PROOFS
+VALIDATION MATERIAL
+EXPERIMENTS
+DATA
+TOOLS
+LOGS
+OTHER
 
 
-and subsequently:
+The public repository must therefore be treated as a curated archival/publication layer rather than a mirror of the entire local drive.
 
-source
-→ formal object
-→ theorem
-→ proof
-→ computation
-→ validation
-→ application
+3. First local corpus root
+
+The first identified primary research root is:
+
+D:\FAURE ALAIN TEOREMI\DIMOSTRAZIONI VERIFICATE FAURE
 
 
-The archive must preserve provenance at every stage.
+This directory is classified as:
 
-4. Critical decision: Lean proofs
-
-Do NOT attempt to reconstruct the formal proofs from GitHub first.
-
-The formal proofs will be imported ex novo from the local D: drive.
-
-The next session must therefore begin by locating the local Lean repository/corpus.
-
-Starting point:
-
-D:\
+LOCAL SOURCE
+FORMAL RESEARCH CORPUS
+DOCUMENTARY CORPUS
+VALIDATION CORPUS
+TOOLING CORPUS
 
 
-Do not assume the directory name.
+It must NOT be copied wholesale to GitHub.
 
-First identify the relevant repository.
-
-5. First task
-
-Locate all Lean source files belonging to the AUF2026 formalization.
-
-Target:
-
-*.lean
-
-
-For each file record:
-
-absolute path;
-
-filename;
-
-file size;
-
-modification date;
-
-imports;
-
-namespaces;
-
-definitions;
-
-theorem declarations;
-
-lemma declarations;
-
-examples;
-
-executable/test sections where present.
-
-Do not modify source files.
-
-6. First generated inventory
-
-Create an inventory before interpreting the mathematics.
-
-Suggested structure:
-
-PRF-SOURCE-INVENTORY
+4. Existing structure discovered
+DIMOSTRAZIONI VERIFICATE FAURE
 │
-├── file
-├── path
-├── imports
-├── namespace
-├── definitions
-├── theorem
-├── lemma
-├── examples
-└── dependencies
+├── ESPORTATORI EQUAZIONI TO IMAGE
+├── MONOGRAFIA TOE FAURE
+├── PER SUBMISSION - PEER REVIEW - VALIDATE
+├── RIFATTE E CORRETTE
+│
+├── Cartella_file_ancora_da_validare_ma _a_0_errori.readlog.txt
+├── Cartella_file_ancora_da_validare_ma _a_0_errori_part1
+├── ...
+├── Cartella_file_ancora_da_validare_ma _a_0_errori_part14
+│
+├── COPILOT_msg_length_correct_text_importer.ps1
+├── FAURE_FULL_CORPUS_COLLECTOR.ps1
+├── lean_snippet_extractor_gui_stdlib.py
+├── lean_snippet_patcher_gui_stdlib.py
+├── validate_all_lean_with_package.ps1
+└── validate_all_tex_pdf_faure.ps1
 
 
-The first formal artifact should receive:
+The exact semantics of each item are NOT yet assumed.
+
+5. First objective tomorrow
+
+Do NOT begin with the mathematical proofs.
+
+First reconstruct the existing local research pipeline.
+
+Start with:
+
+FAURE_FULL_CORPUS_COLLECTOR.ps1
+
+
+Full local path:
+
+D:\FAURE ALAIN TEOREMI\DIMOSTRAZIONI VERIFICATE FAURE\FAURE_FULL_CORPUS_COLLECTOR.ps1
+
+
+The complete source should be inspected.
+
+6. Tool inspection order
+
+Inspect the existing tooling in this exact order:
+
+1. FAURE_FULL_CORPUS_COLLECTOR.ps1
+
+2. validate_all_lean_with_package.ps1
+
+3. validate_all_tex_pdf_faure.ps1
+
+4. lean_snippet_extractor_gui_stdlib.py
+
+5. lean_snippet_patcher_gui_stdlib.py
+
+
+Then inspect:
+
+6. validation/readlog material
+
+7. segmented corpus files
+
+8. RIFATTE E CORRETTE
+
+9. PER SUBMISSION - PEER REVIEW - VALIDATE
+
+10. MONOGRAFIA TOE FAURE
+
+11. ESPORTATORI EQUAZIONI TO IMAGE
+
+7. Questions to answer from the tooling
+
+The first analysis must determine:
+
+what the corpus collector scans;
+
+what directories it includes;
+
+what file extensions it includes;
+
+what it excludes;
+
+how projects are detected;
+
+how Lean projects are detected;
+
+how Lean validation is executed;
+
+which Lean version is used;
+
+which Mathlib environment is used;
+
+how validation results are recorded;
+
+how errors are recorded;
+
+how successful results are recorded;
+
+how corrected files are distinguished;
+
+how LaTeX/PDF validation works;
+
+how logs correspond to source files.
+
+Do not infer these answers from filenames.
+
+Read the actual source code.
+
+8. Existing validation logs
+
+The root contains:
+
+Cartella_file_ancora_da_validare_ma _a_0_errori.readlog.txt
+Cartella_file_ancora_da_validare_ma _a_0_errori_part1
+...
+Cartella_file_ancora_da_validare_ma _a_0_errori_part14
+
+
+The phrase:
+
+0 errori
+
+
+is source terminology.
+
+Do not automatically translate this into:
+
+FORMALLY VERIFIED
+
+
+until the validation mechanism producing the log has been inspected.
+
+9. Proof extraction remains downstream
+
+The formal-proof workflow remains:
+
+LOCAL SOURCE
+    ↓
+INVENTORY
+    ↓
+PROJECT / ENVIRONMENT
+    ↓
+SOURCE FILE
+    ↓
+THEOREM
+    ↓
+DEPENDENCIES
+    ↓
+COMPILATION
+    ↓
+PRF-ID
+    ↓
+THM-ID
+
+
+The first proof record remains:
 
 PRF-0001
 
 
-only after the actual local source has been inspected.
+The first theorem record remains:
 
-7. Formal-proof extraction protocol
+THM-001
 
-For each .lean file:
 
-SOURCE FILE
+but neither identifier should be assigned until the actual source has been inspected.
+
+10. Public archive policy
+
+Do not copy the 35+ GB corpus to GitHub.
+
+Instead:
+
+LOCAL CORPUS
     ↓
-LEAN VERSION
+INVENTORY
     ↓
-IMPORTS
+CLASSIFICATION
     ↓
-NAMESPACE
+PROVENANCE
     ↓
-DEFINITIONS
+SELECTED ARTIFACT
     ↓
-THEOREMS
-    ↓
-LEMMAS
-    ↓
-EXAMPLES
-    ↓
-DEPENDENCIES
-    ↓
-COMPILATION STATUS
+PUBLIC ARCHIVE
 
 
-Do not infer a theorem from prose.
+Potential publication classes:
 
-A theorem identifier is assigned from an actual formal declaration or an explicitly stated mathematical proposition.
+PUBLIC
+PUBLIC AFTER REVIEW
+LOCAL ONLY
+RESTRICTED
+UNKNOWN
 
-8. Required proof record
+11. Important distinction
 
-Every important proof should eventually have a record containing:
+The following are separate states:
 
-PRF-ID
-THM-ID
-source path
-source filename
-Lean version
-Mathlib revision
-imports
-namespace
-definitions
-theorem statement
-dependencies
-compiler result
-associated paper
-associated claim
-
-9. Current documented core genealogy
-
-The public AOS-DETERMINISTIC-PROTOCOL repository documents the following objects:
-
-K_min
-→ F
-→ U_F
-→ AOS144
-→ N_F
-→ μ_F
-→ L_F
-→ ⊥_F
-→ Born
+DOCUMENTED
+FORMALLY_VERIFIED
+COMPILES
+COMPUTATIONALLY_REPRODUCED
+INDEPENDENTLY_REPRODUCED
+PEER_REVIEWED
 
 
-The documented structural relation includes:
+Never upgrade one state into another without evidence.
 
-Ψ⁴ ≡ Ψ⁵
+12. Existing public configuration policy
 
-
-The formal source on D: takes precedence for determining the exact Lean definitions and theorem statements.
-
-10. Universal Tuple
-
-The currently documented form is:
-
-U_F = (M,G,A,Ψ,Λ,Π)
-
-
-with the exact types and definitions to be taken from the formal source.
-
-Do not silently replace the formal definitions with a paraphrase from Medium.
-
-11. Configuration policy
-
-The archive distinguishes:
-
-KERNEL
-IMPLEMENTATION
-CONFIGURATION
-PRECISION
-
-
-Historical/public labels include:
+Configurations such as:
 
 AOS V1.0
 AOS120
 AOS250
 AOS600
-
-
-The WYP corpus also documents precision configurations including:
-
 DEC-80
 DEC-90
 DEC-100
@@ -255,20 +290,32 @@ DEC-130
 DEC-660
 
 
-Do not automatically classify these as different kernels.
+must be treated as configurations until source evidence establishes whether they represent:
 
-Determine their relationship from source code and documentation.
+precision variants;
 
-12. Public theorem nomenclature
+implementation variants;
 
-Public-facing names should use:
+kernel variants;
 
-Teorema Faure della ...
-Teorema Faure di ...
-Teorema Faure sulla ...
+task-specific configurations;
+
+historical versions;
+
+or another distinction.
+
+Do not collapse them prematurely.
+
+13. Public theorem naming
+
+Public-facing terminology:
+
+Faure Theorem of ...
+Faure Theorem on ...
+Faure Theorem for ...
 
 
-Internal identifiers use:
+Internal identifiers:
 
 THM-001
 THM-002
@@ -276,307 +323,119 @@ THM-003
 ...
 
 
-The numerical identifier is archival only.
+The numerical identifiers are archival only.
 
-13. Medium corpus
+14. Tomorrow's exact workflow
+STEP 1
+Open:
+D:\FAURE ALAIN TEOREMI\DIMOSTRAZIONI VERIFICATE FAURE
 
-The Medium corpus has been partially indexed.
+STEP 2
+Read:
+FAURE_FULL_CORPUS_COLLECTOR.ps1
 
-Initial records include:
+STEP 3
+Map what it actually collects.
 
-PAP-0001
-The Faure Theory of Everything
+STEP 4
+Read:
+validate_all_lean_with_package.ps1
 
-PAP-0002
-Science Correctly Told: The Faure Theorems
+STEP 5
+Read:
+validate_all_tex_pdf_faure.ps1
 
-PAP-0003
-Deterministic Reality Unveiled
+STEP 6
+Read the two Python tools.
 
-PAP-0004
-Beyond the Universe's Source Code
+STEP 7
+Update:
+docs/LOCAL-CORPUS-MAP.md
 
-PAP-0005
-Deterministic Solutions for the Millennium Problems
+STEP 8
+Update:
+docs/SOURCE-INVENTORY.md
 
-PAP-0006
-Solving Strong CP Problem
+STEP 9
+Only then inspect the validation logs.
 
-PAP-0007
-The Death of Stochastic Uncertainty
+STEP 10
+Only after that begin formal proof extraction.
 
-PAP-0008
-AOS-ORACLE-X
+15. First expected deliverables
 
-PAP-0009
-March 22, 2026: AOS Changes Everything
+Tomorrow's first session should produce:
 
-PAP-0010
-The Infinite-Dimensional Diophantine Lattice
+1. Local corpus architecture map
 
+2. Toolchain map
 
-This is NOT the complete corpus.
+3. Validation pipeline description
 
-Continue the Medium corpus only after the formal-source inventory has begun.
+4. Source inventory strategy
 
-14. Public GitHub corpus
+5. Initial provenance model
 
-Known public repositories include:
+6. Identification of the first formal source
 
-AUF2026/AOS-DETERMINISTIC-PROTOCOL
-AUF2026/WYP_system
-AUF2026/AOS-TOTUM-DETERMINSTIC-TRUTH
-AUF2026/CIC
+7. Candidate PRF-0001
 
+8. Candidate THM-001
 
-The first two are currently the principal technical sources.
 
-15. WYP_system
+The first five are expected before assigning the final proof/theorem identifiers.
 
-The public WYP repository contains:
+16. Do not modify the website architecture
 
-docs/
-examples/
-src/wyp/
-tests/
-CHANGELOG.md
-VERSION
-pyproject.toml
-README.md
+The public site is now sufficiently structured.
 
+No additional architectural work is required before local-corpus extraction.
 
-The next software extraction should eventually inspect:
+The next work is substantive:
 
-src/wyp/
-tests/
-examples/
-docs/
+SOURCE
+→ CODE
+→ FORMALIZATION
+→ PROOF
+→ VALIDATION
+→ RESEARCH OBJECT
 
-
-The source code should be treated as a software artifact.
-
-Do not infer implementation details from README prose where the source code is available.
-
-16. Evidence states
-
-The archive uses:
-
-DOCUMENTED
-FORMALLY_VERIFIED
-COMPUTATIONALLY_REPRODUCED
-INDEPENDENTLY_REPRODUCED
-PEER_REVIEWED
-OPEN_REVIEW
-
-
-These states are independent.
-
-Publication of a claim does not automatically produce an independent validation state.
-
-A formal Lean proof establishes the corresponding proposition inside the stated formal environment.
-
-Independent scientific validation is a separate record.
-
-17. Claim registry
-
-Claims already registered include:
-
-CLM-0001
-GPS jitter
-
-CLM-0002
-fundamental constants
-
-CLM-0003
-multidimensional triangulation
-
-CLM-0004
-Millennium Problems
-
-CLM-0005
-Strong CP Problem
-
-
-These are currently documentary records.
-
-Their evidence status must be upgraded only after the underlying evidence is identified.
-
-18. Application registry
-
-Applications have NOT yet been finalized.
-
-Do not create ten applications merely from conceptual extrapolation.
-
-First establish:
-
-mathematical object
-→ computational capability
-→ demonstrated property
-→ reproducible result
-→ technically plausible application
-
-
-Then applications can receive:
-
-APP-001
-APP-002
-...
-
-19. Bibliographic comparison
-
-The bibliography must eventually compare the AUF2026 objects with prior literature at the level of:
-
-definition;
-
-theorem;
-
-equation;
-
-algorithm;
-
-computational method;
-
-known result;
-
-claimed extension.
-
-Avoid comparing only titles or broad themes.
-
-Every substantive similarity/difference should have a source.
-
-20. Immediate next action
+17. Restart command
 
 At the beginning of the next session:
 
-Step 1
-
-Locate the local Lean corpus on:
-
-D:\
-
-Step 2
-
-Enumerate:
-
-*.lean
-
-Step 3
-
-Identify:
-
-Lean version;
-
-Mathlib version/revision;
-
-project root;
-
-lakefile;
-
-lean-toolchain;
-
-imports.
-
-Step 4
-
-Produce the first source inventory.
-
-Step 5
-
-Open the most central formal source.
-
-Step 6
-
-Extract the first actual theorem.
-
-Step 7
-
-Create:
-
-PRF-0001
-THM-001
-
-
-only from the actual source.
-
-21. Do not do next session
-
-Do not:
-
-rewrite the original mathematics;
-
-silently correct source manuscripts;
-
-infer proof status from article language;
-
-treat AI analysis as independent mathematical validation;
-
-merge different precision configurations without evidence;
-
-invent missing Lean files;
-
-infer applications before establishing the underlying capability;
-
-delete historical versions.
-
-22. Desired final archive graph
-
-The target structure is:
-
-                         AUF2026
-                            │
-             ┌──────────────┼──────────────┐
-             │              │              │
-          Medium         GitHub          Local D:
-             │              │              │
-          PAP-xxxx       CODE-xxxx       PRF-xxxx
-             │              │              │
-             └──────────────┼──────────────┘
-                            │
-                       THM-xxxx
-                            │
-                       CLM-xxxx
-                            │
-                       EXP-xxxx
-                            │
-                       VAL-xxxx
-                            │
-                       APP-xxxx
-
-
-Every edge should eventually have a source.
-
-23. Restart command
-
-When resuming, start with:
-
 READ docs/NEXT-SESSION.md
+READ docs/LOCAL-CORPUS-MAP.md
+READ docs/PROOF-INGESTION-PROTOCOL.md
 
 
-Then:
+Then begin with:
 
-LOCATE D:\ LOCAL LEAN CORPUS
-
-
-Then begin:
-
-PRF-SOURCE-INVENTORY
+D:\FAURE ALAIN TEOREMI\DIMOSTRAZIONI VERIFICATE FAURE\
+FAURE_FULL_CORPUS_COLLECTOR.ps1
 
 
-No further website architecture is required before this extraction.
+Do not skip directly to the proofs.
 
-24. Current checkpoint
+18. Current checkpoint
 
-The public archive infrastructure is complete enough for the next research phase.
+The project has moved from:
 
-The next meaningful operation is not another webpage.
-
-It is:
-
-D:\
-→ Lean corpus
-→ source inventory
-→ theorem extraction
-→ formal proof mapping
+PUBLIC WEBSITE CONSTRUCTION
 
 
-End of handoff.
+to:
+
+LOCAL RESEARCH CORPUS ANALYSIS
+
+
+The first local corpus is now identified.
+
+The next operation is source-code inspection of the existing collection and validation pipeline.
+
+Next file:
+
+FAURE_FULL_CORPUS_COLLECTOR.ps1
+
+
+End of bootstrap.
