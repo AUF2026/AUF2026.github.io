@@ -1,42 +1,36 @@
-AUF2026 — Documentation
+# AUF2026 — Documentation
 
-This directory contains the technical, archival, methodological, and institutional documentation supporting the AUF2026 research corpus.
+ This directory contains the technical, archival, methodological, and institutional documentation supporting the AUF2026 research corpus.
 
-It is the documentary layer connecting the public research manuscripts, formal proofs, source code, computational experiments, validation records, and bibliographic corpus.
+ It is the documentary layer connecting the public research manuscripts, formal proofs, source code, computational experiments, validation records, and bibliographic corpus.
 
-Purpose
+---
 
-The documentation layer provides a structured record of:
+ ## Purpose
 
-research architecture;
+ The documentation layer provides a structured record of:
 
-formal object definitions;
+ - research architecture;
+- formal object definitions;
+- corpus provenance;
+- source repositories;
+- theorem and proof mapping;
+- computational configurations;
+- reproducibility procedures;
+- validation procedures;
+- chronology and version history;
+- bibliographic relationships;
+- research claims and their evidence status;
+- application mapping;
+- institutional and submission materials.
 
-corpus provenance;
+ The documentation is designed to make the research corpus traceable from an original statement or source through its formalization, computation, validation, and subsequent application.
 
-source repositories;
+---
 
-theorem and proof mapping;
+ ## Documentation architecture
 
-computational configurations;
-
-reproducibility procedures;
-
-validation procedures;
-
-chronology and version history;
-
-bibliographic relationships;
-
-research claims and their evidence status;
-
-application mapping;
-
-institutional and submission materials.
-
-The documentation is designed to make the research corpus traceable from an original statement or source through its formalization, computation, validation, and subsequent application.
-
-Documentation architecture
+```
 AUF2026
 │
 ├── papers/
@@ -59,69 +53,88 @@ AUF2026
 │
 └── docs/
     └── technical, archival and institutional documentation
+```
 
-Core documentation
-Research Register
+---
 
-RESEARCH-REGISTER.md
+ # Core documentation
 
-Central registry of the research corpus and its principal objects.
+ ## Research Register
 
-Archive Map
+ `RESEARCH-REGISTER.md`
 
-ARCHIVE-MAP.md
+ Central registry of the research corpus and its principal objects.
 
-Defines the relationship between the public website, repositories, manuscripts, proofs, validation records, datasets, code, and documentation.
+---
 
-Corpus Index
+ ## Archive Map
 
-CORPUS-INDEX.md
+ `ARCHIVE-MAP.md`
 
-Master index of identified research materials.
+ Defines the relationship between the public website, repositories, manuscripts, proofs, validation records, datasets, code, and documentation.
 
-The corpus includes publications, repositories, software artifacts, formal sources, computational experiments, and supporting documents.
+---
 
-Claims Registry
+ ## Corpus Index
 
-CLAIMS.md
+ `CORPUS-INDEX.md`
 
-Registry of substantive claims appearing in the research corpus.
+ Master index of identified research materials.
 
-Claims are tracked independently from their evidence status.
+ The corpus includes publications, repositories, software artifacts, formal sources, computational experiments, and supporting documents.
 
-Provenance and source control
-Repository Map
+---
 
-REPOSITORY-MAP.md
+ ## Claims Registry
 
-Maps the principal public AUF2026 repositories and identifies their role within the research corpus.
+ `CLAIMS.md`
 
-Object Registry
+ Registry of substantive claims appearing in the research corpus.
 
-OBJECT-REGISTRY.md
+ Claims are tracked independently from their evidence status.
 
-Assigns stable internal identifiers to mathematical, computational, documentary, and experimental objects.
+---
 
-Examples:
+ # Provenance and source control
 
+ ## Repository Map
+
+ `REPOSITORY-MAP.md`
+
+ Maps the principal public AUF2026 repositories and identifies their role within the research corpus.
+
+---
+
+ ## Object Registry
+
+ `OBJECT-REGISTRY.md`
+
+ Assigns stable internal identifiers to mathematical, computational, documentary, and experimental objects.
+
+ Examples:
+
+```
 FDM-001
 UF-001
 AOS-001
 THM-001
 APP-001
 COMP-001
+```
 
+ Internal identifiers provide stable archival references without replacing the public terminology used in manuscripts.
 
-Internal identifiers provide stable archival references without replacing the public terminology used in manuscripts.
+---
 
-Source Manifest
+ ## Source Manifest
 
-SOURCE-MANIFEST.md
+ `SOURCE-MANIFEST.md`
 
-Records the provenance of individual research objects.
+ Records the provenance of individual research objects.
 
-The manifest distinguishes:
+ The manifest distinguishes:
 
+```
 source
 repository
 file
@@ -129,18 +142,21 @@ path
 version
 commit
 status
+```
 
+ The original source remains authoritative for provenance.
 
-The original source remains authoritative for provenance.
+---
 
-Extraction Status
+ ## Extraction Status
 
-EXTRACTION-STATUS.md
+ `EXTRACTION-STATUS.md`
 
-Records the state of corpus extraction.
+ Records the state of corpus extraction.
 
-The archive distinguishes between:
+ The archive distinguishes between:
 
+```
 located
 retrieved
 inspected
@@ -148,19 +164,23 @@ parsed
 formally verified
 computationally reproduced
 independently validated
+```
 
+ These states are not interchangeable.
 
-These states are not interchangeable.
+---
 
-Mathematical architecture
-Core Genealogy
+ # Mathematical architecture
 
-CORE-GENEALOGY.md
+ ## Core Genealogy
 
-Documents the currently identified structural genealogy of the AUF2026 framework.
+ `CORE-GENEALOGY.md`
 
-The public corpus currently documents the sequence:
+ Documents the currently identified structural genealogy of the AUF2026 framework.
 
+ The public corpus currently documents the sequence:
+
+```
 K_min
 → F
 → U_F
@@ -170,18 +190,21 @@ K_min
 → L_F
 → ⊥_F
 → Born
+```
 
+ Associated structural relations are recorded separately from their formal proof status.
 
-Associated structural relations are recorded separately from their formal proof status.
+---
 
-Configuration Matrix
+ ## Configuration Matrix
 
-CONFIGURATION-MATRIX.md
+ `CONFIGURATION-MATRIX.md`
 
-Records computational configurations and precision variants.
+ Records computational configurations and precision variants.
 
-Configurations such as:
+ Configurations such as:
 
+```
 AOS V1.0
 AOS120
 AOS250
@@ -193,34 +216,30 @@ DEC-110
 DEC-120
 DEC-130
 DEC-660
+```
 
+ are not automatically treated as different mathematical kernels.
 
-are not automatically treated as different mathematical kernels.
+ The archive records the actual differences in:
 
-The archive records the actual differences in:
+ - precision;
+- implementation;
+- algorithm;
+- input;
+- output;
+- software version;
+- mathematical definitions;
+- computational environment.
 
-precision;
+---
 
-implementation;
+ # Formal verification
 
-algorithm;
+ Formal proofs are maintained separately from general documentation.
 
-input;
+ The formal-proof workflow is:
 
-output;
-
-software version;
-
-mathematical definitions;
-
-computational environment.
-
-Formal verification
-
-Formal proofs are maintained separately from general documentation.
-
-The formal-proof workflow is:
-
+```
 source
 → Lean definition
 → theorem
@@ -228,59 +247,56 @@ source
 → compilation
 → proof record
 → validation record
+```
 
+ Formal proof identifiers use:
 
-Formal proof identifiers use:
-
+```
 PRF-001
 PRF-002
 PRF-003
 ...
+```
 
+ The corresponding internal theorem identifiers use:
 
-The corresponding internal theorem identifiers use:
-
+```
 THM-001
 THM-002
 THM-003
 ...
+```
 
+ Public mathematical names may use descriptive terminology such as:
 
-Public mathematical names may use descriptive terminology such as:
-
+```
 Faure Theorem of ...
 Faure Theorem on ...
 Faure Theorem for ...
+```
 
+ The internal numerical identifiers are archival references only.
 
-The internal numerical identifiers are archival references only.
+---
 
-Reproducibility
+ # Reproducibility
 
-The documentation layer records the information required to reproduce computational results, including where available:
+ The documentation layer records the information required to reproduce computational results, including where available:
 
-source version;
+ - source version;
+- commit;
+- software environment;
+- Lean version;
+- Mathlib revision;
+- numerical precision;
+- input data;
+- output data;
+- execution procedure;
+- test results.
 
-commit;
+ The objective is to maintain a complete chain:
 
-software environment;
-
-Lean version;
-
-Mathlib revision;
-
-numerical precision;
-
-input data;
-
-output data;
-
-execution procedure;
-
-test results.
-
-The objective is to maintain a complete chain:
-
+```
 SOURCE
   ↓
 VERSION
@@ -290,87 +306,91 @@ EXECUTION
 OUTPUT
   ↓
 RESULT
+```
 
-Validation
+---
 
-Validation is recorded independently from authorship.
+ # Validation
 
-The archive distinguishes:
+ Validation is recorded independently from authorship.
 
+ The archive distinguishes:
+
+```
 DOCUMENTED
 FORMALLY VERIFIED
 COMPUTATIONALLY REPRODUCED
 INDEPENDENTLY REPRODUCED
 PEER REVIEWED
 OPEN REVIEW
+```
 
+ A documented claim is not automatically an independently validated claim.
 
-A documented claim is not automatically an independently validated claim.
+ A formal Lean proof establishes the corresponding proposition within its formal environment.
 
-A formal Lean proof establishes the corresponding proposition within its formal environment.
+ Computational reproduction establishes reproducibility of the specified computation.
 
-Computational reproduction establishes reproducibility of the specified computation.
+ Independent validation is recorded separately.
 
-Independent validation is recorded separately.
+---
 
-Research corpus
+ # Research corpus
 
-The documentation layer coordinates the principal corpus components:
+ The documentation layer coordinates the principal corpus components:
 
-Papers
+ ### Papers
 
-Research manuscripts and publications.
+ Research manuscripts and publications.
 
-Proofs
+ ### Proofs
 
-Formal mathematical verification artifacts.
+ Formal mathematical verification artifacts.
 
-Code
+ ### Code
 
-Executable implementations and research software.
+ Executable implementations and research software.
 
-Datasets
+ ### Datasets
 
-Input data, generated data, and computational datasets.
+ Input data, generated data, and computational datasets.
 
-Validation
+ ### Validation
 
-Reproduction, testing, audit, and validation records.
+ Reproduction, testing, audit, and validation records.
 
-Bibliography
+ ### Bibliography
 
-Primary and secondary scientific literature relevant to the research objects.
+ Primary and secondary scientific literature relevant to the research objects.
 
-Research chronology
+---
 
-The documentation layer also preserves the historical development of the framework.
+ # Research chronology
 
-Chronological records should retain:
+ The documentation layer also preserves the historical development of the framework.
 
-original publication dates;
+ Chronological records should retain:
 
-repository versions;
+ - original publication dates;
+- repository versions;
+- commits;
+- manuscript revisions;
+- mathematical revisions;
+- implementation changes;
+- computational configurations;
+- validation events.
 
-commits;
+ Historical material is preserved rather than silently replaced by later formulations.
 
-manuscript revisions;
+---
 
-mathematical revisions;
+ # Application mapping
 
-implementation changes;
+ Applications are documented only after the underlying mathematical or computational capability has been identified.
 
-computational configurations;
+ The intended chain is:
 
-validation events.
-
-Historical material is preserved rather than silently replaced by later formulations.
-
-Application mapping
-
-Applications are documented only after the underlying mathematical or computational capability has been identified.
-
-The intended chain is:
-
+```
 MATHEMATICAL OBJECT
         ↓
 COMPUTATIONAL CAPABILITY
@@ -380,46 +400,44 @@ DEMONSTRATED PROPERTY
 REPRODUCIBLE RESULT
         ↓
 TECHNICAL APPLICATION
+```
 
+ Application records use:
 
-Application records use:
-
+```
 APP-001
 APP-002
 APP-003
 ...
+```
 
+ and reference the underlying theorem, implementation, experiment, or validation record.
 
-and reference the underlying theorem, implementation, experiment, or validation record.
+---
 
-Institutional documentation
+ # Institutional documentation
 
-This directory may also contain materials prepared for:
+ This directory may also contain materials prepared for:
 
-scientific correspondence;
+ - scientific correspondence;
+- institutional review;
+- research submissions;
+- conference submissions;
+- award and recognition submissions;
+- reproducibility packages;
+- technical due diligence;
+- collaboration proposals;
+- intellectual-property documentation.
 
-institutional review;
+ Institutional documents are kept separate from mathematical proof artifacts.
 
-research submissions;
+---
 
-conference submissions;
+ # Evidence and provenance principle
 
-award and recognition submissions;
+ Every substantive archival assertion should ultimately be traceable to one or more of:
 
-reproducibility packages;
-
-technical due diligence;
-
-collaboration proposals;
-
-intellectual-property documentation.
-
-Institutional documents are kept separate from mathematical proof artifacts.
-
-Evidence and provenance principle
-
-Every substantive archival assertion should ultimately be traceable to one or more of:
-
+```
 PRIMARY SOURCE
 FORMAL SOURCE
 SOURCE CODE
@@ -428,16 +446,19 @@ COMPUTATION
 EXPERIMENT
 INDEPENDENT VALIDATION
 BIBLIOGRAPHIC SOURCE
+```
 
+ The archive does not replace the underlying evidence.
 
-The archive does not replace the underlying evidence.
+ It provides the map connecting the evidence.
 
-It provides the map connecting the evidence.
+---
 
-Current research workflow
+ # Current research workflow
 
-The current development sequence is:
+ The current development sequence is:
 
+```
 AUF2026 PUBLIC CORPUS
         ↓
 SOURCE INVENTORY
@@ -457,20 +478,25 @@ BIBLIOGRAPHIC COMPARISON
 APPLICATION MAPPING
         ↓
 INSTITUTIONAL DOCUMENTATION
+```
 
-Local formal corpus
+---
 
-The next formal extraction phase will use the original local source corpus.
+ # Local formal corpus
 
-Working location:
+ The next formal extraction phase will use the original local source corpus.
 
+ Working location:
+
+```
 D:\
+```
 
+ The local Lean corpus will be inventoried before individual proofs are classified.
 
-The local Lean corpus will be inventoried before individual proofs are classified.
+ For each source file the archive will record, where available:
 
-For each source file the archive will record, where available:
-
+```
 file
 path
 Lean version
@@ -483,45 +509,49 @@ lemmas
 examples
 dependencies
 compilation status
+```
 
+ The first extracted formal artifact will receive an internal identifier such as:
 
-The first extracted formal artifact will receive an internal identifier such as:
-
+```
 PRF-0001
+```
 
+ and its associated mathematical proposition will receive the corresponding internal theorem identifier.
 
-and its associated mathematical proposition will receive the corresponding internal theorem identifier.
+---
 
-Documentation status
+ # Documentation status
 
-This directory is an evolving archival layer.
+ This directory is an evolving archival layer.
 
-New records should preserve:
+ New records should preserve:
 
-original provenance;
+ 1. original provenance;
+2. version history;
+3. source location;
+4. evidence status;
+5. relationship to other corpus objects.
 
-version history;
+ Existing documents should be revised rather than duplicated when their scope remains the same.
 
-source location;
+ New files should be created when a genuinely distinct archival function is required.
 
-evidence status;
+---
 
-relationship to other corpus objects.
+ # Principle
 
-Existing documents should be revised rather than duplicated when their scope remains the same.
+ The documentation layer exists to make the research corpus inspectable.
 
-New files should be created when a genuinely distinct archival function is required.
-
-Principle
-
-The documentation layer exists to make the research corpus inspectable.
-
+```
 FIRST: SOURCE
 THEN: STRUCTURE
 THEN: FORMALIZATION
 THEN: COMPUTATION
 THEN: VALIDATION
 THEN: APPLICATION
+```
 
+ The archive preserves these layers separately while maintaining explicit links between them.
 
-The archive preserves these layers separately while maintaining explicit links between them.
+ Questo dà alla cartella `docs/` un ruolo molto più forte: non è più una raccolta generica di "technical documentation", ma **il livello di provenienza e tracciabilità dell'intero corpus**.
