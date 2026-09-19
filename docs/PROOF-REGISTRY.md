@@ -1,29 +1,39 @@
-AUF2026 — Proof Registry
-Purpose
+# AUF2026 — Proof Registry
 
-Registry of formal proof artifacts extracted from the original local corpus.
+**Status:** Active
+**Scope:** Formal proof artifacts in the AUF2026 research corpus
 
-Proof records
-PRF-ID	Source	THM-ID	Lean	Mathlib	Compilation	Status
-PRF-0001	PENDING	PENDING	PENDING	PENDING	PENDING	PENDING
-Theorem records
-THM-ID	Public name	Formal statement	PRF-ID	Status
-THM-001	PENDING	PENDING	PENDING	PENDING
-Traceability
-PAP
- ↓
-CLM
- ↓
-THM
- ↓
-PRF
- ↓
-VALIDATION
+## Proof Records
 
+| PRF-ID | Source | THM-ID | Lean | Mathlib | Compilation | Status |
+|---|---|---|---|---|---|---|
+| PRF-0001 | PENDING | PENDING | PENDING | PENDING | PENDING | PENDING |
 
-Every relationship must be supported by source evidence.
+## Theorem Records
 
-Status vocabulary
+| THM-ID | Public Name | Formal Statement | PRF-ID | Status |
+|---|---|---|---|---|
+| THM-001 | PENDING | PENDING | PENDING | PENDING |
+
+## Traceability
+
+```text
+PAP-ID
+  ↓
+CLM-ID
+  ↓
+THM-ID
+  ↓
+PRF-ID
+  ↓
+VALIDATION-ID
+````
+
+ Relationships are recorded only when supported by source evidence.
+
+ ## Status
+
+```
 LOCATED
 IMPORTED
 INSPECTED
@@ -32,6 +42,10 @@ FORMALLY_VERIFIED
 REPRODUCED
 INDEPENDENTLY_REPRODUCED
 PEER_REVIEWED
+```
 
+ A status may be assigned only when its corresponding evidence has been recorded.
 
-No stronger status is assigned without corresponding evidence.
+```
+
+```
