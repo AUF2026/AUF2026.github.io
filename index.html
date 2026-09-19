@@ -1050,6 +1050,244 @@
   }
 }
 
+    /* =========================================================
+   AUTHOR IDENTITY
+   ========================================================= */
+
+.author-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 70px auto 0;
+}
+
+.author-panel {
+  position: relative;
+
+  padding: 32px;
+
+  border:
+    1px solid rgba(99,230,190,.28);
+
+  border-radius: 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(99,230,190,.075),
+      rgba(255,255,255,.025)
+    );
+
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.12);
+
+  overflow: hidden;
+}
+
+.author-panel::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #63e6be,
+      transparent
+    );
+
+  opacity: .75;
+}
+
+.author-kicker {
+  margin-bottom: 10px;
+
+  color:
+    #63e6be;
+
+  font-size:
+    .72rem;
+
+  letter-spacing:
+    .16em;
+
+  text-transform:
+    uppercase;
+
+  opacity: .8;
+}
+
+.author-panel h2 {
+  margin:
+    0 0 12px;
+
+  color:
+    var(--text);
+
+  font-size:
+    clamp(1.7rem, 4vw, 2.4rem);
+
+  line-height:
+    1.15;
+}
+
+.author-name {
+  color:
+    #63e6be;
+}
+
+.author-description {
+  max-width:
+    760px;
+
+  margin:
+    0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    1rem;
+
+  line-height:
+    1.75;
+}
+
+.author-meta {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap:
+    12px;
+
+  margin-top:
+    25px;
+}
+
+.author-meta-item {
+  padding:
+    15px;
+
+  border:
+    1px solid rgba(127,127,127,.18);
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(255,255,255,.018);
+}
+
+.author-meta-label {
+  display:
+    block;
+
+  margin-bottom:
+    5px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .7rem;
+
+  letter-spacing:
+    .1em;
+
+  text-transform:
+    uppercase;
+}
+
+.author-meta-value {
+  display:
+    block;
+
+  color:
+    var(--text);
+
+  font-size:
+    .9rem;
+
+  line-height:
+    1.45;
+}
+
+.author-action {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  margin-top:
+    24px;
+
+  padding:
+    10px 16px;
+
+  border:
+    1px solid rgba(99,230,190,.3);
+
+  border-radius:
+    999px;
+
+  color:
+    #63e6be;
+
+  text-decoration:
+    none;
+
+  font-size:
+    .86rem;
+
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease;
+}
+
+.author-action:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(99,230,190,.55);
+
+  background:
+    rgba(99,230,190,.07);
+}
+
+@media (max-width: 700px) {
+
+  .author-section {
+    margin-top:
+      50px;
+  }
+
+  .author-panel {
+    padding:
+      24px;
+  }
+
+  .author-meta {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
   </style>
 </head>
 
@@ -1083,39 +1321,43 @@
 
 
     <nav
-      class="nav-links"
-      id="navLinks"
-    >
+  class="nav-links"
+  id="navLinks"
+>
 
-      <a href="#framework">
-        Framework
-      </a>
+  <a href="#framework">
+    Framework
+  </a>
 
-      <a href="#theorems">
-        Theorems
-      </a>
+  <a href="#theorems">
+    Theorems
+  </a>
 
-      <a href="#mathematics">
-        Mathematics
-      </a>
+  <a href="#mathematics">
+    Mathematics
+  </a>
 
-      <a href="#verification">
-        Lean
-      </a>
+  <a href="#verification">
+    Lean
+  </a>
 
-      <a href="#kernel">
-        Kernel
-      </a>
+  <a href="#kernel">
+    Kernel
+  </a>
 
-      <a href="#applications">
-        Applications
-      </a>
+  <a href="#applications">
+    Applications
+  </a>
 
-      <a href="#documents">
-        Documents
-      </a>
+  <a href="#documents">
+    Documents
+  </a>
 
-    </nav>
+  <a href="#author">
+    Author
+  </a>
+
+</nav>
 
   </div>
 
@@ -2349,6 +2591,77 @@
 
 </section>
 
+<!-- =========================================================
+     AUTHOR IDENTITY
+     ========================================================= -->
+
+<section
+  id="author"
+  class="author-section"
+>
+
+  <div class="author-panel">
+
+    <div class="author-kicker">
+      Author Identity · AUF2026
+    </div>
+
+    <h2>
+      <span class="author-name">Alain Faure</span>
+    </h2>
+
+    <p class="author-description">
+      Author identity and bibliographic disambiguation record
+      for the AUF2026 research corpus. This section connects
+      the public author identity with the mathematical corpus,
+      archival documents, formal proofs, validation records
+      and bibliographic sources maintained in the repository.
+    </p>
+
+    <div class="author-meta">
+
+      <div class="author-meta-item">
+        <span class="author-meta-label">
+          Research Corpus
+        </span>
+
+        <span class="author-meta-value">
+          AUF2026
+        </span>
+      </div>
+
+      <div class="author-meta-item">
+        <span class="author-meta-label">
+          Identity Record
+        </span>
+
+        <span class="author-meta-value">
+          AUTHOR-IDENTITY.md
+        </span>
+      </div>
+
+      <div class="author-meta-item">
+        <span class="author-meta-label">
+          Archive Scope
+        </span>
+
+        <span class="author-meta-value">
+          Mathematics · Formalization · Validation
+        </span>
+      </div>
+
+    </div>
+
+    <a
+      href="docs/AUTHOR-IDENTITY.md"
+      class="author-action"
+    >
+      View Author Identity Record →
+    </a>
+
+  </div>
+
+</section>
 
 <!-- =========================================================
      AUTHOR
