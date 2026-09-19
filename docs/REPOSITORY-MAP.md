@@ -1,31 +1,39 @@
-AUF2026 — Repository Map
+# AUF2026 — Repository Map
 
-This document maps the existing public AUF2026 repositories into the central research archive.
+**Status:** Active
+**Scope:** Public AUF2026 repositories and their role in the research archive
 
-Repository R01
-AOS-DETERMINISTIC-PROTOCOL
+## Repository Registry
 
-Source:
+| ID | Repository | Role | Archive Classification |
+|---|---|---|---|
+| R01 | `AOS-DETERMINISTIC-PROTOCOL` | Mathematical and formal core | CORE |
+| R02 | `WYP_system` | Computational and application layer | APPLICATION |
+| R03 | `AOS-TOTUM-DETERMINSTIC-TRUTH` | Separate research corpus | EXTERNAL CORPUS |
+| R04 | `CIC` | Application repository | APPLICATION |
 
-https://github.com/AUF2026/AOS-DETERMINISTIC-PROTOCOL
+---
 
-Public repository characteristics:
+## R01 — AOS-DETERMINISTIC-PROTOCOL
 
-79 commits currently visible;
+**Repository:** `AUF2026/AOS-DETERMINISTIC-PROTOCOL`
 
-proofs/ directory;
+**URL:** https://github.com/AUF2026/AOS-DETERMINISTIC-PROTOCOL
 
-README containing FDM, Universal Tuple and AOS144 structures;
+**Role:** Mathematical and formal research core
 
-formal architecture;
+**Relevant areas:**
 
-mathematical dependencies;
+- foundational definitions;
+- formal architecture;
+- mathematical dependencies;
+- proof artifacts;
+- validation material;
+- reproducibility material.
 
-validation documentation;
+**Principal documented objects:**
 
-reproducibility-oriented material.
-
-Principal objects
+```text
 K_min
 F
 U_F
@@ -33,127 +41,129 @@ AOS
 AOS144
 Measure Gate
 Born
+````
 
-Principal formulas documented in the repository
-F = (A,A',S,S',R,R',T,φ)
+ The exact theorem and proof identifiers are assigned only after direct source extraction.
 
-U_F = (M,G,A,Ψ,Λ,Π)
+---
 
-Ψ⁴ ≡ Ψ⁵
+ ## R02 — WYP\_system
 
-Archive mappings
-F       → THM-ARCHIVE
-U_F     → THM-ARCHIVE
-AOS144  → ARCH-144
-Ψ       → THM-ARCHIVE
-Measure Gate → THM-ARCHIVE
+ **Repository:** `AUF2026/WYP_system`
 
+ **URL:** https://github.com/AUF2026/WYP\_system
 
-The exact theorem identifiers are assigned only after extraction of the corresponding source statements.
+ **Role:** Computational and application layer
 
-Repository R02
-WYP_system
+ **Relevant paths:**
 
-Source:
+```
+src/wyp/
+tests/
+examples/
+docs/
+```
 
-https://github.com/AUF2026/WYP_system
+ **Repository metadata:**
 
-Public repository characteristics:
+```
+CHANGELOG.md
+VERSION
+pyproject.toml
+```
 
-208 commits currently visible;
+ **Archive mapping:**
 
-src/wyp/;
+ | Repository path | Archive role |
+| --- | --- |
+| `src/wyp/` | CODE-WYP |
+| `tests/` | TEST-WYP |
+| `examples/` | EXP-WYP |
+| `docs/` | DOC-WYP |
+| `CHANGELOG.md` | VERSION-WYP |
+| `VERSION` | VERSION-WYP |
 
-examples/;
+---
 
-tests/;
+ ## R03 — AOS-TOTUM-DETERMINSTIC-TRUTH
 
-docs/;
+ **Repository:** `AUF2026/AOS-TOTUM-DETERMINSTIC-TRUTH`
 
-CHANGELOG.md;
+ **URL:** https://github.com/AUF2026/AOS-TOTUM-DETERMINSTIC-TRUTH
 
-VERSION;
+ **Role:** Separate research corpus
 
-pyproject.toml;
+ Material from this repository remains associated with its original provenance.
 
-commercial licensing documentation.
+ When incorporated into the central archive, preserve:
 
-Application-layer mapping
-structure
+```
+REPOSITORY
+COMMIT
+FILE PATH
+VERSION
+HASH
+```
+
+ No material is merged in a way that removes its original provenance.
+
+---
+
+ ## R04 — CIC
+
+ **Repository:** `AUF2026/CIC`
+
+ **URL:** https://github.com/AUF2026/CIC
+
+ **Role:** Application repository
+
+ Its contents are classified independently from the mathematical core.
+
+ No mathematical-core relationship is assigned without supporting source evidence.
+
+---
+
+ ## Central Archive Mapping
+
+ The central archive maps public repositories to identifiable research objects:
+
+```
+REPOSITORY
     ↓
-invariants
-    ↓
-constraints
-    ↓
-quantities
-    ↓
-manifestation
-
-Archive mappings
-src/wyp/       → CODE-WYP
-tests/         → TEST-WYP
-examples/      → EXP-WYP
-docs/          → DOC-WYP
-CHANGELOG.md   → VERSION-WYP
-VERSION        → VERSION-WYP
-
-Repository R03
-AOS-TOTUM-DETERMINSTIC-TRUTH
-
-Source:
-
-https://github.com/AUF2026/AOS-TOTUM-DETERMINSTIC-TRUTH
-
-This repository is treated as a separate corpus source.
-
-Its material is not merged into the central archive without preserving:
-
-original repository;
-
-commit history;
-
-original file path;
-
-version;
-
-source hash where available.
-
-Repository R04
-CIC
-
-Source:
-
-https://github.com/AUF2026/CIC
-
-This repository is currently catalogued as an application repository.
-
-Its contents are not assumed to be part of the mathematical core.
-
-Central archive principle
-
-The central AUF2026 research archive does not replace the original repositories.
-
-It provides:
-
-INDEX
-    ↓
-SOURCE REPOSITORY
+PATH
     ↓
 FILE
     ↓
-COMMIT / VERSION
+VERSION / COMMIT
+    ↓
+RESEARCH OBJECT
     ↓
 CLAIM / THEOREM / CODE / EXPERIMENT
     ↓
 VALIDATION RECORD
+```
 
+ The original repository remains the provenance source.
 
-The original repository remains the provenance source.
+---
 
-Important distinction
+ ## Provenance Rule
 
-A repository containing a mathematical statement, implementation, validation report or AI-assisted audit establishes that the material exists publicly.
+ The central archive does not replace the original repositories.
 
-It does not by itself establish independent mathematical validation.
+ It records their relationships, artifacts, versions, and evidence while preserving the original source location.
 
-The archive therefore records provenance and evidence separately.
+ A repository containing a mathematical statement, implementation, validation record, or audit establishes the existence and provenance of that material.
+
+ It does not, by itself, establish:
+
+ - mathematical correctness;
+- originality;
+- independent validation;
+- external acceptance.
+
+ Provenance and validation are therefore recorded separately.
+
+```
+
+```
