@@ -655,6 +655,76 @@
     }
 
     /* =========================================================
+       ARCHIVE LINKS
+       ========================================================= */
+
+    .archive-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(0,1fr)
+        );
+
+      gap: 15px;
+
+      margin-top: 25px;
+    }
+
+    .archive-link {
+      display: block;
+
+      padding: 22px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius: 12px;
+
+      background:
+        rgba(255,255,255,.025);
+
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+    }
+
+    .archive-link:hover {
+      transform:
+        translateY(-3px);
+
+      border-color:
+        rgba(99,230,190,.30);
+
+      background:
+        rgba(99,230,190,.04);
+    }
+
+    .archive-link strong {
+      display: block;
+
+      color:
+        var(--text);
+
+      font-size:
+        1rem;
+    }
+
+    .archive-link span {
+      display: block;
+
+      margin-top: 7px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        .85rem;
+    }
+
+    /* =========================================================
        FOOTER
        ========================================================= */
 
@@ -705,6 +775,11 @@
       .documents {
         grid-template-columns: 1fr;
       }
+
+      .archive-grid {
+        grid-template-columns:
+          repeat(2,1fr);
+      }
     }
 
     @media (max-width: 700px) {
@@ -744,6 +819,10 @@
       }
 
       .status-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .archive-grid {
         grid-template-columns: 1fr;
       }
 
@@ -883,6 +962,16 @@
         href="#verification"
       >
         Formal Verification
+      </a>
+
+
+      <a
+        class="button button-secondary"
+        href="https://github.com/AUF2026"
+        target="_blank"
+        rel="noopener"
+      >
+        Research Repository
       </a>
 
     </div>
@@ -1604,6 +1693,15 @@
           /papers/
         </code>
 
+        <a
+          class="card-link"
+          href="papers/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open papers archive →
+        </a>
+
       </article>
 
 
@@ -1620,6 +1718,15 @@
         <code>
           /proofs/
         </code>
+
+        <a
+          class="card-link"
+          href="proofs/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open proofs archive →
+        </a>
 
       </article>
 
@@ -1639,6 +1746,15 @@
           /validation/
         </code>
 
+        <a
+          class="card-link"
+          href="validation/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open validation archive →
+        </a>
+
       </article>
 
 
@@ -1657,7 +1773,305 @@
           /bibliography/
         </code>
 
+        <a
+          class="card-link"
+          href="bibliography/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open bibliography archive →
+        </a>
+
       </article>
+
+
+      <article class="document">
+
+        <h3>
+          Datasets
+        </h3>
+
+        <p>
+          Computational datasets, provenance records,
+          versions and associated experiments.
+        </p>
+
+        <code>
+          /datasets/
+        </code>
+
+        <a
+          class="card-link"
+          href="datasets/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open datasets archive →
+        </a>
+
+      </article>
+
+
+      <article class="document">
+
+        <h3>
+          Source code
+        </h3>
+
+        <p>
+          Computational implementations, dependencies,
+          execution instructions and expected outputs.
+        </p>
+
+        <code>
+          /code/
+        </code>
+
+        <a
+          class="card-link"
+          href="code/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open code archive →
+        </a>
+
+      </article>
+
+
+      <article class="document">
+
+        <h3>
+          Documentation
+        </h3>
+
+        <p>
+          Technical specifications, research protocols,
+          submission packages and archival documentation.
+        </p>
+
+        <code>
+          /docs/
+        </code>
+
+        <a
+          class="card-link"
+          href="docs/README.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open documentation →
+        </a>
+
+      </article>
+
+
+      <article class="document">
+
+        <h3>
+          Central Research Register
+        </h3>
+
+        <p>
+          Stable identifiers for claims, theorems, manuscripts,
+          proofs, experiments, validation records and applications.
+        </p>
+
+        <code>
+          /docs/RESEARCH-REGISTER.md
+        </code>
+
+        <a
+          class="card-link"
+          href="docs/RESEARCH-REGISTER.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open research register →
+        </a>
+
+      </article>
+
+
+      <article class="document">
+
+        <h3>
+          Archive Map
+        </h3>
+
+        <p>
+          Complete map connecting the public website with
+          the version-controlled research archive.
+        </p>
+
+        <code>
+          /docs/ARCHIVE-MAP.md
+        </code>
+
+        <a
+          class="card-link"
+          href="docs/ARCHIVE-MAP.md"
+          target="_blank"
+          rel="noopener"
+        >
+          Open archive map →
+        </a>
+
+      </article>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         ARCHIVE DIRECTORY
+         ===================================================== -->
+
+    <div class="archive-grid">
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/papers"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Papers
+        </strong>
+
+        <span>
+          Canonical manuscripts and technical documents
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/proofs"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Proofs
+        </strong>
+
+        <span>
+          Lean 4 formal verification artifacts
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/validation"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Validation
+        </strong>
+
+        <span>
+          Reproduction and validation records
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/bibliography"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Bibliography
+        </strong>
+
+        <span>
+          Literature and prior-art comparison
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/datasets"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Datasets
+        </strong>
+
+        <span>
+          Data provenance and computational experiments
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/code"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Code
+        </strong>
+
+        <span>
+          Implementations and execution environments
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="https://github.com/AUF2026/AUF2026.github.io/tree/main/docs"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Documentation
+        </strong>
+
+        <span>
+          Technical and archival documentation
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="docs/RESEARCH-REGISTER.md"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Research Register
+        </strong>
+
+        <span>
+          Central registry of research objects
+        </span>
+      </a>
+
+
+      <a
+        class="archive-link"
+        href="docs/ARCHIVE-MAP.md"
+        target="_blank"
+        rel="noopener"
+      >
+        <strong>
+          Archive Map
+        </strong>
+
+        <span>
+          Website-to-repository architecture
+        </span>
+      </a>
 
 
     </div>
@@ -1813,6 +2227,14 @@
 
   console.log(
     "Research archive initialized."
+  );
+
+  console.log(
+    "Research Register: /docs/RESEARCH-REGISTER.md"
+  );
+
+  console.log(
+    "Archive Map: /docs/ARCHIVE-MAP.md"
   );
 
 </script>
