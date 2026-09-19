@@ -553,5 +553,3 @@ THEN: APPLICATION
 ```
 
  The archive preserves these layers separately while maintaining explicit links between them.
-
- Questo dà alla cartella `docs/` un ruolo molto più forte: non è più una raccolta generica di "technical documentation", ma **il livello di provenienza e tracciabilità dell'intero corpus**.
