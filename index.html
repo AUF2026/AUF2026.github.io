@@ -1288,6 +1288,272 @@
 
 }
 
+/* =========================================================
+   SUPPORT — AUF2026
+   ========================================================= */
+
+#support.support-page {
+  position: relative;
+  overflow: hidden;
+}
+
+#support .support-container {
+  position: relative;
+  z-index: 2;
+  width: min(920px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 90px 0 70px;
+}
+
+#support .support-kicker {
+  margin-bottom: 18px;
+  color: #5fcaff;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+
+#support .support-title {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: .94;
+  letter-spacing: -.055em;
+  background: linear-gradient(
+    110deg,
+    #fff,
+    #c9edf9 55%,
+    #63caff
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+#support .support-lead {
+  max-width: 700px;
+  margin: 28px 0 0;
+  color: #a9bdc8;
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+#support .support-card {
+  position: relative;
+  margin-top: 60px;
+  padding: clamp(30px, 6vw, 58px);
+  overflow: hidden;
+  border: 1px solid rgba(120,190,220,.17);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.012)
+    );
+  box-shadow: 0 40px 100px rgba(0,0,0,.4);
+  transition:
+    transform .4s ease,
+    border-color .4s ease,
+    box-shadow .4s ease;
+}
+
+#support .support-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(90,195,255,.4);
+  box-shadow:
+    0 45px 110px rgba(0,0,0,.45),
+    0 0 55px rgba(70,170,240,.07);
+}
+
+#support .support-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 84%;
+  height: 1px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #61d0ff,
+      transparent
+    );
+  box-shadow: 0 0 12px rgba(80,200,255,.5);
+}
+
+#support .donation-container {
+  margin-top: 42px;
+  padding-top: 34px;
+  border-top: 1px solid rgba(120,190,220,.14);
+}
+
+#support .donation-title {
+  margin: 0 0 22px;
+  color: #dff7ff;
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+}
+
+#support .author-meta {
+  padding: 20px 0;
+  color: #8fa8b4;
+  font-size: .88rem;
+  line-height: 1.9;
+}
+
+#support .author-name {
+  color: #d8f4fc;
+}
+
+#support .author-quote {
+  color: #71909d;
+  font-style: italic;
+}
+
+#support .meta-label {
+  color: #5d7c88;
+}
+
+#support .meta-link {
+  color: #61cfff;
+  text-decoration: none;
+}
+
+#support .meta-link:hover {
+  color: #a0eaff;
+  text-shadow: 0 0 12px rgba(90,205,255,.35);
+}
+
+#support .framework-formulas {
+  margin: 22px 0 26px;
+  padding: 20px 22px;
+  border-left: 2px solid rgba(95,202,255,.5);
+  background: rgba(60,150,190,.035);
+  color: #9ee4f8;
+  font-family: "Times New Roman", Georgia, serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  line-height: 2;
+}
+
+#support .donation-description {
+  color: #8ea5b0;
+  font-size: .9rem;
+}
+
+#support .stripe-support {
+  margin-top: 28px;
+}
+
+#support .payment-line {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 20px;
+  color: #718793;
+  font-size: .78rem;
+}
+
+#support .payment-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5ed5ff;
+  box-shadow: 0 0 10px rgba(90,210,255,.9);
+}
+
+#support .legal-notice {
+  margin-top: 32px;
+  padding: 20px 22px;
+  border: 1px solid rgba(120,190,220,.09);
+  background: rgba(0,0,0,.12);
+  color: #687f8b;
+  font-size: .76rem;
+  line-height: 1.75;
+}
+
+#support .legal-notice strong {
+  color: #8ca7b2;
+  letter-spacing: .08em;
+}
+
+#support .legal-notice p {
+  margin: 10px 0 0;
+  color: #687f8b;
+}
+
+#support .system-signature {
+  margin-top: 24px;
+  color: #526c78;
+  font-size: .75rem;
+}
+
+#support .system-signature strong {
+  color: #7293a0;
+}
+
+#support .principles {
+  margin-top: 65px;
+  border-top: 1px solid rgba(120,190,220,.15);
+}
+
+#support .principle {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(120,190,220,.15);
+  transition: padding-left .3s ease;
+}
+
+#support .principle:hover {
+  padding-left: 10px;
+}
+
+#support .number {
+  color: #58caff;
+  font-family: monospace;
+  font-size: .75rem;
+}
+
+#support .principle h3 {
+  margin: 0 0 5px;
+  font-size: 1.05rem;
+}
+
+#support .principle p {
+  max-width: 700px;
+  margin: 0;
+  color: #8197a3;
+  font-size: .92rem;
+}
+
+#support .support-footer {
+  margin-top: 60px;
+  color: #526874;
+  font-size: .78rem;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 600px) {
+
+  #support .support-container {
+    padding-top: 65px;
+  }
+
+  #support .support-card {
+    padding: 30px 22px;
+  }
+
+  #support .principle {
+    grid-template-columns: 40px 1fr;
+  }
+
+  #support .framework-formulas {
+    padding: 16px;
+  }
+
+}
+    
   </style>
 </head>
 
@@ -3162,6 +3428,354 @@
     theorem, proof, validation and bibliographic evidence chains.
 
   </div>
+
+</section>
+
+  <!-- =========================================================
+     SUPPORT THE RESEARCH
+     ========================================================= -->
+
+<section
+  id="support"
+  class="support-page"
+>
+
+  <main class="support-container">
+
+    <div class="support-kicker">
+      AUF2026 · INDEPENDENT RESEARCH
+    </div>
+
+    <h2 class="support-title">
+      Support the Research
+    </h2>
+
+    <p class="support-lead">
+
+      AUF2026 is freely accessible and developed as an
+      independent mathematical research, formalization
+      and archival project.
+
+    </p>
+
+
+    <!-- =====================================================
+         SUPPORT CARD
+         ===================================================== -->
+
+    <section class="support-card">
+
+      <div class="card-label">
+        RESEARCH SUPPORT
+      </div>
+
+      <h3>
+        Help keep the research public.
+      </h3>
+
+
+      <p>
+
+        The archive, mathematical statements, formal proofs,
+        computational experiments, datasets and documentation
+        are made available openly.
+
+      </p>
+
+
+      <p>
+
+        I am currently developing and maintaining the project
+        independently. Voluntary financial support helps provide
+        the time and infrastructure required to maintain,
+        formalize and expand the research.
+
+      </p>
+
+
+      <p>
+
+        There is no paywall and no requirement to contribute.
+        The research remains freely accessible regardless of
+        whether you support it.
+
+      </p>
+
+
+      <!-- ===================================================
+           U_F FRAMEWORK
+           =================================================== -->
+
+      <div
+        id="faure-framework-donation-block"
+        class="donation-container"
+      >
+
+        <h3 class="donation-title">
+          Support the U_F Structural Framework
+        </h3>
+
+
+        <div class="author-meta">
+
+          <strong class="author-name">
+            Alain Faure — Master Architect - Q.E.D.
+          </strong>
+
+          <br>
+
+          <span class="author-quote">
+            “First the data speak. Then, through the data, Alain Faure speaks.”
+          </span>
+
+          <br><br>
+
+          <span class="meta-label">
+            ORCID:
+          </span>
+
+          <a
+            href="https://orcid.org/0009-0009-5333-1181"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="meta-link"
+          >
+            0009-0009-5333-1181
+          </a>
+
+          <br>
+
+          <span class="meta-label">
+            GitHub:
+          </span>
+
+          <a
+            href="https://github.com/AUF2026"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="meta-link"
+          >
+            AUF2026
+          </a>
+
+          <br>
+
+          <span class="meta-label">
+            LinkedIn:
+          </span>
+
+          <a
+            href="https://www.linkedin.com/in/alain-faure-ge/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="meta-link"
+          >
+            alain-faure-ge
+          </a>
+
+        </div>
+
+
+        <div class="framework-formulas">
+
+          <div>
+            𝓕(A, A′, S, S′, R, R′, T, φ)
+          </div>
+
+          <div>
+            U<sub>F</sub>(M, G, A, Ψ, Λ, Π)
+          </div>
+
+        </div>
+
+
+        <p class="donation-description">
+
+          Financial contributions made through this channel are
+          intended exclusively to support independent research,
+          data reproducibility and formal validation in Lean 4
+          Core carried out within the AUF2026 research project.
+
+        </p>
+
+
+        <p class="donation-description">
+
+          Contributions are voluntary. They do not purchase
+          access to the research archive and do not confer
+          ownership of the mathematical framework, source code,
+          proofs or associated intellectual property.
+
+        </p>
+
+
+        <!-- =================================================
+             STRIPE
+             ================================================= -->
+
+        <div class="stripe-support">
+
+          <script
+            async
+            src="https://js.stripe.com/v3/buy-button.js"
+          ></script>
+
+          <stripe-buy-button
+            buy-button-id="buy_btn_1UHU1vBkPXKw3Sx9dCHjlvQW"
+            publishable-key="pk_live_51UHRz9BkPXKw3Sx9YAfBJo2h9Uwcek14QWdoljUXC5FOTUn70yGTwCbuJfa75NL0wajCjiSQAY1AD7Dm3oT6YlQi00YzUZ5jNo"
+          >
+          </stripe-buy-button>
+
+        </div>
+
+
+        <div class="payment-line">
+
+          <span class="payment-dot"></span>
+
+          Secure payment · Voluntary support · Public research
+
+        </div>
+
+
+        <!-- =================================================
+             LEGAL NOTICE
+             ================================================= -->
+
+        <div class="legal-notice">
+
+          <strong>
+            LEGAL INFORMATION
+          </strong>
+
+          <p>
+
+            Contributions made through this channel are
+            voluntary payments intended to support the
+            independent AUF2026 research project.
+
+          </p>
+
+          <p>
+
+            A contribution does not by itself confer any
+            intellectual property right, ownership interest,
+            commercial licence, technical assistance,
+            consultancy or other contractual counter-performance.
+
+          </p>
+
+          <p>
+
+            The legal and tax treatment of any contribution
+            depends on the applicable law and the circumstances
+            of the individual transaction. This information
+            does not constitute legal or tax advice.
+
+          </p>
+
+        </div>
+
+
+        <div class="system-signature">
+
+          <em>
+            Research infrastructure:
+          </em>
+
+          <strong>
+            AUF2026 · Mathematical &amp; Formal Research Archive
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PRINCIPLES
+         ===================================================== -->
+
+    <section class="principles">
+
+      <div class="principle">
+
+        <div class="number">
+          01
+        </div>
+
+        <div>
+
+          <h3>
+            Free access
+          </h3>
+
+          <p>
+            The research archive remains publicly accessible
+            whether or not a visitor contributes.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="principle">
+
+        <div class="number">
+          02
+        </div>
+
+        <div>
+
+          <h3>
+            Independent research
+          </h3>
+
+          <p>
+            Financial support does not determine theorem status,
+            proof validity, bibliographic attribution or research
+            conclusions.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="principle">
+
+        <div class="number">
+          03
+        </div>
+
+        <div>
+
+          <h3>
+            Direct support
+          </h3>
+
+          <p>
+            Contributions are voluntary and help support the
+            continued development and maintenance of AUF2026.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <div class="support-footer">
+
+      AUF2026 · Independent Mathematical Research Archive
+
+    </div>
+
+  </main>
 
 </section>
 
