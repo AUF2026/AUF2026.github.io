@@ -1,76 +1,79 @@
-AUF2026 — Local Corpus Map
-Purpose
+# AUF2026 — Local Corpus Map
 
-This document maps the original local AUF2026 research corpus.
+**Status:** Living research document
+**Scope:** Original local AUF2026 research corpus
+**Primary local root:** `D:\`
+**Approximate size:** >35 GB
+**Exact size:** Pending inventory
 
-The local corpus contains heterogeneous research artifacts, including formal mathematics, source code, manuscripts, PDFs, LaTeX sources, computational experiments, datasets, notes, and supporting materials.
+---
 
-The local corpus is substantially larger than the public GitHub repository and is therefore not intended to be copied wholesale into the public archive.
+## 1. Purpose
 
-1. Primary local corpus
+The local corpus contains the original AUF2026 research material, including:
 
-Root:
+- formal mathematics;
+- Lean source;
+- Python source;
+- LaTeX manuscripts;
+- PDFs;
+- datasets;
+- computational experiments;
+- research notes;
+- configuration files;
+- images;
+- logs;
+- supporting material.
 
-D:\
+The local corpus is substantially larger than the public GitHub repository.
 
+It is therefore treated as the **source environment**, not as a directory to be copied wholesale into the public archive.
 
-Approximate corpus size:
+The public repository is the curated publication and documentation layer.
 
-> 35 GB
-
-
-Exact size:
-
-PENDING INVENTORY
-
-2. Corpus classes
-
-The inventory may contain, among other categories:
-
-LEAN
-PYTHON
-LATEX
-PDF
-CODE
-DATA
-EXPERIMENTS
-MANUSCRIPTS
-NOTES
-IMAGES
-CONFIGURATION
-LOGS
-OTHER
-
-
-The actual classification is determined from the filesystem and source metadata.
-
-3. Provenance principle
-
-The local corpus is the primary source environment for artifacts that originated locally.
-
-The public repository is an archival and publication layer.
-
-Therefore:
-
-LOCAL SOURCE
-    ↓
+```text
+LOCAL CORPUS
+     ↓
 INVENTORY
-    ↓
+     ↓
 CLASSIFICATION
-    ↓
+     ↓
 PROVENANCE
-    ↓
+     ↓
 SELECTED PUBLIC ARTIFACT
+````
 
+---
 
-The public archive does not imply that the complete local corpus has been published.
+ ## 2\. Corpus Classification
 
-4. Artifact identifiers
+ The initial inventory may identify the following artifact classes:
 
-Each significant artifact may receive an internal identifier.
+ | Class | Description |
+| --- | --- |
+| `LEAN` | Lean source and formal proofs |
+| `PYTHON` | Python programs and computational tools |
+| `LATEX` | Manuscript and document sources |
+| `PDF` | Generated or external PDF documents |
+| `CODE` | Other source code |
+| `DATA` | Datasets and computational inputs |
+| `EXPERIMENTS` | Experimental and benchmark material |
+| `MANUSCRIPTS` | Research manuscripts |
+| `NOTES` | Research notes |
+| `IMAGES` | Figures and visual material |
+| `CONFIGURATION` | Project and environment configuration |
+| `LOGS` | Execution and build records |
+| `OTHER` | Material not yet classified |
 
-Examples:
+Classification is determined from filesystem structure, file metadata and project context.
 
+---
+
+ ## 3\. Artifact Identity and Provenance
+
+ Significant artifacts may receive stable internal identifiers.
+
+```
 SRC-0001
 SRC-0002
 
@@ -88,207 +91,225 @@ PAP-0002
 
 DAT-0001
 DAT-0002
+```
 
+ Identifiers are archival references only. They do not modify or replace original filenames.
 
-Identifiers are archival references and do not alter the original filenames.
+ Where practical, the inventory records:
 
-5. File-level metadata
-
-Where practical, the inventory records:
-
+```
 ID
-absolute/local path
-relative path
-filename
-extension
-size
-creation time
-modification time
+LOCAL PATH
+RELATIVE PATH
+FILENAME
+EXTENSION
+SIZE
+CREATION TIME
+MODIFICATION TIME
 SHA-256
-file type
-language
-project
-version
-status
-public/private classification
-related artifact
+FILE TYPE
+LANGUAGE
+PROJECT
+VERSION
+STATUS
+PUBLIC / PRIVATE
+RELATED ARTIFACT
+```
 
-6. Formal mathematics
+ The original file remains the primary provenance reference.
 
-Lean sources are classified separately from manuscripts.
+---
 
-For Lean projects record:
+ ## 4\. Formal and Computational Sources
 
-project root
-lean-toolchain
-Lean version
-lakefile
-Mathlib revision
-Git commit
-imports
-namespaces
-definitions
-theorems
-lemmas
-examples
-tests
-build status
+ ### Lean
 
+ Lean projects are inventoried separately from manuscripts.
 
-Formal proofs receive PRF-XXXX.
+ For each project, record where available:
 
-The associated mathematical objects receive THM-XXX.
+```
+PROJECT ROOT
+LEAN-TOOLCHAIN
+LEAN VERSION
+LAKEFILE
+MATHLIB REVISION
+GIT COMMIT
+IMPORTS
+NAMESPACES
+DEFINITIONS
+THEOREMS
+LEMMAS
+EXAMPLES
+TESTS
+BUILD STATUS
+```
 
-7. Python corpus
+ Formal proof artifacts use `PRF-XXXX`.
 
-Python projects are inventoried separately.
+ Associated mathematical objects use `THM-XXX`.
 
-Record, where available:
+ ### Python
 
-Python version
-pyproject.toml
-requirements
-dependencies
-source files
-tests
-examples
-configuration
-datasets
-execution scripts
-outputs
+ Python projects should record:
 
+```
+PYTHON VERSION
+PYPROJECT.TOML
+REQUIREMENTS
+DEPENDENCIES
+SOURCE FILES
+TESTS
+EXAMPLES
+CONFIGURATION
+DATASETS
+EXECUTION SCRIPTS
+OUTPUTS
+```
 
-The currently relevant environment includes:
+ The currently identified environment includes:
 
+```
 Python 3.13.11
+```
 
+ Individual project environments must still be recorded separately.
 
-The exact project environments must still be recorded independently.
+ ### LaTeX
 
-8. LaTeX corpus
+ For LaTeX projects preserve:
 
-LaTeX projects should preserve:
+```
+.tex SOURCES
+BIBLIOGRAPHY
+FIGURES
+TABLES
+CUSTOM STYLES
+BUILD CONFIGURATION
+GENERATED PDF
+```
 
-.tex sources
-bibliography
-figures
-tables
-custom styles
-build configuration
-generated PDF
+ When available, the `.tex` source is preferred for provenance.
 
+ Generated PDFs remain separate archival artifacts.
 
-The .tex source is preferred for provenance when available.
+---
 
-Generated PDFs are retained as separate artifacts.
+ ## 5\. PDFs, Experiments and Supplied Material
 
-9. PDF corpus
+ PDF artifacts are classified by origin:
 
-PDFs are classified according to origin:
+ | Classification | Meaning |
+| --- | --- |
+| `ORIGINAL MANUSCRIPT` | Original manuscript artifact |
+| `GENERATED MANUSCRIPT` | PDF generated from source |
+| `EXTERNAL REFERENCE` | External literature or reference |
+| `TECHNICAL DOCUMENT` | Technical documentation |
+| `VALIDATION DOCUMENT` | Validation or audit material |
+| `INSTITUTIONAL DOCUMENT` | Institutional or submission material |
+| `OTHER` | Not yet classified |
 
-ORIGINAL MANUSCRIPT
-GENERATED MANUSCRIPT
-EXTERNAL REFERENCE
-TECHNICAL DOCUMENT
-VALIDATION DOCUMENT
-INSTITUTIONAL DOCUMENT
-OTHER
+When an original source exists, extracted PDF text does not silently replace it.
 
+ ### Experiments
 
-PDF text should not be silently substituted for the original source when the source file is available.
+ Experimental artifacts use:
 
-10. Research experiments
-
-Experiments receive:
-
+```
 EXP-XXXX
+```
 
+ An experiment record should identify:
 
-An experiment record should eventually identify:
+```
+SOURCE CODE
+INPUT
+CONFIGURATION
+ENVIRONMENT
+EXECUTION
+OUTPUT
+RESULT
+REPRODUCIBILITY STATUS
+```
 
-source code
-input
-configuration
-environment
-execution
-output
-result
-reproducibility status
+ ### User-supplied material
 
-11. Documents supplied selectively
+ Material supplied directly during research is initially classified as:
 
-Certain documents and proofs may be provided directly during the research process.
-
-Such material is initially classified as:
-
+```
 USER-SUPPLIED SOURCE
+```
 
+ It is not automatically considered independently verified.
 
-It should not automatically be treated as independently verified.
+ Its processing state is recorded separately:
 
-The archive records:
+```
+RECEIVED
+INSPECTED
+TRANSCRIBED
+FORMALIZED
+REPRODUCED
+VALIDATED
+```
 
-received
-inspected
-transcribed
-formalized
-reproduced
-validated
+---
 
+ ## 6\. Public / Private Boundary
 
-as separate states.
+ Every artifact should receive a publication classification before entering the public archive.
 
-12. Public/private boundary
-
-Before publication, every artifact receives a publication classification:
-
+```
 PUBLIC
 PUBLIC AFTER REVIEW
 LOCAL ONLY
 RESTRICTED
 UNKNOWN
+```
 
+ The existence of an artifact in the local corpus does not imply that it should be published.
 
-No assumption is made that every file on the local drive should be published.
+ The public repository contains selected artifacts whose publication status permits inclusion.
 
-13. Duplicate detection
+---
 
-Large corpora may contain multiple copies or generated versions of the same artifact.
+ ## 7\. Duplicate and Version Control
 
-The inventory should use:
+ Large research corpora may contain multiple copies, generated files and historical versions.
 
-filename
-size
+ Probable duplicates are identified using:
+
+```
+FILENAME
+SIZE
 SHA-256
-path
-timestamp
+PATH
+TIMESTAMP
+```
 
+ Duplicate files are **not deleted automatically**.
 
-to identify probable duplicates.
+ When multiple versions of an artifact exist, the version genealogy is preserved:
 
-Duplicates are not deleted automatically.
-
-14. Version genealogy
-
-When several versions of an artifact exist:
-
-SOURCE A
-   ↓
+```
+SOURCE
+  ↓
 REVISION B
-   ↓
+  ↓
 REVISION C
-   ↓
+  ↓
 PUBLIC VERSION
+```
 
+ Historical versions must not be silently replaced by later versions.
 
-the genealogy should be preserved.
+---
 
-Later versions must not silently replace historical versions.
+ ## 8\. Research Relationships and Inventory Workflow
 
-15. Research-object relationships
+ The eventual research-object graph may connect:
 
-The eventual archive graph may contain:
-
+```
 SOURCE
   ↓
 PAPER
@@ -306,63 +327,70 @@ EXPERIMENT
 VALIDATION
   ↓
 APPLICATION
+```
 
+ Not every artifact participates in every relationship. A relationship is recorded only when supported by evidence.
 
-Not every artifact participates in every relationship.
+ ### Inventory phases
 
-Relationships are recorded only when supported by evidence.
+ **Phase 1 — Filesystem discovery**
 
-16. Inventory phases
-Phase 1 — Filesystem discovery
+ Map the corpus without interpreting its scientific content.
 
-Identify the corpus structure without interpreting its scientific content.
+ **Phase 2 — Classification**
 
-Phase 2 — Classification
+ Assign artifact classes.
 
-Assign artifact classes.
+ **Phase 3 — Project detection**
 
-Phase 3 — Project detection
+ Identify Lean, Python, LaTeX, Git and other project structures.
 
-Identify Lean, Python, LaTeX and other projects.
+ **Phase 4 — Provenance**
 
-Phase 4 — Provenance
+ Record paths, versions, hashes and relationships.
 
-Record versions, hashes and relationships.
+ **Phase 5 — Scientific extraction**
 
-Phase 5 — Scientific extraction
+ Inspect mathematical and computational content.
 
-Inspect mathematical and computational content.
+ **Phase 6 — Public selection**
 
-Phase 6 — Public selection
+ Select artifacts suitable for the public archive.
 
-Select artifacts appropriate for the public archive.
+---
 
-17. First inventory target
+ ## 9\. First Inventory Target
 
-The first inventory should establish:
+ The first filesystem inventory should establish:
 
-total files
-total size
-file extensions
-top-level directories
-largest directories
-Lean projects
-Python projects
-LaTeX projects
-PDF collections
-Git repositories
-datasets
-experimental directories
+```
+TOTAL FILES
+TOTAL SIZE
+FILE EXTENSIONS
+TOP-LEVEL DIRECTORIES
+LARGEST DIRECTORIES
+LEAN PROJECTS
+PYTHON PROJECTS
+LATEX PROJECTS
+PDF COLLECTIONS
+GIT REPOSITORIES
+DATASETS
+EXPERIMENTAL DIRECTORIES
+```
 
+ The first inventory is descriptive.
 
-No mathematical conclusion is required during the first inventory.
+ It does not require a mathematical interpretation or scientific conclusion.
 
-18. Principle
+---
 
-The 35+ GB corpus is treated as a research archive, not as a collection of files to be copied blindly.
+ ## 10\. Governing Principle
 
-The objective is:
+ The local corpus is treated as a research archive rather than a collection of files to be copied blindly.
 
+ The intended transformation is:
+
+```
 35+ GB LOCAL CORPUS
         ↓
 STRUCTURED INVENTORY
@@ -374,8 +402,24 @@ PROVENANCE
 FORMAL / COMPUTATIONAL ANALYSIS
         ↓
 SELECTED PUBLIC ARTIFACTS
+```
 
+ The distinction is therefore:
 
-The local corpus remains the source environment.
+```
+LOCAL CORPUS
+= SOURCE ENVIRONMENT
 
-The public GitHub repository remains the curated publication and documentation environment.
+PUBLIC GITHUB REPOSITORY
+= CURATED PUBLICATION AND DOCUMENTATION ENVIRONMENT
+```
+
+ The public archive preserves selected, traceable research artifacts without claiming to reproduce the complete local corpus.
+
+---
+
+ **End of Local Corpus Map.**
+
+```
+
+```
