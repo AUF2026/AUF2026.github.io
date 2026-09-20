@@ -1533,11 +1533,6 @@
 
   </footer>
 
-
-
-  <!-- =======================================================
-     JAVASCRIPT
-     ======================================================= -->
 <!-- =======================================================
      JAVASCRIPT
      ======================================================= -->
@@ -1548,47 +1543,61 @@
      AUF2026 — LIVE /pages REPOSITORY INDEXER
      =========================================================
 
-     Reads the REAL repository structure beginning at:
+     Reads the REAL structure of:
 
        /pages/
 
-     It does NOT assume that these directories must exist:
+     Rules:
 
-       /pages/Editoriali-Divulgative/
-       /pages/Ricerche-Scientifiche/
-       /pages/PDF-Latex-Submitted/
-       /pages/Working-Progress-Project/
-
-     Those directories, if present, are discovered
-     automatically.
-
-     Files directly inside /pages/ are also indexed.
-
-     Any additional subdirectory under /pages/ is discovered
-     recursively.
+       1. pages/index.html is excluded because it is this page.
+       2. Every other supported file in /pages/ is indexed.
+       3. Every existing directory is discovered automatically.
+       4. All nested directories are scanned recursively.
+       5. The four standard research folders do NOT need to
+          exist yet.
+       6. The top navigation is generated from the REAL
+          contents of /pages/.
+       7. The four visual research cards remain independent
+          from the live repository structure.
 
      ========================================================= */
 
 
   /* =========================================================
-     REPOSITORY
+     REPOSITORY CONFIGURATION
      ========================================================= */
 
   const OWNER =
     "AUF2026";
 
+
   const REPOSITORY =
     "AUF2026.github.io";
 
+
   const BRANCH =
     "main";
+
 
   const PAGES_ROOT =
     "pages";
 
 
   /* =========================================================
-     SUPPORTED FILES
+     THIS PAGE
+     =========================================================
+
+     This is the page which must NEVER appear in its own
+     repository index.
+
+     ========================================================= */
+
+  const CURRENT_PAGE =
+    "index.html";
+
+
+  /* =========================================================
+     SUPPORTED FILE TYPES
      ========================================================= */
 
   const SUPPORTED_EXTENSIONS = [
@@ -1627,7 +1636,7 @@
 
 
   /* =========================================================
-     DOM
+     DOM REFERENCES
      ========================================================= */
 
   const repositoryIndex =
@@ -1649,7 +1658,136 @@
 
 
   /* =========================================================
-     GITHUB API
+     FILE EXTENSION
+     ========================================================= */
+
+  function extensionOf(
+    filename
+  ) {
+
+    const dot =
+      filename.lastIndexOf(".");
+
+
+    if (
+      dot < 0
+    ) {
+
+      return "";
+
+    }
+
+
+    return filename
+      .slice(
+        dot + 1
+      )
+      .toLowerCase();
+
+  }
+
+
+  /* =========================================================
+     NORMALIZE PATH
+     ========================================================= */
+
+  function normalizePath(
+    path
+  ) {
+
+    return path
+      .replace(
+        /^\/+/,
+        ""
+      )
+      .replace(
+        /\/+/g,
+        "/"
+      );
+
+  }
+
+
+  /* =========================================================
+     EXCLUDE CURRENT PAGE
+     ========================================================= */
+
+  function isCurrentPage(
+    item
+  ) {
+
+    if (
+      !item ||
+      item.type !== "file"
+    ) {
+
+      return false;
+
+    }
+
+
+    const normalized =
+      normalizePath(
+        item.path
+      );
+
+
+    return (
+
+      normalized ===
+      PAGES_ROOT +
+      "/" +
+      CURRENT_PAGE
+
+    );
+
+  }
+
+
+  /* =========================================================
+     SUPPORTED FILE TEST
+     ========================================================= */
+
+  function isSupportedFile(
+    item
+  ) {
+
+    if (
+      !item ||
+      item.type !== "file"
+    ) {
+
+      return false;
+
+    }
+
+
+    /*
+     * The pages index itself is never exposed.
+     */
+
+    if (
+      isCurrentPage(
+        item
+      )
+    ) {
+
+      return false;
+
+    }
+
+
+    return SUPPORTED_EXTENSIONS.includes(
+      extensionOf(
+        item.name
+      )
+    );
+
+  }
+
+
+  /* =========================================================
+     GITHUB API URL
      ========================================================= */
 
   function githubContentsUrl(
@@ -1680,63 +1818,6 @@
         BRANCH
       )
 
-    );
-
-  }
-
-
-  /* =========================================================
-     EXTENSION
-     ========================================================= */
-
-  function extensionOf(
-    filename
-  ) {
-
-    const lastDot =
-      filename.lastIndexOf(".");
-
-
-    if (
-      lastDot === -1
-    ) {
-
-      return "";
-
-    }
-
-
-    return filename
-      .slice(
-        lastDot + 1
-      )
-      .toLowerCase();
-
-  }
-
-
-  /* =========================================================
-     SUPPORTED FILE
-     ========================================================= */
-
-  function isSupportedFile(
-    item
-  ) {
-
-    if (
-      !item ||
-      item.type !== "file"
-    ) {
-
-      return false;
-
-    }
-
-
-    return SUPPORTED_EXTENSIONS.includes(
-      extensionOf(
-        item.name
-      )
     );
 
   }
@@ -1784,9 +1865,7 @@
 
         response.status +
 
-        " while reading " +
-
-        "/" +
+        " while reading /" +
 
         path
 
@@ -1806,8 +1885,7 @@
     ) {
 
       throw new Error(
-        "GitHub API returned an invalid directory response for /" +
-        path
+        "GitHub API returned an invalid directory response."
       );
 
     }
@@ -1819,18 +1897,7 @@
 
 
   /* =========================================================
-     RECURSIVE REPOSITORY SCAN
-     =========================================================
-
-     Returns:
-
-       {
-         files: [],
-         directories: []
-       }
-
-     Every directory is discovered dynamically.
-
+     RECURSIVE SCAN
      ========================================================= */
 
   async function scanDirectory(
@@ -1846,47 +1913,46 @@
     const files =
       [];
 
+
     const directories =
       [];
 
 
-    for (
-      const entry of entries
-    ) {
+    entries.forEach(
+      entry => {
 
-      if (
-        entry.type === "file" &&
-        isSupportedFile(
-          entry
-        )
-      ) {
+        if (
+          isSupportedFile(
+            entry
+          )
+        ) {
 
-        files.push(
-          entry
-        );
+          files.push(
+            entry
+          );
+
+        }
+
+
+        if (
+          entry.type === "dir"
+        ) {
+
+          directories.push(
+            entry
+          );
+
+        }
 
       }
-
-
-      if (
-        entry.type === "dir"
-      ) {
-
-        directories.push(
-          entry
-        );
-
-      }
-
-    }
+    );
 
 
     /*
-     * Sort directories first so the visual structure
-     * remains deterministic.
+     * Stable ordering.
      */
 
-    directories.sort(
+    files.sort(
       (
         a,
         b
@@ -1907,7 +1973,7 @@
     );
 
 
-    files.sort(
+    directories.sort(
       (
         a,
         b
@@ -1933,7 +1999,9 @@
 
 
     /*
-     * Recursively inspect every directory.
+     * Scan every real directory.
+
+     * No directory name is assumed.
      */
 
     for (
@@ -2009,7 +2077,7 @@
 
 
   /* =========================================================
-     TOTAL FILE COUNT
+     COUNT FILES
      ========================================================= */
 
   function countFiles(
@@ -2052,9 +2120,8 @@
 
 
     /*
-     * Markdown is rendered through archive.html.
-     *
-     * archive.html is in the repository root.
+     * Markdown remains handled by the existing archive
+     * renderer in the repository root.
      */
 
     if (
@@ -2075,23 +2142,29 @@
 
 
     /*
-     * Everything else is a direct /pages/... URL.
-     *
-     * GitHub Pages serves the repository path directly.
+     * Direct Pages resource.
+
+     * Example:
+
+       pages/foo.html
+
+       becomes:
+
+       ../pages/foo.html
+
      */
 
-    const relativePath =
+    return (
+
+      "../" +
+
       file.path
         .split("/")
         .map(
           encodeURIComponent
         )
-        .join("/");
+        .join("/")
 
-
-    return (
-      "../" +
-      relativePath
     );
 
   }
@@ -2198,7 +2271,8 @@
 
 
     type.textContent =
-      extension || "file";
+      extension ||
+      "file";
 
 
     link.appendChild(
@@ -2234,34 +2308,6 @@
       "file-list";
 
 
-    if (
-      files.length === 0
-    ) {
-
-      const empty =
-        document.createElement(
-          "div"
-        );
-
-
-      empty.className =
-        "status";
-
-
-      empty.textContent =
-        "No supported files in this directory.";
-
-
-      list.appendChild(
-        empty
-      );
-
-
-      return list;
-
-    }
-
-
     files.forEach(
       file => {
 
@@ -2276,6 +2322,29 @@
 
 
     return list;
+
+  }
+
+
+  /* =========================================================
+     FOLDER ANCHOR
+     ========================================================= */
+
+  function folderAnchor(
+    path
+  ) {
+
+    return (
+
+      "folder-" +
+
+      path
+        .replace(
+          /[^a-zA-Z0-9_-]/g,
+          "-"
+        )
+
+    );
 
   }
 
@@ -2298,22 +2367,10 @@
       "folder";
 
 
-    /*
-     * Use the complete path as ID-safe identifier.
-     */
-
-    const folderId =
-      "folder-" +
-
-      node.entry.path
-        .replace(
-          /[^a-zA-Z0-9_-]/g,
-          "-"
-        );
-
-
     section.id =
-      folderId;
+      folderAnchor(
+        node.entry.path
+      );
 
 
     const heading =
@@ -2379,7 +2436,7 @@
 
 
     /*
-     * Files directly inside this folder.
+     * Files directly inside this directory.
      */
 
     if (
@@ -2396,7 +2453,7 @@
 
 
     /*
-     * Nested folders.
+     * Nested directories.
      */
 
     node.children.forEach(
@@ -2406,15 +2463,13 @@
           child.error
         ) {
 
-          const error =
+          section.appendChild(
+
             createErrorMessage(
               child.error,
               child.entry.path
-            );
+            )
 
-
-          section.appendChild(
-            error
           );
 
 
@@ -2434,7 +2489,7 @@
 
 
     /*
-     * Empty directory.
+     * Completely empty directory.
      */
 
     if (
@@ -2550,7 +2605,7 @@
 
 
   /* =========================================================
-     ROOT /pages BLOCK
+     ROOT /pages RENDER
      ========================================================= */
 
   function createRootBlock(
@@ -2565,19 +2620,24 @@
 
     /*
      * Files directly inside /pages/.
+     *
+     * IMPORTANT:
+     *
+     * pages/index.html has already been removed by
+     * isSupportedFile(), so it cannot appear here.
      */
 
     if (
       root.files.length > 0
     ) {
 
-      const rootHeading =
+      const heading =
         document.createElement(
           "div"
         );
 
 
-      rootHeading.className =
+      heading.className =
         "folder-title";
 
 
@@ -2612,32 +2672,34 @@
         );
 
 
-      rootHeading.appendChild(
+      heading.appendChild(
         title
       );
 
 
-      rootHeading.appendChild(
+      heading.appendChild(
         count
       );
 
 
       wrapper.appendChild(
-        rootHeading
+        heading
       );
 
 
       wrapper.appendChild(
+
         createFileList(
           root.files
         )
+
       );
 
     }
 
 
     /*
-     * All directories discovered below /pages/.
+     * Actual directories.
      */
 
     root.children.forEach(
@@ -2656,15 +2718,18 @@
 
           );
 
+
           return;
 
         }
 
 
         wrapper.appendChild(
+
           createFolderBlock(
             child
           )
+
         );
 
       }
@@ -2677,22 +2742,19 @@
 
 
   /* =========================================================
-     PAGE NAVIGATION
+     BUILD TOP NAVIGATION
      =========================================================
 
-     The navigation is generated from the ACTUAL /pages
-     directory structure.
+     The navigation now contains:
 
-     No hard-coded:
+       Pages
+       file1.html
+       file2.html
+       Folder A
+       Folder B
+       ...
 
-       Editoriali
-       Scientifiche
-       Submitted
-       Working
-
-     entries are used.
-
-     Every discovered directory becomes a navigation link.
+     pages/index.html is NEVER shown.
 
      ========================================================= */
 
@@ -2714,30 +2776,75 @@
 
 
     /*
-     * Home / root Pages entry.
+     * Root Pages link.
      */
 
-    const rootLink =
+    const pagesLink =
       document.createElement(
         "a"
       );
 
 
-    rootLink.href =
+    pagesLink.href =
       "#catalog";
 
 
-    rootLink.textContent =
+    pagesLink.textContent =
       "Pages";
 
 
     pagesNav.appendChild(
-      rootLink
+      pagesLink
     );
 
 
     /*
-     * Discover first-level directories.
+     * Files directly inside /pages/.
+
+     * pages/index.html is already excluded.
+     */
+
+    root.files.forEach(
+      file => {
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.href =
+          createFileUrl(
+            file
+          );
+
+
+        link.textContent =
+          file.name;
+
+
+        const extension =
+          extensionOf(
+            file.name
+          );
+
+
+        applyFileTarget(
+          link,
+          extension
+        );
+
+
+        pagesNav.appendChild(
+          link
+        );
+
+      }
+    );
+
+
+    /*
+     * First-level directories.
      */
 
     root.children.forEach(
@@ -2758,18 +2865,12 @@
           );
 
 
-        const id =
-          "folder-" +
-
-          child.entry.path
-            .replace(
-              /[^a-zA-Z0-9_-]/g,
-              "-"
-            );
-
-
         link.href =
-          "#" + id;
+          "#" +
+
+          folderAnchor(
+            child.entry.path
+          );
 
 
         link.textContent =
@@ -2785,30 +2886,30 @@
 
 
     /*
-     * If /pages/ contains only files and no folders,
-     * the navigation still remains valid.
+     * No files AND no directories.
      */
 
     if (
+      root.files.length === 0 &&
       root.children.length === 0
     ) {
 
-      const noPages =
+      const empty =
         document.createElement(
           "span"
         );
 
 
-      noPages.className =
+      empty.className =
         "nav-loading";
 
 
-      noPages.textContent =
-        "No folders";
+      empty.textContent =
+        "No pages";
 
 
       pagesNav.appendChild(
-        noPages
+        empty
       );
 
     }
@@ -2855,7 +2956,7 @@
 
 
   /* =========================================================
-     LOADING STATUS
+     LOADING
      ========================================================= */
 
   function setLoadingStatus() {
@@ -2889,7 +2990,7 @@
 
 
   /* =========================================================
-     BUILD
+     MAIN INDEX BUILD
      ========================================================= */
 
   async function buildRepositoryIndex() {
@@ -2913,11 +3014,9 @@
     try {
 
       /*
-       * CRITICAL:
+       * FIRST:
        *
-       * Read the actual /pages root FIRST.
-       *
-       * No assumed directory names.
+       * Read the actual pages root.
        */
 
       const root =
@@ -2926,6 +3025,11 @@
         );
 
 
+      /*
+       * Count only supported files which are NOT
+       * pages/index.html.
+       */
+
       const totalFiles =
         countFiles(
           root
@@ -2933,7 +3037,7 @@
 
 
       /*
-       * Build navigation from discovered directories.
+       * Build the upper navigation.
        */
 
       buildPagesNavigation(
@@ -2942,7 +3046,7 @@
 
 
       /*
-       * Render the complete /pages tree.
+       * Render the repository tree.
        */
 
       repositoryIndex.appendChild(
@@ -2954,13 +3058,17 @@
       );
 
 
+      /*
+       * Update status.
+       */
+
       updateStatus(
         totalFiles
       );
 
 
       /*
-       * Nothing found.
+       * No content at all.
        */
 
       if (
@@ -2987,7 +3095,7 @@
 
           "files inside <strong>/pages/</strong>.";
 
-
+        
         repositoryIndex.appendChild(
           empty
         );
@@ -3008,15 +3116,13 @@
         "";
 
 
-      const errorBox =
+      repositoryIndex.appendChild(
+
         createErrorMessage(
           error,
           PAGES_ROOT
-        );
+        )
 
-
-      repositoryIndex.appendChild(
-        errorBox
       );
 
 
@@ -3051,12 +3157,13 @@
 
 
   /* =========================================================
-     START
+     INITIALIZE
      ========================================================= */
 
   buildRepositoryIndex();
 
 </script>
+
 
 </body>
 
