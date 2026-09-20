@@ -2314,33 +2314,186 @@
 
 
   /* =========================================================
-     ALLOWED MARKDOWN DOCUMENTS
-     ========================================================= */
+   ALLOWED MARKDOWN DOCUMENTS
+   ========================================================= */
 
-  const allowedDocuments = [
+/*
+ * Static fallback / known documents.
+ *
+ * These remain available immediately even if the GitHub API
+ * is temporarily unavailable.
+ */
+const allowedDocuments = [
 
-    "ARCHIVE-MAP.md",
-    "AUTHOR-IDENTITY.md",
-    "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
-    "CLAIMS.md",
-    "CONFIGURATION-MATRIX.md",
-    "CORE-GENEALOGY.md",
-    "CORPUS-INDEX.md",
-    "EXTRACTION-STATUS.md",
-    "LOCAL-CORPUS-MAP.md",
-    "LOCAL-CORPUS-ROOTS.md",
-    "NEXT-SESSION.md",
-    "OBJECT-REGISTRY.md",
-    "PROOF-INGESTION-PROTOCOL.md",
-    "PROOF-REGISTRY.md",
-    "README.md",
-    "REPOSITORY-MAP.md",
-    "RESEARCH-REGISTER.md",
-    "SOURCE-INVENTORY.md",
-    "SOURCE-MANIFEST.md",
-    "THEOREM-ORIGINALITY-MATRIX.md"
+  "ARCHIVE-MAP.md",
+  "AUTHOR-IDENTITY.md",
+  "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+  "CLAIMS.md",
+  "CONFIGURATION-MATRIX.md",
+  "CORE-GENEALOGY.md",
+  "CORPUS-INDEX.md",
+  "EXTRACTION-STATUS.md",
+  "LOCAL-CORPUS-MAP.md",
+  "LOCAL-CORPUS-ROOTS.md",
+  "NEXT-SESSION.md",
+  "OBJECT-REGISTRY.md",
+  "PROOF-INGESTION-PROTOCOL.md",
+  "PROOF-REGISTRY.md",
+  "README.md",
+  "REPOSITORY-MAP.md",
+  "RESEARCH-REGISTER.md",
+  "SOURCE-INVENTORY.md",
+  "SOURCE-MANIFEST.md",
+  "THEOREM-ORIGINALITY-MATRIX.md"
 
-  ];
+];
+
+
+/* =========================================================
+   GITHUB API DOCUMENT DISCOVERY
+   ========================================================= */
+
+const GITHUB_OWNER =
+  "AUF2026";
+
+const GITHUB_REPOSITORY =
+  "AUF2026.github.io";
+
+const GITHUB_BRANCH =
+  "main";
+
+
+async function discoverMarkdownDocuments() {
+
+  const apiURL =
+    "https://api.github.com/repos/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/git/trees/" +
+    GITHUB_BRANCH +
+    "?recursive=1";
+
+
+  try {
+
+    const response =
+      await fetch(
+        apiURL,
+        {
+          cache: "no-cache",
+          headers: {
+            "Accept":
+              "application/vnd.github+json"
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "GitHub API HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data ||
+      !Array.isArray(data.tree)
+    ) {
+
+      throw new Error(
+        "Invalid GitHub API tree response."
+      );
+
+    }
+
+
+    data.tree
+      .filter(item => {
+
+        return (
+          item.type === "blob" &&
+          typeof item.path === "string" &&
+          item.path.toLowerCase().startsWith(
+            "docs/"
+          ) &&
+          item.path.toLowerCase().endsWith(
+            ".md"
+          )
+        );
+
+      })
+      .map(item => {
+
+        return item.path
+          .split("/")
+          .filter(Boolean)
+          .pop();
+
+      })
+      .filter(Boolean)
+      .forEach(filename => {
+
+        if (
+          !allowedDocuments.includes(
+            filename
+          )
+        ) {
+
+          allowedDocuments.push(
+            filename
+          );
+
+        }
+
+      });
+
+
+    /*
+     * Keep the array deterministic.
+     */
+    allowedDocuments.sort(
+      (a, b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity: "base"
+          }
+        )
+    );
+
+
+    return true;
+
+
+  } catch (error) {
+
+    /*
+     * Do not break the existing archive if
+     * GitHub API discovery fails.
+     *
+     * The static fallback above remains valid.
+     */
+    console.warn(
+      "AUF2026 Markdown discovery:",
+      error
+    );
+
+
+    return false;
+
+  }
+
+}
 
 
   /* =========================================================
