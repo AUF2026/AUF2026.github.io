@@ -203,252 +203,244 @@
     }
 
 
-    <!-- =======================================================
-     HEADER
-     ======================================================= -->
+    /* =========================================================
+       HEADER
+       ========================================================= */
 
-<header>
+    header {
 
-  <div class="container">
+      position:
+        sticky;
 
-    <nav class="nav">
+      top:
+        0;
 
-      <!-- ================================================
-           BACK TO FRAMEWORK
-           ================================================ -->
+      z-index:
+        1000;
 
-      <a
-        class="brand"
-        href="../index.html#top"
-        aria-label="AUF2026 — Back to Framework"
-      >
-        AUF<span>2026</span>
-      </a>
+      background:
+        rgba(7,10,15,.88);
 
+      backdrop-filter:
+        blur(18px);
 
-      <!-- ================================================
-           DYNAMIC PAGES NAVIGATION
-           ================================================ -->
+      -webkit-backdrop-filter:
+        blur(18px);
 
-      <div
-        class="nav-links"
-        id="pages-nav"
-        aria-label="Pages navigation"
-      >
+      border-bottom:
+        1px solid
+        var(--border);
 
-        <!--
-          Populated automatically by JavaScript.
-
-          The script reads:
-
-            /pages/
-
-          and creates navigation entries for the
-          directories actually present in the repository.
-        -->
-
-        <span class="nav-loading">
-          Loading pages...
-        </span>
-
-      </div>
-
-    </nav>
-
-  </div>
-
-</header>
+    }
 
 
+    .nav {
 
-<!-- =======================================================
-     MAIN
-     ======================================================= -->
+      min-height:
+        72px;
 
-<main>
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        30px;
+
+    }
 
 
-  <!-- =====================================================
+    .brand {
+
+      flex:
+        0 0 auto;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .14em;
+
+      font-size:
+        1.05rem;
+
+    }
+
+
+    .brand span {
+
+      color:
+        var(--green);
+
+    }
+
+
+    .nav-links {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        22px;
+
+      overflow-x:
+        auto;
+
+      scrollbar-width:
+        none;
+
+    }
+
+
+    .nav-links::-webkit-scrollbar {
+
+      display:
+        none;
+
+    }
+
+
+    .nav-links a {
+
+      flex:
+        0 0 auto;
+
+      color:
+        var(--muted);
+
+      font-size:
+        .9rem;
+
+      transition:
+        color .2s ease;
+
+    }
+
+
+    .nav-links a:hover {
+
+      color:
+        var(--text);
+
+    }
+
+
+    /* =========================================================
        HERO
-       ===================================================== -->
+       ========================================================= */
 
-  <section class="hero">
+    .hero {
 
-    <div class="container">
+      min-height:
+        65vh;
 
-      <div class="eyebrow">
-        AUF2026 · PAGES NAVIGATOR
-      </div>
+      display:
+        flex;
 
+      align-items:
+        center;
 
-      <h1>
-        Faure<br>
-        Carousel Pages
-      </h1>
+      padding:
+        110px 0 90px;
 
+    }
 
-      <p class="hero-subtitle">
 
-        A dedicated presentation layer for the
-        AUF2026 research corpus: editorial material,
-        scientific investigations, submitted papers
-        and active working projects.
+    .eyebrow {
 
-        <br><br>
+      color:
+        var(--green);
 
-        This landing page automatically indexes the
-        content contained in <code>/pages/</code>.
-        New research directories and supported files
-        can therefore appear in the navigation without
-        manually adding individual <code>href</code>
-        entries.
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        monospace;
 
-      </p>
+      font-size:
+        .75rem;
 
+      font-weight:
+        800;
 
-      <div class="hero-actions">
+      letter-spacing:
+        .18em;
 
-        <a
-          class="button button-primary"
-          href="../index.html#top"
-        >
-          Back to Framework
-        </a>
+      text-transform:
+        uppercase;
 
-      </div>
+    }
 
-    </div>
 
-  </section>
+    h1 {
 
+      max-width:
+        1050px;
 
+      margin:
+        22px 0 0;
 
-  <!-- =====================================================
-       DYNAMIC CATALOG
-       ===================================================== -->
+      font-size:
 
-  <section id="catalog">
+        clamp(
+          3rem,
+          8vw,
+          7rem
+        );
 
-    <div class="container">
+      line-height:
+        .9;
 
-      <div class="section-heading">
+      letter-spacing:
+        -.065em;
 
-        <div class="section-kicker">
-          01 · PAGES CATALOG
-        </div>
+    }
 
 
-        <h2>
-          Research domains
-        </h2>
+    .hero-subtitle {
 
+      max-width:
+        820px;
 
-        <p class="section-description">
+      margin-top:
+        35px;
 
-          The navigation below is generated directly
-          from the directories contained in
-          <code>/pages/</code>.
+      color:
+        var(--muted);
 
-          Selecting a domain takes you directly to
-          its indexed content.
+      font-size:
 
-        </p>
+        clamp(
+          1rem,
+          2vw,
+          1.3rem
+        );
 
-      </div>
+    }
 
 
-      <!--
-        JavaScript generates the domain cards here.
-      -->
+    .hero-actions {
 
-      <div
-        class="grid"
-        id="domain-grid"
-      >
+      display:
+        flex;
 
-        <div class="status">
-          Reading <code>/pages/</code> ...
-        </div>
+      flex-wrap:
+        wrap;
 
-      </div>
+      gap:
+        14px;
 
-    </div>
+      margin-top:
+        38px;
 
-  </section>
-
-
-
-  <!-- =====================================================
-       LIVE REPOSITORY INDEX
-       ===================================================== -->
-
-  <section
-    class="file-section"
-    id="files"
-  >
-
-    <div class="container">
-
-      <div class="section-heading">
-
-        <div class="section-kicker">
-          02 · LIVE REPOSITORY INDEX
-        </div>
-
-
-        <h2>
-          Pages repository
-        </h2>
-
-
-        <p class="section-description">
-
-          Every supported file found inside the
-          directories of <code>/pages/</code> is
-          indexed automatically below.
-
-          No individual <code>href</code> needs to be
-          maintained manually.
-
-        </p>
-
-
-        <div
-          class="status"
-          id="status"
-        >
-
-          Repository index:
-
-          <strong>
-            loading...
-          </strong>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="repository-index"
-        aria-live="polite"
-      >
-
-        <div class="status">
-
-          Reading
-          <code>AUF2026/pages/</code>
-          ...
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-</main>
+    }
 
 
     /* =========================================================
@@ -1120,135 +1112,6 @@
 
     }
 
-    /* =========================================================
-   DYNAMIC PAGES NAVIGATION
-   ========================================================= */
-
-.nav-links {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    22px;
-
-  overflow-x:
-    auto;
-
-  scrollbar-width:
-    none;
-
-}
-
-.nav-links::-webkit-scrollbar {
-
-  display:
-    none;
-
-}
-
-
-.nav-links a {
-
-  flex:
-    0 0 auto;
-
-  color:
-    var(--muted);
-
-  font-size:
-    .9rem;
-
-  transition:
-
-    color .2s ease,
-
-    transform .2s ease;
-
-}
-
-
-.nav-links a:hover {
-
-  color:
-    var(--text);
-
-  transform:
-    translateY(-1px);
-
-}
-
-
-.nav-loading {
-
-  flex:
-    0 0 auto;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    monospace;
-
-  font-size:
-    .72rem;
-
-}
-
-
-.domain-card-meta {
-
-  margin-top:
-    18px;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    monospace;
-
-  font-size:
-    .72rem;
-
-}
-
-
-.domain-card-files {
-
-  color:
-    var(--green);
-
-}
-
-
-@media (max-width: 760px) {
-
-  .nav-links {
-
-    gap:
-      12px;
-
-  }
-
-
-  .nav-links a {
-
-    font-size:
-      .76rem;
-
-  }
-
-}
-
   </style>
 
 </head>
@@ -1261,64 +1124,35 @@
 
   <header>
 
-    <div class="container">
+  <div class="container">
 
-      <nav class="nav">
+    <nav class="nav">
 
+      <a
+        class="brand"
+        href="../index.html#top"
+        aria-label="AUF2026 — Back to Framework"
+      >
+        AUF<span>2026</span>
+      </a>
 
-        <!-- =================================================
-             BRAND
-             ================================================= -->
+      <div
+        class="nav-links"
+        id="pages-nav"
+        aria-label="Pages navigation"
+      >
 
-        <a
-          class="brand"
-          href="../index.html#top"
-          aria-label="AUF2026 — Back to Framework"
-        >
-          AUF<span>2026</span>
-        </a>
+        <span class="nav-loading">
+          Loading...
+        </span>
 
+      </div>
 
-        <!-- =================================================
-             MAIN FRAMEWORK NAVIGATION
-             ================================================= -->
+    </nav>
 
-        <div class="nav-links">
+  </div>
 
-          <a href="../index.html#framework">
-            Framework
-          </a>
-
-          <a href="../index.html#theorems">
-            Theorems
-          </a>
-
-          <a href="../index.html#mathematics">
-            Mathematics
-          </a>
-
-          <a href="../index.html#lean">
-            Lean
-          </a>
-
-          <a href="../index.html#kernel">
-            Kernel
-          </a>
-
-          <a href="../index.html#applications">
-            Applications
-          </a>
-
-        </div>
-
-
-      </nav>
-
-    </div>
-
-  </header>
-
-
+</header>
 
   <!-- =======================================================
        MAIN
@@ -1702,30 +1536,10 @@
 
 
   <!-- =======================================================
-       JAVASCRIPT
-       ======================================================= -->
+     JAVASCRIPT
+     ======================================================= -->
 
-  <script>
-
-    /*
-     * Part 3 contains the live GitHub repository indexer.
-     *
-     * It reads:
-     *
-     *   /pages/Editoriali-Divulgative/
-     *   /pages/Ricerche-Scientifiche/
-     *   /pages/PDF-Latex-Submitted/
-     *   /pages/Working-Progress-Project/
-     *
-     * directly from the GitHub API.
-     *
-     * Therefore the navigation does not require manually
-     * adding href entries whenever a new file is committed.
-     */
-
-  </script>
 <script>
-
 
   /* =========================================================
      AUF2026 — LIVE PAGES REPOSITORY INDEXER
@@ -1745,11 +1559,10 @@
          ├── PDF-Latex-Submitted/
          └── Working-Progress-Project/
 
-     No manual href registration is required.
+     The navigation and repository index are generated from
+     the real /pages/ structure.
 
-     When a new supported file is committed to one of
-     these directories, the file becomes visible here
-     automatically on the next page load.
+     No manual href registration is required.
 
      ========================================================= */
 
@@ -1852,41 +1665,6 @@
 
   /* =========================================================
      SUPPORTED FILE TYPES
-     =========================================================
-
-     These are files which can be exposed directly by the
-     Pages navigation layer.
-
-     HTML / HTM
-       Browser-rendered documents.
-
-     PDF
-       Native browser PDF viewer.
-
-     SVG / images
-       Native browser rendering.
-
-     Audio / video
-       Native browser media support.
-
-     CSV / TXT / JSON / XML
-       Direct browser-readable resources.
-
-     MD
-       Source Markdown file.
-
-       IMPORTANT:
-
-       Markdown remains a source document.
-
-       The canonical AUF2026 Markdown renderer is:
-
-           archive.html?doc=FILE.md
-
-       Therefore the indexer gives Markdown files a link
-       through archive.html instead of pretending that the
-       raw .md file is an HTML page.
-
      ========================================================= */
 
   const SUPPORTED_EXTENSIONS = [
@@ -1937,6 +1715,12 @@
   const statusElement =
     document.getElementById(
       "status"
+    );
+
+
+  const pagesNav =
+    document.getElementById(
+      "pages-nav"
     );
 
 
@@ -2126,6 +1910,84 @@
 
 
   /* =========================================================
+     CREATE PAGES DIRECTORY URL
+     ========================================================= */
+
+  function createDirectoryUrl(
+    domain
+  ) {
+
+    return (
+
+      "./" +
+
+      encodeURIComponent(
+        domain.folder
+      ) +
+
+      "/"
+
+    );
+
+  }
+
+
+  /* =========================================================
+     CREATE PAGES NAVIGATION
+     ========================================================= */
+
+  function buildPagesNavigation() {
+
+    if (
+      !pagesNav
+    ) {
+
+      return;
+
+    }
+
+
+    pagesNav.innerHTML =
+      "";
+
+
+    DOMAINS.forEach(
+      domain => {
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.href =
+          createDirectoryUrl(
+            domain
+          );
+
+
+        link.textContent =
+          domain.title;
+
+
+        link.setAttribute(
+          "aria-label",
+          "Open " +
+          domain.title
+        );
+
+
+        pagesNav.appendChild(
+          link
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
      FILE URL
      ========================================================= */
 
@@ -2141,17 +2003,8 @@
 
 
     /*
-     * Markdown files are routed through archive.html.
-     *
-     * This preserves the existing AUF2026 architecture:
-     *
-     *   .md
-     *      ↓
-     *   archive.html
-     *      ↓
-     *   Markdown → HTML
-     *
-     * We do NOT duplicate the Markdown renderer here.
+     * Markdown files are routed through the existing
+     * AUF2026 archive renderer.
      */
 
     if (
@@ -2175,7 +2028,7 @@
 
     /*
      * All other supported files are opened directly
-     * from their /pages/<domain>/ location.
+     * from /pages/<domain>/.
      */
 
     return (
@@ -2206,31 +2059,9 @@
     extension
   ) {
 
-    /*
-     * HTML documents can safely open in the same tab,
-     * but opening independent research pages in a new
-     * tab preserves the catalogue.
-
-     * PDFs and media also open independently.
-     */
-
     if (
       extension === "html" ||
-      extension === "htm"
-    ) {
-
-      link.target =
-        "_blank";
-
-      link.rel =
-        "noopener";
-
-      return;
-
-    }
-
-
-    if (
+      extension === "htm" ||
       extension === "pdf" ||
       extension === "svg" ||
       extension === "png" ||
@@ -2238,25 +2069,7 @@
       extension === "jpeg" ||
       extension === "gif" ||
       extension === "webp" ||
-      extension === "avif"
-    ) {
-
-      link.target =
-        "_blank";
-
-      link.rel =
-        "noopener";
-
-      return;
-
-    }
-
-
-    /*
-     * Markdown remains in the archive renderer.
-     */
-
-    if (
+      extension === "avif" ||
       extension === "md"
     ) {
 
@@ -2309,10 +2122,6 @@
     );
 
 
-    /*
-     * Accessible label.
-     */
-
     link.setAttribute(
       "aria-label",
       domain.title +
@@ -2320,10 +2129,6 @@
       file.name
     );
 
-
-    /* =======================================================
-       FILE NAME
-       ======================================================= */
 
     const name =
       document.createElement(
@@ -2338,10 +2143,6 @@
     name.textContent =
       file.name;
 
-
-    /* =======================================================
-       FILE TYPE
-       ======================================================= */
 
     const type =
       document.createElement(
@@ -2438,9 +2239,12 @@
 
 
     message.textContent =
+
       error &&
       error.message
+
         ? error.message
+
         : "Unknown GitHub API error.";
 
 
@@ -2481,10 +2285,6 @@
     section.id =
       domain.id;
 
-
-    /* =======================================================
-       DOMAIN HEADER
-       ======================================================= */
 
     const heading =
       document.createElement(
@@ -2542,10 +2342,6 @@
     );
 
 
-    /* =======================================================
-       FILE LIST
-       ======================================================= */
-
     const list =
       document.createElement(
         "div"
@@ -2566,12 +2362,8 @@
 
     } else {
 
-
-      /*
-       * Stable alphabetical/numeric ordering.
-       */
-
       files.sort(
+
         (
           a,
           b
@@ -2624,12 +2416,88 @@
 
 
   /* =========================================================
+     CREATE DOMAIN ERROR BLOCK
+     ========================================================= */
+
+  function createDomainErrorBlock(
+    domain,
+    error
+  ) {
+
+    const section =
+      document.createElement(
+        "div"
+      );
+
+
+    section.className =
+      "folder";
+
+
+    section.id =
+      domain.id;
+
+
+    const heading =
+      document.createElement(
+        "div"
+      );
+
+
+    heading.className =
+      "folder-title";
+
+
+    const title =
+      document.createElement(
+        "h3"
+      );
+
+
+    title.textContent =
+      domain.title;
+
+
+    heading.appendChild(
+      title
+    );
+
+
+    section.appendChild(
+      heading
+    );
+
+
+    section.appendChild(
+
+      createErrorMessage(
+        error
+      )
+
+    );
+
+
+    return section;
+
+  }
+
+
+  /* =========================================================
      STATUS UPDATE
      ========================================================= */
 
   function updateStatus(
     totalFiles
   ) {
+
+    if (
+      !statusElement
+    ) {
+
+      return;
+
+    }
+
 
     statusElement.innerHTML =
 
@@ -2644,7 +2512,9 @@
       (
 
         totalFiles === 1
+
           ? " supported file found."
+
           : " supported files found."
 
       );
@@ -2657,6 +2527,15 @@
      ========================================================= */
 
   function setLoadingStatus() {
+
+    if (
+      !statusElement
+    ) {
+
+      return;
+
+    }
+
 
     statusElement.innerHTML =
 
@@ -2672,7 +2551,6 @@
      ========================================================= */
 
   async function buildRepositoryIndex() {
-
 
     if (
       !repositoryIndex
@@ -2699,13 +2577,7 @@
 
 
     /*
-     * Read all four domains.
-
-     * Promise.all is intentionally used here so that
-     * the four GitHub API requests happen in parallel.
-     *
-     * This makes the index considerably faster than
-     * requesting each directory one after another.
+     * Read all configured /pages/ domains in parallel.
      */
 
     const domainResults =
@@ -2780,12 +2652,11 @@
 
 
     /* =======================================================
-       RENDER DOMAINS IN FIXED ARCHITECTURAL ORDER
+       RENDER DOMAINS
        ======================================================= */
 
     domainResults.forEach(
       result => {
-
 
         const domain =
           result.domain;
@@ -2798,61 +2669,13 @@
           failedDomains++;
 
 
-          const section =
-            document.createElement(
-              "div"
-            );
+          repositoryIndex.appendChild(
 
-
-          section.className =
-            "folder";
-
-
-          section.id =
-            domain.id;
-
-
-          const heading =
-            document.createElement(
-              "div"
-            );
-
-
-          heading.className =
-            "folder-title";
-
-
-          const title =
-            document.createElement(
-              "h3"
-            );
-
-
-          title.textContent =
-            domain.title;
-
-
-          heading.appendChild(
-            title
-          );
-
-
-          section.appendChild(
-            heading
-          );
-
-
-          section.appendChild(
-
-            createErrorMessage(
+            createDomainErrorBlock(
+              domain,
               result.error
             )
 
-          );
-
-
-          repositoryIndex.appendChild(
-            section
           );
 
 
@@ -2969,11 +2792,45 @@
 
 
   /* =========================================================
-     INITIAL LOAD
+     INITIALIZATION
      ========================================================= */
 
-  buildRepositoryIndex();
+  function initializePages() {
 
+    /*
+     * Build the real navigation from /pages/ domains.
+     */
+
+    buildPagesNavigation();
+
+
+    /*
+     * Build the live file repository index.
+     */
+
+    buildRepositoryIndex();
+
+  }
+
+
+  /* =========================================================
+     START
+     * ========================================================= */
+
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializePages
+    );
+
+  } else {
+
+    initializePages();
+
+  }
 
 </script>
 
