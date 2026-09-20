@@ -2319,28 +2319,26 @@
 
   const allowedDocuments = [
 
-    "docs/ARCHIVE-MAP.md",
-    "docs/AUTHOR-IDENTITY.md",
-    "docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
-    "docs/CLAIMS.md",
-    "docs/CONFIGURATION-MATRIX.md",
-    "docs/CORE-GENEALOGY.md",
-    "docs/CORPUS-INDEX.md",
-    "docs/EXTRACTION-STATUS.md",
-    "docs/FAURE-THEOREM-CANDIDATES.md",
-    "docs/FAURE-THEOREM-NO-GOD.md",
-    "docs/LOCAL-CORPUS-MAP.md",
-    "docs/LOCAL-CORPUS-ROOTS.md",
-    "docs/NEXT-SESSION.md",
-    "docs/OBJECT-REGISTRY.md",
-    "docs/PROOF-INGESTION-PROTOCOL.md",
-    "docs/PROOF-REGISTRY.md",
-    "docs/README.md",
-    "docs/REPOSITORY-MAP.md",
-    "docs/RESEARCH-REGISTER.md",
-    "docs/SOURCE-INVENTORY.md",
-    "docs/SOURCE-MANIFEST.md",
-    "docs/THEOREM-ORIGINALITY-MATRIX.md"
+    "ARCHIVE-MAP.md",
+    "AUTHOR-IDENTITY.md",
+    "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    "CLAIMS.md",
+    "CONFIGURATION-MATRIX.md",
+    "CORE-GENEALOGY.md",
+    "CORPUS-INDEX.md",
+    "EXTRACTION-STATUS.md",
+    "LOCAL-CORPUS-MAP.md",
+    "LOCAL-CORPUS-ROOTS.md",
+    "NEXT-SESSION.md",
+    "OBJECT-REGISTRY.md",
+    "PROOF-INGESTION-PROTOCOL.md",
+    "PROOF-REGISTRY.md",
+    "README.md",
+    "REPOSITORY-MAP.md",
+    "RESEARCH-REGISTER.md",
+    "SOURCE-INVENTORY.md",
+    "SOURCE-MANIFEST.md",
+    "THEOREM-ORIGINALITY-MATRIX.md"
 
   ];
 
@@ -2543,6 +2541,102 @@
 
 
   /* =========================================================
+     AUTOMATIC FRAMEWORK BACK BUTTON
+     ========================================================= */
+
+  function ensureFrameworkBackButton() {
+
+    if (
+      document.getElementById(
+        "framework-back-button"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.id =
+      "framework-back-button";
+
+
+    button.type =
+      "button";
+
+
+    button.textContent =
+      "Back to Framework AUF2026";
+
+
+    button.setAttribute(
+      "aria-label",
+      "Back to Framework AUF2026"
+    );
+
+
+    button.style.position =
+      "fixed";
+
+
+    button.style.top =
+      "1rem";
+
+
+    button.style.right =
+      "1rem";
+
+
+    button.style.zIndex =
+      "99999";
+
+
+    button.style.cursor =
+      "pointer";
+
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        window.location.href =
+          "index.html#top";
+
+      }
+    );
+
+
+    document.body.appendChild(
+      button
+    );
+
+  }
+
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      ensureFrameworkBackButton
+    );
+
+  } else {
+
+    ensureFrameworkBackButton();
+
+  }
+
+
+  /* =========================================================
      MARKDOWN LINK NORMALIZATION
      ========================================================= */
 
@@ -2686,6 +2780,7 @@
 
   }
 
+</script>
 
   /* =========================================================
      TABLE WRAPPER
