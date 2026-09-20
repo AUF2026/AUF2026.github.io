@@ -2313,34 +2313,189 @@
     );
 
 
-  /* =========================================================
+    /* =========================================================
      ALLOWED MARKDOWN DOCUMENTS
      ========================================================= */
 
   const allowedDocuments = [
 
-    "ARCHIVE-MAP.md",
-    "AUTHOR-IDENTITY.md",
-    "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
-    "CLAIMS.md",
-    "CONFIGURATION-MATRIX.md",
-    "CORE-GENEALOGY.md",
-    "CORPUS-INDEX.md",
-    "EXTRACTION-STATUS.md",
-    "LOCAL-CORPUS-MAP.md",
-    "LOCAL-CORPUS-ROOTS.md",
-    "NEXT-SESSION.md",
-    "OBJECT-REGISTRY.md",
-    "PROOF-INGESTION-PROTOCOL.md",
-    "PROOF-REGISTRY.md",
-    "README.md",
-    "REPOSITORY-MAP.md",
-    "RESEARCH-REGISTER.md",
-    "SOURCE-INVENTORY.md",
-    "SOURCE-MANIFEST.md",
-    "THEOREM-ORIGINALITY-MATRIX.md"
+    "docs/ARCHIVE-MAP.md",
+    "docs/AUTHOR-IDENTITY.md",
+    "docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    "docs/CLAIMS.md",
+    "docs/CONFIGURATION-MATRIX.md",
+    "docs/CORE-GENEALOGY.md",
+    "docs/CORPUS-INDEX.md",
+    "docs/EXTRACTION-STATUS.md",
+    "docs/FAURE-THEOREM-CANDIDATES.md",
+    "docs/FAURE-THEOREM-NO-GOD.md",
+    "docs/LOCAL-CORPUS-MAP.md",
+    "docs/LOCAL-CORPUS-ROOTS.md",
+    "docs/NEXT-SESSION.md",
+    "docs/OBJECT-REGISTRY.md",
+    "docs/PROOF-INGESTION-PROTOCOL.md",
+    "docs/PROOF-REGISTRY.md",
+    "docs/README.md",
+    "docs/REPOSITORY-MAP.md",
+    "docs/RESEARCH-REGISTER.md",
+    "docs/SOURCE-INVENTORY.md",
+    "docs/SOURCE-MANIFEST.md",
+    "docs/THEOREM-ORIGINALITY-MATRIX.md"
 
   ];
+
+
+  /* =========================================================
+     GITHUB API DOCUMENT DISCOVERY
+     ========================================================= */
+
+  const GITHUB_OWNER =
+    "AUF2026";
+
+  const GITHUB_REPOSITORY =
+    "AUF2026.github.io";
+
+  const GITHUB_BRANCH =
+    "main";
+
+
+  async function discoverMarkdownDocuments() {
+
+    const apiURL =
+      "https://api.github.com/repos/" +
+      GITHUB_OWNER +
+      "/" +
+      GITHUB_REPOSITORY +
+      "/git/trees/" +
+      GITHUB_BRANCH +
+      "?recursive=1";
+
+
+    try {
+
+      const response =
+        await fetch(
+          apiURL,
+          {
+            cache: "no-cache",
+            headers: {
+              "Accept":
+                "application/vnd.github+json"
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "GitHub API HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        !data ||
+        !Array.isArray(data.tree)
+      ) {
+
+        throw new Error(
+          "Invalid GitHub API tree response."
+        );
+
+      }
+
+
+      /*
+       * Discover EVERY Markdown file recursively.
+       *
+       * No directory is hardcoded.
+       *
+       * This includes:
+       *
+       * docs/
+       * papers/
+       * proofs/
+       * validation/
+       * future directories
+       * nested directories
+       * any future .md file
+       */
+      data.tree
+        .filter(item => {
+
+          return (
+            item.type === "blob" &&
+            typeof item.path === "string" &&
+            item.path
+              .toLowerCase()
+              .endsWith(".md")
+          );
+
+        })
+        .forEach(item => {
+
+          const path =
+            item.path
+              .replace(/^\/+/, "")
+              .replace(/\\/g, "/");
+
+
+          if (
+            path &&
+            !allowedDocuments.includes(path)
+          ) {
+
+            allowedDocuments.push(
+              path
+            );
+
+          }
+
+        });
+
+
+      allowedDocuments.sort(
+        (a, b) =>
+          a.localeCompare(
+            b,
+            undefined,
+            {
+              sensitivity: "base"
+            }
+          )
+      );
+
+
+      return true;
+
+
+    } catch (error) {
+
+      /*
+       * GitHub API failure must NEVER destroy
+       * the existing archive.
+       *
+       * Static fallback remains available.
+       */
+      console.warn(
+        "AUF2026 Markdown discovery:",
+        error
+      );
+
+
+      return false;
+
+    }
+
+  }
+
 
 
   /* =========================================================
