@@ -2313,10 +2313,24 @@
     );
 
 
-  /* =========================================================
+    /* =========================================================
      ALLOWED MARKDOWN DOCUMENTS
      ========================================================= */
 
+  /*
+   * Static fallback / known documents.
+   *
+   * These remain available immediately even if the GitHub API
+   * is temporarily unavailable.
+   *
+   * The static entries intentionally keep their historical
+   * short form because existing links use:
+   *
+   * archive.html?doc=ARCHIVE-MAP.md
+   *
+   * GitHub discovery below adds the complete repository path
+   * for every Markdown file found recursively.
+   */
   const allowedDocuments = [
 
     "ARCHIVE-MAP.md",
@@ -2327,6 +2341,8 @@
     "CORE-GENEALOGY.md",
     "CORPUS-INDEX.md",
     "EXTRACTION-STATUS.md",
+    "FAURE-THEOREM-CANDIDATES.md",
+    "FAURE-THEOREM-NO-GOD.md",
     "LOCAL-CORPUS-MAP.md",
     "LOCAL-CORPUS-ROOTS.md",
     "NEXT-SESSION.md",
@@ -2341,6 +2357,302 @@
     "THEOREM-ORIGINALITY-MATRIX.md"
 
   ];
+
+
+  /* =========================================================
+     GITHUB API DOCUMENT DISCOVERY
+     ========================================================= */
+
+  const GITHUB_OWNER =
+    "AUF2026";
+
+
+  const GITHUB_REPOSITORY =
+    "AUF2026.github.io";
+
+
+  const GITHUB_BRANCH =
+    "main";
+
+
+  async function discoverMarkdownDocuments() {
+
+    const apiURL =
+      "https://api.github.com/repos/" +
+      GITHUB_OWNER +
+      "/" +
+      GITHUB_REPOSITORY +
+      "/git/trees/" +
+      GITHUB_BRANCH +
+      "?recursive=1";
+
+
+    try {
+
+      const response =
+        await fetch(
+          apiURL,
+          {
+            cache: "no-cache",
+            headers: {
+              "Accept":
+                "application/vnd.github+json"
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "GitHub API HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      if (
+        !data ||
+        !Array.isArray(data.tree)
+      ) {
+
+        throw new Error(
+          "Invalid GitHub API tree response."
+        );
+
+      }
+
+
+      /*
+       * Discover EVERY Markdown file in EVERY directory.
+       *
+       * No directory is hardcoded.
+       *
+       * Examples:
+       *
+       *   docs/ARCHIVE-MAP.md
+       *   docs/FAURE-THEOREM-NO-GOD.md
+       *   some-new-folder/example.md
+       *   future-folder/subfolder/file.md
+       *
+       * All of them are discovered automatically.
+       */
+      data.tree
+        .filter(item => {
+
+          return (
+            item.type === "blob" &&
+            typeof item.path === "string" &&
+            item.path
+              .toLowerCase()
+              .endsWith(".md")
+          );
+
+        })
+        .forEach(item => {
+
+          const path =
+            item.path
+              .replace(/^\/+/, "")
+              .replace(/\\/g, "/");
+
+
+          if (
+            path &&
+            !allowedDocuments.includes(
+              path
+            )
+          ) {
+
+            allowedDocuments.push(
+              path
+            );
+
+          }
+
+        });
+
+
+      /*
+       * Keep the array deterministic.
+       */
+      allowedDocuments.sort(
+        (a, b) =>
+          a.localeCompare(
+            b,
+            undefined,
+            {
+              sensitivity: "base"
+            }
+          )
+      );
+
+
+      return true;
+
+
+    } catch (error) {
+
+      /*
+       * GitHub discovery is additive.
+       *
+       * If the API is unavailable, the existing static
+       * documents continue to work exactly as before.
+       */
+      console.warn(
+        "AUF2026 Markdown discovery:",
+        error
+      );
+
+
+      return false;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     MARKDOWN PATH RESOLUTION
+     ========================================================= */
+
+  function resolveMarkdownPath(
+    requestedDocument
+  ) {
+
+    if (
+      !requestedDocument
+    ) {
+
+      return null;
+
+    }
+
+
+    const cleanPath =
+      requestedDocument
+        .replace(/^\/+/, "")
+        .replace(/\\/g, "/");
+
+
+    /*
+     * If the URL already contains a repository path,
+     * use it directly.
+     *
+     * Example:
+     *
+     * archive.html?doc=docs/FAURE-THEOREM-NO-GOD.md
+     */
+    if (
+      cleanPath.includes("/")
+    ) {
+
+      if (
+        allowedDocuments.includes(
+          cleanPath
+        )
+      ) {
+
+        return cleanPath;
+
+      }
+
+
+      return null;
+
+    }
+
+
+    /*
+     * Historical compatibility:
+     *
+     * Existing navigation uses:
+     *
+     * archive.html?doc=ARCHIVE-MAP.md
+     *
+     * These documents live in /docs/.
+     */
+    const docsPath =
+      "docs/" +
+      cleanPath;
+
+
+    if (
+      allowedDocuments.includes(
+        docsPath
+      )
+    ) {
+
+      return docsPath;
+
+    }
+
+
+    /*
+     * Static fallback compatibility.
+     *
+     * This preserves the behaviour of the original archive
+     * while GitHub discovery is unavailable.
+     */
+    if (
+      allowedDocuments.includes(
+        cleanPath
+      )
+    ) {
+
+      return (
+        "docs/" +
+        cleanPath
+      );
+
+    }
+
+
+    /*
+     * Finally, look for a discovered repository path
+     * whose filename matches the requested short name.
+     *
+     * This allows:
+     *
+     * archive.html?doc=FAURE-THEOREM-NO-GOD.md
+     *
+     * to resolve automatically even after the file has
+     * moved outside /docs/.
+     */
+    const matches =
+      allowedDocuments.filter(
+        path => {
+
+          return (
+            path
+              .split("/")
+              .filter(Boolean)
+              .pop()
+              ?.toLowerCase() ===
+            cleanPath.toLowerCase()
+          );
+
+        }
+      );
+
+
+    if (
+      matches.length === 1
+    ) {
+
+      return matches[0];
+
+    }
+
+
+    return null;
+
+  }
 
 
   /* =========================================================
@@ -2540,7 +2852,7 @@
     );
 
 
-  /* =========================================================
+    /* =========================================================
      MARKDOWN LINK NORMALIZATION
      ========================================================= */
 
@@ -2646,8 +2958,38 @@
         }
 
 
-        const filename =
+        const normalizedPath =
           path
+            .replace(/^\/+/, "")
+            .replace(/\\/g, "/");
+
+
+        /*
+         * Direct repository path.
+         */
+        if (
+          allowedDocuments.includes(
+            normalizedPath
+          )
+        ) {
+
+          link.href =
+            "archive.html?doc=" +
+            encodeURIComponent(
+              normalizedPath
+            ) +
+            suffix;
+
+          return;
+
+        }
+
+
+        /*
+         * Historical /docs/ Markdown link.
+         */
+        const filename =
+          normalizedPath
             .split("/")
             .filter(Boolean)
             .pop();
@@ -2662,10 +3004,14 @@
         }
 
 
-        if (
-          !allowedDocuments.includes(
+        const resolvedPath =
+          resolveMarkdownPath(
             filename
-          )
+          );
+
+
+        if (
+          !resolvedPath
         ) {
 
           return;
@@ -2676,7 +3022,7 @@
         link.href =
           "archive.html?doc=" +
           encodeURIComponent(
-            filename
+            resolvedPath
           ) +
           suffix;
 
@@ -4022,62 +4368,78 @@
   }
 
 
-  /* =========================================================
+    /* =========================================================
      START
      ========================================================= */
 
-  if (
-    loadExternalEmbed()
-  ) {
+  async function startArchive() {
 
-    /* External embed loaded. */
-
-  } else if (
-    requestedPage
-  ) {
-
-    loadPage();
-
-  } else if (
-    requestedResource
-  ) {
-
-    loadGenericResource();
-
-  } else if (
-    requestedDocument
-  ) {
-
-    loadMarkdownDocument();
-
-  } else {
-
-    documentElement.innerHTML = `
-
-      <div class="archive-error">
-
-        <strong>
-          Resource not specified.
-        </strong>
-
-        <p>
-          Select a document, page or resource
-          from the AUF2026 research archive.
-        </p>
-
-      </div>
-
-    `;
+    /*
+     * Discover the current repository tree first.
+     *
+     * This is intentionally awaited so that newly created
+     * Markdown files are available before URL routing begins.
+     */
+    await discoverMarkdownDocuments();
 
 
-    sourceElement.textContent =
-      "not specified";
+    if (
+      loadExternalEmbed()
+    ) {
+
+      /* External embed loaded. */
+
+    } else if (
+      requestedPage
+    ) {
+
+      loadPage();
+
+    } else if (
+      requestedResource
+    ) {
+
+      loadGenericResource();
+
+    } else if (
+      requestedDocument
+    ) {
+
+      loadMarkdownDocument();
+
+    } else {
+
+      documentElement.innerHTML = `
+
+        <div class="archive-error">
+
+          <strong>
+            Resource not specified.
+          </strong>
+
+          <p>
+            Select a document, page or resource
+            from the AUF2026 research archive.
+          </p>
+
+        </div>
+
+      `;
 
 
-    document.title =
-      "AUF2026 — Research Archive";
+      sourceElement.textContent =
+        "not specified";
+
+
+      document.title =
+        "AUF2026 — Research Archive";
+
+    }
 
   }
+
+
+  startArchive();
 
 </script>
 
