@@ -402,4 +402,22 @@ theorem FAURE_THEOREM_DI_DIO_FINAL
   · exact FAURE_THEOREM_DI_DIO_CANONICAL_IDEMPOTENCE Ψ h45
   · exact FAURE_THEOREM_DI_DIO_CANONICAL_ONE_STEP_INVARIANCE Ψ h45
 
+/--
+Final canonical composition law for the Faure stabilized phase.
+
+Any finite composition of iterates whose depths are all at least
+the stabilization threshold collapses to the same canonical
+stabilized operator.
+-/
+theorem FAURE_THEOREM_DI_DIO_FINITE_COMPOSITION_CLOSURE
+    {X : Type*}
+    (Ψ : X → X)
+    (h45 : Ψ^[4] = Ψ^[5])
+    (m n : Nat)
+    (hm : 4 ≤ m)
+    (hn : 4 ≤ n) :
+    Ψ^[n] ∘ Ψ^[m] = faureCanonicalStableOperator Ψ := by
+  exact FAURE_THEOREM_DI_DIO_CANONICAL_COMPOSITION_CLOSURE
+    Ψ h45 m n hm hn
+
 end AUF2026
