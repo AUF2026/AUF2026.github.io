@@ -1539,30 +1539,46 @@
      JAVASCRIPT
      ======================================================= -->
 
+<!-- =======================================================
+     JAVASCRIPT
+     ======================================================= -->
+
 <script>
 
   /* =========================================================
-     AUF2026 — LIVE PAGES REPOSITORY INDEXER
+     AUF2026 — LIVE /pages/ REPOSITORY INDEX
      =========================================================
 
-     This script reads the GitHub repository directly.
+     Reads the REAL GitHub /pages/ directory.
+
+     It does NOT assume that only four folders exist.
+
+     It reads:
+
+       /pages/
+
+     and then recursively reads:
+
+       /pages/<directory>/
+       /pages/<directory>/<subdirectory>/
+       ...
+
+     Therefore:
+
+       - files directly in /pages/ are indexed
+       - folders in /pages/ are indexed
+       - files inside folders are indexed
+       - nested folders are indexed
+       - navigation is generated from the real repository
+       - no manual href registration is required
 
      Repository:
 
-       https://github.com/AUF2026/AUF2026.github.io
+       AUF2026/AUF2026.github.io
 
-     Structure:
+     Branch:
 
-       /pages/
-         ├── Editoriali-Divulgative/
-         ├── Ricerche-Scientifiche/
-         ├── PDF-Latex-Submitted/
-         └── Working-Progress-Project/
-
-     The navigation and repository index are generated from
-     the real /pages/ structure.
-
-     No manual href registration is required.
+       main
 
      ========================================================= */
 
@@ -1585,82 +1601,6 @@
 
   const PAGES_ROOT =
     "pages";
-
-
-  /* =========================================================
-     RESEARCH DOMAINS
-     ========================================================= */
-
-  const DOMAINS = [
-
-    {
-
-      id:
-        "editoriali",
-
-      folder:
-        "Editoriali-Divulgative",
-
-      title:
-        "Editoriali-Divulgative",
-
-      description:
-        "Editorial and divulgative research material."
-
-    },
-
-
-    {
-
-      id:
-        "scientifiche",
-
-      folder:
-        "Ricerche-Scientifiche",
-
-      title:
-        "Ricerche-Scientifiche",
-
-      description:
-        "Scientific investigations and mathematical research."
-
-    },
-
-
-    {
-
-      id:
-        "submitted",
-
-      folder:
-        "PDF-Latex-Submitted",
-
-      title:
-        "PDF-Latex-Submitted",
-
-      description:
-        "Submitted papers and LaTeX-generated documents."
-
-    },
-
-
-    {
-
-      id:
-        "working",
-
-      folder:
-        "Working-Progress-Project",
-
-      title:
-        "Working-Progress-Project",
-
-      description:
-        "Active projects, demonstrations and experiments."
-
-    }
-
-  ];
 
 
   /* =========================================================
@@ -1753,7 +1693,7 @@
 
 
   /* =========================================================
-     SUPPORTED FILE TEST
+     SUPPORTED FILE
      ========================================================= */
 
   function isSupportedFile(
@@ -1770,31 +1710,11 @@
     }
 
 
-    return SUPPORTED_EXTENSIONS
-      .includes(
-        extensionOf(
-          item.name
-        )
-      );
-
-  }
-
-
-  /* =========================================================
-     HUMAN FILE TYPE
-     ========================================================= */
-
-  function humanFileType(
-    filename
-  ) {
-
-    const extension =
+    return SUPPORTED_EXTENSIONS.includes(
       extensionOf(
-        filename
-      );
-
-
-    return extension || "file";
+        item.name
+      )
+    );
 
   }
 
@@ -1837,7 +1757,7 @@
 
 
   /* =========================================================
-     READ GITHUB DIRECTORY
+     READ DIRECTORY
      ========================================================= */
 
   async function getDirectory(
@@ -1910,22 +1830,41 @@
 
 
   /* =========================================================
-     CREATE PAGES DIRECTORY URL
+     PATH ENCODING
      ========================================================= */
 
-  function createDirectoryUrl(
-    domain
+  function encodePath(
+    path
+  ) {
+
+    return path
+      .split("/")
+      .map(
+        part =>
+          encodeURIComponent(
+            part
+          )
+      )
+      .join("/");
+
+  }
+
+
+  /* =========================================================
+     CREATE DIRECT FILE URL
+     ========================================================= */
+
+  function createDirectFileUrl(
+    path
   ) {
 
     return (
 
       "./" +
 
-      encodeURIComponent(
-        domain.folder
-      ) +
-
-      "/"
+      encodePath(
+        path
+      )
 
     );
 
@@ -1933,118 +1872,60 @@
 
 
   /* =========================================================
-     CREATE PAGES NAVIGATION
+     CREATE MARKDOWN URL
+     =========================================================
+
+     Markdown files are sent through the existing
+     archive.html renderer.
+
+     The path is relative to /pages/.
+
      ========================================================= */
 
-  function buildPagesNavigation() {
+  function createMarkdownUrl(
+    path
+  ) {
 
-    if (
-      !pagesNav
-    ) {
+    return (
 
-      return;
+      "../archive.html?doc=" +
 
-    }
+      encodeURIComponent(
+        path
+      )
 
-
-    pagesNav.innerHTML =
-      "";
-
-
-    DOMAINS.forEach(
-      domain => {
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.href =
-          createDirectoryUrl(
-            domain
-          );
-
-
-        link.textContent =
-          domain.title;
-
-
-        link.setAttribute(
-          "aria-label",
-          "Open " +
-          domain.title
-        );
-
-
-        pagesNav.appendChild(
-          link
-        );
-
-      }
     );
 
   }
 
 
   /* =========================================================
-     FILE URL
+     CREATE FILE URL
      ========================================================= */
 
   function createFileUrl(
-    domain,
-    file
+    item
   ) {
 
     const extension =
       extensionOf(
-        file.name
+        item.name
       );
 
-
-    /*
-     * Markdown files are routed through the existing
-     * AUF2026 archive renderer.
-     */
 
     if (
       extension === "md"
     ) {
 
-      return (
-
-        "../archive.html?doc=" +
-
-        encodeURIComponent(
-          domain.folder +
-          "/" +
-          file.name
-        )
-
+      return createMarkdownUrl(
+        item.path
       );
 
     }
 
 
-    /*
-     * All other supported files are opened directly
-     * from /pages/<domain>/.
-     */
-
-    return (
-
-      "./" +
-
-      encodeURIComponent(
-        domain.folder
-      ) +
-
-      "/" +
-
-      encodeURIComponent(
-        file.name
-      )
-
+    return createDirectFileUrl(
+      item.path
     );
 
   }
@@ -2085,17 +1966,227 @@
 
 
   /* =========================================================
-     CREATE FILE ITEM
+     FILE TYPE
      ========================================================= */
 
-  function createFileItem(
-    domain,
-    file
+  function humanFileType(
+    filename
   ) {
 
     const extension =
       extensionOf(
-        file.name
+        filename
+      );
+
+
+    return extension || "file";
+
+  }
+
+
+  /* =========================================================
+     DISPLAY NAME
+     ========================================================= */
+
+  function displayName(
+    name
+  ) {
+
+    return name;
+
+  }
+
+
+  /* =========================================================
+     SORT ENTRIES
+     ========================================================= */
+
+  function sortEntries(
+    entries
+  ) {
+
+    return [...entries].sort(
+
+      (
+        a,
+        b
+      ) => {
+
+        /*
+         * Directories first.
+         */
+
+        if (
+          a.type === "dir" &&
+          b.type !== "dir"
+        ) {
+
+          return -1;
+
+        }
+
+
+        if (
+          a.type !== "dir" &&
+          b.type === "dir"
+        ) {
+
+          return 1;
+
+        }
+
+
+        return a.name.localeCompare(
+          b.name,
+          undefined,
+          {
+
+            numeric:
+              true,
+
+            sensitivity:
+              "base"
+
+          }
+
+        );
+
+      }
+
+    );
+
+  }
+
+
+  /* =========================================================
+     CREATE NAVIGATION LINK
+     ========================================================= */
+
+  function createNavigationLink(
+    directory
+  ) {
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.href =
+      "./" +
+      encodePath(
+        directory.path
+      ) +
+      "/";
+
+
+    link.textContent =
+      directory.name;
+
+
+    link.setAttribute(
+      "aria-label",
+      "Open " +
+      directory.name
+    );
+
+
+    return link;
+
+  }
+
+
+  /* =========================================================
+     BUILD NAVIGATION FROM /pages/
+     ========================================================= */
+
+  function buildPagesNavigation(
+    rootEntries
+  ) {
+
+    if (
+      !pagesNav
+    ) {
+
+      return;
+
+    }
+
+
+    pagesNav.innerHTML =
+      "";
+
+
+    /*
+     * Navigation contains ONLY real directories found
+     * directly under /pages/.
+     */
+
+    const directories =
+      sortEntries(
+        rootEntries.filter(
+          entry =>
+            entry.type === "dir"
+        )
+      );
+
+
+    if (
+      directories.length === 0
+    ) {
+
+      const empty =
+        document.createElement(
+          "span"
+        );
+
+
+      empty.className =
+        "nav-loading";
+
+
+      empty.textContent =
+        "No pages";
+
+
+      pagesNav.appendChild(
+        empty
+      );
+
+
+      return;
+
+    }
+
+
+    directories.forEach(
+      directory => {
+
+        pagesNav.appendChild(
+
+          createNavigationLink(
+            directory
+          )
+
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     CREATE FILE ITEM
+     ========================================================= */
+
+  function createFileItem(
+    item
+  ) {
+
+    const extension =
+      extensionOf(
+        item.name
       );
 
 
@@ -2111,8 +2202,7 @@
 
     link.href =
       createFileUrl(
-        domain,
-        file
+        item
       );
 
 
@@ -2124,9 +2214,7 @@
 
     link.setAttribute(
       "aria-label",
-      domain.title +
-      " — " +
-      file.name
+      item.path
     );
 
 
@@ -2141,7 +2229,9 @@
 
 
     name.textContent =
-      file.name;
+      displayName(
+        item.name
+      );
 
 
     const type =
@@ -2156,7 +2246,7 @@
 
     type.textContent =
       humanFileType(
-        file.name
+        item.name
       );
 
 
@@ -2176,7 +2266,7 @@
 
 
   /* =========================================================
-     CREATE EMPTY DOMAIN
+     CREATE EMPTY MESSAGE
      ========================================================= */
 
   function createEmptyMessage() {
@@ -2192,7 +2282,7 @@
 
 
     empty.textContent =
-      "No supported files found in this domain.";
+      "No supported files found in this directory.";
 
 
     return empty;
@@ -2225,7 +2315,7 @@
 
 
     strong.textContent =
-      "Repository directory unavailable.";
+      "Directory unavailable.";
 
 
     const message =
@@ -2264,12 +2354,12 @@
 
 
   /* =========================================================
-     CREATE DOMAIN BLOCK
+     CREATE DIRECTORY BLOCK
      ========================================================= */
 
-  function createFolderBlock(
-    domain,
-    files
+  function createDirectoryBlock(
+    directory,
+    entries
   ) {
 
     const section =
@@ -2283,7 +2373,12 @@
 
 
     section.id =
-      domain.id;
+      "folder-" +
+      directory.path
+        .replace(
+          /[^a-zA-Z0-9_-]/g,
+          "-"
+        );
 
 
     const heading =
@@ -2303,7 +2398,149 @@
 
 
     title.textContent =
-      domain.title;
+      directory.name;
+
+
+    const count =
+      document.createElement(
+        "span"
+      );
+
+
+    count.className =
+      "folder-count";
+
+
+    const supportedFiles =
+      entries.filter(
+        isSupportedFile
+      );
+
+
+    count.textContent =
+
+      supportedFiles.length +
+
+      (
+        supportedFiles.length === 1
+          ? " file"
+          : " files"
+      );
+
+
+    heading.appendChild(
+      title
+    );
+
+
+    heading.appendChild(
+      count
+    );
+
+
+    section.appendChild(
+      heading
+    );
+
+
+    const list =
+      document.createElement(
+        "div"
+      );
+
+
+    list.className =
+      "file-list";
+
+
+    if (
+      supportedFiles.length === 0
+    ) {
+
+      list.appendChild(
+        createEmptyMessage()
+      );
+
+    } else {
+
+      sortEntries(
+        supportedFiles
+      ).forEach(
+        file => {
+
+          list.appendChild(
+
+            createFileItem(
+              file
+            )
+
+          );
+
+        }
+      );
+
+    }
+
+
+    section.appendChild(
+      list
+    );
+
+
+    return section;
+
+  }
+
+
+  /* =========================================================
+     ROOT FILE BLOCK
+     ========================================================= */
+
+  function createRootFileBlock(
+    files
+  ) {
+
+    if (
+      files.length === 0
+    ) {
+
+      return null;
+
+    }
+
+
+    const section =
+      document.createElement(
+        "div"
+      );
+
+
+    section.className =
+      "folder";
+
+
+    section.id =
+      "pages-root";
+
+
+    const heading =
+      document.createElement(
+        "div"
+      );
+
+
+    heading.className =
+      "folder-title";
+
+
+    const title =
+      document.createElement(
+        "h3"
+      );
+
+
+    title.textContent =
+      "pages";
 
 
     const count =
@@ -2352,57 +2589,21 @@
       "file-list";
 
 
-    if (
-      files.length === 0
-    ) {
+    sortEntries(
+      files
+    ).forEach(
+      file => {
 
-      list.appendChild(
-        createEmptyMessage()
-      );
+        list.appendChild(
 
-    } else {
-
-      files.sort(
-
-        (
-          a,
-          b
-        ) =>
-
-          a.name.localeCompare(
-            b.name,
-            undefined,
-            {
-
-              numeric:
-                true,
-
-              sensitivity:
-                "base"
-
-            }
-
+          createFileItem(
+            file
           )
 
-      );
+        );
 
-
-      files.forEach(
-        file => {
-
-          list.appendChild(
-
-            createFileItem(
-              domain,
-              file
-            )
-
-          );
-
-        }
-      );
-
-    }
+      }
+    );
 
 
     section.appendChild(
@@ -2416,132 +2617,47 @@
 
 
   /* =========================================================
-     CREATE DOMAIN ERROR BLOCK
+     RECURSIVE DIRECTORY SCAN
      ========================================================= */
 
-  function createDomainErrorBlock(
-    domain,
-    error
+  async function scanDirectory(
+    path
   ) {
 
-    const section =
-      document.createElement(
-        "div"
+    const entries =
+      await getDirectory(
+        path
       );
 
 
-    section.className =
-      "folder";
-
-
-    section.id =
-      domain.id;
-
-
-    const heading =
-      document.createElement(
-        "div"
+    const files =
+      entries.filter(
+        isSupportedFile
       );
 
 
-    heading.className =
-      "folder-title";
-
-
-    const title =
-      document.createElement(
-        "h3"
+    const directories =
+      entries.filter(
+        entry =>
+          entry.type === "dir"
       );
 
 
-    title.textContent =
-      domain.title;
+    return {
 
+      path:
+        path,
 
-    heading.appendChild(
-      title
-    );
+      entries:
+        entries,
 
+      files:
+        files,
 
-    section.appendChild(
-      heading
-    );
+      directories:
+        directories
 
-
-    section.appendChild(
-
-      createErrorMessage(
-        error
-      )
-
-    );
-
-
-    return section;
-
-  }
-
-
-  /* =========================================================
-     STATUS UPDATE
-     ========================================================= */
-
-  function updateStatus(
-    totalFiles
-  ) {
-
-    if (
-      !statusElement
-    ) {
-
-      return;
-
-    }
-
-
-    statusElement.innerHTML =
-
-      "Repository index: " +
-
-      "<strong>" +
-
-      totalFiles +
-
-      "</strong>" +
-
-      (
-
-        totalFiles === 1
-
-          ? " supported file found."
-
-          : " supported files found."
-
-      );
-
-  }
-
-
-  /* =========================================================
-     LOADING STATUS
-     ========================================================= */
-
-  function setLoadingStatus() {
-
-    if (
-      !statusElement
-    ) {
-
-      return;
-
-    }
-
-
-    statusElement.innerHTML =
-
-      "Repository index: " +
-
-      "<strong>scanning...</strong>";
+    };
 
   }
 
@@ -2561,7 +2677,17 @@
     }
 
 
-    setLoadingStatus();
+    if (
+      statusElement
+    ) {
+
+      statusElement.innerHTML =
+
+        "Repository index: " +
+
+        "<strong>scanning...</strong>";
+
+    }
 
 
     repositoryIndex.innerHTML =
@@ -2572,219 +2698,498 @@
       0;
 
 
-    let failedDomains =
+    let failedDirectories =
       0;
 
 
-    /*
-     * Read all configured /pages/ domains in parallel.
-     */
+    try {
 
-    const domainResults =
-      await Promise.all(
+      /*
+       * FIRST: read the actual /pages/ root.
+       */
 
-        DOMAINS.map(
-          async domain => {
-
-            try {
-
-              const entries =
-                await getDirectory(
-
-                  PAGES_ROOT +
-                  "/" +
-                  domain.folder
-
-                );
+      const root =
+        await scanDirectory(
+          PAGES_ROOT
+        );
 
 
-              const files =
-                entries.filter(
-                  isSupportedFile
-                );
+      /*
+       * Build navigation from the REAL root.
+       */
 
-
-              return {
-
-                domain:
-                  domain,
-
-                files:
-                  files,
-
-                error:
-                  null
-
-              };
-
-            } catch (
-              error
-            ) {
-
-              console.error(
-
-                "AUF2026 Pages:",
-
-                error
-
-              );
-
-
-              return {
-
-                domain:
-                  domain,
-
-                files:
-                  [],
-
-                error:
-                  error
-
-              };
-
-            }
-
-          }
-        )
-
+      buildPagesNavigation(
+        root.entries
       );
 
 
-    /* =======================================================
-       RENDER DOMAINS
-       ======================================================= */
+      /*
+       * Files directly inside /pages/.
+       */
 
-    domainResults.forEach(
-      result => {
+      if (
+        root.files.length > 0
+      ) {
 
-        const domain =
-          result.domain;
-
-
-        if (
-          result.error
-        ) {
-
-          failedDomains++;
-
-
-          repositoryIndex.appendChild(
-
-            createDomainErrorBlock(
-              domain,
-              result.error
-            )
-
+        const rootBlock =
+          createRootFileBlock(
+            root.files
           );
 
 
-          return;
+        if (
+          rootBlock
+        ) {
+
+          repositoryIndex.appendChild(
+            rootBlock
+          );
 
         }
 
 
         totalFiles +=
-          result.files.length;
+          root.files.length;
+
+      }
 
 
-        repositoryIndex.appendChild(
+      /*
+       * REAL directories found under /pages/.
+       */
 
-          createFolderBlock(
-            domain,
-            result.files
-          )
+      const directories =
+        sortEntries(
+          root.directories
+        );
 
+
+      /*
+       * Read every directory dynamically.
+       *
+       * No hard-coded directory names.
+       */
+
+      for (
+        const directory
+        of directories
+      ) {
+
+        try {
+
+          const result =
+            await scanDirectory(
+              directory.path
+            );
+
+
+          /*
+           * Files directly inside the directory.
+           */
+
+          totalFiles +=
+            result.files.length;
+
+
+          repositoryIndex.appendChild(
+
+            createDirectoryBlock(
+              directory,
+              result.entries
+            )
+
+          );
+
+
+          /*
+           * If there are nested directories,
+           * scan them too.
+           */
+
+          const nestedDirectories =
+            sortEntries(
+              result.directories
+            );
+
+
+          for (
+            const nested
+            of nestedDirectories
+          ) {
+
+            try {
+
+              const nestedResult =
+                await scanDirectory(
+                  nested.path
+                );
+
+
+              totalFiles +=
+                nestedResult.files.length;
+
+
+              repositoryIndex.appendChild(
+
+                createDirectoryBlock(
+                  nested,
+                  nestedResult.entries
+                )
+
+              );
+
+            } catch (
+              nestedError
+            ) {
+
+              failedDirectories++;
+
+
+              const errorBlock =
+                document.createElement(
+                  "div"
+                );
+
+
+              errorBlock.className =
+                "folder";
+
+
+              errorBlock.id =
+                "error-" +
+                nested.path
+                  .replace(
+                    /[^a-zA-Z0-9_-]/g,
+                    "-"
+                  );
+
+
+              const heading =
+                document.createElement(
+                  "div"
+                );
+
+
+              heading.className =
+                "folder-title";
+
+
+              const title =
+                document.createElement(
+                  "h3"
+                );
+
+
+              title.textContent =
+                nested.name;
+
+
+              heading.appendChild(
+                title
+              );
+
+
+              errorBlock.appendChild(
+                heading
+              );
+
+
+              errorBlock.appendChild(
+
+                createErrorMessage(
+                  nestedError
+                )
+
+              );
+
+
+              repositoryIndex.appendChild(
+                errorBlock
+              );
+
+            }
+
+          }
+
+        } catch (
+          directoryError
+        ) {
+
+          failedDirectories++;
+
+
+          const errorBlock =
+            document.createElement(
+              "div"
+            );
+
+
+          errorBlock.className =
+            "folder";
+
+
+          errorBlock.id =
+            "error-" +
+            directory.path
+              .replace(
+                /[^a-zA-Z0-9_-]/g,
+                "-"
+              );
+
+
+          const heading =
+            document.createElement(
+              "div"
+            );
+
+
+          heading.className =
+            "folder-title";
+
+
+          const title =
+            document.createElement(
+              "h3"
+            );
+
+
+          title.textContent =
+            directory.name;
+
+
+          heading.appendChild(
+            title
+          );
+
+
+          errorBlock.appendChild(
+            heading
+          );
+
+
+          errorBlock.appendChild(
+
+            createErrorMessage(
+              directoryError
+            )
+
+          );
+
+
+          repositoryIndex.appendChild(
+            errorBlock
+          );
+
+        }
+
+      }
+
+
+      /* =====================================================
+         STATUS
+         ===================================================== */
+
+      if (
+        statusElement
+      ) {
+
+        statusElement.innerHTML =
+
+          "Repository index: " +
+
+          "<strong>" +
+
+          totalFiles +
+
+          "</strong>" +
+
+          (
+
+            totalFiles === 1
+
+              ? " supported file found."
+
+              : " supported files found."
+
+          );
+
+      }
+
+
+      /* =====================================================
+         PARTIAL ERRORS
+         ===================================================== */
+
+      if (
+        failedDirectories > 0
+      ) {
+
+        const warning =
+          document.createElement(
+            "div"
+          );
+
+
+        warning.className =
+          "status";
+
+
+        warning.style.marginBottom =
+          "35px";
+
+
+        warning.innerHTML =
+
+          "Repository index loaded with " +
+
+          "<strong>" +
+
+          failedDirectories +
+
+          "</strong>" +
+
+          " unavailable director" +
+
+          (
+            failedDirectories === 1
+              ? "y."
+              : "ies."
+          );
+
+
+        repositoryIndex.prepend(
+          warning
         );
 
       }
-    );
 
 
-    updateStatus(
-      totalFiles
-    );
+      /* =====================================================
+         EMPTY REPOSITORY
+         ===================================================== */
+
+      if (
+        root.entries.length === 0
+      ) {
+
+        const empty =
+          document.createElement(
+            "div"
+          );
 
 
-    /* =======================================================
-       PARTIAL FAILURE INFORMATION
-       ======================================================= */
+        empty.className =
+          "status";
 
-    if (
-      failedDomains > 0
+
+        empty.innerHTML =
+
+          "The <strong>/pages/</strong> directory " +
+
+          "is currently empty.";
+
+
+        repositoryIndex.appendChild(
+          empty
+        );
+
+      }
+
+
+      if (
+        totalFiles === 0 &&
+        root.entries.length > 0
+      ) {
+
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+
+        empty.className =
+          "status";
+
+
+        empty.innerHTML =
+
+          "No supported files were found inside " +
+
+          "<strong>/pages/</strong>.";
+
+
+        repositoryIndex.prepend(
+          empty
+        );
+
+      }
+
+    } catch (
+      error
     ) {
 
-      const warning =
-        document.createElement(
-          "div"
+      console.error(
+        "AUF2026 Pages:",
+        error
+      );
+
+
+      if (
+        statusElement
+      ) {
+
+        statusElement.innerHTML =
+
+          "Repository index: " +
+
+          "<strong>unavailable</strong>";
+
+      }
+
+
+      const errorBlock =
+        createErrorMessage(
+          error
         );
 
 
-      warning.className =
-        "status";
-
-
-      warning.style.marginBottom =
-        "35px";
-
-
-      warning.innerHTML =
-
-        "Repository index loaded with " +
-
-        "<strong>" +
-
-        failedDomains +
-
-        "</strong>" +
-
-        " unavailable domain" +
-
-        (
-          failedDomains === 1
-            ? ""
-            : "s"
-        ) +
-
-        ".";
-
-
-      repositoryIndex.prepend(
-        warning
+      repositoryIndex.appendChild(
+        errorBlock
       );
 
-    }
+
+      /*
+       * Navigation cannot be generated if the /pages/
+       * root itself cannot be read.
+       */
+
+      if (
+        pagesNav
+      ) {
+
+        pagesNav.innerHTML =
+          "";
 
 
-    /* =======================================================
-       NO FILES AT ALL
-       ======================================================= */
+        const errorNav =
+          document.createElement(
+            "span"
+          );
 
-    if (
-      totalFiles === 0 &&
-      failedDomains === 0
-    ) {
 
-      const empty =
-        document.createElement(
-          "div"
+        errorNav.className =
+          "nav-loading";
+
+
+        errorNav.textContent =
+          "Pages unavailable";
+
+
+        pagesNav.appendChild(
+          errorNav
         );
 
-
-      empty.className =
-        "status";
-
-
-      empty.innerHTML =
-
-        "No supported files are currently present " +
-
-        "inside the configured <strong>/pages</strong> domains.";
-
-
-      repositoryIndex.prepend(
-        empty
-      );
+      }
 
     }
 
@@ -2797,25 +3202,14 @@
 
   function initializePages() {
 
-    /*
-     * Build the real navigation from /pages/ domains.
-     */
-
-    buildPagesNavigation();
-
-
-    /*
-     * Build the live file repository index.
-     */
-
     buildRepositoryIndex();
 
   }
 
 
   /* =========================================================
-     START
-     * ========================================================= */
+     DOM READY
+     ========================================================= */
 
   if (
     document.readyState === "loading"
@@ -2833,7 +3227,6 @@
   }
 
 </script>
-
 
 </body>
 
