@@ -204,132 +204,463 @@
 
 
     /* =========================================================
-       HEADER
-       ========================================================= */
+   HEADER
+   ========================================================= */
 
-    header {
+header {
 
-      position:
-        sticky;
+  position:
+    sticky;
 
-      top:
-        0;
+  top:
+    0;
 
-      z-index:
-        1000;
+  z-index:
+    1000;
 
-      background:
-        rgba(7,10,15,.88);
+  background:
+    rgba(7,10,15,.88);
 
-      backdrop-filter:
-        blur(18px);
+  backdrop-filter:
+    blur(18px);
 
-      -webkit-backdrop-filter:
-        blur(18px);
+  -webkit-backdrop-filter:
+    blur(18px);
 
-      border-bottom:
-        1px solid
-        var(--border);
+  border-bottom:
+    1px solid
+    var(--border);
 
-    }
-
-
-    .nav {
-
-      min-height:
-        72px;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        30px;
-
-    }
+}
 
 
-    .brand {
+.nav {
 
-      flex:
-        0 0 auto;
+  min-height:
+    72px;
 
-      font-weight:
-        900;
+  display:
+    flex;
 
-      letter-spacing:
-        .14em;
+  align-items:
+    center;
 
-      font-size:
-        1.05rem;
+  justify-content:
+    space-between;
 
-    }
+  gap:
+    30px;
 
-
-    .brand span {
-
-      color:
-        var(--green);
-
-    }
+}
 
 
-    .nav-links {
+.brand {
 
-      display:
-        flex;
+  flex:
+    0 0 auto;
 
-      align-items:
-        center;
+  font-weight:
+    900;
 
-      gap:
-        22px;
+  letter-spacing:
+    .14em;
 
-      overflow-x:
-        auto;
+  font-size:
+    1.05rem;
 
-      scrollbar-width:
-        none;
-
-    }
+}
 
 
-    .nav-links::-webkit-scrollbar {
+.brand span {
 
-      display:
-        none;
+  color:
+    var(--green);
 
-    }
-
-
-    .nav-links a {
-
-      flex:
-        0 0 auto;
-
-      color:
-        var(--muted);
-
-      font-size:
-        .9rem;
-
-      transition:
-        color .2s ease;
-
-    }
+}
 
 
-    .nav-links a:hover {
+/* =========================================================
+   PAGES DROPDOWN
+   ========================================================= */
 
-      color:
-        var(--text);
+.nav-links {
 
-    }
+  position:
+    relative;
+
+  flex:
+    0 0 auto;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+}
+
+
+/* =========================================================
+   DROPDOWN BUTTON
+   ========================================================= */
+
+.pages-dropdown {
+
+  position:
+    relative;
+
+}
+
+
+.pages-dropdown-button {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    8px;
+
+  min-width:
+    120px;
+
+  padding:
+    10px 15px;
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    8px;
+
+  background:
+    var(--panel);
+
+  color:
+    var(--text);
+
+  font-size:
+    .88rem;
+
+  font-weight:
+    750;
+
+  cursor:
+    pointer;
+
+  transition:
+
+    background .2s ease,
+
+    border-color .2s ease,
+
+    color .2s ease;
+
+}
+
+
+.pages-dropdown-button:hover {
+
+  background:
+    var(--panel2);
+
+  border-color:
+    rgba(230,211,99,.40);
+
+  color:
+    var(--green);
+
+}
+
+
+.pages-dropdown-button::after {
+
+  content:
+    "▾";
+
+  color:
+    var(--green);
+
+  font-size:
+    .8rem;
+
+  transition:
+    transform .2s ease;
+
+}
+
+
+/* =========================================================
+   DROPDOWN PANEL
+   ========================================================= */
+
+.pages-dropdown-menu {
+
+  position:
+    absolute;
+
+  top:
+    calc(100% + 10px);
+
+  right:
+    0;
+
+  min-width:
+    280px;
+
+  max-width:
+    min(420px, 90vw);
+
+  max-height:
+    70vh;
+
+  overflow-y:
+    auto;
+
+  padding:
+    8px;
+
+  background:
+    rgba(18,25,35,.98);
+
+  border:
+    1px solid
+    var(--border);
+
+  border-radius:
+    10px;
+
+  box-shadow:
+    var(--shadow);
+
+  opacity:
+    0;
+
+  visibility:
+    hidden;
+
+  transform:
+    translateY(-6px);
+
+  pointer-events:
+    none;
+
+  transition:
+
+    opacity .18s ease,
+
+    visibility .18s ease,
+
+    transform .18s ease;
+
+}
+
+
+/* =========================================================
+   OPEN STATE
+   ========================================================= */
+
+.pages-dropdown.is-open
+.pages-dropdown-menu {
+
+  opacity:
+    1;
+
+  visibility:
+    visible;
+
+  transform:
+    translateY(0);
+
+  pointer-events:
+    auto;
+
+}
+
+
+.pages-dropdown.is-open
+.pages-dropdown-button::after {
+
+  transform:
+    rotate(180deg);
+
+}
+
+
+/* =========================================================
+   DROPDOWN LINKS
+   ========================================================= */
+
+.pages-dropdown-menu a {
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  padding:
+    10px 12px;
+
+  border-radius:
+    7px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .84rem;
+
+  line-height:
+    1.35;
+
+  transition:
+
+    background .18s ease,
+
+    color .18s ease;
+
+}
+
+
+.pages-dropdown-menu a:hover {
+
+  background:
+    rgba(230,211,99,.08);
+
+  color:
+    var(--green);
+
+}
+
+
+/* =========================================================
+   DROPDOWN FOLDER GROUPS
+   ========================================================= */
+
+.pages-dropdown-group {
+
+  padding:
+    6px 0;
+
+}
+
+
+.pages-dropdown-group + .pages-dropdown-group {
+
+  border-top:
+    1px solid
+    var(--border-soft);
+
+}
+
+
+.pages-dropdown-folder {
+
+  padding:
+    7px 12px 5px;
+
+  color:
+    var(--green);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
+
+  font-size:
+    .68rem;
+
+  font-weight:
+    800;
+
+  letter-spacing:
+    .08em;
+
+  text-transform:
+    uppercase;
+
+}
+
+
+/* =========================================================
+   LOADING STATE
+   ========================================================= */
+
+.nav-loading {
+
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  padding:
+    10px 15px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .82rem;
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .nav {
+
+    min-height:
+      62px;
+
+    gap:
+      15px;
+
+  }
+
+
+  .pages-dropdown-button {
+
+    min-width:
+      100px;
+
+    padding:
+      9px 12px;
+
+    font-size:
+      .78rem;
+
+  }
+
+
+  .pages-dropdown-menu {
+
+    right:
+      0;
+
+    min-width:
+      min(300px, calc(100vw - 24px));
+
+    max-width:
+      calc(100vw - 24px);
+
+  }
+
+}
 
 
     /* =========================================================
@@ -2776,179 +3107,447 @@
 
 
   /* =========================================================
-     BUILD TOP NAVIGATION
-     =========================================================
+   BUILD TOP NAVIGATION
+   =========================================================
 
-     The navigation now contains:
+   The navigation contains only:
 
-       Pages
-       file1.html
-       file2.html
-       Folder A
-       Folder B
-       ...
+     Pages ▾
 
-     pages/index.html is NEVER shown.
+   All files and folders discovered inside /pages/ are
+   placed inside the Pages dropdown.
 
-     ========================================================= */
+   pages/index.html is NEVER shown.
 
-  function buildPagesNavigation(
-    root
+   ========================================================= */
+
+function buildPagesNavigation(
+  root
+) {
+
+  if (
+    !pagesNav
   ) {
 
-    if (
-      !pagesNav
-    ) {
-
-      return;
-
-    }
-
-
-    pagesNav.innerHTML =
-      "";
-
-
-    /*
-     * Root Pages link.
-     */
-
-    const pagesLink =
-      document.createElement(
-        "a"
-      );
-
-
-    pagesLink.href =
-      "#catalog";
-
-
-    pagesLink.textContent =
-      "Pages";
-
-
-    pagesNav.appendChild(
-      pagesLink
-    );
-
-
-    /*
-     * Files directly inside /pages/.
-
-     * pages/index.html is already excluded.
-     */
-
-    root.files.forEach(
-      file => {
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.href =
-          createFileUrl(
-            file
-          );
-
-
-        link.textContent =
-          file.name;
-
-
-        const extension =
-          extensionOf(
-            file.name
-          );
-
-
-        applyFileTarget(
-          link,
-          extension
-        );
-
-
-        pagesNav.appendChild(
-          link
-        );
-
-      }
-    );
-
-
-    /*
-     * First-level directories.
-     */
-
-    root.children.forEach(
-      child => {
-
-        if (
-          child.error
-        ) {
-
-          return;
-
-        }
-
-
-        const link =
-          document.createElement(
-            "a"
-          );
-
-
-        link.href =
-          "#" +
-
-          folderAnchor(
-            child.entry.path
-          );
-
-
-        link.textContent =
-          child.entry.name;
-
-
-        pagesNav.appendChild(
-          link
-        );
-
-      }
-    );
-
-
-    /*
-     * No files AND no directories.
-     */
-
-    if (
-      root.files.length === 0 &&
-      root.children.length === 0
-    ) {
-
-      const empty =
-        document.createElement(
-          "span"
-        );
-
-
-      empty.className =
-        "nav-loading";
-
-
-      empty.textContent =
-        "No pages";
-
-
-      pagesNav.appendChild(
-        empty
-      );
-
-    }
+    return;
 
   }
+
+
+  pagesNav.innerHTML =
+    "";
+
+
+  /* =======================================================
+     DROPDOWN CONTAINER
+     ======================================================= */
+
+  const dropdown =
+    document.createElement(
+      "div"
+    );
+
+
+  dropdown.className =
+    "pages-dropdown";
+
+
+  /* =======================================================
+     DROPDOWN BUTTON
+     ======================================================= */
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+
+  button.type =
+    "button";
+
+
+  button.className =
+    "pages-dropdown-button";
+
+
+  button.textContent =
+    "Pages";
+
+
+  button.setAttribute(
+    "aria-expanded",
+    "false"
+  );
+
+
+  button.setAttribute(
+    "aria-haspopup",
+    "true"
+  );
+
+
+  /* =======================================================
+     DROPDOWN MENU
+     ======================================================= */
+
+  const menu =
+    document.createElement(
+      "div"
+    );
+
+
+  menu.className =
+    "pages-dropdown-menu";
+
+
+  menu.setAttribute(
+    "role",
+    "menu"
+  );
+
+
+  /* =======================================================
+     DIRECT FILES INSIDE /pages/
+     =======================================================
+
+     pages/index.html is explicitly excluded.
+     ======================================================= */
+
+  const directFiles =
+    root.files.filter(
+      file => {
+
+        return (
+
+          file.name.toLowerCase() !==
+          "index.html"
+
+        );
+
+      }
+    );
+
+
+  directFiles.forEach(
+    file => {
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        createFileUrl(
+          file
+        );
+
+
+      link.textContent =
+        file.name;
+
+
+      link.setAttribute(
+        "role",
+        "menuitem"
+      );
+
+
+      const extension =
+        extensionOf(
+          file.name
+        );
+
+
+      applyFileTarget(
+        link,
+        extension
+      );
+
+
+      menu.appendChild(
+        link
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     FIRST-LEVEL DIRECTORIES
+     ======================================================= */
+
+  root.children.forEach(
+    child => {
+
+      if (
+        !child ||
+        child.error
+      ) {
+
+        return;
+
+      }
+
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        "#" +
+        folderAnchor(
+          child.entry.path
+        );
+
+
+      link.textContent =
+        child.entry.name;
+
+
+      link.setAttribute(
+        "role",
+        "menuitem"
+      );
+
+
+      menu.appendChild(
+        link
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     EMPTY STATE
+     ======================================================= */
+
+  if (
+    directFiles.length === 0 &&
+    root.children.length === 0
+  ) {
+
+    const empty =
+      document.createElement(
+        "span"
+      );
+
+
+    empty.className =
+      "nav-loading";
+
+
+    empty.textContent =
+      "No pages";
+
+
+    menu.appendChild(
+      empty
+    );
+
+  }
+
+
+  /* =======================================================
+     ASSEMBLE DROPDOWN
+     ======================================================= */
+
+  dropdown.appendChild(
+    button
+  );
+
+
+  dropdown.appendChild(
+    menu
+  );
+
+
+  pagesNav.appendChild(
+    dropdown
+  );
+
+
+  /* =======================================================
+     OPEN / CLOSE
+     ======================================================= */
+
+  button.addEventListener(
+    "click",
+    event => {
+
+      event.stopPropagation();
+
+
+      const isOpen =
+        dropdown.classList.contains(
+          "is-open"
+        );
+
+
+      /*
+       * Close every other Pages dropdown first.
+       */
+
+      document
+        .querySelectorAll(
+          ".pages-dropdown.is-open"
+        )
+        .forEach(
+          other => {
+
+            if (
+              other !== dropdown
+            ) {
+
+              other.classList.remove(
+                "is-open"
+              );
+
+
+              const otherButton =
+                other.querySelector(
+                  ".pages-dropdown-button"
+                );
+
+
+              if (
+                otherButton
+              ) {
+
+                otherButton.setAttribute(
+                  "aria-expanded",
+                  "false"
+                );
+
+              }
+
+            }
+
+          }
+        );
+
+
+      dropdown.classList.toggle(
+        "is-open",
+        !isOpen
+      );
+
+
+      button.setAttribute(
+        "aria-expanded",
+        String(
+          !isOpen
+        )
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     CLOSE AFTER SELECTING A PAGE
+     ======================================================= */
+
+  menu.addEventListener(
+    "click",
+    event => {
+
+      const link =
+        event.target.closest(
+          "a"
+        );
+
+
+      if (
+        !link
+      ) {
+
+        return;
+
+      }
+
+
+      dropdown.classList.remove(
+        "is-open"
+      );
+
+
+      button.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     CLOSE WHEN CLICKING OUTSIDE
+     ======================================================= */
+
+  document.addEventListener(
+    "click",
+    event => {
+
+      if (
+        !dropdown.contains(
+          event.target
+        )
+      ) {
+
+        dropdown.classList.remove(
+          "is-open"
+        );
+
+
+        button.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     ESCAPE KEY
+     ======================================================= */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key !== "Escape"
+      ) {
+
+        return;
+
+      }
+
+
+      dropdown.classList.remove(
+        "is-open"
+      );
+
+
+      button.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+
+      button.focus();
+
+    }
+  );
+
+}
 
 
   /* =========================================================
