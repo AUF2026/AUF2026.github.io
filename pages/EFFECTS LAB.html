@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>AUF2026 · WOW Effects Lab</title>
+
+<style>
+
+/* =========================================================
+   AUF2026 — WOW EFFECTS LAB
+   Standalone visual experiment
+   ========================================================= */
+
+:root {
+  --bg: #050b11;
+  --panel: rgba(10, 20, 30, .82);
+  --panel-2: rgba(15, 29, 42, .72);
+  --line: rgba(148, 163, 184, .16);
+
+  --text: #e8f1f8;
+  --muted: #8193a3;
+
+  --cyan: #7dd3fc;
+  --cyan-soft: rgba(125,211,252,.14);
+
+  --green: #6ee7b7;
+  --violet: #a78bfa;
+
+  --radius: 14px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      #132c40 0%,
+      #07111a 38%,
+      var(--bg) 75%
+    );
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   RESEARCH FIELD
+   ========================================================= */
+
+body.field-on::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 0;
+
+  opacity: .055;
+
+  background-image:
+
+    linear-gradient(
+      rgba(125,211,252,.22) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(125,211,252,.22) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    80px 80px;
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      black 0%,
+      transparent 72%
+    );
+
+  animation:
+    fieldDrift 28s linear infinite;
+}
+
+@keyframes fieldDrift {
+
+  from {
+    background-position:
+      0 0,
+      0 0;
+  }
+
+  to {
+    background-position:
+      80px 40px,
+      40px 80px;
+  }
+
+}
+
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.lab {
+  position: relative;
+
+  z-index: 1;
+
+  width:
+    min(1180px, 92%);
+
+  margin:
+    auto;
+}
+
+.hero {
+
+  min-height:
+    92vh;
+
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  justify-content:
+    center;
+
+  padding:
+    100px 0;
+}
+
+.eyebrow {
+
+  color:
+    var(--cyan);
+
+  font-size:
+    11px;
+
+  letter-spacing:
+    .2em;
+
+  text-transform:
+    uppercase;
+}
+
+.hero h1 {
+
+  max-width:
+    900px;
+
+  margin:
+    20px 0;
+
+  font-size:
+    clamp(52px, 9vw, 110px);
+
+  line-height:
+    .9;
+
+  letter-spacing:
+    -.06em;
+}
+
+.hero p {
+
+  max-width:
+    680px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    18px;
+
+  line-height:
+    1.75;
+}
+
+.status {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    9px;
+
+  margin-top:
+    35px;
+
+  color:
+    var(--green);
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .18em;
+}
+
+.status-dot {
+
+  width:
+    6px;
+
+  height:
+    6px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--green);
+
+  box-shadow:
+    0 0 12px
+    rgba(110,231,183,.8);
+}
+
+/* =========================================================
+   DEMO SECTIONS
+   ========================================================= */
+
+.demo {
+
+  min-height:
+    90vh;
+
+  padding:
+    120px 0;
+
+  border-top:
+    1px solid var(--line);
+}
+
+.label {
+
+  color:
+    var(--cyan);
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .18em;
+
+  text-transform:
+    uppercase;
+}
+
+.demo h2 {
+
+  margin:
+    15px 0;
+
+  font-size:
+    clamp(32px, 5vw, 60px);
+
+  letter-spacing:
+    -.04em;
+}
+
+.demo > p {
+
+  max-width:
+    680px;
+
+  color:
+    var(--muted);
+
+  line-height:
+    1.7;
+
+  margin-bottom:
+    50px;
+}
+
+/* =========================================================
+   CARDS
+   ========================================================= */
+
+.cards {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    18px;
+}
+
+.card {
+
+  position:
+    relative;
+
+  min-height:
+    230px;
+
+  padding:
+    30px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    var(--radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17,34,48,.88),
+      rgba(6,15,23,.78)
+    );
+
+  transform-style:
+    preserve-3d;
+
+  transition:
+    transform .22s ease,
+    border-color .3s ease,
+    box-shadow .3s ease;
+}
+
+.card:hover {
+
+  border-color:
+    rgba(125,211,252,.38);
+
+  box-shadow:
+    0 25px 70px
+    rgba(0,0,0,.32);
+}
+
+.card-code {
+
+  position:
+    absolute;
+
+  right:
+    22px;
+
+  top:
+    20px;
+
+  color:
+    rgba(125,211,252,.35);
+
+  font:
+    12px monospace;
+}
+
+.card-type {
+
+  color:
+    var(--cyan);
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .17em;
+}
+
+.card h3 {
+
+  margin:
+    30px 0 12px;
+
+  font-size:
+    22px;
+}
+
+.card p {
+
+  margin:
+    0;
+
+  color:
+    var(--muted);
+
+  line-height:
+    1.6;
+}
+
+/* =========================================================
+   REGISTRY
+   ========================================================= */
+
+.registry {
+
+  max-width:
+    820px;
+
+  border-top:
+    1px solid var(--line);
+}
+
+.registry a {
+
+  position:
+    relative;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    14px;
+
+  padding:
+    24px 10px;
+
+  color:
+    var(--text);
+
+  text-decoration:
+    none;
+
+  border-bottom:
+    1px solid var(--line);
+
+  transition:
+    transform .25s ease,
+    color .25s ease,
+    background .25s ease;
+}
+
+.registry a:hover {
+
+  color:
+    var(--cyan);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(125,211,252,.06),
+      transparent
+    );
+}
+
+.registry-dot {
+
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--green);
+
+  box-shadow:
+    0 0 10px
+    rgba(110,231,183,.65);
+}
+
+.registry b {
+
+  margin-left:
+    auto;
+
+  font-weight:
+    400;
+
+  color:
+    var(--muted);
+}
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+.validation {
+
+  max-width:
+    820px;
+
+  overflow:
+    hidden;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    var(--radius);
+
+  background:
+    rgba(10,20,30,.55);
+}
+
+.validation-row {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  padding:
+    22px 25px;
+
+  border-bottom:
+    1px solid var(--line);
+}
+
+.validation-row:last-child {
+  border-bottom: 0;
+}
+
+.validation-row span {
+  color: var(--muted);
+}
+
+.validation-row b {
+
+  color:
+    var(--green);
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .14em;
+}
+
+/* =========================================================
+   EVIDENCE GRAPH
+   ========================================================= */
+
+.graph {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  overflow-x:
+    auto;
+
+  padding:
+    35px 5px;
+}
+
+.node {
+
+  min-width:
+    135px;
+
+  padding:
+    20px 14px;
+
+  text-align:
+    center;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    10px;
+
+  background:
+    rgba(8,18,27,.85);
+
+  color:
+    var(--muted);
+
+  transition:
+    .3s ease;
+}
+
+.node small {
+
+  display:
+    block;
+
+  margin-bottom:
+    8px;
+
+  color:
+    rgba(125,211,252,.4);
+
+  font:
+    10px monospace;
+}
+
+.node.active,
+.node:hover {
+
+  color:
+    var(--text);
+
+  border-color:
+    rgba(125,211,252,.5);
+
+  box-shadow:
+    0 0 35px
+    rgba(125,211,252,.1);
+}
+
+.connector {
+
+  position:
+    relative;
+
+  width:
+    55px;
+
+  min-width:
+    55px;
+
+  height:
+    1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
+}
+
+.connector::after {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  top:
+    -2px;
+
+  left:
+    0;
+
+  width:
+    5px;
+
+  height:
+    5px;
+
+  border-radius:
+    50%;
+
+  background:
+    var(--cyan);
+}
+
+body.graph-flow .connector::after {
+
+  animation:
+    flow 1.8s linear infinite;
+}
+
+@keyframes flow {
+
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+
+}
+
+/* =========================================================
+   REVEAL
+   ========================================================= */
+
+body.reveal-on .reveal {
+
+  opacity:
+    0;
+
+  transform:
+    translateY(40px);
+
+  transition:
+    opacity .8s ease,
+    transform .8s
+      cubic-bezier(.2,.8,.2,1);
+}
+
+body.reveal-on .reveal.visible {
+
+  opacity:
+    1;
+
+  transform:
+    translateY(0);
+}
+
+/* =========================================================
+   REGISTRY SCAN
+   ========================================================= */
+
+body.scan-on
+.registry.scanning::before {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  top:
+    0;
+
+  height:
+    1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--cyan),
+      transparent
+    );
+
+  animation:
+    scan 1.3s ease forwards;
+}
+
+@keyframes scan {
+
+  from {
+    transform:
+      translateX(-100%);
+  }
+
+  to {
+    transform:
+      translateX(100%);
+  }
+
+}
+
+.registry {
+  position:
+    relative;
+}
+
+.registry a.lit {
+
+  color:
+    var(--cyan);
+
+  text-shadow:
+    0 0 15px
+    rgba(125,211,252,.5);
+
+  transform:
+    translateX(7px);
+}
+
+/* =========================================================
+   VALIDATION GLOW
+   ========================================================= */
+
+body.validation-on
+.validation.active {
+
+  box-shadow:
+    0 0 0 1px
+    rgba(125,211,252,.1),
+    0 0 50px
+    rgba(125,211,252,.08);
+}
+
+body.validation-on
+.validation.active::after {
+
+  content:
+    "";
+
+  position:
+    absolute;
+}
+
+/* =========================================================
+   MAGNETIC LINKS
+   ========================================================= */
+
+body.magnetic-on
+.registry a {
+
+  transition:
+    transform .18s ease,
+    color .18s ease;
+}
+
+/* =========================================================
+   CURSOR
+   ========================================================= */
+
+#cursor {
+
+  position:
+    fixed;
+
+  width:
+    220px;
+
+  height:
+    220px;
+
+  border-radius:
+    50%;
+
+  pointer-events:
+    none;
+
+  z-index:
+    100;
+
+  transform:
+    translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(125,211,252,.06),
+      transparent 68%
+    );
+
+  opacity:
+    0;
+}
+
+/* =========================================================
+   TEXT GLOW
+   ========================================================= */
+
+body.text-glow-on
+.hero h1 {
+
+  text-shadow:
+    0 0 60px
+    rgba(125,211,252,.12);
+}
+
+/* =========================================================
+   CONTROL PANEL
+   ========================================================= */
+
+.controls {
+
+  position:
+    fixed;
+
+  right:
+    22px;
+
+  top:
+    22px;
+
+  z-index:
+    500;
+
+  width:
+    245px;
+
+  padding:
+    18px;
+
+  border:
+    1px solid rgba(148,163,184,.2);
+
+  border-radius:
+    14px;
+
+  background:
+    var(--panel);
+
+  backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.35);
+}
+
+.controls-title {
+
+  margin-bottom:
+    15px;
+
+  color:
+    var(--cyan);
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    .17em;
+
+  text-transform:
+    uppercase;
+}
+
+.control {
+
+  display:
+    flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    center;
+
+  padding:
+    8px 0;
+
+  color:
+    var(--muted);
+
+  font-size:
+    12px;
+}
+
+.switch {
+
+  appearance:
+    none;
+
+  width:
+    34px;
+
+  height:
+    18px;
+
+  border-radius:
+    20px;
+
+  background:
+    #1b2a35;
+
+  cursor:
+    pointer;
+
+  position:
+    relative;
+
+  transition:
+    .2s ease;
+}
+
+.switch::after {
+
+  content:
+    "";
+
+  position:
+    absolute;
+
+  top:
+    3px;
+
+  left:
+    3px;
+
+  width:
+    12px;
+
+  height:
+    12px;
+
+  border-radius:
+    50%;
+
+  background:
+    #71808c;
+
+  transition:
+    .2s ease;
+}
+
+.switch:checked {
+
+  background:
+    rgba(125,211,252,.35);
+}
+
+.switch:checked::after {
+
+  left:
+    19px;
+
+  background:
+    var(--cyan);
+
+  box-shadow:
+    0 0 8px
+    rgba(125,211,252,.6);
+}
+
+.reset {
+
+  width:
+    100%;
+
+  margin-top:
+    12px;
+
+  padding:
+    9px;
+
+  border:
+    1px solid var(--line);
+
+  border-radius:
+    7px;
+
+  background:
+    transparent;
+
+  color:
+    var(--muted);
+
+  cursor:
+    pointer;
+}
+
+.reset:hover {
+  color: var(--text);
+  border-color: var(--cyan);
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .controls {
+
+    position:
+      relative;
+
+    top:
+      auto;
+
+    right:
+      auto;
+
+    width:
+      min(92%, 420px);
+
+    margin:
+      20px auto 0;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    min-height:
+      75vh;
+  }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     CONTROL PANEL
+     ======================================================= -->
+
+<div class="controls">
+
+  <div class="controls-title">
+    WOW EFFECTS LAB
+  </div>
+
+  <label class="control">
+    Research field
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="field"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Scroll reveal
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="reveal"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    3D card tilt
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="tilt"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Registry scan
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="scan"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Validation glow
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="validation"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Evidence flow
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="graph"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Magnetic links
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="magnetic"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Cursor field
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="cursor"
+      checked
+    >
+  </label>
+
+  <label class="control">
+    Title glow
+    <input
+      class="switch"
+      type="checkbox"
+      data-effect="text-glow"
+      checked
+    >
+  </label>
+
+  <button
+    class="reset"
+    id="reset"
+  >
+    Reset effects
+  </button>
+
+</div>
+
+
+<!-- =======================================================
+     LAB
+     ======================================================= -->
+
+<main class="lab">
+
+  <header class="hero">
+
+    <div class="eyebrow">
+      AUF2026 · INTERACTION LAB
+    </div>
+
+    <h1>
+      Research<br>
+      Instrument
+    </h1>
+
+    <p>
+      Experimental interaction laboratory for the
+      Faure Theorem research archive. Use the control
+      panel to compare visual effects before integration.
+    </p>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      SYSTEM ONLINE · EXPERIMENTAL UI
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       SECTION 01
+       ===================================================== -->
+
+  <section class="demo">
+
+    <div class="label">
+      01 · RESEARCH OBJECTS
+    </div>
+
+    <h2>
+      Scientific Archive
+    </h2>
+
+    <p>
+      These cards simulate the objects already present
+      in the AUF2026 research architecture.
+    </p>
+
+    <div class="cards">
+
+      <article class="card reveal">
+
+        <div class="card-code">
+          T1
+        </div>
+
+        <div class="card-type">
+          THEOREM
+        </div>
+
+        <h3>
+          Faure Theorem
+        </h3>
+
+        <p>
+          Mathematical statement and complete
+          evidence chain.
+        </p>
+
+      </article>
+
+
+      <article class="card reveal">
+
+        <div class="card-code">
+          T2
+        </div>
+
+        <div class="card-type">
+          FORMALIZATION
+        </div>
+
+        <h3>
+          Lean Verification
+        </h3>
+
+        <p>
+          Formal proof and machine-checkable
+          verification layer.
+        </p>
+
+      </article>
+
+
+      <article class="card reveal">
+
+        <div class="card-code">
+          T3
+        </div>
+
+        <div class="card-type">
+          BIBLIOGRAPHY
+        </div>
+
+        <h3>
+          Prior Art
+        </h3>
+
+        <p>
+          Bibliographic comparison and
+          mathematical distinction.
+        </p>
+
+      </article>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       SECTION 02
+       ===================================================== -->
+
+  <section class="demo">
+
+    <div class="label">
+      02 · THEOREM REGISTRY
+    </div>
+
+    <h2>
+      Evidence Registry
+    </h2>
+
+    <p>
+      Hover the registry to activate the evidence scan.
+    </p>
+
+    <div
+      class="registry"
+      id="registry"
+    >
+
+      <a href="#">
+        <span class="registry-dot"></span>
+        Theorem Originality Matrix
+        <b>→</b>
+      </a>
+
+      <a href="#">
+        <span class="registry-dot"></span>
+        Master Claim Matrix
+        <b>→</b>
+      </a>
+
+      <a href="#">
+        <span class="registry-dot"></span>
+        Bibliographic Novelty Matrix
+        <b>→</b>
+      </a>
+
+      <a href="#">
+        <span class="registry-dot"></span>
+        Proof Registry
+        <b>→</b>
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       SECTION 03
+       ===================================================== -->
+
+  <section class="demo">
+
+    <div class="label">
+      03 · VALIDATION
+    </div>
+
+    <h2>
+      Evidence Status
+    </h2>
+
+    <p>
+      A possible treatment for the existing validation
+      banner in the main site.
+    </p>
+
+    <div class="validation">
+
+      <div class="validation-row">
+        <span>Formal verification</span>
+        <b>VERIFIED</b>
+      </div>
+
+      <div class="validation-row">
+        <span>Bibliographic priority</span>
+        <b>TRACKED</b>
+      </div>
+
+      <div class="validation-row">
+        <span>Mathematical originality</span>
+        <b>DOCUMENTED</b>
+      </div>
+
+      <div class="validation-row">
+        <span>Application validity</span>
+        <b>TRACEABLE</b>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =====================================================
+       SECTION 04
+       ===================================================== -->
+
+  <section class="demo">
+
+    <div class="label">
+      04 · EVIDENCE CHAIN
+    </div>
+
+    <h2>
+      Research Graph
+    </h2>
+
+    <p>
+      This is the more ambitious interaction:
+      the evidence chain becomes a visual object.
+    </p>
+
+    <div class="graph">
+
+      <div class="node active">
+        <small>01</small>
+        Statement
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="node">
+        <small>02</small>
+        Definitions
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="node">
+        <small>03</small>
+        Assumptions
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="node">
+        <small>04</small>
+        Formalization
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="node">
+        <small>05</small>
+        Lean
+      </div>
+
+      <div class="connector"></div>
+
+      <div class="node">
+        <small>06</small>
+        Validation
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section
+    class="demo"
+    style="min-height:40vh"
+  >
+
+    <div class="label">
+      05 · END OF EXPERIMENT
+    </div>
+
+    <h2>
+      Select what survives.
+    </h2>
+
+    <p>
+      Turn effects on and off from the control panel.
+      Then tell me which numbers you want integrated
+      into the real AUF2026 interface.
+    </p>
+
+  </section>
+
+</main>
+
+
+<div id="cursor"></div>
+
+
+<script>
+
+/* =========================================================
+   AUF2026 WOW LAB — CONTROLLER
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    const body =
+      document.body;
+
+    const switches =
+      document.querySelectorAll(
+        ".switch"
+      );
+
+
+    /* -----------------------------------------------------
+       EFFECT TOGGLE
+       ----------------------------------------------------- */
+
+    function setEffect(
+      effect,
+      enabled
+    ) {
+
+      body.classList.toggle(
+        effect === "text-glow"
+          ? "text-glow-on"
+          : effect + "-on",
+        enabled
+      );
+
+    }
+
+
+    switches.forEach(
+      control => {
+
+        const effect =
+          control.dataset.effect;
+
+        setEffect(
+          effect,
+          control.checked
+        );
+
+        control.addEventListener(
+          "change",
+          () => {
+
+            setEffect(
+              effect,
+              control.checked
+            );
+
+            if (
+              effect === "reveal"
+            ) {
+
+              if (
+                control.checked
+              ) {
+
+                startReveal();
+
+              } else {
+
+                document
+                  .querySelectorAll(
+                    ".reveal"
+                  )
+                  .forEach(
+                    el => {
+
+                      el.classList.add(
+                        "visible"
+                      );
+
+                    }
+                  );
+
+              }
+
+            }
+
+            if (
+              effect === "validation"
+            ) {
+
+              document
+                .querySelector(
+                  ".validation"
+                )
+                .classList.toggle(
+                  "active",
+                  control.checked
+                );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       REVEAL
+       ----------------------------------------------------- */
+
+    function startReveal() {
+
+      const elements =
+        document.querySelectorAll(
+          ".reveal"
+        );
+
+      const observer =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(
+              entry => {
+
+                if (
+                  entry.isIntersecting
+                ) {
+
+                  entry.target.classList.add(
+                    "visible"
+                  );
+
+                  observer.unobserve(
+                    entry.target
+                  );
+
+                }
+
+              }
+            );
+
+          },
+          {
+            threshold: .18
+          }
+        );
+
+      elements.forEach(
+        el =>
+          observer.observe(el)
+      );
+
+    }
+
+    startReveal();
+
+
+    /* -----------------------------------------------------
+       TILT
+       ----------------------------------------------------- */
+
+    const tiltCards =
+      document.querySelectorAll(
+        ".card"
+      );
+
+    tiltCards.forEach(
+      card => {
+
+        card.addEventListener(
+          "mousemove",
+          event => {
+
+            if (
+              !body.classList.contains(
+                "tilt-on"
+              )
+            ) {
+              return;
+            }
+
+            const rect =
+              card.getBoundingClientRect();
+
+            const x =
+              (event.clientX -
+                rect.left) /
+              rect.width;
+
+            const y =
+              (event.clientY -
+                rect.top) /
+              rect.height;
+
+            const rotateY =
+              (x - .5) * 7;
+
+            const rotateX =
+              (.5 - y) * 7;
+
+            card.style.transform =
+              `perspective(900px)
+               rotateX(${rotateX}deg)
+               rotateY(${rotateY}deg)
+               translateZ(6px)`;
+
+          }
+        );
+
+        card.addEventListener(
+          "mouseleave",
+          () => {
+
+            card.style.transform =
+              "";
+
+          }
+        );
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       REGISTRY
+       ----------------------------------------------------- */
+
+    const registry =
+      document.getElementById(
+        "registry"
+      );
+
+    const registryLinks =
+      registry.querySelectorAll(
+        "a"
+      );
+
+    let running =
+      false;
+
+    registry.addEventListener(
+      "mouseenter",
+      () => {
+
+        if (
+          !body.classList.contains(
+            "scan-on"
+          )
+        ) {
+          return;
+        }
+
+        if (running) {
+          return;
+        }
+
+        running = true;
+
+        registry.classList.add(
+          "scanning"
+        );
+
+        registryLinks.forEach(
+          (link, index) => {
+
+            setTimeout(
+              () => {
+
+                link.classList.add(
+                  "lit"
+                );
+
+                setTimeout(
+                  () => {
+
+                    link.classList.remove(
+                      "lit"
+                    );
+
+                  },
+                  500
+                );
+
+              },
+              index * 260
+            );
+
+          }
+        );
+
+        setTimeout(
+          () => {
+
+            registry.classList.remove(
+              "scanning"
+            );
+
+            running = false;
+
+          },
+          1500
+        );
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       VALIDATION
+       ----------------------------------------------------- */
+
+    const validation =
+      document.querySelector(
+        ".validation"
+      );
+
+    validation.classList.add(
+      "active"
+    );
+
+
+    /* -----------------------------------------------------
+       GRAPH
+       ----------------------------------------------------- */
+
+    document
+      .querySelectorAll(
+        ".node"
+      )
+      .forEach(
+        node => {
+
+          node.addEventListener(
+            "mouseenter",
+            () => {
+
+              document
+                .querySelectorAll(
+                  ".node"
+                )
+                .forEach(
+                  n =>
+                    n.classList.remove(
+                      "active"
+                    )
+                );
+
+              node.classList.add(
+                "active"
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+    /* -----------------------------------------------------
+       MAGNETIC LINKS
+       ----------------------------------------------------- */
+
+    registryLinks.forEach(
+      link => {
+
+        link.addEventListener(
+          "mousemove",
+          event => {
+
+            if (
+              !body.classList.contains(
+                "magnetic-on"
+              )
+            ) {
+              return;
+            }
+
+            const rect =
+              link.getBoundingClientRect();
+
+            const x =
+              event.clientX -
+              rect.left -
+              rect.width / 2;
+
+            const y =
+              event.clientY -
+              rect.top -
+              rect.height / 2;
+
+            link.style.transform =
+              `translate(
+                ${x * .08}px,
+                ${y * .08}px
+              )`;
+
+          }
+        );
+
+        link.addEventListener(
+          "mouseleave",
+          () => {
+
+            link.style.transform =
+              "";
+
+          }
+        );
+
+      }
+    );
+
+
+    /* -----------------------------------------------------
+       CURSOR
+       ----------------------------------------------------- */
+
+    const cursor =
+      document.getElementById(
+        "cursor"
+      );
+
+    let cursorX = 0;
+    let cursorY = 0;
+
+    let currentX = 0;
+    let currentY = 0;
+
+    document.addEventListener(
+      "pointermove",
+      event => {
+
+        cursorX =
+          event.clientX;
+
+        cursorY =
+          event.clientY;
+
+        if (
+          body.classList.contains(
+            "cursor-on"
+          )
+        ) {
+
+          cursor.style.opacity =
+            "1";
+
+        } else {
+
+          cursor.style.opacity =
+            "0";
+
+        }
+
+      },
+      {
+        passive: true
+      }
+    );
+
+    function animateCursor() {
+
+      currentX +=
+        (cursorX - currentX) *
+        .12;
+
+      currentY +=
+        (cursorY - currentY) *
+        .12;
+
+      cursor.style.left =
+        currentX + "px";
+
+      cursor.style.top =
+        currentY + "px";
+
+      requestAnimationFrame(
+        animateCursor
+      );
+
+    }
+
+    animateCursor();
+
+
+    /* -----------------------------------------------------
+       RESET
+       ----------------------------------------------------- */
+
+    document
+      .getElementById(
+        "reset"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          switches.forEach(
+            control => {
+
+              control.checked =
+                true;
+
+              setEffect(
+                control.dataset.effect,
+                true
+              );
+
+            }
+          );
+
+          document
+            .querySelectorAll(
+              ".reveal"
+            )
+            .forEach(
+              el =>
+                el.classList.remove(
+                  "visible"
+                )
+            );
+
+          startReveal();
+
+        }
+      );
+
+  }
+);
+
+</script>
+
+</body>
+</html>
