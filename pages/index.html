@@ -203,133 +203,73 @@
     }
 
 
-    /* =========================================================
-       HEADER
-       ========================================================= */
+    <header>
 
-    header {
+  <div class="container">
 
-      position:
-        sticky;
+    <nav class="nav">
 
-      top:
-        0;
-
-      z-index:
-        1000;
-
-      background:
-        rgba(7,10,15,.88);
-
-      backdrop-filter:
-        blur(18px);
-
-      -webkit-backdrop-filter:
-        blur(18px);
-
-      border-bottom:
-        1px solid
-        var(--border);
-
-    }
+      <a
+        class="brand"
+        href="../index.html#top"
+        aria-label="AUF2026 — Back to Framework"
+      >
+        AUF<span>2026</span>
+      </a>
 
 
-    .nav {
+      <div
+        class="nav-links"
+        id="pages-nav"
+        aria-label="Pages navigation"
+      >
 
-      min-height:
-        72px;
+        <div
+          class="pages-dropdown"
+          id="pagesDropdown"
+        >
 
-      display:
-        flex;
+          <button
+            class="pages-dropdown-button"
+            id="pagesDropdownButton"
+            type="button"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Pages
 
-      align-items:
-        center;
+            <span
+              class="pages-dropdown-arrow"
+              aria-hidden="true"
+            >
+              ▾
+            </span>
 
-      justify-content:
-        space-between;
-
-      gap:
-        30px;
-
-    }
-
-
-    .brand {
-
-      flex:
-        0 0 auto;
-
-      font-weight:
-        900;
-
-      letter-spacing:
-        .14em;
-
-      font-size:
-        1.05rem;
-
-    }
+          </button>
 
 
-    .brand span {
+          <div
+            class="pages-dropdown-menu"
+            id="pagesDropdownMenu"
+            role="menu"
+            hidden
+          >
 
-      color:
-        var(--green);
+            <span class="nav-loading">
+              Loading...
+            </span>
 
-    }
+          </div>
 
+        </div>
 
-    .nav-links {
+      </div>
 
-      display:
-        flex;
+    </nav>
 
-      align-items:
-        center;
+  </div>
 
-      gap:
-        22px;
-
-      overflow-x:
-        auto;
-
-      scrollbar-width:
-        none;
-
-    }
-
-
-    .nav-links::-webkit-scrollbar {
-
-      display:
-        none;
-
-    }
-
-
-    .nav-links a {
-
-      flex:
-        0 0 auto;
-
-      color:
-        var(--muted);
-
-      font-size:
-        .9rem;
-
-      transition:
-        color .2s ease;
-
-    }
-
-
-    .nav-links a:hover {
-
-      color:
-        var(--text);
-
-    }
+</header>
 
 
     /* =========================================================
