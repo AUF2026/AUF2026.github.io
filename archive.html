@@ -757,981 +757,1617 @@
     }
 
 
-    <!-- =========================================================
-     MARKDOWN RENDERER
-     ========================================================= -->
+    /* =========================================================
+       MARKDOWN TYPOGRAPHY
+       ========================================================= */
 
-<script
-  src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
-></script>
+    .archive-document h1,
+    .archive-document h2,
+    .archive-document h3,
+    .archive-document h4,
+    .archive-document h5,
+    .archive-document h6 {
 
+      color:
+        var(--archive-text);
 
-<!-- =========================================================
-     ARCHIVE LOADER
-     ========================================================= -->
+      line-height:
+        1.25;
 
-<script>
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
-const THEME_STORAGE_KEY =
-  "auf2026-theme";
-
-
-function getCurrentTheme() {
-
-  return (
-    document.documentElement.getAttribute(
-      "data-theme"
-    ) || "dark"
-  );
-
-}
-
-
-function updateThemeControls(theme) {
-
-  const isLight =
-    theme === "light";
-
-
-  const toggle =
-    document.getElementById(
-      "theme-toggle"
-    );
-
-
-  const icon =
-    document.getElementById(
-      "theme-icon"
-    );
-
-
-  const label =
-    document.getElementById(
-      "theme-label"
-    );
-
-
-  if (toggle) {
-
-    toggle.setAttribute(
-      "aria-pressed",
-      String(!isLight)
-    );
-
-
-    toggle.setAttribute(
-      "aria-label",
-      isLight
-        ? "Switch to dark theme"
-        : "Switch to light theme"
-    );
-
-  }
-
-
-  if (icon) {
-
-    icon.textContent =
-      isLight
-        ? "☀"
-        : "☾";
-
-  }
-
-
-  if (label) {
-
-    label.textContent =
-      isLight
-        ? "Light"
-        : "Dark";
-
-  }
-
-}
-
-
-function applyTheme(theme) {
-
-  if (
-    theme !== "dark" &&
-    theme !== "light"
-  ) {
-
-    theme = "dark";
-
-  }
-
-
-  document.documentElement.setAttribute(
-    "data-theme",
-    theme
-  );
-
-
-  localStorage.setItem(
-    THEME_STORAGE_KEY,
-    theme
-  );
-
-
-  updateThemeControls(theme);
-
-}
-
-
-updateThemeControls(
-  getCurrentTheme()
-);
-
-
-document
-  .getElementById(
-    "theme-toggle"
-  )
-  .addEventListener(
-    "click",
-    function () {
-
-      const current =
-        getCurrentTheme();
-
-
-      applyTheme(
-        current === "light"
-          ? "dark"
-          : "light"
-      );
+      letter-spacing:
+        -.015em;
 
     }
-  );
 
 
-/* =========================================================
-   URL PARAMETERS
-   ========================================================= */
+    .archive-document h1 {
 
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
+      margin-top:
+        0;
 
+      margin-bottom:
+        1.2rem;
 
-const requestedDocument =
-  params.get("doc");
-
-
-const requestedPage =
-  params.get("page");
-
-
-const requestedResource =
-  params.get("file");
-
-
-/* =========================================================
-   DOM REFERENCES
-   ========================================================= */
-
-const documentElement =
-  document.getElementById(
-    "document"
-  );
-
-
-const titleElement =
-  document.getElementById(
-    "document-title"
-  );
-
-
-const sourceElement =
-  document.getElementById(
-    "document-source"
-  );
-
-
-/* =========================================================
-   MARKDOWN DOCUMENT DISCOVERY
-   ========================================================= */
-
-const GITHUB_OWNER =
-  "AUF2026";
-
-
-const GITHUB_REPOSITORY =
-  "AUF2026.github.io";
-
-
-const GITHUB_DOCS_PATH =
-  "docs";
-
-
-let allowedDocuments = [];
-
-
-async function discoverMarkdownDocuments() {
-
-  try {
-
-    const apiURL =
-      "https://api.github.com/repos/" +
-      encodeURIComponent(
-        GITHUB_OWNER
-      ) +
-      "/" +
-      encodeURIComponent(
-        GITHUB_REPOSITORY
-      ) +
-      "/contents/" +
-      encodeURIComponent(
-        GITHUB_DOCS_PATH
-      );
-
-
-    const response =
-      await fetch(
-        apiURL,
-        {
-          cache: "no-cache",
-          headers: {
-            "Accept":
-              "application/vnd.github+json"
-          }
-        }
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "GitHub API HTTP " +
-        response.status
-      );
+      font-size:
+        2rem;
 
     }
 
 
-    const entries =
-      await response.json();
+    .archive-document h2 {
 
+      margin-top:
+        2.8rem;
 
-    if (!Array.isArray(entries)) {
+      margin-bottom:
+        1rem;
 
-      throw new Error(
-        "Invalid GitHub directory response."
-      );
+      padding-bottom:
+        .65rem;
+
+      font-size:
+        1.45rem;
+
+      border-bottom:
+        1px solid
+        var(--archive-border);
 
     }
 
 
-    allowedDocuments =
-      entries
+    .archive-document h3 {
 
-        .filter(entry =>
-          entry.type === "file" &&
-          typeof entry.name === "string" &&
-          entry.name
-            .toLowerCase()
-            .endsWith(".md")
-        )
+      margin-top:
+        2rem;
 
-        .map(entry =>
-          entry.name
-        )
+      margin-bottom:
+        .8rem;
 
-        .sort(
-          (a, b) =>
-            a.localeCompare(
-              b,
-              undefined,
-              {
-                sensitivity: "base"
-              }
-            )
+      font-size:
+        1.15rem;
+
+    }
+
+
+    .archive-document h4 {
+
+      margin-top:
+        1.6rem;
+
+    }
+
+
+    .archive-document h5,
+    .archive-document h6 {
+
+      margin-top:
+        1.4rem;
+
+    }
+
+
+    .archive-document p {
+
+      margin:
+        0 0 1.05rem;
+
+      line-height:
+        1.78;
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    .archive-document ul,
+    .archive-document ol {
+
+      margin:
+        0 0 1.2rem;
+
+      padding-left:
+        1.5rem;
+
+    }
+
+
+    .archive-document li {
+
+      margin-bottom:
+        .4rem;
+
+      line-height:
+        1.7;
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    /* =========================================================
+       STRONG / EMPHASIS
+       ========================================================= */
+
+    .archive-document strong {
+
+      color:
+        var(--archive-text);
+
+      font-weight:
+        700;
+
+    }
+
+
+    .archive-document em {
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    /* =========================================================
+       LINKS
+       ========================================================= */
+
+    .archive-document a {
+
+      color:
+        var(--archive-green);
+
+      text-decoration:
+        underline;
+
+      text-decoration-color:
+        color-mix(
+          in srgb,
+          var(--archive-green) 38%,
+          transparent
         );
 
+      text-underline-offset:
+        3px;
 
-    return true;
+      transition:
 
-  } catch (error) {
+        color .2s ease,
 
-    console.error(
-      "AUF2026 Markdown discovery:",
-      error
-    );
+        text-decoration-color .2s ease,
 
+        opacity .2s ease;
 
-    /*
-     * Fallback minimo:
-     * mantiene il loader operativo anche
-     * se GitHub API non è temporaneamente disponibile.
-     */
+    }
 
-    allowedDocuments = [
 
-      "README.md"
+    .archive-document a:hover {
 
-    ];
+      color:
+        var(--archive-blue);
 
+      text-decoration-color:
+        currentColor;
 
-    return false;
+      opacity:
+        .9;
 
-  }
+    }
 
-}
 
+    /* =========================================================
+       TABLES
+       ========================================================= */
 
-/* =========================================================
-   PAGE / RESOURCE VALIDATION
-   ========================================================= */
+    .archive-table-wrap {
 
-const allowedPageExtensions = [
+      width:
+        100%;
 
-  ".html",
-  ".htm"
+      overflow-x:
+        auto;
 
-];
+      margin:
+        1.5rem 0;
 
+      border:
+        1px solid
+        var(--archive-border-soft);
 
-const allowedResourceExtensions = [
+      border-radius:
+        10px;
 
-  ".pdf",
-  ".csv",
-  ".svg",
-  ".png",
-  ".jpg",
-  ".jpeg",
-  ".gif",
-  ".webp",
-  ".avif",
-  ".bmp",
-  ".ico",
+      background:
+        var(--archive-panel);
 
-  ".mp3",
-  ".wav",
-  ".ogg",
-  ".oga",
-  ".m4a",
-  ".aac",
-  ".flac",
+    }
 
-  ".mp4",
-  ".webm",
-  ".ogv",
-  ".mov",
 
-  ".txt",
-  ".json",
-  ".xml",
-  ".yaml",
-  ".yml",
-  ".log"
+    .archive-document table {
 
-];
+      width:
+        100%;
 
+      min-width:
+        620px;
 
-/* =========================================================
-   HUMAN TITLE
-   ========================================================= */
+      margin:
+        0;
 
-function humanTitle(filename) {
+      border-collapse:
+        collapse;
 
-  return filename
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-bg) 30%,
+          transparent
+        );
 
-    .replace(
-      /\.(md|html?|pdf|csv|svg|txt|json|xml)$/i,
-      ""
-    )
+    }
 
-    .replace(
-      /[-_]+/g,
-      " "
-    )
 
-    .replace(
-      /\b\w/g,
-      character =>
-        character.toUpperCase()
-    );
+    .archive-document th,
+    .archive-document td {
 
-}
+      padding:
+        .72rem .8rem;
 
+      border:
+        1px solid
+        var(--archive-border-soft);
 
-/* =========================================================
-   SAFE LOCAL PATH
-   ========================================================= */
+      text-align:
+        left;
 
-function isSafeLocalPath(path) {
+      vertical-align:
+        top;
 
-  if (!path) {
+      line-height:
+        1.55;
 
-    return false;
+      color:
+        var(--archive-text);
 
-  }
+    }
 
 
-  if (
-    path.includes("..")
-  ) {
+    .archive-document th {
 
-    return false;
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-blue) 7%,
+          var(--archive-panel)
+        );
 
-  }
+      font-weight:
+        650;
 
+    }
 
-  if (
-    path.startsWith("/")
-  ) {
 
-    return false;
+    .archive-document tr:nth-child(even) td {
 
-  }
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-text) 2%,
+          transparent
+        );
 
+    }
 
-  if (
-    path.includes("\\")
-  ) {
 
-    return false;
+    /* =========================================================
+       CODE
+       ========================================================= */
 
-  }
+    .archive-document code {
 
+      font-family:
 
-  return true;
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        monospace;
 
-}
+      font-size:
+        .88em;
 
+      color:
+        var(--archive-green);
 
-/* =========================================================
-   EXTENSION
-   ========================================================= */
+    }
 
-function getExtension(path) {
 
-  const clean =
-    path
-      .split("?")[0]
-      .split("#")[0]
-      .toLowerCase();
+    .archive-document :not(pre) > code {
 
+      padding:
+        .15em .38em;
 
-  const index =
-    clean.lastIndexOf(".");
+      border-radius:
+        5px;
 
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-code) 88%,
+          transparent
+        );
 
-  if (
-    index < 0
-  ) {
+      border:
+        1px solid
+        var(--archive-border-soft);
 
-    return "";
+    }
 
-  }
 
+    .archive-document pre {
 
-  return clean.slice(
-    index
-  );
+      margin:
+        1.5rem 0;
 
-}
+      padding:
+        1.2rem 1.3rem;
 
+      overflow-x:
+        auto;
 
-/* =========================================================
-   BACK NAVIGATION
-   ========================================================= */
+      border:
+        1px solid
+        var(--archive-border-soft);
 
-function goBack() {
+      border-radius:
+        10px;
 
-  if (
-    window.history.length > 1
-  ) {
+      background:
+        var(--archive-code);
 
-    window.history.back();
+      box-shadow:
+        inset
+        0 1px 0
+        color-mix(
+          in srgb,
+          var(--archive-text) 3%,
+          transparent
+        );
 
-    return;
+      line-height:
+        1.6;
 
-  }
+    }
 
 
-  window.location.href =
-    "index.html#verification";
+    .archive-document pre code {
 
-}
+      padding:
+        0;
 
+      background:
+        transparent;
 
-document
-  .getElementById(
-    "back-button"
-  )
-  .addEventListener(
-    "click",
-    goBack
-  );
+      border:
+        0;
 
+      color:
+        var(--archive-green);
 
-document
-  .getElementById(
-    "back-button-bottom"
-  )
-  .addEventListener(
-    "click",
-    goBack
-  );
+      font-size:
+        .84rem;
 
+    }
 
-/* =========================================================
-   MARKDOWN LINK NORMALIZATION
-   ========================================================= */
 
-function normalizeMarkdownLinks() {
+    /* =========================================================
+       BLOCKQUOTE
+       ========================================================= */
 
-  documentElement
-    .querySelectorAll("a")
-    .forEach(link => {
+    .archive-document blockquote {
 
-      const rawHref =
-        link.getAttribute("href");
+      margin:
+        1.5rem 0;
 
+      padding:
+        .9rem 1.2rem;
 
-      if (!rawHref) {
+      border-left:
+        3px solid
+        var(--archive-blue);
 
-        return;
+      border-radius:
+        0 8px 8px 0;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-blue) 5%,
+          transparent
+        );
+
+      color:
+        var(--archive-muted);
+
+    }
+
+
+    .archive-document blockquote p {
+
+      color:
+        inherit;
+
+    }
+
+
+    .archive-document blockquote p:last-child {
+
+      margin-bottom:
+        0;
+
+    }
+
+
+    /* =========================================================
+       HORIZONTAL RULE
+       ========================================================= */
+
+    .archive-document hr {
+
+      height:
+        1px;
+
+      margin:
+        2.2rem 0;
+
+      border:
+        0;
+
+      background:
+        var(--archive-border);
+
+    }
+
+
+    /* =========================================================
+       IMAGES
+       ========================================================= */
+
+    .archive-document img {
+
+      display:
+        block;
+
+      max-width:
+        100%;
+
+      height:
+        auto;
+
+      margin:
+        1.5rem auto;
+
+      border-radius:
+        10px;
+
+      border:
+        1px solid
+        var(--archive-border-soft);
+
+      background:
+        var(--archive-panel);
+
+    }
+
+
+    /* =========================================================
+       CHECKBOXES
+       ========================================================= */
+
+    .archive-document input[type="checkbox"] {
+
+      margin-right:
+        .45rem;
+
+      accent-color:
+        var(--archive-green);
+
+    }
+
+
+    /* =========================================================
+       ERROR
+       ========================================================= */
+
+    .archive-error {
+
+      padding:
+        1.4rem;
+
+      border:
+        1px solid
+        color-mix(
+          in srgb,
+          var(--archive-red) 35%,
+          transparent
+        );
+
+      border-radius:
+        12px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-red) 6%,
+          transparent
+        );
+
+      color:
+        var(--archive-text);
+
+      line-height:
+        1.65;
+
+    }
+
+
+    .archive-error strong {
+
+      display:
+        block;
+
+      margin-bottom:
+        .5rem;
+
+      color:
+        var(--archive-red);
+
+    }
+
+
+    /* =========================================================
+       LOADING
+       ========================================================= */
+
+    .archive-loading {
+
+      padding:
+        2rem 0;
+
+      text-align:
+        center;
+
+      color:
+        var(--archive-muted);
+
+      opacity:
+        .65;
+
+      font-size:
+        .85rem;
+
+    }
+
+
+    /* =========================================================
+       BOTTOM BACK BUTTON
+       ========================================================= */
+
+    .archive-footer {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      margin-top:
+        28px;
+
+    }
+
+
+    .archive-back-bottom {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+
+      padding:
+        9px 16px;
+
+      border:
+        1px solid
+        var(--archive-border);
+
+      border-radius:
+        9px;
+
+      background:
+        var(--archive-panel);
+
+      color:
+        var(--archive-text);
+
+      font:
+        inherit;
+
+      font-size:
+        .72rem;
+
+      font-weight:
+        650;
+
+      letter-spacing:
+        .1em;
+
+      text-transform:
+        uppercase;
+
+      cursor:
+        pointer;
+
+      transition:
+
+        background .2s ease,
+
+        border-color .2s ease,
+
+        color .2s ease,
+
+        transform .2s ease;
+
+    }
+
+
+    .archive-back-bottom:hover {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-green) 7%,
+          var(--archive-panel)
+        );
+
+      border-color:
+        color-mix(
+          in srgb,
+          var(--archive-green) 35%,
+          var(--archive-border)
+        );
+
+      transform:
+        translateY(-1px);
+
+    }
+
+
+    /* =========================================================
+       FOCUS
+       ========================================================= */
+
+    .archive-back:focus-visible,
+    .archive-back-bottom:focus-visible,
+    .archive-theme-toggle:focus-visible {
+
+      outline:
+        2px solid
+        var(--archive-green);
+
+      outline-offset:
+        3px;
+
+    }
+
+        /* =========================================================
+       UNIVERSAL PAGE / RESOURCE VIEWER
+       ========================================================= */
+
+    .archive-page-viewer {
+
+      width: 100%;
+
+      min-height: 400px;
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        var(--archive-border-soft);
+
+      border-radius:
+        12px;
+
+      background:
+        var(--archive-panel);
+
+    }
+
+
+    .archive-page-frame {
+
+      display: block;
+
+      width: 100%;
+
+      min-height: 900px;
+
+      height: 85vh;
+
+      border: 0;
+
+      background: white;
+
+    }
+
+
+    .archive-resource {
+
+      width: 100%;
+
+      min-height: 500px;
+
+      padding: 10px;
+
+    }
+
+
+    .archive-resource iframe {
+
+      display: block;
+
+      width: 100%;
+
+      min-height: 800px;
+
+      height: 80vh;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background: white;
+
+    }
+
+
+    .archive-resource object {
+
+      display: block;
+
+      width: 100%;
+
+      min-height: 800px;
+
+      height: 80vh;
+
+      border: 0;
+
+      border-radius: 8px;
+
+      background: white;
+
+    }
+
+
+    .archive-resource img {
+
+      max-width: 100%;
+
+      max-height: 80vh;
+
+      object-fit: contain;
+
+      margin: 0 auto;
+
+    }
+
+
+    .archive-resource audio {
+
+      display: block;
+
+      width: 100%;
+
+      margin: 20px 0;
+
+    }
+
+
+    .archive-resource video {
+
+      display: block;
+
+      width: 100%;
+
+      max-height: 80vh;
+
+      margin: 0 auto;
+
+      background: #000;
+
+      border-radius: 8px;
+
+    }
+
+
+    .archive-resource pre {
+
+      margin: 0;
+
+      padding: 20px;
+
+      overflow: auto;
+
+      white-space: pre-wrap;
+
+      word-break: break-word;
+
+      background:
+        var(--archive-code);
+
+      color:
+        var(--archive-text);
+
+      border-radius: 8px;
+
+      line-height: 1.6;
+
+    }
+
+
+    .archive-resource-table {
+
+      width: 100%;
+
+      overflow-x: auto;
+
+    }
+
+
+    .archive-resource-table table {
+
+      width: 100%;
+
+      border-collapse: collapse;
+
+      min-width: 600px;
+
+    }
+
+
+    .archive-resource-table th,
+    .archive-resource-table td {
+
+      padding: 9px 11px;
+
+      border:
+        1px solid
+        var(--archive-border-soft);
+
+      text-align: left;
+
+      vertical-align: top;
+
+    }
+
+
+    .archive-resource-table th {
+
+      background:
+        color-mix(
+          in srgb,
+          var(--archive-blue) 8%,
+          var(--archive-panel)
+        );
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    .archive-resource-table td {
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    .archive-resource-note {
+
+      margin-bottom: 14px;
+
+      padding: 10px 13px;
+
+      border:
+        1px solid
+        var(--archive-border-soft);
+
+      border-radius: 8px;
+
+      color:
+        var(--archive-muted);
+
+      font-size: .75rem;
+
+    }
+
+
+    .archive-resource-note strong {
+
+      color:
+        var(--archive-text);
+
+    }
+
+
+    .archive-resource-download {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-top: 15px;
+
+      padding: 9px 14px;
+
+      border:
+        1px solid
+        var(--archive-border);
+
+      border-radius: 8px;
+
+      color:
+        var(--archive-text);
+
+      background:
+        var(--archive-panel2);
+
+      text-decoration: none;
+
+      font-size: .78rem;
+
+    }
+
+
+    .archive-resource-download:hover {
+
+      border-color:
+        var(--archive-green);
+
+      color:
+        var(--archive-green);
+
+    }
+
+
+    @media (max-width: 760px) {
+
+      .archive-page-frame {
+
+        min-height: 700px;
+
+        height: 80vh;
 
       }
 
 
-      const href =
-        rawHref.trim();
+      .archive-resource iframe,
+      .archive-resource object {
 
+        min-height: 650px;
 
-      if (
-
-        href.startsWith("http://") ||
-
-        href.startsWith("https://") ||
-
-        href.startsWith("mailto:") ||
-
-        href.startsWith("tel:") ||
-
-        href.startsWith("#")
-
-      ) {
-
-        return;
+        height: 75vh;
 
       }
 
+    }
 
-      const hashIndex =
-        href.indexOf("#");
+    /* =========================================================
+       MOBILE
+       ========================================================= */
 
+    @media (max-width: 760px) {
 
-      const queryIndex =
-        href.indexOf("?");
+      .archive-page {
 
-
-      let splitIndex = -1;
-
-
-      if (
-        hashIndex >= 0 &&
-        queryIndex >= 0
-      ) {
-
-        splitIndex =
-          Math.min(
-            hashIndex,
-            queryIndex
+        width:
+          min(
+            100% - 22px,
+            940px
           );
 
-      } else if (
-        hashIndex >= 0
-      ) {
-
-        splitIndex =
-          hashIndex;
-
-      } else if (
-        queryIndex >= 0
-      ) {
-
-        splitIndex =
-          queryIndex;
+        padding:
+          24px 0 60px;
 
       }
 
 
-      const path =
-        splitIndex >= 0
-          ? href.slice(0, splitIndex)
-          : href;
+      .archive-topbar {
 
-
-      const suffix =
-        splitIndex >= 0
-          ? href.slice(splitIndex)
-          : "";
-
-
-      if (
-        !path
-          .toLowerCase()
-          .endsWith(".md")
-      ) {
-
-        return;
+        margin-bottom:
+          24px;
 
       }
 
 
-      const filename =
-        path
-          .split("/")
-          .filter(Boolean)
-          .pop();
+      .archive-top-actions {
 
-
-      if (
-        !filename
-      ) {
-
-        return;
+        gap:
+          6px;
 
       }
 
 
-      if (
-        !allowedDocuments.includes(
-          filename
-        )
-      ) {
+      .archive-top-label {
 
-        return;
+        display:
+          none;
 
       }
 
 
-      link.href =
-        "archive.html?doc=" +
-        encodeURIComponent(
-          filename
-        ) +
-        suffix;
+      .archive-theme-label {
 
-    });
-
-}
-
-
-/* =========================================================
-   TABLE WRAPPER
-   ========================================================= */
-
-function improveTables() {
-
-  documentElement
-    .querySelectorAll("table")
-    .forEach(table => {
-
-      if (
-        table.parentElement &&
-        table.parentElement.classList.contains(
-          "archive-table-wrap"
-        )
-      ) {
-
-        return;
+        display:
+          none;
 
       }
 
 
-      const wrapper =
-        document.createElement("div");
+      .archive-theme-toggle {
+
+        width:
+          38px;
+
+        height:
+          36px;
+
+        justify-content:
+          center;
+
+        padding:
+          0;
+
+      }
 
 
-      wrapper.className =
-        "archive-table-wrap";
+      .archive-header {
+
+        margin-bottom:
+          24px;
+
+      }
 
 
-      table.parentNode.insertBefore(
-        wrapper,
-        table
-      );
+      .archive-header h1 {
+
+        font-size:
+          1.65rem;
+
+      }
 
 
-      wrapper.appendChild(
-        table
-      );
+      .archive-subtitle {
 
-    });
+        font-size:
+          .9rem;
 
-}
-
-
-/* =========================================================
-   CSV PARSER
-   ========================================================= */
-
-function parseCSV(text) {
-
-  const rows = [];
-
-  let row = [];
-
-  let cell = "";
-
-  let insideQuotes = false;
+      }
 
 
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
+      .archive-status {
 
-    const char =
-      text[i];
+        flex-direction:
+          column;
+
+        align-items:
+          flex-start;
+
+        gap:
+          5px;
+
+      }
 
 
-    const next =
-      text[i + 1];
+      .archive-document {
+
+        padding:
+          25px 20px;
+
+        border-radius:
+          13px;
+
+      }
 
 
-    if (
-      char === '"' &&
-      insideQuotes &&
-      next === '"'
-    ) {
+      .archive-document h1 {
 
-      cell += '"';
+        font-size:
+          1.65rem;
 
-      i++;
+      }
 
-      continue;
+
+      .archive-document h2 {
+
+        font-size:
+          1.3rem;
+
+        margin-top:
+          2.2rem;
+
+      }
+
+
+      .archive-document pre {
+
+        margin-left:
+          -5px;
+
+        margin-right:
+          -5px;
+
+        border-radius:
+          8px;
+
+        padding:
+          1rem;
+
+      }
 
     }
 
+  </style>
 
-    if (
-      char === '"'
-    ) {
-
-      insideQuotes =
-        !insideQuotes;
-
-      continue;
-
-    }
+</head>
 
 
-    if (
-      char === "," &&
-      !insideQuotes
-    ) {
-
-      row.push(cell);
-
-      cell = "";
-
-      continue;
-
-    }
+<body>
 
 
-    if (
-      (char === "\n" ||
-       char === "\r") &&
-      !insideQuotes
-    ) {
+  <!-- =========================================================
+       ARCHIVE
+       ========================================================= -->
 
-      if (
-        char === "\r" &&
-        next === "\n"
-      ) {
-
-        i++;
-
-      }
+  <main class="archive-page">
 
 
-      row.push(cell);
+    <!-- =======================================================
+         TOP BAR
+         ======================================================= -->
 
-      rows.push(row);
-
-      row = [];
-
-      cell = "";
-
-      continue;
-
-    }
+    <nav class="archive-topbar">
 
 
-    cell += char;
+      <button
+        type="button"
+        class="archive-back"
+        id="back-button"
+        aria-label="Go back"
+      >
 
-  }
+        <span
+          class="archive-back-arrow"
+          aria-hidden="true"
+        >
+          ←
+        </span>
 
+        <span>
+          Back
+        </span>
 
-  if (
-    cell.length ||
-    row.length
-  ) {
-
-    row.push(cell);
-
-    rows.push(row);
-
-  }
-
-
-  return rows;
-
-}
-
-
-/* =========================================================
-   CSV RENDERER
-   ========================================================= */
-
-function renderCSV(text, filename) {
-
-  const rows =
-    parseCSV(text);
+      </button>
 
 
-  const wrapper =
-    document.createElement("div");
+      <div class="archive-top-actions">
 
 
-  wrapper.className =
-    "archive-resource-table";
+        <span class="archive-top-label">
+          AUF2026 · Research Archive
+        </span>
 
 
-  const table =
-    document.createElement("table");
+        <button
+          type="button"
+          class="archive-theme-toggle"
+          id="theme-toggle"
+          aria-label="Switch theme"
+          aria-pressed="true"
+        >
+
+          <span
+            class="archive-theme-icon"
+            id="theme-icon"
+            aria-hidden="true"
+          >
+            ☾
+          </span>
+
+          <span
+            class="archive-theme-label"
+            id="theme-label"
+          >
+            Dark
+          </span>
+
+        </button>
 
 
-  rows.forEach((row, index) => {
-
-    const tr =
-      document.createElement("tr");
+      </div>
 
 
-    row.forEach(value => {
-
-      const cell =
-        document.createElement(
-          index === 0
-            ? "th"
-            : "td"
-        );
+    </nav>
 
 
-      cell.textContent =
-        value;
+    <!-- =======================================================
+         HEADER
+         ======================================================= -->
+
+    <header class="archive-header">
 
 
-      tr.appendChild(
-        cell
-      );
-
-    });
+      <div class="archive-kicker">
+        AUF2026 · Research Archive
+      </div>
 
 
-    table.appendChild(
-      tr
+      <h1 id="document-title">
+        Research Document
+      </h1>
+
+
+      <p class="archive-subtitle">
+        Canonical research documentation rendered from the
+        AUF2026 Markdown corpus.
+      </p>
+
+
+    </header>
+
+
+    <!-- =======================================================
+         SOURCE STATUS
+         ======================================================= -->
+
+    <div class="archive-status">
+
+
+      <span>
+
+        SOURCE:
+
+        <strong id="document-source">
+          loading...
+        </strong>
+
+      </span>
+
+
+      <span>
+
+        FORMAT:
+
+        <strong>
+          Markdown → HTML
+        </strong>
+
+      </span>
+
+
+    </div>
+
+
+    <!-- =======================================================
+         DOCUMENT
+         ======================================================= -->
+
+    <article
+      id="document"
+      class="archive-document"
+    >
+
+      <div class="archive-loading">
+        Loading document...
+      </div>
+
+    </article>
+
+
+    <!-- =======================================================
+         FOOTER BACK
+         ======================================================= -->
+
+    <div class="archive-footer">
+
+
+      <button
+        type="button"
+        class="archive-back-bottom"
+        id="back-button-bottom"
+      >
+
+        <span aria-hidden="true">
+          ←
+        </span>
+
+        Back to archive
+
+      </button>
+
+
+    </div>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       MARKDOWN RENDERER
+       ========================================================= -->
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+  ></script>
+
+
+  <!-- =========================================================
+       ARCHIVE LOADER
+       ========================================================= -->
+
+  <script>
+
+  /* =========================================================
+     THEME
+     ========================================================= */
+
+  const THEME_STORAGE_KEY =
+    "auf2026-theme";
+
+
+  function getCurrentTheme() {
+
+    return (
+      document.documentElement.getAttribute(
+        "data-theme"
+      ) || "dark"
     );
 
-  });
+  }
 
 
-  wrapper.appendChild(
-    table
+  function updateThemeControls(theme) {
+
+    const isLight =
+      theme === "light";
+
+
+    const toggle =
+      document.getElementById(
+        "theme-toggle"
+      );
+
+
+    const icon =
+      document.getElementById(
+        "theme-icon"
+      );
+
+
+    const label =
+      document.getElementById(
+        "theme-label"
+      );
+
+
+    if (toggle) {
+
+      toggle.setAttribute(
+        "aria-pressed",
+        String(!isLight)
+      );
+
+
+      toggle.setAttribute(
+        "aria-label",
+        isLight
+          ? "Switch to dark theme"
+          : "Switch to light theme"
+      );
+
+    }
+
+
+    if (icon) {
+
+      icon.textContent =
+        isLight
+          ? "☀"
+          : "☾";
+
+    }
+
+
+    if (label) {
+
+      label.textContent =
+        isLight
+          ? "Light"
+          : "Dark";
+
+    }
+
+  }
+
+
+  function applyTheme(theme) {
+
+    if (
+      theme !== "dark" &&
+      theme !== "light"
+    ) {
+
+      theme = "dark";
+
+    }
+
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+
+    localStorage.setItem(
+      THEME_STORAGE_KEY,
+      theme
+    );
+
+
+    updateThemeControls(theme);
+
+  }
+
+
+  updateThemeControls(
+    getCurrentTheme()
   );
 
 
-  documentElement.replaceChildren(
-    wrapper
-  );
+  document
+    .getElementById(
+      "theme-toggle"
+    )
+    .addEventListener(
+      "click",
+      function () {
+
+        const current =
+          getCurrentTheme();
 
 
-  titleElement.textContent =
-    humanTitle(filename);
+        applyTheme(
+          current === "light"
+            ? "dark"
+            : "light"
+        );
 
-}
+      }
+    );
 
 
   /* =========================================================
-   TEXT RESOURCE
-   ========================================================= */
+     URL PARAMETERS
+     ========================================================= */
 
-function renderText(
-  text,
-  filename
-) {
-
-  const resource =
-    document.createElement("div");
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
 
 
-  resource.className =
-    "archive-resource";
+  const requestedDocument =
+    params.get("doc");
 
 
-  const pre =
-    document.createElement("pre");
+  const requestedPage =
+    params.get("page");
 
 
-  pre.textContent =
-    text;
+  const requestedResource =
+    params.get("file");
 
 
-  resource.appendChild(
-    pre
-  );
+  /* =========================================================
+     DOM REFERENCES
+     ========================================================= */
+
+  const documentElement =
+    document.getElementById(
+      "document"
+    );
 
 
-  documentElement.replaceChildren(
-    resource
-  );
+  const titleElement =
+    document.getElementById(
+      "document-title"
+    );
 
 
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   MEDIA RESOURCE
-   ========================================================= */
-
-function renderMedia(
-  path,
-  filename
-) {
-
-  const ext =
-    getExtension(path);
+  const sourceElement =
+    document.getElementById(
+      "document-source"
+    );
 
 
-  const resource =
-    document.createElement("div");
+  /* =========================================================
+     ALLOWED MARKDOWN DOCUMENTS
+     ========================================================= */
+
+  const allowedDocuments = [
+
+    "ARCHIVE-MAP.md",
+    "AUTHOR-IDENTITY.md",
+    "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    "CLAIMS.md",
+    "CONFIGURATION-MATRIX.md",
+    "CORE-GENEALOGY.md",
+    "CORPUS-INDEX.md",
+    "EXTRACTION-STATUS.md",
+    "LOCAL-CORPUS-MAP.md",
+    "LOCAL-CORPUS-ROOTS.md",
+    "NEXT-SESSION.md",
+    "OBJECT-REGISTRY.md",
+    "PROOF-INGESTION-PROTOCOL.md",
+    "PROOF-REGISTRY.md",
+    "README.md",
+    "REPOSITORY-MAP.md",
+    "RESEARCH-REGISTER.md",
+    "SOURCE-INVENTORY.md",
+    "SOURCE-MANIFEST.md",
+    "THEOREM-ORIGINALITY-MATRIX.md"
+
+  ];
 
 
-  resource.className =
-    "archive-resource";
+  /* =========================================================
+     PAGE / RESOURCE VALIDATION
+     ========================================================= */
+
+  const allowedPageExtensions = [
+
+    ".html",
+    ".htm"
+
+  ];
 
 
-  let element;
+  const allowedResourceExtensions = [
 
-
-  const audioExtensions = [
+    ".pdf",
+    ".csv",
+    ".svg",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".webp",
+    ".avif",
+    ".bmp",
+    ".ico",
 
     ".mp3",
     ".wav",
@@ -1739,1113 +2375,1709 @@ function renderMedia(
     ".oga",
     ".m4a",
     ".aac",
-    ".flac"
-
-  ];
-
-
-  const videoExtensions = [
+    ".flac",
 
     ".mp4",
     ".webm",
     ".ogv",
-    ".mov"
+    ".mov",
+
+    ".txt",
+    ".json",
+    ".xml",
+    ".yaml",
+    ".yml",
+    ".log"
 
   ];
 
 
-  if (
-    audioExtensions.includes(ext)
-  ) {
+  /* =========================================================
+     HUMAN TITLE
+     ========================================================= */
 
-    element =
-      document.createElement(
-        "audio"
+  function humanTitle(filename) {
+
+    return filename
+
+      .replace(
+        /\.(md|html?|pdf|csv|svg|txt|json|xml)$/i,
+        ""
+      )
+
+      .replace(
+        /[-_]+/g,
+        " "
+      )
+
+      .replace(
+        /\b\w/g,
+        character =>
+          character.toUpperCase()
       );
 
-    element.controls = true;
+  }
+
+
+  /* =========================================================
+     SAFE LOCAL PATH
+     ========================================================= */
+
+  function isSafeLocalPath(path) {
+
+    if (!path) {
+
+      return false;
+
+    }
+
+
+    if (
+      path.includes("..")
+    ) {
+
+      return false;
+
+    }
+
+
+    if (
+      path.startsWith("/")
+    ) {
+
+      return false;
+
+    }
+
+
+    if (
+      path.includes("\\")
+    ) {
+
+      return false;
+
+    }
+
+
+    return true;
 
   }
 
 
-  if (
-    videoExtensions.includes(ext)
-  ) {
+  /* =========================================================
+     EXTENSION
+     ========================================================= */
 
-    element =
-      document.createElement(
-        "video"
+  function getExtension(path) {
+
+    const clean =
+      path
+        .split("?")[0]
+        .split("#")[0]
+        .toLowerCase();
+
+
+    const index =
+      clean.lastIndexOf(".");
+
+
+    if (
+      index < 0
+    ) {
+
+      return "";
+
+    }
+
+
+    return clean.slice(
+      index
+    );
+
+  }
+
+
+  /* =========================================================
+     BACK NAVIGATION
+     ========================================================= */
+
+  function goBack() {
+
+    if (
+      window.history.length > 1
+    ) {
+
+      window.history.back();
+
+      return;
+
+    }
+
+
+    window.location.href =
+      "index.html#verification";
+
+  }
+
+
+  document
+    .getElementById(
+      "back-button"
+    )
+    .addEventListener(
+      "click",
+      goBack
+    );
+
+
+  document
+    .getElementById(
+      "back-button-bottom"
+    )
+    .addEventListener(
+      "click",
+      goBack
+    );
+
+
+  /* =========================================================
+     MARKDOWN LINK NORMALIZATION
+     ========================================================= */
+
+  function normalizeMarkdownLinks() {
+
+    documentElement
+      .querySelectorAll("a")
+      .forEach(link => {
+
+        const rawHref =
+          link.getAttribute("href");
+
+
+        if (!rawHref) {
+
+          return;
+
+        }
+
+
+        const href =
+          rawHref.trim();
+
+
+        if (
+
+          href.startsWith("http://") ||
+
+          href.startsWith("https://") ||
+
+          href.startsWith("mailto:") ||
+
+          href.startsWith("tel:") ||
+
+          href.startsWith("#")
+
+        ) {
+
+          return;
+
+        }
+
+
+        const hashIndex =
+          href.indexOf("#");
+
+
+        const queryIndex =
+          href.indexOf("?");
+
+
+        let splitIndex = -1;
+
+
+        if (
+          hashIndex >= 0 &&
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            Math.min(
+              hashIndex,
+              queryIndex
+            );
+
+        } else if (
+          hashIndex >= 0
+        ) {
+
+          splitIndex =
+            hashIndex;
+
+        } else if (
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            queryIndex;
+
+        }
+
+
+        const path =
+          splitIndex >= 0
+            ? href.slice(0, splitIndex)
+            : href;
+
+
+        const suffix =
+          splitIndex >= 0
+            ? href.slice(splitIndex)
+            : "";
+
+
+        if (
+          !path
+            .toLowerCase()
+            .endsWith(".md")
+        ) {
+
+          return;
+
+        }
+
+
+        const filename =
+          path
+            .split("/")
+            .filter(Boolean)
+            .pop();
+
+
+        if (
+          !filename
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          !allowedDocuments.includes(
+            filename
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        link.href =
+          "archive.html?doc=" +
+          encodeURIComponent(
+            filename
+          ) +
+          suffix;
+
+      });
+
+  }
+
+
+  /* =========================================================
+     TABLE WRAPPER
+     ========================================================= */
+
+  function improveTables() {
+
+    documentElement
+      .querySelectorAll("table")
+      .forEach(table => {
+
+        if (
+          table.parentElement &&
+          table.parentElement.classList.contains(
+            "archive-table-wrap"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        const wrapper =
+          document.createElement("div");
+
+
+        wrapper.className =
+          "archive-table-wrap";
+
+
+        table.parentNode.insertBefore(
+          wrapper,
+          table
+        );
+
+
+        wrapper.appendChild(
+          table
+        );
+
+      });
+
+  }
+
+
+  /* =========================================================
+     CSV PARSER
+     ========================================================= */
+
+  function parseCSV(text) {
+
+    const rows = [];
+
+    let row = [];
+
+    let cell = "";
+
+    let insideQuotes = false;
+
+
+    for (
+      let i = 0;
+      i < text.length;
+      i++
+    ) {
+
+      const char =
+        text[i];
+
+
+      const next =
+        text[i + 1];
+
+
+      if (
+        char === '"' &&
+        insideQuotes &&
+        next === '"'
+      ) {
+
+        cell += '"';
+
+        i++;
+
+        continue;
+
+      }
+
+
+      if (
+        char === '"'
+      ) {
+
+        insideQuotes =
+          !insideQuotes;
+
+        continue;
+
+      }
+
+
+      if (
+        char === "," &&
+        !insideQuotes
+      ) {
+
+        row.push(cell);
+
+        cell = "";
+
+        continue;
+
+      }
+
+
+      if (
+        (char === "\n" ||
+         char === "\r") &&
+        !insideQuotes
+      ) {
+
+        if (
+          char === "\r" &&
+          next === "\n"
+        ) {
+
+          i++;
+
+        }
+
+
+        row.push(cell);
+
+        rows.push(row);
+
+        row = [];
+
+        cell = "";
+
+        continue;
+
+      }
+
+
+      cell += char;
+
+    }
+
+
+    if (
+      cell.length ||
+      row.length
+    ) {
+
+      row.push(cell);
+
+      rows.push(row);
+
+    }
+
+
+    return rows;
+
+  }
+
+
+  /* =========================================================
+     CSV RENDERER
+     ========================================================= */
+
+  function renderCSV(text, filename) {
+
+    const rows =
+      parseCSV(text);
+
+
+    const wrapper =
+      document.createElement("div");
+
+
+    wrapper.className =
+      "archive-resource-table";
+
+
+    const table =
+      document.createElement("table");
+
+
+    rows.forEach((row, index) => {
+
+      const tr =
+        document.createElement("tr");
+
+
+      row.forEach(value => {
+
+        const cell =
+          document.createElement(
+            index === 0
+              ? "th"
+              : "td"
+          );
+
+
+        cell.textContent =
+          value;
+
+
+        tr.appendChild(
+          cell
+        );
+
+      });
+
+
+      table.appendChild(
+        tr
       );
 
-    element.controls = true;
+    });
 
-    element.playsInline = true;
 
-  }
-
-
-  if (!element) {
-
-    return;
-
-  }
-
-
-  element.src =
-    path;
-
-
-  element.preload =
-    "metadata";
-
-
-  resource.appendChild(
-    element
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   IMAGE / SVG RESOURCE
-   ========================================================= */
-
-function renderImage(
-  path,
-  filename
-) {
-
-  const resource =
-    document.createElement("div");
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const image =
-    document.createElement("img");
-
-
-  image.src =
-    path;
-
-
-  image.alt =
-    filename;
-
-
-  resource.appendChild(
-    image
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   PDF RESOURCE
-   ========================================================= */
-
-function renderPDF(
-  path,
-  filename
-) {
-
-  const resource =
-    document.createElement("div");
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const object =
-    document.createElement("object");
-
-
-  object.data =
-    path;
-
-
-  object.type =
-    "application/pdf";
-
-
-  const fallback =
-    document.createElement("p");
-
-
-  fallback.textContent =
-    "Your browser cannot display this PDF directly.";
-
-
-  const link =
-    document.createElement("a");
-
-
-  link.href =
-    path;
-
-
-  link.target =
-    "_blank";
-
-
-  link.rel =
-    "noopener noreferrer";
-
-
-  link.textContent =
-    "Open PDF";
-
-
-  fallback.appendChild(
-    document.createTextNode(" ")
-  );
-
-
-  fallback.appendChild(
-    link
-  );
-
-
-  object.appendChild(
-    fallback
-  );
-
-
-  resource.appendChild(
-    object
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   EXTERNAL VIDEO EMBEDS
-   ========================================================= */
-
-function renderEmbed(
-  url,
-  title
-) {
-
-  const resource =
-    document.createElement("div");
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const iframe =
-    document.createElement("iframe");
-
-
-  iframe.src =
-    url;
-
-
-  iframe.title =
-    title;
-
-
-  iframe.loading =
-    "lazy";
-
-
-  iframe.allow =
-    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
-
-  iframe.allowFullscreen =
-    true;
-
-
-  resource.appendChild(
-    iframe
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    title;
-
-}
-
-
-/* =========================================================
-   HTML PAGE
-   ========================================================= */
-
-function renderHTMLPage(
-  path,
-  filename
-) {
-
-  const resource =
-    document.createElement("div");
-
-
-  resource.className =
-    "archive-page-viewer";
-
-
-  const frame =
-    document.createElement("iframe");
-
-
-  frame.className =
-    "archive-page-frame";
-
-
-  frame.src =
-    path;
-
-
-  frame.title =
-    humanTitle(filename);
-
-
-  /*
-   * The page is loaded as a real document inside the iframe.
-   *
-   * Therefore:
-   *
-   * - its own CSS works
-   * - its own JavaScript works
-   * - canvas works
-   * - SVG works
-   * - animations work
-   * - audio works
-   * - video works
-   * - YouTube embeds work
-   * - Vimeo embeds work
-   * - WebGL / Three.js pages can work
-   *
-   * without having to inject foreign HTML into archive.html.
-   */
-
-
-  frame.loading =
-    "eager";
-
-
-  frame.allow =
-    "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
-
-
-  frame.allowFullscreen =
-    true;
-
-
-  resource.appendChild(
-    frame
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   RESOURCE ROUTER
-   ========================================================= */
-
-async function loadResource(
-  path,
-  filename
-) {
-
-  const ext =
-    getExtension(path);
-
-
-  sourceElement.textContent =
-    path;
-
-
-  if (
-    ext === ".html" ||
-    ext === ".htm"
-  ) {
-
-    renderHTMLPage(
-      path,
-      filename
+    wrapper.appendChild(
+      table
     );
 
-    return;
 
-  }
-
-
-  if (
-    ext === ".pdf"
-  ) {
-
-    renderPDF(
-      path,
-      filename
+    documentElement.replaceChildren(
+      wrapper
     );
 
-    return;
+
+    titleElement.textContent =
+      humanTitle(filename);
 
   }
 
 
-  if (
-    ext === ".svg" ||
-    ext === ".png" ||
-    ext === ".jpg" ||
-    ext === ".jpeg" ||
-    ext === ".gif" ||
-    ext === ".webp" ||
-    ext === ".avif" ||
-    ext === ".bmp" ||
-    ext === ".ico"
+  /* =========================================================
+     TEXT RESOURCE
+     ========================================================= */
+
+  function renderText(
+    text,
+    filename
   ) {
 
-    renderImage(
-      path,
-      filename
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    const pre =
+      document.createElement("pre");
+
+
+    pre.textContent =
+      text;
+
+
+    resource.appendChild(
+      pre
     );
 
-    return;
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
 
   }
 
 
-  if (
-    [
+  /* =========================================================
+     MEDIA RESOURCE
+     ========================================================= */
+
+  function renderMedia(
+    path,
+    filename
+  ) {
+
+    const ext =
+      getExtension(path);
+
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    let element;
+
+
+    const audioExtensions = [
+
       ".mp3",
       ".wav",
       ".ogg",
       ".oga",
       ".m4a",
       ".aac",
-      ".flac",
+      ".flac"
+
+    ];
+
+
+    const videoExtensions = [
+
       ".mp4",
       ".webm",
       ".ogv",
       ".mov"
-    ].includes(ext)
-  ) {
-
-    renderMedia(
-      path,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  if (
-    ext === ".csv"
-  ) {
-
-    try {
-
-      const response =
-        await fetch(
-          path,
-          {
-            cache: "no-cache"
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP " +
-          response.status
-        );
-
-      }
-
-
-      const text =
-        await response.text();
-
-
-      renderCSV(
-        text,
-        filename
-      );
-
-
-    } catch (error) {
-
-      renderError(
-        error
-      );
-
-    }
-
-
-    return;
-
-  }
-
-
-  if (
-    [
-      ".txt",
-      ".json",
-      ".xml",
-      ".yaml",
-      ".yml",
-      ".log"
-    ].includes(ext)
-  ) {
-
-    try {
-
-      const response =
-        await fetch(
-          path,
-          {
-            cache: "no-cache"
-          }
-        );
-
-
-      if (!response.ok) {
-
-        throw new Error(
-          "HTTP " +
-          response.status
-        );
-
-      }
-
-
-      const text =
-        await response.text();
-
-
-      renderText(
-        text,
-        filename
-      );
-
-
-    } catch (error) {
-
-      renderError(
-        error
-      );
-
-    }
-
-
-    return;
-
-  }
-
-
-  /*
-   * Unknown but local resource:
-   * let the browser handle it.
-   */
-
-  const resource =
-    document.createElement("div");
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const note =
-    document.createElement("div");
-
-
-  note.className =
-    "archive-resource-note";
-
-
-  note.innerHTML =
-    "<strong>Resource:</strong> " +
-    filename;
-
-
-  const link =
-    document.createElement("a");
-
-
-  link.className =
-    "archive-resource-download";
-
-
-  link.href =
-    path;
-
-
-  link.target =
-    "_blank";
-
-
-  link.rel =
-    "noopener noreferrer";
-
-
-  link.textContent =
-    "Open resource";
-
-
-  resource.appendChild(
-    note
-  );
-
-
-  resource.appendChild(
-    link
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-
-  titleElement.textContent =
-    humanTitle(filename);
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function renderError(error) {
-
-  documentElement.innerHTML = `
-
-    <div class="archive-error">
-
-      <strong>
-        Unable to load resource.
-      </strong>
-
-      <p>
-        ${error.message}
-      </p>
-
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================================
-   LOAD MARKDOWN DOCUMENT
-   ========================================================= */
-
-async function loadMarkdownDocument() {
-
-  /*
-   * Discover the current contents of /docs/ first.
-   *
-   * No manual whitelist is required.
-   */
-
-  await discoverMarkdownDocuments();
-
-
-  if (
-    !requestedDocument
-  ) {
-
-    renderError(
-      new Error(
-        "Document not specified."
-      )
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !allowedDocuments.includes(
-      requestedDocument
-    )
-  ) {
-
-    renderError(
-      new Error(
-        "Document not found in /docs/."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const sourcePath =
-    "docs/" +
-    requestedDocument;
-
-
-  titleElement.textContent =
-    humanTitle(
-      requestedDocument
-    );
-
-
-  sourceElement.textContent =
-    sourcePath;
-
-
-  try {
-
-    const response =
-      await fetch(
-        sourcePath,
-        {
-          cache: "no-cache"
-        }
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const markdown =
-      await response.text();
-
-
-    marked.setOptions({
-
-      gfm: true,
-
-      breaks: true
-
-    });
-
-
-    documentElement.innerHTML =
-      marked.parse(
-        markdown
-      );
-
-
-    normalizeMarkdownLinks();
-
-    improveTables();
-
-
-    document.title =
-      "AUF2026 — " +
-      humanTitle(
-        requestedDocument
-      );
-
-
-  } catch (error) {
-
-    console.error(
-      "AUF2026 Archive:",
-      error
-    );
-
-
-    renderError(
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   LOAD /pages/*.html
-   ========================================================= */
-
-function loadPage() {
-
-  if (
-    !requestedPage
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !isSafeLocalPath(
-      requestedPage
-    )
-  ) {
-
-    renderError(
-      new Error(
-        "Invalid page path."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const filename =
-    requestedPage
-      .split("/")
-      .filter(Boolean)
-      .pop();
-
-
-  if (
-    !filename
-  ) {
-
-    renderError(
-      new Error(
-        "Invalid page."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const ext =
-    getExtension(
-      filename
-    );
-
-
-  if (
-    !allowedPageExtensions.includes(
-      ext
-    )
-  ) {
-
-    renderError(
-      new Error(
-        "Only HTML pages are allowed in /pages/."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const path =
-    "pages/" +
-    requestedPage;
-
-
-  loadResource(
-    path,
-    filename
-  );
-
-
-  document.title =
-    "AUF2026 — " +
-    humanTitle(
-      filename
-    );
-
-}
-
-
-/* =========================================================
-   LOAD GENERIC RESOURCE
-   ========================================================= */
-
-function loadGenericResource() {
-
-  if (
-    !requestedResource
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !isSafeLocalPath(
-      requestedResource
-    )
-  ) {
-
-    renderError(
-      new Error(
-        "Invalid resource path."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const filename =
-    requestedResource
-      .split("/")
-      .filter(Boolean)
-      .pop();
-
-
-  if (
-    !filename
-  ) {
-
-    renderError(
-      new Error(
-        "Invalid resource."
-      )
-    );
-
-    return;
-
-  }
-
-
-  const ext =
-    getExtension(
-      filename
-    );
-
-
-  if (
-    !allowedResourceExtensions.includes(
-      ext
-    )
-  ) {
-
-    renderError(
-      new Error(
-        "Resource type not allowed."
-      )
-    );
-
-    return;
-
-  }
-
-
-  loadResource(
-    requestedResource,
-    filename
-  );
-
-
-  document.title =
-    "AUF2026 — " +
-    humanTitle(
-      filename
-    );
-
-}
-
-/* =========================================================
-   YOUTUBE / VIMEO URL SUPPORT
-   ========================================================= */
-
-function loadExternalEmbed() {
-
-  const url =
-    params.get("embed");
-
-
-  if (
-    !url
-  ) {
-
-    return false;
-
-  }
-
-
-  try {
-
-    const parsed =
-      new URL(
-        url
-      );
-
-
-    const allowedHosts = [
-
-      "www.youtube.com",
-      "youtube.com",
-      "youtu.be",
-      "www.youtube-nocookie.com",
-      "player.vimeo.com",
-      "vimeo.com"
 
     ];
 
 
     if (
-      !allowedHosts.includes(
-        parsed.hostname
+      audioExtensions.includes(ext)
+    ) {
+
+      element =
+        document.createElement(
+          "audio"
+        );
+
+      element.controls = true;
+
+    }
+
+
+    if (
+      videoExtensions.includes(ext)
+    ) {
+
+      element =
+        document.createElement(
+          "video"
+        );
+
+      element.controls = true;
+
+      element.playsInline = true;
+
+    }
+
+
+    if (!element) {
+
+      return;
+
+    }
+
+
+    element.src =
+      path;
+
+
+    element.preload =
+      "metadata";
+
+
+    resource.appendChild(
+      element
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
+
+  }
+
+
+  /* =========================================================
+     IMAGE / SVG RESOURCE
+     ========================================================= */
+
+  function renderImage(
+    path,
+    filename
+  ) {
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    const image =
+      document.createElement("img");
+
+
+    image.src =
+      path;
+
+
+    image.alt =
+      filename;
+
+
+    resource.appendChild(
+      image
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
+
+  }
+
+
+  /* =========================================================
+     PDF RESOURCE
+     ========================================================= */
+
+  function renderPDF(
+    path,
+    filename
+  ) {
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    const object =
+      document.createElement("object");
+
+
+    object.data =
+      path;
+
+
+    object.type =
+      "application/pdf";
+
+
+    const fallback =
+      document.createElement("p");
+
+
+    fallback.textContent =
+      "Your browser cannot display this PDF directly.";
+
+
+    const link =
+      document.createElement("a");
+
+
+    link.href =
+      path;
+
+
+    link.target =
+      "_blank";
+
+
+    link.rel =
+      "noopener noreferrer";
+
+
+    link.textContent =
+      "Open PDF";
+
+
+    fallback.appendChild(
+      document.createTextNode(" ")
+    );
+
+
+    fallback.appendChild(
+      link
+    );
+
+
+    object.appendChild(
+      fallback
+    );
+
+
+    resource.appendChild(
+      object
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
+
+  }
+
+
+  /* =========================================================
+     EXTERNAL VIDEO EMBEDS
+     ========================================================= */
+
+  function renderEmbed(
+    url,
+    title
+  ) {
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    const iframe =
+      document.createElement("iframe");
+
+
+    iframe.src =
+      url;
+
+
+    iframe.title =
+      title;
+
+
+    iframe.loading =
+      "lazy";
+
+
+    iframe.allow =
+      "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+
+
+    iframe.allowFullscreen =
+      true;
+
+
+    resource.appendChild(
+      iframe
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      title;
+
+  }
+
+
+  /* =========================================================
+     HTML PAGE
+     ========================================================= */
+
+  function renderHTMLPage(
+    path,
+    filename
+  ) {
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-page-viewer";
+
+
+    const frame =
+      document.createElement("iframe");
+
+
+    frame.className =
+      "archive-page-frame";
+
+
+    frame.src =
+      path;
+
+
+    frame.title =
+      humanTitle(filename);
+
+
+    /*
+     * The page is loaded as a real document inside the iframe.
+     *
+     * Therefore:
+     *
+     * - its own CSS works
+     * - its own JavaScript works
+     * - canvas works
+     * - SVG works
+     * - animations work
+     * - audio works
+     * - video works
+     * - YouTube embeds work
+     * - Vimeo embeds work
+     * - WebGL / Three.js pages can work
+     *
+     * without having to inject foreign HTML into archive.html.
+     */
+
+    frame.loading =
+      "eager";
+
+
+    frame.allow =
+      "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
+
+
+    frame.allowFullscreen =
+      true;
+
+
+    resource.appendChild(
+      frame
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
+
+  }
+
+
+  /* =========================================================
+     RESOURCE ROUTER
+     ========================================================= */
+
+  async function loadResource(
+    path,
+    filename
+  ) {
+
+    const ext =
+      getExtension(path);
+
+
+    sourceElement.textContent =
+      path;
+
+
+    if (
+      ext === ".html" ||
+      ext === ".htm"
+    ) {
+
+      renderHTMLPage(
+        path,
+        filename
+      );
+
+      return;
+
+    }
+
+
+    if (
+      ext === ".pdf"
+    ) {
+
+      renderPDF(
+        path,
+        filename
+      );
+
+      return;
+
+    }
+
+
+    if (
+      ext === ".svg" ||
+      ext === ".png" ||
+      ext === ".jpg" ||
+      ext === ".jpeg" ||
+      ext === ".gif" ||
+      ext === ".webp" ||
+      ext === ".avif" ||
+      ext === ".bmp" ||
+      ext === ".ico"
+    ) {
+
+      renderImage(
+        path,
+        filename
+      );
+
+      return;
+
+    }
+
+
+    if (
+      [
+        ".mp3",
+        ".wav",
+        ".ogg",
+        ".oga",
+        ".m4a",
+        ".aac",
+        ".flac",
+        ".mp4",
+        ".webm",
+        ".ogv",
+        ".mov"
+      ].includes(ext)
+    ) {
+
+      renderMedia(
+        path,
+        filename
+      );
+
+      return;
+
+    }
+
+
+    if (
+      ext === ".csv"
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            path,
+            {
+              cache: "no-cache"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const text =
+          await response.text();
+
+
+        renderCSV(
+          text,
+          filename
+        );
+
+
+      } catch (error) {
+
+        renderError(
+          error
+        );
+
+      }
+
+
+      return;
+
+    }
+
+
+    if (
+      [
+        ".txt",
+        ".json",
+        ".xml",
+        ".yaml",
+        ".yml",
+        ".log"
+      ].includes(ext)
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            path,
+            {
+              cache: "no-cache"
+            }
+          );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            "HTTP " +
+            response.status
+          );
+
+        }
+
+
+        const text =
+          await response.text();
+
+
+        renderText(
+          text,
+          filename
+        );
+
+
+      } catch (error) {
+
+        renderError(
+          error
+        );
+
+      }
+
+
+      return;
+
+    }
+
+
+    /*
+     * Unknown but local resource:
+     * let the browser handle it.
+     */
+
+    const resource =
+      document.createElement("div");
+
+
+    resource.className =
+      "archive-resource";
+
+
+    const note =
+      document.createElement("div");
+
+
+    note.className =
+      "archive-resource-note";
+
+
+    note.innerHTML =
+      "<strong>Resource:</strong> " +
+      filename;
+
+
+    const link =
+      document.createElement("a");
+
+
+    link.className =
+      "archive-resource-download";
+
+
+    link.href =
+      path;
+
+
+    link.target =
+      "_blank";
+
+
+    link.rel =
+      "noopener noreferrer";
+
+
+    link.textContent =
+      "Open resource";
+
+
+    resource.appendChild(
+      note
+    );
+
+
+    resource.appendChild(
+      link
+    );
+
+
+    documentElement.replaceChildren(
+      resource
+    );
+
+
+    titleElement.textContent =
+      humanTitle(filename);
+
+  }
+
+
+  /* =========================================================
+     ERROR
+     ========================================================= */
+
+  function renderError(error) {
+
+    documentElement.innerHTML = `
+
+      <div class="archive-error">
+
+        <strong>
+          Unable to load resource.
+        </strong>
+
+        <p>
+          ${error.message}
+        </p>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* =========================================================
+     LOAD MARKDOWN DOCUMENT
+     ========================================================= */
+
+  async function loadMarkdownDocument() {
+
+    if (
+      !requestedDocument ||
+      !allowedDocuments.includes(
+        requestedDocument
       )
     ) {
 
       renderError(
         new Error(
-          "External embed host not allowed."
+          "Document not specified."
         )
       );
+
+      return;
+
+    }
+
+
+    const sourcePath =
+      "docs/" +
+      requestedDocument;
+
+
+    titleElement.textContent =
+      humanTitle(
+        requestedDocument
+      );
+
+
+    sourceElement.textContent =
+      sourcePath;
+
+
+    try {
+
+      const response =
+        await fetch(
+          sourcePath,
+          {
+            cache: "no-cache"
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const markdown =
+        await response.text();
+
+
+      marked.setOptions({
+
+        gfm: true,
+
+        breaks: true
+
+      });
+
+
+      documentElement.innerHTML =
+        marked.parse(
+          markdown
+        );
+
+
+      normalizeMarkdownLinks();
+
+      improveTables();
+
+
+      document.title =
+        "AUF2026 — " +
+        humanTitle(
+          requestedDocument
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        "AUF2026 Archive:",
+        error
+      );
+
+
+      renderError(
+        error
+      );
+
+    }
+
+  }
+
+
+  /* =========================================================
+     LOAD /pages/*.html
+     ========================================================= */
+
+  function loadPage() {
+
+    if (
+      !requestedPage
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !isSafeLocalPath(
+        requestedPage
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "Invalid page path."
+        )
+      );
+
+      return;
+
+    }
+
+
+    const filename =
+      requestedPage
+        .split("/")
+        .filter(Boolean)
+        .pop();
+
+
+    if (
+      !filename
+    ) {
+
+      renderError(
+        new Error(
+          "Invalid page."
+        )
+      );
+
+      return;
+
+    }
+
+
+    const ext =
+      getExtension(
+        filename
+      );
+
+
+    if (
+      !allowedPageExtensions.includes(
+        ext
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "Only HTML pages are allowed in /pages/."
+        )
+      );
+
+      return;
+
+    }
+
+
+    const path =
+      "pages/" +
+      requestedPage;
+
+
+    loadResource(
+      path,
+      filename
+    );
+
+
+    document.title =
+      "AUF2026 — " +
+      humanTitle(
+        filename
+      );
+
+  }
+
+
+  /* =========================================================
+     LOAD GENERIC RESOURCE
+     ========================================================= */
+
+  function loadGenericResource() {
+
+    if (
+      !requestedResource
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !isSafeLocalPath(
+        requestedResource
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "Invalid resource path."
+        )
+      );
+
+      return;
+
+    }
+
+
+    const filename =
+      requestedResource
+        .split("/")
+        .filter(Boolean)
+        .pop();
+
+
+    if (
+      !filename
+    ) {
+
+      renderError(
+        new Error(
+          "Invalid resource."
+        )
+      );
+
+      return;
+
+    }
+
+
+    const ext =
+      getExtension(
+        filename
+      );
+
+
+    if (
+      !allowedResourceExtensions.includes(
+        ext
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "Resource type not allowed."
+        )
+      );
+
+      return;
+
+    }
+
+
+    loadResource(
+      requestedResource,
+      filename
+    );
+
+
+    document.title =
+      "AUF2026 — " +
+      humanTitle(
+        filename
+      );
+
+  }
+
+
+  /* =========================================================
+     YOUTUBE / VIMEO URL SUPPORT
+     ========================================================= */
+
+  function loadExternalEmbed() {
+
+    const url =
+      params.get("embed");
+
+
+    if (
+      !url
+    ) {
+
+      return false;
+
+    }
+
+
+    try {
+
+      const parsed =
+        new URL(
+          url
+        );
+
+
+      const allowedHosts = [
+
+        "www.youtube.com",
+        "youtube.com",
+        "youtu.be",
+        "www.youtube-nocookie.com",
+        "player.vimeo.com",
+        "vimeo.com"
+
+      ];
+
+
+      if (
+        !allowedHosts.includes(
+          parsed.hostname
+        )
+      ) {
+
+        renderError(
+          new Error(
+            "External embed host not allowed."
+          )
+        );
+
+        return true;
+
+      }
+
+
+      renderEmbed(
+        parsed.href,
+        "External media"
+      );
+
+
+      sourceElement.textContent =
+        parsed.href;
+
+
+      document.title =
+        "AUF2026 — External Media";
+
+
+      return true;
+
+    } catch {
+
+      renderError(
+        new Error(
+          "Invalid external media URL."
+        )
+      );
+
 
       return true;
 
     }
 
+  }
 
-    renderEmbed(
-      parsed.href,
-      "External media"
-    );
+
+  /* =========================================================
+     START
+     ========================================================= */
+
+  if (
+    loadExternalEmbed()
+  ) {
+
+    /* External embed loaded. */
+
+  } else if (
+    requestedPage
+  ) {
+
+    loadPage();
+
+  } else if (
+    requestedResource
+  ) {
+
+    loadGenericResource();
+
+  } else if (
+    requestedDocument
+  ) {
+
+    loadMarkdownDocument();
+
+  } else {
+
+    documentElement.innerHTML = `
+
+      <div class="archive-error">
+
+        <strong>
+          Resource not specified.
+        </strong>
+
+        <p>
+          Select a document, page or resource
+          from the AUF2026 research archive.
+        </p>
+
+      </div>
+
+    `;
 
 
     sourceElement.textContent =
-      parsed.href;
+      "not specified";
 
 
     document.title =
-      "AUF2026 — External Media";
-
-
-    return true;
-
-  } catch {
-
-    renderError(
-      new Error(
-        "Invalid external media URL."
-      )
-    );
-
-
-    return true;
+      "AUF2026 — Research Archive";
 
   }
-
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-if (
-  loadExternalEmbed()
-) {
-
-  /* External embed loaded. */
-
-} else if (
-  requestedPage
-) {
-
-  loadPage();
-
-} else if (
-  requestedResource
-) {
-
-  loadGenericResource();
-
-} else if (
-  requestedDocument
-) {
-
-  loadMarkdownDocument();
-
-} else {
-
-  documentElement.innerHTML = `
-
-    <div class="archive-error">
-
-      <strong>
-        Resource not specified.
-      </strong>
-
-      <p>
-        Select a document, page or resource
-        from the AUF2026 research archive.
-      </p>
-
-    </div>
-
-  `;
-
-
-  sourceElement.textContent =
-    "not specified";
-
-
-  document.title =
-    "AUF2026 — Research Archive";
-
-}
-
-</script>
 
 </script>
 
