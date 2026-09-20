@@ -2353,6 +2353,210 @@ const allowedDocuments = [
    GITHUB API DOCUMENT DISCOVERY
    ========================================================= */
 
+/*
+ * The GitHub API is queried recursively.
+ *
+ * The complete repository tree is discovered, rather than
+ * assuming that documents exist only in /docs/.
+ *
+ * Markdown documents which belong to /docs/ are added to
+ * allowedDocuments because the existing Markdown renderer
+ * loads them through:
+ *
+ *     docs/<filename>
+ *
+ * Other repository files are discovered by the API but are
+ * deliberately not inserted into allowedDocuments here.
+ *
+ * This preserves the existing renderer and prevents files
+ * from /proofs/, /validation/, /papers/, /pages/, etc.
+ * from being incorrectly routed through docs/.
+ */
+
+const GITHUB_OWNER =
+  "AUF2026";
+
+const GITHUB_REPOSITORY =
+  "AUF2026.github.io";
+
+const GITHUB_BRANCH =
+  "main";
+
+
+async function discoverMarkdownDocuments() {
+
+  const apiURL =
+    "https://api.github.com/repos/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/git/trees/" +
+    GITHUB_BRANCH +
+    "?recursive=1";
+
+
+  try {
+
+    const response =
+      await fetch(
+        apiURL,
+        {
+          cache: "no-cache",
+          headers: {
+            "Accept":
+              "application/vnd.github+json"
+          }
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "GitHub API HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data ||
+      !Array.isArray(data.tree)
+    ) {
+
+      throw new Error(
+        "Invalid GitHub API tree response."
+      );
+
+    }
+
+
+    /*
+     * Complete repository discovery.
+     *
+     * Every blob in every directory is now visible to the
+     * discovery layer. This deliberately does not restrict
+     * discovery to /docs/.
+     */
+    const repositoryFiles =
+      data.tree.filter(item => {
+
+        return (
+          item.type === "blob" &&
+          typeof item.path === "string"
+        );
+
+      });
+
+
+    /*
+     * Markdown files belonging to /docs/.
+     *
+     * These are the files compatible with the existing
+     * loadMarkdownDocument() implementation.
+     */
+    repositoryFiles
+      .filter(item => {
+
+        return (
+          item.path
+            .toLowerCase()
+            .startsWith("docs/") &&
+          item.path
+            .toLowerCase()
+            .endsWith(".md")
+        );
+
+      })
+      .map(item => {
+
+        return item.path
+          .split("/")
+          .filter(Boolean)
+          .pop();
+
+      })
+      .filter(Boolean)
+      .forEach(filename => {
+
+        if (
+          !allowedDocuments.includes(
+            filename
+          )
+        ) {
+
+          allowedDocuments.push(
+            filename
+          );
+
+        }
+
+      });
+
+
+    /*
+     * Keep the array deterministic.
+     */
+    allowedDocuments.sort(
+      (a, b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity: "base"
+          }
+        )
+    );
+
+
+    /*
+     * Expose the complete repository discovery to the
+     * navigation/indexing layer without changing the
+     * existing Markdown renderer.
+     */
+    window.AUF2026RepositoryFiles =
+      repositoryFiles.map(
+        item => item.path
+      );
+
+
+    return true;
+
+
+  } catch (error) {
+
+    /*
+     * Do not break the existing archive if GitHub API
+     * discovery fails.
+     *
+     * The static fallback above remains valid.
+     */
+    console.warn(
+      "AUF2026 Markdown discovery:",
+      error
+    );
+
+
+    window.AUF2026RepositoryFiles =
+      [];
+
+
+    return false;
+
+  }
+
+}
+
+
+/* =========================================================
+   GITHUB API DOCUMENT DISCOVERY
+   ========================================================= */
+
 const GITHUB_OWNER =
   "AUF2026";
 
