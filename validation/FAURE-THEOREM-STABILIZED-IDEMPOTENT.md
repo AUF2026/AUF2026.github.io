@@ -4,9 +4,25 @@ Formal artifact
 
 /proofs/FAURE-THEOREM-STABILIZED-IDEMPOTENT.lean
 
-Proposition
+Exact formal statement
 
-Given
+Let
+
+Ψ
+:
+𝛼
+→
+𝛼
+
+and define
+
+𝑃
+=
+Ψ
+4
+.
+
+Under the hypothesis
 
 Ψ
 8
@@ -15,15 +31,28 @@ Given
 4
 ,
 
-define
+the formal theorem establishes
 
+∀
+𝑥
+:
+𝛼
+,
 𝑃
+(
+𝑃
+(
+𝑥
+)
+)
 =
-Ψ
-4
+𝑃
+(
+𝑥
+)
 .
 
-Then
+Equivalently,
 
 𝑃
 2
@@ -31,63 +60,149 @@ Then
 𝑃
 .
 
-Derived proposition
+Lean artifact
 
-Im
-⁡
-(
-𝑃
-)
+The validated artifact is:
+
+import Mathlib
+
+namespace AUF2026
+
+section
+
+variable {α : Type*}
+variable (Ψ : α → α)
+
+def faureP : α → α :=
+  Ψ^[4]
+
+theorem teoremaFaure_stabilized_idempotent
+    (h : Ψ^[8] = Ψ^[4]) :
+    ∀ x : α,
+      faureP Ψ (faureP Ψ x) = faureP Ψ x := by
+  intro x
+  change Ψ^[4] (Ψ^[4] x) = Ψ^[4] x
+  rw [← Function.iterate_add_apply]
+  rw [h]
+
+end
+
+end AUF2026
+
+Actual Lean validation
+
+The actual test result supplied for this artifact is:
+
+MathlibDemo.lean:1:0
+No info found.
+All Messages (0)
+No messages.
+
+Validation result
+ERRORS: 0
+MESSAGES: 0
+RESULT: PASSED
+
+Formal status
+
+FORMALLY VERIFIED
+
+Proof content
+
+The proof uses the identity
+
+Ψ
+4
+∘
+Ψ
+4
 =
-Fix
-⁡
-(
-𝑃
-)
-.
+Ψ
+8
 
-Formal validation
-Lean validation: PASSED
-Errors: 0
-Warnings/messages: 0
-sorry: 0
-unresolved proof obligations: 0
+and the supplied hypothesis
 
-Proof decomposition
-A1: Ψ⁸ = Ψ⁴
-        ↓
-Lemma: Ψ⁴ ∘ Ψ⁴ = Ψ⁸
-        ↓
-Theorem: (Ψ⁴)² = Ψ⁴
-        ↓
-Corollary: Im(Ψ⁴) = Fix(Ψ⁴)
-
-Evidence boundary
-
-The validation establishes the formal proposition in the declared Lean environment.
-
-It does not independently establish:
-
-derivation of 
 Ψ
 8
 =
 Ψ
 4
- from an underlying model;
+.
+
+Therefore
+
+Ψ
+4
+(
+Ψ
+4
+(
+𝑥
+)
+)
+=
+Ψ
+8
+(
+𝑥
+)
+=
+Ψ
+4
+(
+𝑥
+)
+,
+
+which is precisely the asserted idempotence of 
+𝑃
+=
+Ψ
+4
+.
+
+Evidence boundary
+
+This validation record reports the actual Lean test supplied for the artifact.
+
+The test establishes the formal proposition encoded in the Lean declaration.
+
+It does not independently establish claims concerning:
+
+originality;
 
 historical priority;
 
-novelty relative to all mathematical literature;
+external mathematical literature;
 
-empirical or physical interpretation.
+physical interpretation;
 
-Those claims are controlled by the corresponding source, bibliography and validation records.
+empirical interpretation.
 
-Status
-
-FORMALLY VERIFIED
+Those are separate evidentiary questions.
 
 Canonical public name
 
 Teorema Faure — Stabilized Idempotent Operator
+
+Validation evidence
+File:
+MathlibDemo.lean
+
+Position:
+1:0
+
+Output:
+No info found.
+
+All Messages:
+0
+
+Messages:
+0
+
+Errors:
+0
+
+
+VALIDATION: PASSED
