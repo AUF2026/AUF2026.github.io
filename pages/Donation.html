@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Support the Research — AUF2026
+  </title>
+
+  <meta
+    name="description"
+    content="Support the independent mathematical research and formalization of AUF2026."
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+      background: #050b10;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% 8%,
+          rgba(55,150,215,.15),
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(30,110,170,.07),
+          transparent 30%
+        ),
+        #050b10;
+
+      color: #e9f5fa;
+
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      line-height: 1.7;
+
+    }
+
+
+    /* =====================================================
+       BACKGROUND GRID
+       ===================================================== */
+
+    body::before {
+
+      content: "";
+
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      opacity: .14;
+
+      background-image:
+
+        linear-gradient(
+          rgba(100,190,230,.07) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(100,190,230,.07) 1px,
+          transparent 1px
+        );
+
+      background-size: 60px 60px;
+
+      mask-image:
+        radial-gradient(
+          ellipse at center,
+          black,
+          transparent 75%
+        );
+
+    }
+
+
+    /* =====================================================
+       PAGE
+       ===================================================== */
+
+    .support-page {
+
+      position: relative;
+
+      min-height: 100vh;
+
+      overflow: hidden;
+
+    }
+
+
+    .support-container {
+
+      position: relative;
+
+      z-index: 2;
+
+      width:
+        min(
+          920px,
+          calc(100% - 40px)
+        );
+
+      margin: 0 auto;
+
+      padding:
+        100px 0 80px;
+
+    }
+
+
+    /* =====================================================
+       HEADER
+       ===================================================== */
+
+    .support-kicker {
+
+      margin-bottom: 18px;
+
+      color: #5fcaff;
+
+      font-size: .72rem;
+
+      font-weight: 700;
+
+      letter-spacing: .2em;
+
+    }
+
+
+    h1 {
+
+      max-width: 760px;
+
+      margin: 0;
+
+      font-size:
+        clamp(
+          3rem,
+          8vw,
+          6rem
+        );
+
+      line-height: .94;
+
+      letter-spacing: -.055em;
+
+      background:
+
+        linear-gradient(
+          110deg,
+          #ffffff,
+          #c9edf9 55%,
+          #63caff
+        );
+
+      -webkit-background-clip: text;
+
+      background-clip: text;
+
+      color: transparent;
+
+    }
+
+
+    .support-lead {
+
+      max-width: 700px;
+
+      margin:
+        28px 0 0;
+
+      color: #a9bdc8;
+
+      font-size: 1.15rem;
+
+      line-height: 1.8;
+
+    }
+
+
+    /* =====================================================
+       SUPPORT CARD
+       ===================================================== */
+
+    .support-card {
+
+      position: relative;
+
+      margin-top: 60px;
+
+      padding:
+        clamp(
+          30px,
+          6vw,
+          58px
+        );
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        rgba(120,190,220,.17);
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.045),
+          rgba(255,255,255,.012)
+        );
+
+      box-shadow:
+        0 40px 100px
+        rgba(0,0,0,.4);
+
+      transition:
+
+        transform .4s ease,
+
+        border-color .4s ease,
+
+        box-shadow .4s ease;
+
+    }
+
+
+    .support-card:hover {
+
+      transform:
+        translateY(-6px);
+
+      border-color:
+        rgba(90,195,255,.4);
+
+      box-shadow:
+
+        0 45px 110px
+        rgba(0,0,0,.45),
+
+        0 0 55px
+        rgba(70,170,240,.07);
+
+    }
+
+
+    .support-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+
+      left: 8%;
+
+      width: 84%;
+
+      height: 1px;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          transparent,
+          #61d0ff,
+          transparent
+        );
+
+      box-shadow:
+        0 0 12px
+        rgba(80,200,255,.5);
+
+    }
+
+
+    /* =====================================================
+       LASER SCAN
+       ===================================================== */
+
+    .support-card::after {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+
+      left: -100px;
+
+      width: 1px;
+
+      height: 100%;
+
+      background:
+
+        linear-gradient(
+          transparent,
+          #8ee5ff,
+          transparent
+        );
+
+      box-shadow:
+        0 0 20px
+        rgba(80,200,255,.8);
+
+      opacity: 0;
+
+    }
+
+
+    .support-card:hover::after {
+
+      animation:
+        cardScan
+        1.2s
+        ease-out
+        1;
+
+    }
+
+
+    @keyframes cardScan {
+
+      0% {
+
+        left: 0;
+
+        opacity: 0;
+
+      }
+
+      12% {
+
+        opacity: 1;
+
+      }
+
+      100% {
+
+        left: 100%;
+
+        opacity: 0;
+
+      }
+
+    }
+
+
+    /* =====================================================
+       CARD CONTENT
+       ===================================================== */
+
+    .card-label {
+
+      margin-bottom: 14px;
+
+      color: #5fcaff;
+
+      font-size: .7rem;
+
+      font-weight: 700;
+
+      letter-spacing: .18em;
+
+    }
+
+
+    .support-card h2 {
+
+      margin:
+        0 0 24px;
+
+      font-size:
+        clamp(
+          1.8rem,
+          4vw,
+          2.7rem
+        );
+
+      line-height: 1.1;
+
+    }
+
+
+    .support-card p {
+
+      max-width: 730px;
+
+      color: #9fb4bf;
+
+      line-height: 1.8;
+
+    }
+
+
+    /* =====================================================
+       AUTHOR / U_F FRAMEWORK
+       ===================================================== */
+
+    .donation-container {
+
+      margin-top: 42px;
+
+      padding-top: 34px;
+
+      border-top:
+        1px solid
+        rgba(120,190,220,.14);
+
+    }
+
+
+    .donation-title {
+
+      margin:
+        0 0 22px;
+
+      color: #dff7ff;
+
+      font-size:
+        clamp(
+          1.35rem,
+          3vw,
+          1.9rem
+        );
+
+      line-height: 1.2;
+
+    }
+
+
+    .author-meta {
+
+      padding:
+        20px 0;
+
+      color: #8fa8b4;
+
+      font-size: .88rem;
+
+      line-height: 1.9;
+
+    }
+
+
+    .author-name {
+
+      color: #d8f4fc;
+
+    }
+
+
+    .author-quote {
+
+      color: #71909d;
+
+      font-style: italic;
+
+    }
+
+
+    .meta-label {
+
+      color: #5d7c88;
+
+    }
+
+
+    .meta-link {
+
+      color: #61cfff;
+
+      text-decoration: none;
+
+      transition:
+        color .25s ease,
+        text-shadow .25s ease;
+
+    }
+
+
+    .meta-link:hover {
+
+      color: #a0eaff;
+
+      text-shadow:
+        0 0 12px
+        rgba(90,205,255,.35);
+
+    }
+
+
+    .framework-formulas {
+
+      margin:
+        22px 0 26px;
+
+      padding:
+        20px 22px;
+
+      border-left:
+        2px solid
+        rgba(95,202,255,.5);
+
+      background:
+        rgba(60,150,190,.035);
+
+      color: #9ee4f8;
+
+      font-family:
+        "Times New Roman",
+        Georgia,
+        serif;
+
+      font-size:
+        clamp(
+          1.05rem,
+          2.5vw,
+          1.35rem
+        );
+
+      line-height: 2;
+
+      letter-spacing: .025em;
+
+      box-shadow:
+        inset 15px 0 35px
+        rgba(50,170,220,.025);
+
+    }
+
+
+    .donation-description {
+
+      color: #8ea5b0;
+
+      font-size: .9rem;
+
+    }
+
+
+    /* =====================================================
+       STRIPE BUTTON
+       ===================================================== */
+
+    .support-button {
+
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 24px;
+
+      margin-top: 25px;
+
+      padding:
+        16px 24px;
+
+      background:
+        #61cfff;
+
+      color:
+        #031018;
+
+      text-decoration:
+        none;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .01em;
+
+      box-shadow:
+
+        0 15px 40px
+        rgba(70,185,245,.14);
+
+      transition:
+
+        transform .25s ease,
+
+        background .25s ease,
+
+        box-shadow .25s ease;
+
+    }
+
+
+    .support-button:hover {
+
+      transform:
+        translateY(-3px);
+
+      background:
+        #a0eaff;
+
+      box-shadow:
+
+        0 18px 50px
+        rgba(70,190,255,.3);
+
+    }
+
+
+    .support-button .arrow {
+
+      font-size: 1.25rem;
+
+      transition:
+        transform .25s ease;
+
+    }
+
+
+    .support-button:hover
+    .arrow {
+
+      transform:
+        translateX(6px);
+
+    }
+
+
+    
+    /* =====================================================
+       PAYMENT INFO
+       ===================================================== */
+
+    .payment-line {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 9px;
+
+      margin-top: 20px;
+
+      color: #718793;
+
+      font-size: .78rem;
+
+    }
+
+
+    .payment-dot {
+
+      width: 6px;
+
+      height: 6px;
+
+      border-radius: 50%;
+
+      background:
+        #5ed5ff;
+
+      box-shadow:
+
+        0 0 10px
+        rgba(90,210,255,.9);
+
+    }
+
+
+    /* =====================================================
+       LEGAL NOTICE
+       ===================================================== */
+
+    .legal-notice {
+
+      margin-top: 32px;
+
+      padding:
+        20px 22px;
+
+      border:
+        1px solid
+        rgba(120,190,220,.09);
+
+      background:
+        rgba(0,0,0,.12);
+
+      color:
+        #687f8b;
+
+      font-size:
+        .76rem;
+
+      line-height:
+        1.75;
+
+    }
+
+
+    .legal-notice strong {
+
+      color:
+        #8ca7b2;
+
+      letter-spacing:
+        .08em;
+
+    }
+
+
+    .legal-notice p {
+
+      margin:
+        10px 0 0;
+
+      color:
+        #687f8b;
+
+    }
+
+
+    .system-signature {
+
+      margin-top:
+        24px;
+
+      color:
+        #526c78;
+
+      font-size:
+        .75rem;
+
+      letter-spacing:
+        .035em;
+
+    }
+
+
+    .system-signature strong {
+
+      color:
+        #7293a0;
+
+    }
+
+
+    /* =====================================================
+       PRINCIPLES
+       ===================================================== */
+
+    .principles {
+
+      margin-top: 65px;
+
+      border-top:
+        1px solid
+        rgba(120,190,220,.15);
+
+    }
+
+
+    .principle {
+
+      display: grid;
+
+      grid-template-columns:
+        60px 1fr;
+
+      gap: 20px;
+
+      padding:
+        28px 0;
+
+      border-bottom:
+        1px solid
+        rgba(120,190,220,.15);
+
+      transition:
+        padding-left .3s ease;
+
+    }
+
+
+    .principle:hover {
+
+      padding-left: 10px;
+
+    }
+
+
+    .number {
+
+      color:
+        #58caff;
+
+      font-family:
+        monospace;
+
+      font-size: .75rem;
+
+    }
+
+
+    .principle h3 {
+
+      margin:
+        0 0 5px;
+
+      font-size:
+        1.05rem;
+
+    }
+
+
+    .principle p {
+
+      max-width:
+        700px;
+
+      margin: 0;
+
+      color:
+        #8197a3;
+
+      font-size:
+        .92rem;
+
+    }
+
+
+    /* =====================================================
+       FOOTER
+       ===================================================== */
+
+    .support-footer {
+
+      margin-top: 60px;
+
+      color:
+        #526874;
+
+      font-size:
+        .78rem;
+
+      letter-spacing:
+        .04em;
+
+    }
+
+
+    /* =====================================================
+       MOBILE
+       ===================================================== */
+
+    @media (max-width: 600px) {
+
+      .support-container {
+
+        padding-top:
+          65px;
+
+      }
+
+
+      .support-card {
+
+        padding:
+          30px 22px;
+
+      }
+
+
+      .principle {
+
+        grid-template-columns:
+          40px 1fr;
+
+      }
+
+
+      .framework-formulas {
+
+        padding:
+          16px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <div class="support-page">
+
+    <main class="support-container">
+
+
+      <div class="support-kicker">
+        AUF2026 · INDEPENDENT RESEARCH
+      </div>
+
+
+      <h1>
+        Support the Research
+      </h1>
+
+
+      <p class="support-lead">
+
+        AUF2026 is freely accessible and developed as an
+        independent mathematical research, formalization
+        and archival project.
+
+      </p>
+
+
+      <section class="support-card">
+
+
+        <div class="card-label">
+          RESEARCH SUPPORT
+        </div>
+
+
+        <h2>
+          Help keep the research public.
+        </h2>
+
+
+        <p>
+
+          The archive, mathematical statements, formal proofs,
+          computational experiments, datasets and documentation
+          are made available openly.
+
+        </p>
+
+
+        <p>
+
+          I am currently developing and maintaining the project
+          independently. Voluntary financial support helps provide
+          the time and infrastructure required to maintain,
+          formalize and expand the research.
+
+        </p>
+
+
+        <p>
+
+          There is no paywall and no requirement to contribute.
+          The research remains freely accessible regardless of
+          whether you support it.
+
+        </p>
+
+
+        <!-- =================================================
+             AUTONOMOUS U_F FRAMEWORK BLOCK
+             ================================================= -->
+
+        <section
+          id="faure-framework-donation-block"
+          class="donation-container"
+        >
+
+          <h2 class="donation-title">
+            Support the U_F Structural Framework
+          </h2>
+
+
+          <div class="author-meta">
+
+            <strong class="author-name">
+              Alain Faure — Master Architect - Q.E.D.
+            </strong>
+
+            <br>
+
+            <span class="author-quote">
+              “First the data speak. Then, through the data, Alain Faure speaks.”
+            </span>
+
+            <br><br>
+
+            <span class="meta-label">
+              ORCID:
+            </span>
+
+            <a
+              href="https://orcid.org/0009-0009-5333-1181"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="meta-link"
+            >
+              0009-0009-5333-1181
+            </a>
+
+            <br>
+
+            <span class="meta-label">
+              GitHub:
+            </span>
+
+            <a
+              href="https://github.com/AUF2026"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="meta-link"
+            >
+              AUF2026
+            </a>
+
+            <br>
+
+            <span class="meta-label">
+              LinkedIn:
+            </span>
+
+            <a
+              href="https://www.linkedin.com/in/alain-faure-ge/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="meta-link"
+            >
+              alain-faure-ge
+            </a>
+
+          </div>
+
+
+          <div class="framework-formulas">
+
+            <div>
+              𝓕(A, A′, S, S′, R, R′, T, φ)
+            </div>
+
+            <div>
+              U<sub>F</sub>(M, G, A, Ψ, Λ, Π)
+            </div>
+
+          </div>
+
+
+          <p class="donation-description">
+
+            Financial contributions made through this channel are
+            intended exclusively to support independent research,
+            data reproducibility and formal validation in Lean 4
+            Core carried out within the AUF2026 research project.
+
+          </p>
+
+
+          <p class="donation-description">
+
+            Contributions are voluntary. They do not purchase
+            access to the research archive and do not confer
+            ownership of the mathematical framework, source code,
+            proofs or associated intellectual property.
+
+          </p>
+
+
+          <!-- =================================================
+               STRIPE PAYMENT LINK
+               ================================================= -->
+
+          <script async
+  src="https://js.stripe.com/v3/buy-button.js">
+</script>
+
+<stripe-buy-button
+  buy-button-id="buy_btn_1UHU1vBkPXKw3Sx9dCHjlvQW"
+  publishable-key="pk_live_51UHRz9BkPXKw3Sx9YAfBJo2h9Uwcek14QWdoljUXC5FOTUn70yGTwCbuJfa75NL0wajCjiSQAY1AD7Dm3oT6YlQi00YzUZ5jNo"
+>
+</stripe-buy-button>
+
+          
+          <!-- =================================================
+               LEGAL NOTICE
+               ================================================= -->
+
+          <div class="legal-notice">
+
+            <strong>
+              LEGAL INFORMATION
+            </strong>
+
+            <p>
+
+              Contributions made through this channel are
+              voluntary payments intended to support the
+              independent AUF2026 research project.
+
+            </p>
+
+            <p>
+
+              A contribution does not by itself confer any
+              intellectual property right, ownership interest,
+              commercial licence, technical assistance,
+              consultancy or other contractual counter-performance.
+
+            </p>
+
+            <p>
+
+              The legal and tax treatment of any contribution
+              depends on the applicable law and the circumstances
+              of the individual transaction. This information
+              does not constitute legal or tax advice.
+
+            </p>
+
+          </div>
+
+
+          <div class="system-signature">
+
+            <em>
+              Research infrastructure:
+            </em>
+
+            <strong>
+              AUF2026 · Mathematical &amp; Formal Research Archive
+            </strong>
+
+          </div>
+
+        </section>
+
+
+      </section>
+
+
+      <section class="principles">
+
+
+        <div class="principle">
+
+          <div class="number">
+            01
+          </div>
+
+          <div>
+
+            <h3>
+              Free access
+            </h3>
+
+            <p>
+
+              The research archive remains publicly accessible
+              whether or not a visitor contributes.
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="principle">
+
+          <div class="number">
+            02
+          </div>
+
+          <div>
+
+            <h3>
+              Independent research
+            </h3>
+
+            <p>
+
+              Financial support does not determine theorem status,
+              proof validity, bibliographic attribution or research
+              conclusions.
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="principle">
+
+          <div class="number">
+            03
+          </div>
+
+          <div>
+
+            <h3>
+              Direct support
+            </h3>
+
+            <p>
+
+              Contributions are voluntary and help support the
+              continued development and maintenance of AUF2026.
+
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </section>
+
+
+      <div class="support-footer">
+
+        AUF2026 · Independent Mathematical Research Archive
+
+      </div>
+
+
+    </main>
+
+  </div>
+
+</body>
+
+</html>
