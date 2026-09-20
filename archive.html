@@ -2541,6 +2541,102 @@
 
 
   /* =========================================================
+     AUTOMATIC FRAMEWORK BACK BUTTON
+     ========================================================= */
+
+  function ensureFrameworkBackButton() {
+
+    if (
+      document.getElementById(
+        "framework-back-button"
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.id =
+      "framework-back-button";
+
+
+    button.type =
+      "button";
+
+
+    button.textContent =
+      "Back to Framework AUF2026";
+
+
+    button.setAttribute(
+      "aria-label",
+      "Back to Framework AUF2026"
+    );
+
+
+    button.style.position =
+      "fixed";
+
+
+    button.style.top =
+      "1rem";
+
+
+    button.style.right =
+      "1rem";
+
+
+    button.style.zIndex =
+      "99999";
+
+
+    button.style.cursor =
+      "pointer";
+
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        window.location.href =
+          "index.html#top";
+
+      }
+    );
+
+
+    document.body.appendChild(
+      button
+    );
+
+  }
+
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      ensureFrameworkBackButton
+    );
+
+  } else {
+
+    ensureFrameworkBackButton();
+
+  }
+
+
+  /* =========================================================
      MARKDOWN LINK NORMALIZATION
      ========================================================= */
 
@@ -2684,6 +2780,7 @@
 
   }
 
+</script>
 
   /* =========================================================
      TABLE WRAPPER
