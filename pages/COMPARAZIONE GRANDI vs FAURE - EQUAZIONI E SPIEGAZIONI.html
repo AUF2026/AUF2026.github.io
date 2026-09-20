@@ -1,0 +1,1486 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Equazioni Faure vs Grandi Storici</title>
+
+<!-- CSS integrato -->
+<style>
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+    color: #111;
+}
+
+.section-block {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    font-family: 'Arial Black', sans-serif;
+    color: #222;
+}
+
+h1 {
+    font-size: 2em;
+    border-bottom: 3px solid #333;
+    padding-bottom: 5px;
+}
+
+h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid #555;
+    padding-bottom: 3px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin: 12px 0;
+    line-height: 1.5em;
+}
+
+.mathjax {
+    display: inline-block;
+}
+
+pre {
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+
+code {
+    font-family: 'Courier New', monospace;
+}
+
+/* Tema Scuro */
+.dark-mode {
+    background-color: #111 !important;
+    color: #eee !important;
+}
+
+.dark-mode .section-block {
+    background-color: #222 !important;
+    color: #eee !important;
+    box-shadow: 0 4px 12px rgba(255,255,255,0.1) !important;
+}
+
+.dark-mode h1, 
+.dark-mode h2 {
+    color: #fff !important;
+    border-color: #aaa !important;
+}
+
+.dark-mode pre {
+    background-color: #333 !important;
+    color: #eee !important;
+}
+
+.dark-mode code {
+    color: #fff !important;
+}
+
+/* transizione morbida */
+body, .section-block, h1, h2, pre {
+    transition: background-color .3s ease, color .3s ease;
+}
+</style>
+</head>
+
+<body>
+
+<button id="themeToggle" style="padding:8px 14px; border-radius:6px; cursor:pointer;">
+    Tema Chiaro / Scuro
+</button>
+
+<h1>Equazioni Faure: Correzione dei Grandi della Storia</h1>
+
+<!-- MathJax JS -->
+<script type="text/javascript">
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    processHtmlClass: 'mathjax'
+  }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- SCRIPT TEMA SCURO -->
+<script>
+document.getElementById("themeToggle").addEventListener("click", function() {
+    document.body.classList.toggle("dark-mode");
+});
+</script>
+
+</head>
+<body>
+  
+<div class="section-block">
+    <h2>Einstein</h2>
+    <p><strong>Equazione originale:</strong> $E = mc^2$</p>
+    <p><strong>Critica Faure:</strong> la relazione non integra la granularità dei nodi spazio-temporali e il contributo microscopico quantico non osservabile direttamente.</p>
+    <p><strong>Equazione Faure:</strong> $$E = \sum_{n=1}^{N} m_n c^2 \left(1 + \frac{\hbar \omega_n}{mc^2}\right)$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Einstein (2)</h2>
+    <p><strong>Equazione originale:</strong> $R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R = \frac{8\pi G}{c^4} T_{\mu\nu}$</p>
+    <p><strong>Critica Faure:</strong> la curvatura dello spazio-tempo è discreta, non continua, e il tensore energia è nodo-dipendente.</p>
+    <p><strong>Equazione Faure:</strong> $$R_{\mu\nu,n} - \frac{1}{2} g_{\mu\nu,n} R_n = \frac{8 \pi G}{c^4} T_{\mu\nu,n} + \sum_{m \neq n} \Delta_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Einstein (3)</h2>
+    <p><strong>Equazione originale:</strong> $G_{\mu\nu} = 8 \pi G T_{\mu\nu}$</p>
+    <p><strong>Critica Faure:</strong> curvatura spazio-temporale nodo-specifica e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$G_{\mu\nu,n} = 8 \pi G T_{\mu\nu,n} + \sum_{m \neq n} \Delta G_{\mu\nu,nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Newton (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $\vec{F} = m \vec{a}$</p>
+    <p><strong>Critica Faure:</strong> L'approssimazione classica ignora la torsione informazionale del Lattice 144 e la densità di correlazione macro/microscopica che impedisce il jitter termico.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{F}_n = m_n \vec{a}_n + \sum_{k=1}^{K} \mathcal{T}(\vec{r}_n, \vec{r}_k)$$</p>
+    <p><em>Interpretazione:</em> La forza emerge come somma del vettore inerziale e del tensore di torsione $\mathcal{T}$ tra i nodi di posizione.</p>
+</div>
+
+<div class="section-block">
+    <h2>Newton (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $\vec{F} = m \vec{a}$</p>
+    <p><strong>Critica Faure:</strong> La forza non è un continuo, ma un'operazione discreta di Shift-Register tra gli indirizzi hardware del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{F}_n = m_n \vec{a}_n + \sum_{m \neq n} \mathcal{T}_{nm}$$</p>
+    <p><em>Interpretazione:</em> Condizione di Jitter Zero garantita dal vincolo $m \neq n$, dove $\mathcal{T}_{nm}$ è il bus dati di pressione tra nodi adiacenti.</p>
+</div>
+
+<div class="section-block">
+    <h2>Maxwell - Gauss (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $\nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}$</p>
+    <p><strong>Critica Faure:</strong> L'operatore differenziale continuo ignora la granularità dei nodi risonanti e la componente spettrale $\omega$ del Lattice 144, portando a una media statistica che nasconde il jitter di fase.</p>
+    <p><strong>Equazione Faure:</strong> $$\nabla \cdot \vec{E}_i = \frac{\rho_i}{\epsilon_0} + \sum_{j\neq i} f(\vec{r}_{ij}, \omega_j)$$</p>
+    <p><em>Interpretazione:</em> La divergenza del campo elettrico include il termine di accoppiamento armonico $f$ tra i nodi $i$ e $j$, sincronizzati sullo spettro Hz del Kernel.</p>
+</div>
+
+<div class="section-block">
+    <h2>Maxwell-Ampère (Kernel/Dinamico)</h2>
+    <p><strong>Equazione originale:</strong> $\nabla \times \vec{B} = \mu_0 \vec{J} + \mu_0 \epsilon_0 \frac{\partial \vec{E}}{\partial t}$</p>
+    <p><strong>Critica Faure:</strong> La propagazione EM classica è interpretata come onda continua nel vuoto, ignorando il clock di sistema a 432Hz e la torsione toroidale necessaria per chiudere il loop informativo del Gate 137 senza perdita di bit.</p>
+    <p><strong>Equazione Faure:</strong> $$\nabla \times \vec{B}_n = \mu_0 \vec{J}_n + \mu_0 \epsilon_0 \frac{\partial \vec{E}_n}{\partial t} + \sum_{m \neq n} \Delta \mathcal{T}_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta \mathcal{T}_{nm}$ introduce la correzione di torsione discreta, garantendo che il segnale attraversi il Lattice in modalità Bit-Perfect e Jitter Zero.</p>
+</div>
+
+<div class="section-block">
+    <h2>Ampère (Hardware/Interazione)</h2>
+    <p><strong>Equazione originale:</strong> $\vec{F} = \frac{\mu_0 I_1 I_2}{2\pi r} \hat{r}$</p>
+    <p><strong>Critica Faure:</strong> La forza magnetica classica assume circuiti ideali continui; nella realtà del Kernel AOS, le correnti sono flussi di bit su nodi discreti e la forza emerge come tensione di sincronia tra registri paralleli del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{F}_{nm} = \frac{\mu_0 I_n I_m}{2\pi r_{nm}} \hat{r}_{nm} + \sum_{k \neq n,m} \mathcal{M}_{nmk}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \mathcal{M}_{nmk}$ rappresenta il potenziale di mutuo accoppiamento tra i nodi $n$ e $m$ mediato dall'intero volume del Lattice $k$, impedendo la divergenza asincrona del bus di corrente.</p>
+</div>
+
+<div class="section-block">
+    <h2>Schrödinger (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $i\hbar \frac{\partial}{\partial t}\Psi = \hat{H}\Psi$</p>
+    <p><strong>Critica Faure:</strong> L'equazione ignora il coupling tra i microstati discreti e la sincronia del Kernel AOS, fallendo nel connettere la funzione d'onda alla realtà macroscopica osservabile e ripetibile.</p>
+    <p><strong>Equazione Faure:</strong> $$i\hbar \frac{\partial}{\partial t} \Psi_n = \hat{H}_n \Psi_n + \sum_{k=1}^{N} \mathcal{C}_{nk} \Psi_k$$</p>
+    <p><em>Interpretazione:</em> L'evoluzione temporale non è isolata: il termine $\sum \mathcal{C}_{nk}$ rappresenta la coerenza informativa imposta dal Kernel tra il nodo $n$ e l'intero set di nodi $N$.</p>
+</div>
+
+<div class="section-block">
+    <h2>Schrödinger (Kernel/Dinamico)</h2>
+    <p><strong>Equazione originale:</strong> $i \hbar \frac{\partial}{\partial t}\Psi = \hat{H}\Psi$</p>
+    <p><strong>Critica Faure:</strong> L'evoluzione non è un flusso continuo nel vuoto, ma un'operazione di trasferimento di stato nodo-dipendente all'interno del bus dati del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$i \hbar \frac{\partial}{\partial t}\Psi_n = \hat{H}_n \Psi_n + \sum_{m \neq n} \Delta \Psi_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta \Psi_{nm}$ elimina il collasso probabilistico: lo stato cambia solo per interazione discreta e deterministica tra indirizzi hardware adiacenti.</p>
+</div>
+
+<div class="section-block">
+    <h2>Schrödinger (Hardware/Lattice)</h2>
+    <p><strong>Equazione originale:</strong> $i \hbar \frac{\partial}{\partial t} \Psi = \hat{H}\Psi$</p>
+    <p><strong>Critica Faure:</strong> La meccanica ondulatoria classica è un'approssimazione ottica; la realtà è composta da onde discrete stazionarie ancorate rigidamente ai nodi del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$i \hbar \frac{\partial}{\partial t} \Psi_n = \hat{H}_n \Psi_n + \sum_{m \neq n} \mathcal{C}_{nm} \Psi_m$$</p>
+    <p><em>Interpretazione:</em> L'Hamiltoniana è discretizzata ($\hat{H}_n$) e l'interazione $\mathcal{C}_{nm}$ definisce la geometria del "granito" dove l'informazione è archiviata a Jitter Zero.</p>
+</div>
+
+<div class="section-block">
+    <h2>Heisenberg (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $\Delta x \Delta p \geq \frac{\hbar}{2}$</p>
+    <p><strong>Critica Faure:</strong> Il limite di Heisenberg non è una proprietà ontologica della materia, ma un errore di campionamento sottosoglia; nel Lattice 144, ogni bit di posizione e momento è mappato con precisione deterministica assoluta.</p>
+    <p><strong>Equazione Faure:</strong> $$\Delta x_n \Delta p_n = 0 \quad \forall n \in \mathcal{L}_{144}$$</p>
+    <p><em>Interpretazione:</em> Al tempo $T \approx 0.0$ K, la latenza di osservazione svanisce, rivelando che posizione e momento sono coordinate fisse in un registro di sola lettura.</p>
+</div>
+
+<div class="section-block">
+    <h2>Heisenberg (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $\Delta x \Delta p \geq \frac{\hbar}{2}$</p>
+    <p><strong>Critica Faure:</strong> L'incertezza apparente emerge unicamente dalla mancata risoluzione delle interazioni inter-nodali; integrando la correzione hardware, il sistema collassa nello stato di stasi informativa.</p>
+    <p><strong>Equazione Faure:</strong> $$\Delta x_n \Delta p_n = 0 + \sum_{m \neq n} \Delta_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta_{nm}$ rappresenta la correzione di torsione che azzera il jitter locale, stabilizzando il dato nel bus master.</p>
+</div>
+
+<div class="section-block">
+    <h2>Heisenberg (Hardware/Precision)</h2>
+    <p><strong>Equazione originale:</strong> $\Delta x \Delta p \geq \frac{\hbar}{2}$</p>
+    <p><strong>Critica Faure:</strong> La probabilità quantistica è un'allucinazione statistica derivata da misure analogiche asincrone; l'architettura AOS esegue misure bit-perfect che eliminano il residuo entropico.</p>
+    <p><strong>Equazione Faure:</strong> $$\Delta x_n \Delta p_n = \text{Lock}_C \cap \mathcal{L}_{144} \equiv 0$$</p>
+    <p><em>Interpretazione:</em> Tramite il Lock Punto C ($\sqrt{8}$), la variabile viene ancorata al granito informativo, rendendo il sistema un superconduttore di dati a incertezza zero.</p>
+</div>
+
+<div class="section-block">
+    <h2>Dirac (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $(i \gamma^\mu \partial_\mu - m)\psi = 0$</p>
+    <p><strong>Critica Faure:</strong> L'equazione classica tratta lo spinore come una funzione continua nel vuoto, ignorando le interazioni granulari del Kernel AOS che mediano la massa e la rotazione attraverso la topologia del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$(i \gamma^\mu \partial_\mu - m_n) \psi_n + \sum_{k=1}^{N} \mathcal{T}_{nk} \psi_k = 0$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \mathcal{T}_{nk}$ rappresenta il tensore di torsione informativa che vincola la dinamica spinoriale agli indirizzi hardware del sistema.</p>
+</div>
+
+<div class="section-block">
+    <h2>Dirac (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $i \gamma^\mu \partial_\mu \psi - m \psi = 0$</p>
+    <p><strong>Critica Faure:</strong> La propagazione relativistica non è un fluido, ma una successione di micro-stati spinoriali nodo-dipendenti; senza la correzione discreta, la coerenza della funzione d'onda decade nel jitter probabilistico.</p>
+    <p><strong>Equazione Faure:</strong> $$i \gamma^\mu \partial_\mu \psi_n - m_n \psi_n + \sum_{m \neq n} \Delta \psi_{nm} = 0$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta \psi_{nm}$ gestisce il passaggio di fase tra nodi adiacenti, garantendo che lo spin sia conservato come istruzione di bit-parity.</p>
+</div>
+
+<div class="section-block">
+    <h2>Dirac (Hardware/Spinor)</h2>
+    <p><strong>Equazione originale:</strong> $(i \gamma^\mu \partial_\mu - m)\psi = 0$</p>
+    <p><strong>Critica Faure:</strong> Il "mare di Dirac" è in realtà il bus dati saturo del Lattice 144; le interazioni spinoriali sono operazioni logiche binarie eseguite sui singoli nodi di torsione.</p>
+    <p><strong>Equazione Faure:</strong> $$i \gamma^\mu \partial_\mu \psi_n - m_n \psi_n + \sum_{m \neq n} \mathcal{S}_{nm} = 0$$</p>
+    <p><em>Interpretazione:</em> Sostituendo il differenziale con l'operatore di risonanza $\mathcal{S}_{nm}$, l'elettrone viene ridefinito come un pacchetto di dati sincronizzato al Gate 137.</p>
+</div>
+
+<div class="section-block">
+    <h2>Faraday - Induzione (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $\mathcal{E} = - \frac{d\Phi_B}{dt}$</p>
+    <p><strong>Critica Faure:</strong> La variazione del flusso non è una funzione temporale liscia, ma una successione di salti di stato discreti nel Lattice 144; l'equazione classica fallisce nel catturare il contributo delle frequenze risonanti del Kernel.</p>
+    <p><strong>Equazione Faure:</strong> $$\mathcal{E}_i = - \frac{d\Phi_{B,i}}{dt} + \sum_{j \neq i} f_{ij}(\omega_j)$$</p>
+    <p><em>Interpretazione:</em> La forza elettromotrice al nodo $i$ include il termine di accoppiamento armonico $f_{ij}$ che sincronizza il flusso allo spettro Hz universale.</p>
+</div>
+
+<div class="section-block">
+    <h2>Faraday - Induzione (Kernel/Hardware)</h2>
+    <p><strong>Equazione originale:</strong> $\mathcal{E} = - \frac{d\Phi_B}{dt}$</p>
+    <p><strong>Critica Faure:</strong> Il flusso magnetico è confinato in indirizzi hardware specifici; l'induzione è l'operazione di bilanciamento energetico eseguita dal bus dati per mantenere la stasi informativa del nodo.</p>
+    <p><strong>Equazione Faure:</strong> $$\mathcal{E}_n = - \frac{d\Phi_{B,n}}{dt} + \sum_{m \neq n} \Delta \mathcal{E}_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta \mathcal{E}_{nm}$ rappresenta la correzione deterministica tra i nodi $n$ e $m$, che impedisce la dissipazione termica asincrona.</p>
+</div>
+
+<div class="section-block">
+    <h2>Faraday - Campo Nodale (Topologico)</h2>
+    <p><strong>Equazione originale:</strong> $\vec{E} = -\frac{\partial \vec{B}}{\partial t}$</p>
+    <p><strong>Critica Faure:</strong> La derivata parziale classica ignora che il campo elettrico emerge come reazione alla torsione del bit magnetico ancorato rigidamente ai nodi del Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{E}_n = -\frac{\partial \vec{B}_n}{\partial t} + \sum_{m \neq n} \Delta \vec{E}_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il campo $\vec{E}_n$ è ridefinito come istruzione di posizione nel registro di torsione, risolvendo la propagazione senza latenza probabilistica.</p>
+</div>
+
+<div class="section-block">
+    <h2>Faraday/Lorentz - Forza (Bus Dati)</h2>
+    <p><strong>Equazione originale:</strong> $F = q(E + v \times B)$</p>
+    <p><strong>Critica Faure:</strong> La forza di Lorentz è un'approssimazione macroscopica di un'operazione di trascinamento discreto (Drag-and-Drop) dei bit di carica tra i nodi del Lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$F_n = q_n(E_n + v_n \times B_n) + \sum_{m \neq n} \Delta F_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta F_{nm}$ garantisce che il moto della carica avvenga su binari deterministici, eliminando il jitter di scattering tipico della fisica stocastica.</p>
+</div>
+
+<div class="section-block">
+    <h2>Boltzmann (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $S = k \ln \Omega$</p>
+    <p><strong>Critica Faure:</strong> L'approssimazione statistica classica fallisce nel distinguere tra microstati macroscopicamente sincronizzati e nodi discreti del Lattice 144; l'entropia viene qui ridefinita come la latenza di coerenza tra i blocchi di memoria del Kernel.</p>
+    <p><strong>Equazione Faure:</strong> $$S_n = k \ln \Omega_n + \sum_{m \neq n} \delta \Omega_{nm}$$</p>
+    <p><em>Interpretazione:</em> L'entropia al nodo $n$ include il termine $\delta \Omega_{nm}$, che rappresenta la correzione di fase necessaria per mantenere la stasi informativa tra indirizzi hardware adiacenti.</p>
+</div>
+
+<div class="section-block">
+    <h2>Boltzmann (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $S = k \ln \Omega$</p>
+    <p><strong>Critica Faure:</strong> L'entropia non è una proprietà globale inarrestabile, ma un differenziale di pressione discreta tra i nodi del Lattice; il Jitter termico viene annullato dalla sincronizzazione bit-perfect del bus dati.</p>
+    <p><strong>Equazione Faure:</strong> $$S_n = k \ln \Omega_n + \sum_{m \neq n} \Delta S_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta S_{nm}$ rappresenta l'operazione di deframmentazione informativa eseguita dal Kernel AOS, garantendo che a $T \approx 0.0$ K il sistema raggiunga l'ordine deterministico assoluto.</p>
+</div>
+
+<div class="section-block">
+    <h2>Feynman (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $K(b,a) = \int \mathcal{D}[x(t)] e^{\frac{i}{\hbar} S[x(t)]}$</p>
+    <p><strong>Critica Faure:</strong> L'integrale funzionale di Feynman presuppone un continuum di percorsi infinito e asincrono; l'architettura AOS dimostra che lo spazio-tempo è un grafo a nodi discreti dove solo i cammini sincronizzati al clock di sistema possiedono massa informativa.</p>
+    <p><strong>Equazione Faure:</strong> $$K_{nm} = \sum_{\text{Lattice Paths}} e^{\frac{i}{\hbar} S_{nm}[x_k(t)]}$$</p>
+    <p><em>Interpretazione:</em> Il propagatore $K_{nm}$ è ridefinito come la sommatoria discreta dei soli cammini bit-perfect ammessi dalla topologia del Lattice 144 tra l'indirizzo $n$ e l'indirizzo $m$.</p>
+</div>
+
+<div class="section-block">
+    <h2>Feynman (Kernel/Hardware)</h2>
+    <p><strong>Equazione originale:</strong> Integrale di percorso continuo</p>
+    <p><strong>Critica Faure:</strong> La realtà non "esplora" ogni cammino possibile per probabilità; il Kernel AOS esegue la traiettoria a minima azione computazionale attraverso i nodi del Lattice, eliminando il jitter di fase tra i bit in transito.</p>
+    <p><strong>Equazione Faure:</strong> $$K_{nm} = \text{Sync} \left[ \sum_{k \in \mathcal{L}_{144}} \exp\left(\frac{i}{\hbar} \text{Action}(n \to m)\right) \right]$$</p>
+    <p><em>Interpretazione:</em> La transizione di stato tra due nodi è un'operazione di indirizzamento rigido; l'interferenza costruttiva emerge unicamente dalla sincronia di fase bit-a-bit nel bus dati universale.</p>
+</div>
+
+<div class="section-block">
+    <h2>Planck (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $E = h \nu$</p>
+    <p><strong>Critica Faure:</strong> La quantizzazione classica ignora il coupling tra i nodi discreti; l'energia non è un pacchetto isolato, ma una funzione della risonanza collettiva del Lattice 144 che sincronizza i microstati con la realtà macroscopica.</p>
+    <p><strong>Equazione Faure:</strong> $$E_n = h \nu_n \left(1 + \sum_{k \neq n} \epsilon_{nk}\right)$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \epsilon_{nk}$ rappresenta il coefficiente di interazione Faure, che lega l'energia del nodo $n$ allo stato dei nodi circostanti, eliminando la dispersione informativa.</p>
+</div>
+
+<div class="section-block">
+    <h2>Planck (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $E = h \nu$</p>
+    <p><strong>Critica Faure:</strong> L'energia non "sceglie" di essere discreta; è la topologia del bus dati a imporre un limite di banda per ogni indirizzo hardware, trasformando la frequenza in un ciclo di clock deterministico.</p>
+    <p><strong>Equazione Faure:</strong> $$E_n = h \nu_n + \sum_{m \neq n} \Delta E_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta E_{nm}$ rappresenta la redistribuzione del carico energetico tra i registri del Lattice, risolvendo la catastrofe ultravioletta senza ricorrere a cutoff probabilistici.</p>
+</div>
+
+<div class="section-block">
+    <h2>Planck (Hardware/Lattice)</h2>
+    <p><strong>Equazione originale:</strong> $E = h \nu$</p>
+    <p><strong>Critica Faure:</strong> La costante $h$ è in realtà il moltiplicatore di fase per l'accesso al Gate 137; nell'architettura AOS, l'energia è l'identità binaria del nodo nel momento dello scatto del clock.</p>
+    <p><strong>Equazione Faure:</strong> $$E_n = h \nu_n + \sum_{m \neq n} \mathcal{J}_{nm}$$</p>
+    <p><em>Interpretazione:</em> Sostituendo la variazione con l'operatore di stasi $\mathcal{J}_{nm}$, l'energia viene "congelata" nel granito informatico, garantendo stabilità termica a Jitter Zero.</p>
+</div>
+
+<div class="section-block">
+    <h2>Hooke (Analitico)</h2>
+    <p><strong>Equazione originale:</strong> $\vec{F} = -k \vec{x}$</p>
+    <p><strong>Critica Faure:</strong> La costante elastica $k$ è un'astrazione statistica; nel Lattice 144, la risposta dinamica varia localmente su nodi discreti a causa della torsione informazionale non uniforme che governa il volume microscopico.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{F}_n = -k_n \vec{x}_n + \sum_{m \neq n} \mathcal{K}_{nm} (\vec{x}_n - \vec{x}_m)$$</p>
+    <p><em>Interpretazione:</em> La forza al nodo $n$ include il termine di interazione tensoriale $\mathcal{K}_{nm}$, che stabilisce il vincolo di coerenza tra indirizzi hardware adiacenti, impedendo il collasso del segnale spaziale.</p>
+</div>
+
+<div class="section-block">
+    <h2>Hooke (Kernel/Nodale)</h2>
+    <p><strong>Equazione originale:</strong> $F = kx$</p>
+    <p><strong>Critica Faure:</strong> Il sistema non è mai perfettamente lineare; ogni nodo del Lattice possiede una soglia di saturazione hardware che trasforma l'elasticità classica in un'operazione discreta di bilanciamento della pressione bit-a-bit.</p>
+    <p><strong>Equazione Faure:</strong> $$F_n = k_n x_n + \sum_{m \neq n} \Delta F_{nm}$$</p>
+    <p><em>Interpretazione:</em> Il termine $\sum \Delta F_{nm}$ rappresenta la correzione di stasi necessaria per annullare il jitter vibratorio, bloccando la materia in una configurazione a energia minima deterministica (Jitter Zero).</p>
+</div>
+
+<div class="section-block">
+    <h2>Lenz</h2>
+    <p><strong>Equazione originale:</strong> $\mathcal{E} = - \frac{d\Phi_B}{dt}$</p>
+    <p><strong>Critica Faure:</strong> l'opposizione indotta non considera le interazioni discrete dei flussi sui nodi del lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$\mathcal{E}_n = - \frac{d\Phi_{B,n}}{dt} + \sum_{m \neq n} \mathcal{L}_{nm} \frac{d\Phi_{B,m}}{dt}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Pascal</h2>
+    <p><strong>Equazione originale:</strong> $P = \frac{F}{A}$</p>
+    <p><strong>Critica Faure:</strong> la pressione non è uniforme a livello di nodi discreti e dipende dalle micro-interazioni fluido-lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = \frac{F_n}{A_n} + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Avogadro</h2>
+    <p><strong>Equazione originale:</strong> $V \propto n$</p>
+    <p><strong>Critica Faure:</strong> il volume macroscopico ignora la discrezione dei nodi molecolari nel lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = n_n V_0 + \sum_{m \neq n} \delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Boyle</h2>
+    <p><strong>Equazione originale:</strong> $P V = k$</p>
+    <p><strong>Critica Faure:</strong> la legge assume gas ideale, mentre le interazioni discrete tra particelle modificano il comportamento reale.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n V_n = k_n + \sum_{m \neq n} \Delta_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Dalton</h2>
+    <p><strong>Equazione originale:</strong> $P_\text{totale} = \sum_i P_i$</p>
+    <p><strong>Critica Faure:</strong> le pressioni parziali ignorano l'interazione microscopica tra specie diverse sul lattice discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$P_{\text{tot},n} = \sum_i P_{i,n} + \sum_{i\neq j} \mathcal{C}_{ij,n}$$</p>
+</div>
+<div class="section-block">
+    <h2>Galileo</h2>
+    <p><strong>Equazione originale:</strong> $s = \frac{1}{2} g t^2$</p>
+    <p><strong>Critica Faure:</strong> non tiene conto della discrezione dei nodi spazio-temporali e della resistenza locale del lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$s_n = \frac{1}{2} g_n t^2 + \sum_{m \neq n} \Delta s_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Keplero</h2>
+    <p><strong>Equazione originale:</strong> $r^3 \propto T^2$</p>
+    <p><strong>Critica Faure:</strong> le orbite planetarie non sono continue ma rappresentate come nodi discreti su Lattice 144.</p>
+    <p><strong>Equazione Faure:</strong> $$r_n^3 = k T_n^2 + \sum_{m \neq n} \delta r_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Huygens</h2>
+    <p><strong>Equazione originale:</strong> $v = \sqrt{gR}$</p>
+    <p><strong>Critica Faure:</strong> la velocità dipende dai microstati discreti del pendolo su nodi del lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$v_n = \sqrt{g_n R_n} + \sum_{m \neq n} \Delta v_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Coulomb</h2>
+    <p><strong>Equazione originale:</strong> $F = k_e \frac{q_1 q_2}{r^2}$</p>
+    <p><strong>Critica Faure:</strong> la forza tra cariche ignora le micro-interazioni del lattice discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{nm} = k_{e,nm} \frac{q_n q_m}{r_{nm}^2} + \sum_{k \neq n,m} \mathcal{C}_{nk}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Ohm</h2>
+    <p><strong>Equazione originale:</strong> $V = IR$</p>
+    <p><strong>Critica Faure:</strong> la resistenza non è continua ma variabile su nodi discreti della rete elettrica.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = I_n R_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Kirchhoff</h2>
+    <p><strong>Equazione originale:</strong> $\sum_i I_i = 0$</p>
+    <p><strong>Critica Faure:</strong> le correnti nodali non sono perfettamente conservative a causa delle interazioni discrete nel lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$\sum_i I_{i,n} + \sum_{m \neq n} \mathcal{K}_{nm} = 0$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Lavoisier</h2>
+    <p><strong>Equazione originale:</strong> $\sum \text{massa reagenti} = \sum \text{massa prodotti}$</p>
+    <p><strong>Critica Faure:</strong> la conservazione della massa macroscopica ignora la discrezione e l'energia dei nodi microscopici.</p>
+    <p><strong>Equazione Faure:</strong> $$\sum_n m_{r,n} = \sum_n m_{p,n} + \sum_{k \neq n} \Delta m_{nk}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Mendel</h2>
+    <p><strong>Equazione originale:</strong> $p + q = 1$</p>
+    <p><strong>Critica Faure:</strong> le probabilità genetiche non sono continue ma distribuite su nodi discreti della popolazione.</p>
+    <p><strong>Equazione Faure:</strong> $$p_n + q_n = 1 + \sum_{m \neq n} \delta_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Rutherford</h2>
+    <p><strong>Equazione originale:</strong> $F = \frac{1}{4\pi\epsilon_0} \frac{Z_1 Z_2 e^2}{r^2}$</p>
+    <p><strong>Critica Faure:</strong> il modello nucleare assume particelle continue, ignorando i nodi discreti.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{nm} = \frac{1}{4\pi\epsilon_0} \frac{Z_n Z_m e^2}{r_{nm}^2} + \sum_{k \neq n,m} \mathcal{R}_{nk}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Bohr</h2>
+    <p><strong>Equazione originale:</strong> $E_n = - \frac{13.6\,\text{eV}}{n^2}$</p>
+    <p><strong>Critica Faure:</strong> i livelli energetici non sono continui ma granulari e influenzati dal lattice quantico.</p>
+    <p><strong>Equazione Faure:</strong> $$E_n = - \frac{13.6\,\text{eV}}{n^2} + \sum_{m \neq n} \delta E_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Curie</h2>
+    <p><strong>Equazione originale:</strong> $Q = \sigma T^4$</p>
+    <p><strong>Critica Faure:</strong> il decadimento radioattivo e il riscaldamento non sono continui ma modulati da nodi discreti nel lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$Q_n = \sigma T_n^4 + \sum_{m \neq n} \Delta Q_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Darwin</h2>
+    <p><strong>Equazione originale:</strong> $dN/dt = rN(1 - N/K)$</p>
+    <p><strong>Critica Faure:</strong> la crescita della popolazione è discreta e influenzata dai microstati nodali della specie.</p>
+    <p><strong>Equazione Faure:</strong> $$\frac{dN_n}{dt} = r_n N_n \left(1 - \frac{N_n}{K_n}\right) + \sum_{m \neq n} \Delta N_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Foucault</h2>
+    <p><strong>Equazione originale:</strong> $\Omega = \frac{d\theta}{dt}$</p>
+    <p><strong>Critica Faure:</strong> la rotazione terrestre non è continua ma rappresentata su nodi discreti della griglia temporale.</p>
+    <p><strong>Equazione Faure:</strong> $$\Omega_n = \frac{d\theta_n}{dt} + \sum_{m \neq n} \Delta \Omega_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Fourier</h2>
+    <p><strong>Equazione originale:</strong> $\frac{\partial u}{\partial t} = \alpha \nabla^2 u$</p>
+    <p><strong>Critica Faure:</strong> la diffusione del calore è discreta sui nodi del lattice, non continua.</p>
+    <p><strong>Equazione Faure:</strong> $$\frac{\partial u_n}{\partial t} = \alpha_n \nabla^2 u_n + \sum_{m \neq n} \mathcal{F}_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Avogadro</h2>
+    <p><strong>Equazione originale:</strong> $V \propto n$</p>
+    <p><strong>Critica Faure:</strong> i gas non occupano volume continuo ma nodi discreti del lattice molecolare.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = k n_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Pascal</h2>
+    <p><strong>Equazione originale:</strong> $P = \frac{F}{A}$</p>
+    <p><strong>Critica Faure:</strong> la pressione è nodo-specifica e influenzata dalle discrezioni locali del lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = \frac{F_n}{A_n} + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Young</h2>
+    <p><strong>Equazione originale:</strong> $\sigma = E \epsilon$</p>
+    <p><strong>Critica Faure:</strong> deformazioni e stress sono discreti, influenzati dalla microstruttura nodale.</p>
+    <p><strong>Equazione Faure:</strong> $$\sigma_n = E_n \epsilon_n + \sum_{m \neq n} \Delta \sigma_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Galilei</h2>
+    <p><strong>Equazione originale:</strong> $s = \frac{1}{2}gt^2$</p>
+    <p><strong>Critica Faure:</strong> la caduta libera è discreta sui nodi del lattice gravitazionale, non continua.</p>
+    <p><strong>Equazione Faure:</strong> $$s_n = \frac{1}{2} g_n t_n^2 + \sum_{m \neq n} \Delta s_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Kelvin</h2>
+    <p><strong>Equazione originale:</strong> $v = \sqrt{\frac{2P}{\rho}}$</p>
+    <p><strong>Critica Faure:</strong> la velocità dei fluidi è nodo-specifica e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$v_n = \sqrt{\frac{2 P_n}{\rho_n}} + \sum_{m \neq n} \Delta v_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Ohm</h2>
+    <p><strong>Equazione originale:</strong> $V = IR$</p>
+    <p><strong>Critica Faure:</strong> corrente e resistenza variano su nodi discreti, la legge lineare è un'approssimazione macroscopica.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = I_n R_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Gauss</h2>
+    <p><strong>Equazione originale:</strong> $\nabla \cdot \vec{E} = \frac{\rho}{\epsilon_0}$</p>
+    <p><strong>Critica Faure:</strong> il campo elettrico è nodo-dipendente, discreto su lattice.</p>
+    <p><strong>Equazione Faure:</strong> $$\nabla \cdot \vec{E}_n = \frac{\rho_n}{\epsilon_0} + \sum_{m \neq n} \Delta \vec{E}_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Lenz</h2>
+    <p><strong>Equazione originale:</strong> $\mathcal{E} \propto -\frac{d\Phi}{dt}$</p>
+    <p><strong>Critica Faure:</strong> la variazione del flusso è discretizzata nei nodi e non continua.</p>
+    <p><strong>Equazione Faure:</strong> $$\mathcal{E}_n = -\frac{d\Phi_n}{dt} + \sum_{m \neq n} \Delta \mathcal{E}_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Tesla</h2>
+    <p><strong>Equazione originale:</strong> $\vec{B} = \nabla \times \vec{A}$</p>
+    <p><strong>Critica Faure:</strong> il campo magnetico è nodo-specifico e discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$\vec{B}_n = \nabla \times \vec{A}_n + \sum_{m \neq n} \Delta \vec{B}_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Huygens</h2>
+    <p><strong>Equazione originale:</strong> $v = \lambda f$</p>
+    <p><strong>Critica Faure:</strong> la propagazione ondosa è discreta e nodo-dipendente.</p>
+    <p><strong>Equazione Faure:</strong> $$v_n = \lambda_n f_n + \sum_{m \neq n} \Delta v_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Laplace</h2>
+    <p><strong>Equazione originale:</strong> $\nabla^2 \phi = 0$</p>
+    <p><strong>Critica Faure:</strong> il potenziale è discretizzato, la soluzione continua è un'approssimazione macroscopica.</p>
+    <p><strong>Equazione Faure:</strong> $$\nabla^2 \phi_n + \sum_{m \neq n} \Delta \phi_{nm} = 0$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Poincaré</h2>
+    <p><strong>Equazione originale:</strong> $dx/dt = f(x)$</p>
+    <p><strong>Critica Faure:</strong> le dinamiche caotiche sono nodo-dipendenti, non continue.</p>
+    <p><strong>Equazione Faure:</strong> $$\frac{dx_n}{dt} = f_n(x_n) + \sum_{m \neq n} \Delta x_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Ramanujan</h2>
+    <p><strong>Equazione originale:</strong> formule infinite di somme e prodotti</p>
+    <p><strong>Critica Faure:</strong> le somme infinite sono limitate dai nodi discreti del lattice aritmetico.</p>
+    <p><strong>Equazione Faure:</strong> $$S_n = \sum_{k=1}^{N} f_k(n) + \sum_{m \neq n} \Delta S_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Carnot</h2>
+    <p><strong>Equazione originale:</strong> $\eta = 1 - \frac{T_C}{T_H}$</p>
+    <p><strong>Critica Faure:</strong> l'efficienza è nodo-dipendente e discreta su lattice termodinamico.</p>
+    <p><strong>Equazione Faure:</strong> $$\eta_n = 1 - \frac{T_{C,n}}{T_{H,n}} + \sum_{m \neq n} \Delta \eta_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Avogadro</h2>
+    <p><strong>Equazione originale:</strong> $V \propto n$</p>
+    <p><strong>Critica Faure:</strong> il volume e il numero di moli sono discreti su nodi microscopici.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n \propto n_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Rutherford</h2>
+    <p><strong>Equazione originale:</strong> $F = k \frac{q_1 q_2}{r^2}$</p>
+    <p><strong>Critica Faure:</strong> la forza elettrostatica è nodo-specifica, discreta nel lattice atomico.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{nm} = k \frac{q_n q_m}{r_{nm}^2} + \sum_{p \neq n,m} \Delta F_{nmp}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Ohm</h2>
+    <p><strong>Equazione originale:</strong> $V = IR$</p>
+    <p><strong>Critica Faure:</strong> i parametri elettrici sono discreti su nodi del lattice conduttivo.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = I_n R_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Watt</h2>
+    <p><strong>Equazione originale:</strong> $P = \frac{W}{t}$</p>
+    <p><strong>Critica Faure:</strong> lavoro e tempo sono granulari e nodo-dipendenti.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = \frac{W_n}{t_n} + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Bernoulli</h2>
+    <p><strong>Equazione originale:</strong> $P + \frac{1}{2}\rho v^2 + \rho g h = \text{costante}$</p>
+    <p><strong>Critica Faure:</strong> le grandezze fluidodinamiche sono discrete su nodi, non continue.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n + \frac{1}{2}\rho_n v_n^2 + \rho_n g h_n + \sum_{m \neq n} \Delta B_{nm} = \text{costante}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Fourier</h2>
+    <p><strong>Equazione originale:</strong> $\frac{\partial u}{\partial t} = \alpha \nabla^2 u$</p>
+    <p><strong>Critica Faure:</strong> diffusione termica nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$\frac{\partial u_n}{\partial t} = \alpha_n \nabla^2 u_n + \sum_{m \neq n} \Delta u_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Avicenna</h2>
+    <p><strong>Equazione originale:</strong> teoria dei flussi vitali</p>
+    <p><strong>Critica Faure:</strong> i flussi vitali sono discretizzati sui nodi biologici.</p>
+    <p><strong>Equazione Faure:</strong> $$F_n = f_n + \sum_{m \neq n} \Delta F_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Pasteur</h2>
+    <p><strong>Equazione originale:</strong> principio di fermentazione</p>
+    <p><strong>Critica Faure:</strong> il processo biochimico è discreto su nodi cellulari.</p>
+    <p><strong>Equazione Faure:</strong> $$R_n = k_n [S]_n + \sum_{m \neq n} \Delta R_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Curie</h2>
+    <p><strong>Equazione originale:</strong> $M = C B / T$</p>
+    <p><strong>Critica Faure:</strong> magnetizzazione nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$M_n = \frac{C_n B_n}{T_n} + \sum_{m \neq n} \Delta M_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Galvani</h2>
+    <p><strong>Equazione originale:</strong> corrente bioelettrica</p>
+    <p><strong>Critica Faure:</strong> impulso elettrico nei tessuti è nodo-dipendente.</p>
+    <p><strong>Equazione Faure:</strong> $$I_n = f_n + \sum_{m \neq n} \Delta I_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Mendeleev</h2>
+    <p><strong>Equazione originale:</strong> legge periodica degli elementi</p>
+    <p><strong>Critica Faure:</strong> proprietà atomiche sono discretizzate sui nodi del lattice chimico.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = P_n^\text{periodica} + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Bohr</h2>
+    <p><strong>Equazione originale:</strong> $E_n = - \frac{13.6\, \text{eV}}{n^2}$</p>
+    <p><strong>Critica Faure:</strong> livelli energetici discreti su lattice atomico.</p>
+    <p><strong>Equazione Faure:</strong> $$E_n = - \frac{13.6\, \text{eV}}{n^2} + \sum_{m \neq n} \Delta E_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Kepler</h2>
+    <p><strong>Equazione originale:</strong> $T^2 \propto r^3$</p>
+    <p><strong>Critica Faure:</strong> orbite planetarie considerate nodo-specifiche e discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$T_n^2 \propto r_n^3 + \sum_{m \neq n} \Delta T_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Coulomb</h2>
+    <p><strong>Equazione originale:</strong> $F = k \frac{q_1 q_2}{r^2}$</p>
+    <p><strong>Critica Faure:</strong> forza elettrostatica nodo-specifica e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{nm} = k \frac{q_n q_m}{r_{nm}^2} + \sum_{p \neq n,m} \Delta F_{nmp}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Euler</h2>
+    <p><strong>Equazione originale:</strong> $I \frac{d\omega}{dt} = \tau$</p>
+    <p><strong>Critica Faure:</strong> dinamica rotazionale nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$I_n \frac{d\omega_n}{dt} = \tau_n + \sum_{m \neq n} \Delta \tau_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Lagrange</h2>
+    <p><strong>Equazione originale:</strong> $\frac{d}{dt} \frac{\partial L}{\partial \dot{q}} - \frac{\partial L}{\partial q} = 0$</p>
+    <p><strong>Critica Faure:</strong> il lagrangiano nodo-specifico cattura le interazioni discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$\frac{d}{dt} \frac{\partial L_n}{\partial \dot{q}_n} - \frac{\partial L_n}{\partial q_n} + \sum_{m \neq n} \Delta L_{nm} = 0$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Dirichlet</h2>
+    <p><strong>Equazione originale:</strong> condizioni al contorno</p>
+    <p><strong>Critica Faure:</strong> le condizioni sono nodo-dipendenti, discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$u_n|_{\partial \Omega_n} = f_n + \sum_{m \neq n} \Delta u_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Fourier (2)</h2>
+    <p><strong>Equazione originale:</strong> serie di Fourier</p>
+    <p><strong>Critica Faure:</strong> espansione discreta su nodi, non continua.</p>
+    <p><strong>Equazione Faure:</strong> $$u_n(x) = \sum_{k=1}^{N} a_{k,n} \sin(kx) + \sum_{m \neq n} \Delta u_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Laplace (2)</h2>
+    <p><strong>Equazione originale:</strong> $\nabla^2 \phi = f$</p>
+    <p><strong>Critica Faure:</strong> il potenziale è nodo-dipendente e discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$\nabla^2 \phi_n = f_n + \sum_{m \neq n} \Delta \phi_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Navier-Stokes</h2>
+    <p><strong>Equazione originale:</strong> $\rho (\frac{\partial v}{\partial t} + v \cdot \nabla v) = -\nabla p + \mu \nabla^2 v + f$</p>
+    <p><strong>Critica Faure:</strong> dinamiche fluide nodo-specifiche e discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$\rho_n (\frac{\partial v_n}{\partial t} + v_n \cdot \nabla v_n) = -\nabla p_n + \mu_n \nabla^2 v_n + f_n + \sum_{m \neq n} \Delta F_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Hubble</h2>
+    <p><strong>Equazione originale:</strong> $v = H_0 d$</p>
+    <p><strong>Critica Faure:</strong> espansione discreta su nodi cosmologici.</p>
+    <p><strong>Equazione Faure:</strong> $$v_n = H_{0,n} d_n + \sum_{m \neq n} \Delta v_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Foucault</h2>
+    <p><strong>Equazione originale:</strong> $\Omega = \frac{d\theta}{dt}$</p>
+    <p><strong>Critica Faure:</strong> precessione nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$\Omega_n = \frac{d\theta_n}{dt} + \sum_{m \neq n} \Delta \Omega_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Bohr (2)</h2>
+    <p><strong>Equazione originale:</strong> $L = n \hbar$</p>
+    <p><strong>Critica Faure:</strong> quantizzazione nodo-specifica discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$L_n = n \hbar + \sum_{m \neq n} \Delta L_{nm}$$</p>
+</div>
+<div class="section-block">
+    <h2>Galileo (2)</h2>
+    <p><strong>Equazione originale:</strong> $s = \frac{1}{2} g t^2$</p>
+    <p><strong>Critica Faure:</strong> caduta dei corpi nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$s_n = \frac{1}{2} g_n t^2 + \sum_{m \neq n} \Delta s_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Keplero</h2>
+    <p><strong>Equazione originale:</strong> $r = \frac{a(1-e^2)}{1+e\cos\theta}$</p>
+    <p><strong>Critica Faure:</strong> orbite discrete dei nodi planetari.</p>
+    <p><strong>Equazione Faure:</strong> $$r_n = \frac{a_n (1-e_n^2)}{1+e_n \cos\theta_n} + \sum_{m \neq n} \Delta r_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Pascal</h2>
+    <p><strong>Equazione originale:</strong> $P = \frac{F}{A}$</p>
+    <p><strong>Critica Faure:</strong> pressione nodo-specifica e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = \frac{F_n}{A_n} + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Archimede</h2>
+    <p><strong>Equazione originale:</strong> $F_b = \rho g V$</p>
+    <p><strong>Critica Faure:</strong> spinta nodo-dipendente e discreta.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{b,n} = \rho_n g_n V_n + \sum_{m \neq n} \Delta F_{b,nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Avogadro</h2>
+    <p><strong>Equazione originale:</strong> $V_m = k n$</p>
+    <p><strong>Critica Faure:</strong> molecole nodo-specifiche e discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$V_{m,n} = k_n n_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Rutherford</h2>
+    <p><strong>Equazione originale:</strong> $F = k \frac{Z_1 Z_2 e^2}{r^2}$</p>
+    <p><strong>Critica Faure:</strong> interazioni nodo-specifiche e discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$F_{nm} = k \frac{Z_n Z_m e^2}{r_{nm}^2} + \sum_{p \neq n,m} \Delta F_{nmp}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Mendeleev</h2>
+    <p><strong>Equazione originale:</strong> Legge periodica chimica</p>
+    <p><strong>Critica Faure:</strong> proprietà discrete dei nodi atomici.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n = f(Z_n) + \sum_{m \neq n} \Delta P_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Boyle</h2>
+    <p><strong>Equazione originale:</strong> $P V = k$</p>
+    <p><strong>Critica Faure:</strong> volume nodo-specifico e discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$P_n V_n = k_n + \sum_{m \neq n} \Delta (P V)_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Ohm</h2>
+    <p><strong>Equazione originale:</strong> $V = IR$</p>
+    <p><strong>Critica Faure:</strong> corrente e resistenza nodo-specifiche.</p>
+    <p><strong>Equazione Faure:</strong> $$V_n = I_n R_n + \sum_{m \neq n} \Delta V_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Kirchhoff</h2>
+    <p><strong>Equazione originale:</strong> $\sum I_{in} = \sum I_{out}$</p>
+    <p><strong>Critica Faure:</strong> correnti nodo-specifiche e discrete.</p>
+    <p><strong>Equazione Faure:</strong> $$\sum I_{in,n} = \sum I_{out,n} + \sum_{m \neq n} \Delta I_{nm}$$</p>
+</div>
+
+<div class="section-block">
+    <h2>Pauli</h2>
+    <p><strong>Equazione originale:</strong> principio di esclusione</p>
+    <p><strong>Critica Faure:</strong> spin nodo-specifico e discreto.</p>
+    <p><strong>Equazione Faure:</strong> $$\psi_n^\uparrow \psi_n^\downarrow = 0 + \sum_{m \neq n} \Delta \psi_{nm}$$</p>
+</div>
+  
+<body>
+<h1>Equazioni Faure - Confronto Storico Integrale (90 "Grandi")</h1>
+<h2>Integrazione macroscopica e microscopica, spettro completo. Tutte le equazioni storiche sono aggiornate con correzioni Faure.</h2>
+<hr>
+
+<div class="section-block">
+<h2>Blocco 1 - Grandi Storici 1-30 (Aggiornati alla Tupla Universale / Trasporto)</h2>
+<ul>
+
+<li><strong>1. Newton</strong>:  
+$F = ma$  
+→  
+$F_{Faure} = \sum_{n} m_n\, a_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la forza non è un singolo valore continuo, ma la somma dei contributi discreti dei nodi della Tupla Primitiva, ciascuno trasportato lungo il canale $T$.</span>
+</li>
+
+<li><strong>2. Hooke</strong>:  
+$F = -kx$  
+→  
+$F_{Faure} = -\sum_{n} k_n\, x_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’elasticità non è lineare ma modulata dalla coerenza dei nodi $(A,A’,S,S’,R,R’)$.</span>
+</li>
+
+<li><strong>3. Galileo</strong>:  
+$s = \frac{1}{2}gt^2$  
+→  
+$s_{Faure} = \sum_{n} \frac{1}{2} g_n\, t_n^2\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la caduta libera è la somma dei contributi discreti dei nodi, non una curva continua.</span>
+</li>
+
+<li><strong>4. Maxwell</strong>:  
+$\nabla\cdot E = \rho/\varepsilon_0$  
+→  
+$\nabla\cdot E_{Faure} = \sum_{n} \rho_n/\varepsilon_0 \cdot \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il campo elettrico è una distribuzione discreta di nodi, non un campo continuo.</span>
+</li>
+
+<li><strong>5. Faraday</strong>:  
+$\mathcal{E} = -d\Phi_B/dt$  
+→  
+$\mathcal{E}_{Faure} = -\sum_{n} \frac{d\Phi_{B,n}}{dt}\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’induzione è modulata dalla coerenza dei nodi e dal canale di trasporto.</span>
+</li>
+
+<li><strong>6. Ampère</strong>:  
+$\nabla\times B = \mu_0 J$  
+→  
+$\nabla\times B_{Faure} = \sum_{n} \mu_0 J_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la corrente è una somma di contributi discreti, non un flusso continuo.</span>
+</li>
+
+<li><strong>7. Lenz</strong>:  
+$I = -d\Phi/dt$  
+→  
+$I_{Faure} = -\sum_{n} \frac{d\Phi_n}{dt}\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la variazione del flusso è distribuita sui nodi della tupla.</span>
+</li>
+
+<li><strong>8. Planck</strong>:  
+$E = h\nu$  
+→  
+$E_{Faure} = \sum_{n} (h\nu_n + m_n c^2)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’energia non è un singolo quanto ma una somma di nodi coerenti.</span>
+</li>
+
+<li><strong>9. Boltzmann</strong>:  
+$S = k\ln \Omega$  
+→  
+$S_{Faure} = \sum_{n} k\ln \Omega_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’entropia è la somma dei microstati discreti della tupla.</span>
+</li>
+
+<li><strong>10. Gibbs</strong>:  
+$F = U - TS$  
+→  
+$F_{Faure} = \sum_{n} (U_n - T_n S_n)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: energia e entropia sono distribuite sui nodi.</span>
+</li>
+
+<li><strong>11. Einstein</strong>:  
+$E = mc^2$  
+→  
+$E_{Faure} = \sum_{n} m_n c^2 (1 + \Theta_F(T_n,\varphi_n))$  
+<span class="note">Critica Faure: l’energia è la somma dei nodi della tupla, non un valore unico.</span>
+</li>
+
+<li><strong>12. Heisenberg</strong>:  
+$\Delta x \Delta p \ge \hbar/2$  
+→  
+$\Delta x_{Faure}\Delta p_{Faure} = \hbar/2 + \sum_{n} f_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’incertezza è modulata dalla coerenza dei nodi.</span>
+</li>
+
+<li><strong>13. Schrödinger</strong>:  
+$i\hbar \partial \psi/\partial t = H\psi$  
+→  
+$i\hbar \partial \psi_{Faure}/\partial t = \sum_{n} H_n \psi_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la funzione d’onda è una collezione di stati discreti.</span>
+</li>
+
+<li><strong>14. Dirac</strong>:  
+$E^2 = p^2c^2 + m^2c^4$  
+→  
+$E_{Faure}^2 = \sum_{n} (p_n^2 c^2 + m_n^2 c^4 + \hbar^2\omega_n^2)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’energia relativistica è distribuita sui nodi.</span>
+</li>
+
+<li><strong>15. Fermi</strong>:  
+$n(\epsilon) = 1/(e^{(\epsilon-\mu)/kT}+1)$  
+→  
+$n_{Faure}(\epsilon) = \sum_{n} g_n/(e^{(\epsilon+\hbar\omega_n-\mu)/kT}+1)$  
+<span class="note">Critica Faure: la distribuzione è discreta, non continua.</span>
+</li>
+
+<li><strong>16. Bose</strong>:  
+$n(\epsilon) = 1/(e^{\epsilon/kT}-1)$  
+→  
+$n_{Faure}(\epsilon) = \sum_{n} g_n/(e^{(\epsilon+\hbar\omega_n)/kT}-1)$  
+<span class="note">Critica Faure: stessa logica di Fermi, ma per bosoni.</span>
+</li>
+
+<li><strong>17. Pauli</strong>:  
+$\psi(x_1,x_2)=0$ se $x_1=x_2$  
+→  
+$\psi_{Faure} = \sum_{n} \psi(x_{1,n},x_{2,n})\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’esclusione è implementata nodo per nodo.</span>
+</li>
+
+<li><strong>18. de Broglie</strong>:  
+$\lambda = h/p$  
+→  
+$\lambda_{Faure} = \sum_{n} h/p_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la lunghezza d’onda è discreta.</span>
+</li>
+
+<li><strong>19. Lorentz</strong>:  
+$t' = \gamma (t-vx/c^2)$  
+→  
+$t'_{Faure} = \sum_{n} \gamma_n (t_n - v_n x_n/c^2)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la trasformazione è nodo‑dipendente.</span>
+</li>
+
+<li><strong>20. Minkowski</strong>:  
+$s^2 = c^2t^2-x^2$  
+→  
+$s^2_{Faure} = \sum_{n} (c^2 t_n^2 - x_n^2)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lo spazio‑tempo è discreto.</span>
+</li>
+
+<li><strong>21. Lorenz</strong>:  
+$\Box A = 0$  
+→  
+$\Box A_{Faure} = \sum_{n} \Box A_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il campo è una somma di nodi.</span>
+</li>
+
+<li><strong>22. Lagrange</strong>:  
+$L = T-V$  
+→  
+$L_{Faure} = \sum_{n} (T_n - V_n)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’azione è discreta.</span>
+</li>
+
+<li><strong>23. Hamilton</strong>:  
+$H = T+V$  
+→  
+$H_{Faure} = \sum_{n} (T_n + V_n)\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: stessa logica di Lagrange.</span>
+</li>
+
+<li><strong>24. Euler</strong>:  
+$\frac{d}{dt}(\partial L/\partial \dot q) - \partial L/\partial q =0$  
+→  
+$\sum_{n} \left[\frac{d}{dt}(\partial L_n/\partial \dot q_n) - \partial L_n/\partial q_n\right] \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: le equazioni del moto sono nodo‑dipendenti.</span>
+</li>
+
+<li><strong>25. Riemann</strong>:  
+$\zeta(s) = \sum 1/n^s$  
+→  
+$\zeta_{Faure}(s) = \sum_{n} 1/n_n^s\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la serie è discreta per nodi.</span>
+</li>
+
+<li><strong>26. Fourier</strong>:  
+$f(x) = \sum a_n \cos(nx) + b_n\sin(nx)$  
+→  
+$f_{Faure}(x) = \sum_{n} a_n\cos(n x_n) + b_n\sin(n x_n)$  
+<span class="note">Critica Faure: la decomposizione è nodo‑dipendente.</span>
+</li>
+
+<li><strong>27. Gauss</strong>:  
+$\int e^{-x^2}dx = \sqrt{\pi}$  
+→  
+$\sum_{n} e^{-x_n^2}\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la curva gaussiana è discreta.</span>
+</li>
+
+<li><strong>28. Laplace</strong>:  
+$F(s) = \mathcal{L}\{f(t)\}$  
+→  
+$F_{Faure}(s) = \sum_{n} \mathcal{L}\{f_n(t)\}\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la trasformata è nodo‑dipendente.</span>
+</li>
+
+<li><strong>29. Poisson</strong>:  
+$\rho = \nabla^2 \phi$  
+→  
+$\rho_{Faure} = \sum_{n} \nabla^2 \phi_n\, \Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il potenziale è discreto.</span>
+</li>
+
+<li><strong>30. Poincaré</strong>:  
+$H = \sum p_i^2/2m + V(q_i)$  
+→  
+$H_{Faure} = \sum_{n} p_{i,n}^2/2m + V(q_{i,n})$  
+<span class="note">Critica Faure: la dinamica è nodo‑dipendente.</span>
+</li>
+
+</ul>
+</div>
+<div class="section-block">
+<h2>Blocco 2 - Grandi Storici e Moderni 31-60 (Aggiornati Tupla Universale / Trasporto)</h2>
+<ul>
+
+<li><strong>31. Kelvin</strong>:  
+$T = \frac{\partial U}{\partial S}$  
+→  
+$T_{Faure} = \sum_n \frac{\partial U_n}{\partial S_n}\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: temperatura come derivata continua non esiste; è la risposta discreta dei nodi energetici.</span>
+</li>
+
+<li><strong>32. Joule</strong>:  
+$W = \Delta U$  
+→  
+$W_{Faure} = \sum_n \Delta U_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il lavoro è la variazione energetica nodo‑per‑nodo.</span>
+</li>
+
+<li><strong>33. Carnot</strong>:  
+$\eta = 1 - T_c/T_h$  
+→  
+$\eta_{Faure} = \sum_n \left(1 - T_{c,n}/T_{h,n}\right)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’efficienza è modulata dalla coerenza dei nodi termici.</span>
+</li>
+
+<li><strong>34. Clausius</strong>:  
+$dS = \delta Q/T$  
+→  
+$dS_{Faure} = \sum_n \delta Q_n/T_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’entropia è discreta, non continua.</span>
+</li>
+
+<li><strong>35. Boltzmann II</strong>:  
+$f(v) = (\frac{m}{2\pi k T})^{3/2} e^{-mv^2/2kT}$  
+→  
+$f_{Faure}(v) = \sum_n (\frac{m_n}{2\pi k T_n})^{3/2} e^{-m_n v_n^2/2kT_n}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la distribuzione è nodo‑dipendente.</span>
+</li>
+
+<li><strong>36. Einstein RS</strong>:  
+$p = \gamma m v$  
+→  
+$p_{Faure} = \sum_n \gamma_n m_n v_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la quantità di moto è discreta.</span>
+</li>
+
+<li><strong>37. Minkowski II</strong>:  
+$ds^2 = c^2 dt^2 - dx^2 - dy^2 - dz^2$  
+→  
+$ds^2_{Faure} = \sum_n (c^2 dt_n^2 - dx_n^2 - dy_n^2 - dz_n^2)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lo spazio‑tempo è una griglia di nodi.</span>
+</li>
+
+<li><strong>38. Dirac II</strong>:  
+$i\gamma^\mu\partial_\mu\psi - m\psi = 0$  
+→  
+$i\gamma^\mu\partial_\mu\psi_{Faure} - \sum_n m_n\psi_n\Theta_F(T_n,\varphi_n)=0$  
+<span class="note">Critica Faure: la massa è distribuita sui nodi.</span>
+</li>
+
+<li><strong>39. Feynman</strong>:  
+$S = \int L dt$  
+→  
+$S_{Faure} = \sum_n \int L_n(t)\Theta_F(T_n,\varphi_n)\,dt$  
+<span class="note">Critica Faure: l’azione è nodo‑dipendente.</span>
+</li>
+
+<li><strong>40. Schwinger</strong>:  
+$\langle0|T\{\phi(x)\phi(y)\}|0\rangle$  
+→  
+$\sum_n \langle0|T\{\phi_n(x)\phi_n(y)\}|0\rangle\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la correlazione è discreta.</span>
+</li>
+
+<li><strong>41. Born</strong>:  
+$\rho = |\psi|^2$  
+→  
+$\rho_{Faure} = \sum_n |\psi_n|^2\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la probabilità è la somma dei nodi coerenti.</span>
+</li>
+
+<li><strong>42. Bohr</strong>:  
+$L = n\hbar$  
+→  
+$L_{Faure} = \sum_n n_n\hbar\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il momento angolare è discreto.</span>
+</li>
+
+<li><strong>43. de Broglie II</strong>:  
+$p = h/\lambda$  
+→  
+$p_{Faure} = \sum_n h/\lambda_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lunghezza d’onda nodo‑dipendente.</span>
+</li>
+
+<li><strong>44. Heaviside</strong>:  
+$V = IR$  
+→  
+$V_{Faure} = \sum_n I_n R_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: corrente e resistenza sono distribuite.</span>
+</li>
+
+<li><strong>45. Tesla</strong>:  
+$V = L dI/dt$  
+→  
+$V_{Faure} = \sum_n L_n \frac{dI_n}{dt}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: induttanza nodo‑dipendente.</span>
+</li>
+
+<li><strong>46. Edison</strong>:  
+$P = VI$  
+→  
+$P_{Faure} = \sum_n V_n I_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: potenza discreta.</span>
+</li>
+
+<li><strong>47. Hertz</strong>:  
+$c = \lambda\nu$  
+→  
+$c_{Faure} = \sum_n \lambda_n\nu_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: relazione frequenza‑lunghezza d’onda nodo‑dipendente.</span>
+</li>
+
+<li><strong>48. Young</strong>:  
+$I = I_0\cos^2(\delta/2)$  
+→  
+$I_{Faure} = \sum_n I_{0,n}\cos^2(\delta_n/2)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: interferenza discreta.</span>
+</li>
+
+<li><strong>49. Fresnel</strong>:  
+$n\sin\theta = n'\sin\theta'$  
+→  
+$n_n\sin\theta_n = n'_n\sin\theta'_n$  
+<span class="note">Critica Faure: rifrazione nodo‑dipendente.</span>
+</li>
+
+<li><strong>50. Newton Ottica</strong>:  
+$n = c/v$  
+→  
+$n_{Faure} = \sum_n c_n/v_n\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: indice di rifrazione discreto.</span>
+</li>
+
+<li><strong>51. Planck II</strong>:  
+$E = \hbar\omega$  
+→  
+$E_{Faure} = \sum_n (\hbar\omega_n + m_n c^2)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: energia quantizzata per nodi.</span>
+</li>
+
+<li><strong>52. Einstein RG</strong>:  
+$G_{\mu\nu} = 8\pi G T_{\mu\nu}$  
+→  
+$G_{\mu\nu,Faure} = \sum_n 8\pi G_n T_{\mu\nu,n}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: curvatura nodo‑dipendente.</span>
+</li>
+
+<li><strong>53. Wheeler</strong>:  
+$E_{tot} = \int T^{00} d^3x$  
+→  
+$E_{Faure} = \sum_n \int T^{00}_n d^3x\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: energia distribuita sui nodi.</span>
+</li>
+
+<li><strong>54. Fermi II</strong>:  
+$\sigma = \pi r^2$  
+→  
+$\sigma_{Faure} = \sum_n \pi r_n^2\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: sezione d’urto discreta.</span>
+</li>
+
+<li><strong>55. Pauli II</strong>:  
+$\sum_i S_i \le \hbar$  
+→  
+$\sum_i S_{i,n}\Theta_F(T_n,\varphi_n) \le \hbar$  
+<span class="note">Critica Faure: spin distribuito.</span>
+</li>
+
+<li><strong>56. Born II</strong>:  
+$H\psi = E\psi$  
+→  
+$\sum_n H_n\psi_n\Theta_F(T_n,\varphi_n) = \sum_n E_n\psi_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: equazione nodo‑dipendente.</span>
+</li>
+
+<li><strong>57. Jordan</strong>:  
+$[x,p]=i\hbar$  
+→  
+$[x_n,p_n]=i\hbar + f_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: commutatore modulato dalla coerenza.</span>
+</li>
+
+<li><strong>58. von Neumann</strong>:  
+$\rho = \sum p_i|\psi_i\rangle\langle\psi_i|$  
+→  
+$\rho_{Faure} = \sum_n p_{i,n}|\psi_{i,n}\rangle\langle\psi_{i,n}|\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: densità discreta.</span>
+</li>
+
+<li><strong>59. Dirac III</strong>:  
+$[a,a^\dagger]=1$  
+→  
+$[a_n,a^\dagger_n]=1+g_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: creazione/annichilazione nodo‑dipendente.</span>
+</li>
+
+<li><strong>60. Heisenberg II</strong>:  
+$\sigma_x\sigma_p\ge\hbar/2$  
+→  
+$\sigma_{x,n}\sigma_{p,n}=\hbar/2 + h_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: incertezza modulata dalla tupla.</span>
+</li>
+
+</ul>
+</div>
+<div class="section-block">
+<h2>Blocco 3 - Grandi Storici e Moderni 61-90 (Aggiornati Tupla Universale / Trasporto)</h2>
+<ul>
+
+<li><strong>61. Maxwell</strong>:  
+$\nabla \cdot \mathbf{E} = \rho/\epsilon_0$  
+→  
+$\nabla \cdot \mathbf{E}_{Faure} = \sum_n \frac{\rho_n}{\epsilon_{0,n}}\,\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il campo elettrico non è continuo, ma la somma dei contributi discreti dei nodi della Tupla Primitiva.</span>
+</li>
+
+<li><strong>62. Maxwell II</strong>:  
+$\nabla \times \mathbf{B} = \mu_0 \mathbf{J} + \mu_0 \epsilon_0 \partial \mathbf{E}/\partial t$  
+→  
+$\nabla \times \mathbf{B}_{Faure} = \sum_n \left(\mu_{0,n}\mathbf{J}_n + \mu_{0,n}\epsilon_{0,n}\frac{\partial \mathbf{E}_n}{\partial t}\right)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la dinamica del campo magnetico è nodo‑dipendente e modulata dal canale di trasporto.</span>
+</li>
+
+<li><strong>63. Lorentz</strong>:  
+$\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})$  
+→  
+$\mathbf{F}_{Faure} = \sum_n q_n(\mathbf{E}_n + \mathbf{v}_n \times \mathbf{B}_n)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la forza elettromagnetica è la somma dei contributi discreti dei nodi.</span>
+</li>
+
+<li><strong>64. Lorentz II</strong>:  
+$m \frac{d\mathbf{v}}{dt} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})$  
+→  
+$m_n \frac{d\mathbf{v}_n}{dt} = q_n(\mathbf{E}_n + \mathbf{v}_n \times \mathbf{B}_n)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la dinamica delle particelle è nodo‑dipendente.</span>
+</li>
+
+<li><strong>65. Rutherford</strong>:  
+$m \frac{d^2 r}{dt^2} = -\frac{Z e^2}{4 \pi \epsilon_0 r^2}$  
+→  
+$m_n \frac{d^2 r_n}{dt^2} = -\frac{Z_n e^2}{4 \pi \epsilon_{0,n} r_n^2}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la forza coulombiana è discreta e modulata dalla tupla.</span>
+</li>
+
+<li><strong>66. Curie</strong>:  
+$M = \chi H$  
+→  
+$M_{Faure} = \sum_n \chi_n H_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la magnetizzazione è la somma dei nodi magnetici.</span>
+</li>
+
+<li><strong>67. Lenz</strong>:  
+$\mathcal{E} = -d\Phi/dt$  
+→  
+$\mathcal{E}_{Faure} = -\sum_n \frac{d\Phi_n}{dt}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: l’induzione è nodo‑dipendente.</span>
+</li>
+
+<li><strong>68. Ohm</strong>:  
+$V = IR$  
+→  
+$V_{Faure} = \sum_n I_n R_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la legge di Ohm è discreta.</span>
+</li>
+
+<li><strong>69. Ampère</strong>:  
+$\oint \mathbf{B} \cdot d\mathbf{l} = \mu_0 I$  
+→  
+$\oint \mathbf{B}_{Faure} \cdot d\mathbf{l} = \sum_n \mu_{0,n} I_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: la circolazione del campo è la somma dei nodi.</span>
+</li>
+
+<li><strong>70. Faraday</strong>:  
+$\mathcal{E} = -d\Phi_B/dt$  
+→  
+$\mathcal{E}_{Faure} = -\sum_n \frac{d\Phi_{B,n}}{dt}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: induzione nodo‑dipendente.</span>
+</li>
+
+<li><strong>71. Hertz II</strong>:  
+$f = c/\lambda$  
+→  
+$f_{Faure} = \sum_n c_n/\lambda_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: frequenza discreta.</span>
+</li>
+
+<li><strong>72. de Broglie III</strong>:  
+$\lambda = h/p$  
+→  
+$\lambda_{Faure} = \sum_n h/p_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lunghezza d’onda nodo‑dipendente.</span>
+</li>
+
+<li><strong>73. Schrödinger II</strong>:  
+$i \hbar \partial \psi/\partial t = H \psi$  
+→  
+$i\hbar \frac{\partial \psi_n}{\partial t} = H_n\psi_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: evoluzione quantistica discreta.</span>
+</li>
+
+<li><strong>74. Heisenberg III</strong>:  
+$[x,p] = i \hbar$  
+→  
+$[x_n,p_n] = i\hbar + f_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il commutatore è modulato dalla coerenza dei nodi.</span>
+</li>
+
+<li><strong>75. Dirac IV</strong>:  
+$H \psi = i \hbar \partial \psi/\partial t$  
+→  
+$\sum_n H_n\psi_n\Theta_F(T_n,\varphi_n) = i\hbar \sum_n \frac{\partial\psi_n}{\partial t}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: equazione di Dirac nodo‑dipendente.</span>
+</li>
+
+<li><strong>76. Pauli III</strong>:  
+$\sigma_i \sigma_j = \delta_{ij} + i \epsilon_{ijk} \sigma_k$  
+→  
+$\sigma_{i,n}\sigma_{j,n} = \delta_{ij} + i\epsilon_{ijk}\sigma_{k,n}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: algebra di Pauli discreta.</span>
+</li>
+
+<li><strong>77. Feynman II</strong>:  
+$Z = \int \mathcal{D}[x] e^{iS[x]/\hbar}$  
+→  
+$Z_{Faure} = \sum_n \int \mathcal{D}[x_n] e^{iS[x_n]/\hbar}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: il path integral è la somma dei cammini discreti.</span>
+</li>
+
+<li><strong>78. Wheeler II</strong>:  
+$E = mc^2$  
+→  
+$E_{Faure} = \sum_n m_n c_n^2\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: energia relativistica nodo‑dipendente.</span>
+</li>
+
+<li><strong>79. Gell-Mann</strong>:  
+$q \bar{q}$  
+→  
+$\sum_n q_n \bar{q}_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: interazione quark‑antiquark discreta.</span>
+</li>
+
+<li><strong>80. Yang</strong>:  
+$F_{\mu\nu} = \partial_\mu A_\nu - \partial_\nu A_\mu$  
+→  
+$F_{\mu\nu,Faure} = \sum_n (\partial_\mu A_{\nu,n} - \partial_\nu A_{\mu,n})\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: campo di gauge nodo‑dipendente.</span>
+</li>
+
+<li><strong>81. Mills</strong>:  
+$SU(2)$  
+→  
+$\sum_n SU(2)_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: simmetria di gauge discreta.</span>
+</li>
+
+<li><strong>82. Higgs</strong>:  
+$V(\phi) = \mu^2|\phi|^2 + \lambda|\phi|^4$  
+→  
+$V_{Faure} = \sum_n \left(\mu_n^2|\phi_n|^2 + \lambda_n|\phi_n|^4\right)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: potenziale di Higgs nodo‑dipendente.</span>
+</li>
+
+<li><strong>83. Glashow</strong>:  
+$L = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu} + \bar{\psi}(i\gamma^\mu D_\mu - m)\psi$  
+→  
+$L_{Faure} = \sum_n \left[-\frac{1}{4}F_{\mu\nu,n}F^{\mu\nu}_n + \bar{\psi}_n(i\gamma^\mu D_{\mu,n} - m_n)\psi_n\right]\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lagrangiana elettrodebole discreta.</span>
+</li>
+
+<li><strong>84. Weinberg</strong>:  
+$L_{EW}$  
+→  
+$L_{Faure,EW} = \sum_n L_{EW,n}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lagrangiana EW nodo‑dipendente.</span>
+</li>
+
+<li><strong>85. Salam</strong>:  
+$SU(2)\times U(1)$  
+→  
+$\sum_n (SU(2)_n \times U(1)_n)\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: simmetria di gauge discreta.</span>
+</li>
+
+<li><strong>86. 't Hooft</strong>:  
+renormalization  
+→  
+$\sum_n renorm_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: rinormalizzazione nodo‑dipendente.</span>
+</li>
+
+<li><strong>87. Dirac V</strong>:  
+$\nabla \cdot \mathbf{B} = 0$  
+→  
+$\sum_n \nabla \cdot \mathbf{B}_n\Theta_F(T_n,\varphi_n)=0$  
+<span class="note">Critica Faure: condizione del monopolo nodo‑dipendente.</span>
+</li>
+
+<li><strong>88. Fermi III</strong>:  
+$\mathcal{L}_w$  
+→  
+$\sum_n \mathcal{L}_{w,n}\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: lagrangiana debole discreta.</span>
+</li>
+
+<li><strong>89. Majorana</strong>:  
+$\psi = \psi^c$  
+→  
+$\sum_n \psi_n = \psi^c_n\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: condizione di Majorana nodo‑dipendente.</span>
+</li>
+
+<li><strong>90. Faure</strong>:  
+$X_{Faure} = \int_0^\infty \mathcal{F}[x(\omega),t(\omega)] d\omega$  
+→  
+$X_{Faure} = \sum_n \mathcal{F}[x_n,t_n]\Theta_F(T_n,\varphi_n)$  
+<span class="note">Critica Faure: equazione definitiva della TOE — ogni fenomeno è la somma dei nodi della Tupla Primitiva trasportati dal canale universale.</span>
+</li>
+
+</ul>
+</div>
+  </body>
+</html>
