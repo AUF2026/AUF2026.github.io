@@ -203,244 +203,252 @@
     }
 
 
-    /* =========================================================
-       HEADER
-       ========================================================= */
+    <!-- =======================================================
+     HEADER
+     ======================================================= -->
 
-    header {
+<header>
 
-      position:
-        sticky;
+  <div class="container">
 
-      top:
-        0;
+    <nav class="nav">
 
-      z-index:
-        1000;
+      <!-- ================================================
+           BACK TO FRAMEWORK
+           ================================================ -->
 
-      background:
-        rgba(7,10,15,.88);
-
-      backdrop-filter:
-        blur(18px);
-
-      -webkit-backdrop-filter:
-        blur(18px);
-
-      border-bottom:
-        1px solid
-        var(--border);
-
-    }
+      <a
+        class="brand"
+        href="../index.html#top"
+        aria-label="AUF2026 — Back to Framework"
+      >
+        AUF<span>2026</span>
+      </a>
 
 
-    .nav {
+      <!-- ================================================
+           DYNAMIC PAGES NAVIGATION
+           ================================================ -->
 
-      min-height:
-        72px;
+      <div
+        class="nav-links"
+        id="pages-nav"
+        aria-label="Pages navigation"
+      >
 
-      display:
-        flex;
+        <!--
+          Populated automatically by JavaScript.
 
-      align-items:
-        center;
+          The script reads:
 
-      justify-content:
-        space-between;
+            /pages/
 
-      gap:
-        30px;
+          and creates navigation entries for the
+          directories actually present in the repository.
+        -->
 
-    }
+        <span class="nav-loading">
+          Loading pages...
+        </span>
 
+      </div>
 
-    .brand {
+    </nav>
 
-      flex:
-        0 0 auto;
+  </div>
 
-      font-weight:
-        900;
-
-      letter-spacing:
-        .14em;
-
-      font-size:
-        1.05rem;
-
-    }
+</header>
 
 
-    .brand span {
 
-      color:
-        var(--green);
+<!-- =======================================================
+     MAIN
+     ======================================================= -->
 
-    }
-
-
-    .nav-links {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        22px;
-
-      overflow-x:
-        auto;
-
-      scrollbar-width:
-        none;
-
-    }
+<main>
 
 
-    .nav-links::-webkit-scrollbar {
-
-      display:
-        none;
-
-    }
-
-
-    .nav-links a {
-
-      flex:
-        0 0 auto;
-
-      color:
-        var(--muted);
-
-      font-size:
-        .9rem;
-
-      transition:
-        color .2s ease;
-
-    }
-
-
-    .nav-links a:hover {
-
-      color:
-        var(--text);
-
-    }
-
-
-    /* =========================================================
+  <!-- =====================================================
        HERO
-       ========================================================= */
+       ===================================================== -->
 
-    .hero {
+  <section class="hero">
 
-      min-height:
-        65vh;
+    <div class="container">
 
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      padding:
-        110px 0 90px;
-
-    }
+      <div class="eyebrow">
+        AUF2026 · PAGES NAVIGATOR
+      </div>
 
 
-    .eyebrow {
-
-      color:
-        var(--green);
-
-      font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        monospace;
-
-      font-size:
-        .75rem;
-
-      font-weight:
-        800;
-
-      letter-spacing:
-        .18em;
-
-      text-transform:
-        uppercase;
-
-    }
+      <h1>
+        Faure<br>
+        Carousel Pages
+      </h1>
 
 
-    h1 {
+      <p class="hero-subtitle">
 
-      max-width:
-        1050px;
+        A dedicated presentation layer for the
+        AUF2026 research corpus: editorial material,
+        scientific investigations, submitted papers
+        and active working projects.
 
-      margin:
-        22px 0 0;
+        <br><br>
 
-      font-size:
+        This landing page automatically indexes the
+        content contained in <code>/pages/</code>.
+        New research directories and supported files
+        can therefore appear in the navigation without
+        manually adding individual <code>href</code>
+        entries.
 
-        clamp(
-          3rem,
-          8vw,
-          7rem
-        );
-
-      line-height:
-        .9;
-
-      letter-spacing:
-        -.065em;
-
-    }
+      </p>
 
 
-    .hero-subtitle {
+      <div class="hero-actions">
 
-      max-width:
-        820px;
+        <a
+          class="button button-primary"
+          href="../index.html#top"
+        >
+          Back to Framework
+        </a>
 
-      margin-top:
-        35px;
+      </div>
 
-      color:
-        var(--muted);
+    </div>
 
-      font-size:
-
-        clamp(
-          1rem,
-          2vw,
-          1.3rem
-        );
-
-    }
+  </section>
 
 
-    .hero-actions {
 
-      display:
-        flex;
+  <!-- =====================================================
+       DYNAMIC CATALOG
+       ===================================================== -->
 
-      flex-wrap:
-        wrap;
+  <section id="catalog">
 
-      gap:
-        14px;
+    <div class="container">
 
-      margin-top:
-        38px;
+      <div class="section-heading">
 
-    }
+        <div class="section-kicker">
+          01 · PAGES CATALOG
+        </div>
+
+
+        <h2>
+          Research domains
+        </h2>
+
+
+        <p class="section-description">
+
+          The navigation below is generated directly
+          from the directories contained in
+          <code>/pages/</code>.
+
+          Selecting a domain takes you directly to
+          its indexed content.
+
+        </p>
+
+      </div>
+
+
+      <!--
+        JavaScript generates the domain cards here.
+      -->
+
+      <div
+        class="grid"
+        id="domain-grid"
+      >
+
+        <div class="status">
+          Reading <code>/pages/</code> ...
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       LIVE REPOSITORY INDEX
+       ===================================================== -->
+
+  <section
+    class="file-section"
+    id="files"
+  >
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div class="section-kicker">
+          02 · LIVE REPOSITORY INDEX
+        </div>
+
+
+        <h2>
+          Pages repository
+        </h2>
+
+
+        <p class="section-description">
+
+          Every supported file found inside the
+          directories of <code>/pages/</code> is
+          indexed automatically below.
+
+          No individual <code>href</code> needs to be
+          maintained manually.
+
+        </p>
+
+
+        <div
+          class="status"
+          id="status"
+        >
+
+          Repository index:
+
+          <strong>
+            loading...
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="repository-index"
+        aria-live="polite"
+      >
+
+        <div class="status">
+
+          Reading
+          <code>AUF2026/pages/</code>
+          ...
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
 
 
     /* =========================================================
@@ -1111,6 +1119,135 @@
       }
 
     }
+
+    /* =========================================================
+   DYNAMIC PAGES NAVIGATION
+   ========================================================= */
+
+.nav-links {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    22px;
+
+  overflow-x:
+    auto;
+
+  scrollbar-width:
+    none;
+
+}
+
+.nav-links::-webkit-scrollbar {
+
+  display:
+    none;
+
+}
+
+
+.nav-links a {
+
+  flex:
+    0 0 auto;
+
+  color:
+    var(--muted);
+
+  font-size:
+    .9rem;
+
+  transition:
+
+    color .2s ease,
+
+    transform .2s ease;
+
+}
+
+
+.nav-links a:hover {
+
+  color:
+    var(--text);
+
+  transform:
+    translateY(-1px);
+
+}
+
+
+.nav-loading {
+
+  flex:
+    0 0 auto;
+
+  color:
+    var(--muted);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+
+  font-size:
+    .72rem;
+
+}
+
+
+.domain-card-meta {
+
+  margin-top:
+    18px;
+
+  color:
+    var(--muted);
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+
+  font-size:
+    .72rem;
+
+}
+
+
+.domain-card-files {
+
+  color:
+    var(--green);
+
+}
+
+
+@media (max-width: 760px) {
+
+  .nav-links {
+
+    gap:
+      12px;
+
+  }
+
+
+  .nav-links a {
+
+    font-size:
+      .76rem;
+
+  }
+
+}
 
   </style>
 
