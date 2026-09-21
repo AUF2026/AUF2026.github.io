@@ -1283,589 +1283,409 @@ body.dark-mode .search-box input {
 
 <table id="glossary">
 
-<thead>
-
-<tr>
-
-  <th>
-    Simbolo / Glifo
-  </th>
-
-  <th>
-    Nome comune
-  </th>
-
-  <th>
-    Significato / Uso
-  </th>
-
-  <th>
-    Esempio / Contesto
-  </th>
-
-  <th>
-    Tipo / Formalizzazione
-  </th>
-
-</tr>
-
 </thead>
 
-<tbody>
-
-
-<!-- =====================================================
-     SCALARE
-     ===================================================== -->
-
-<tr class="scalare">
-
-<td>
-  \(x\)
-</td>
-
-<td>
-  Variabile scalare
-</td>
-
-<td>
-  Quantità descritta da un singolo valore.
-</td>
-
-<td>
-  \(x + y = z\)
-  <br>
-  <code class="math-code">x + y = z</code>
-</td>
-
-<td>
-  <span class="badge">Scalare</span>
-</td>
-
-</tr>
-
-
-<tr class="scalare">
-
-<td>
-  \(a \in \mathbb{R}\)
-</td>
-
-<td>
-  Numero reale
-</td>
-
-<td>
-  Elemento appartenente all'insieme dei reali.
-</td>
-
-<td>
-  \(a^2 \geq 0\)
-</td>
-
-<td>
-  <span class="badge">Numero</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     VETTORIALE
-     ===================================================== -->
-
-<tr class="vettoriale">
-
-<td>
-  \(\vec v\)
-</td>
-
-<td>
-  Vettore
-</td>
-
-<td>
-  Oggetto orientato appartenente a uno spazio vettoriale.
-</td>
-
-<td>
-  \(\vec v = (v_1,v_2,v_3)\)
-</td>
-
-<td>
-  <span class="badge">Vettoriale</span>
-</td>
-
-</tr>
-
-
-<tr class="vettoriale">
-
-<td>
-  \(\langle u,v\rangle\)
-</td>
-
-<td>
-  Prodotto interno
-</td>
-
-<td>
-  Operatore bilineare tra vettori.
-</td>
-
-<td>
-  \(\langle u,v\rangle = \sum_i u_i v_i\)
-</td>
-
-<td>
-  <span class="badge">Vettoriale</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     DIFFERENZIALE
-     ===================================================== -->
-
-<tr class="differenziale">
-
-<td>
-  \(\frac{d}{dx}\)
-</td>
-
-<td>
-  Derivata
-</td>
-
-<td>
-  Operatore differenziale rispetto alla variabile \(x\).
-</td>
-
-<td>
-  \[
-  \frac{d}{dx}x^n = nx^{n-1}
-  \]
-</td>
-
-<td>
-  <span class="badge">Differenziale</span>
-</td>
-
-</tr>
-
-
-<tr class="differenziale">
-
-<td>
-  \(\nabla\)
-</td>
-
-<td>
-  Gradiente
-</td>
-
-<td>
-  Operatore vettoriale delle derivate parziali.
-</td>
-
-<td>
-  \[
-  \nabla f =
-  \left(
-  \frac{\partial f}{\partial x_1},
-  \ldots,
-  \frac{\partial f}{\partial x_n}
-  \right)
-  \]
-</td>
-
-<td>
-  <span class="badge">Differenziale</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     COSTANTI
-     ===================================================== -->
-
-<tr class="costante">
-
-<td>
-  \(c\)
-</td>
-
-<td>
-  Costante
-</td>
-
-<td>
-  Quantità indipendente dalla variabile considerata.
-</td>
-
-<td>
-  \(f(x)=cx\)
-</td>
-
-<td>
-  <span class="badge">Costante</span>
-</td>
-
-</tr>
-
-
-<tr class="costante">
-
-<td>
-  \(\pi\)
-</td>
-
-<td>
-  Pi greco
-</td>
-
-<td>
-  Costante matematica fondamentale.
-</td>
-
-<td>
-  \(C = 2\pi r\)
-</td>
-
-<td>
-  <span class="badge">Costante</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     NUMERI
-     ===================================================== -->
-
-<tr class="numero">
-
-<td>
-  \(\mathbb{N}\)
-</td>
-
-<td>
-  Naturali
-</td>
-
-<td>
-  Insieme dei numeri naturali.
-</td>
-
-<td>
-  \(n \in \mathbb{N}\)
-</td>
-
-<td>
-  <span class="badge">Numero</span>
-</td>
-
-</tr>
-
-
-<tr class="numero">
-
-<td>
-  \(\mathbb{Z}\)
-</td>
-
-<td>
-  Interi
-</td>
-
-<td>
-  Insieme degli interi relativi.
-</td>
-
-<td>
-  \(z \in \mathbb{Z}\)
-</td>
-
-<td>
-  <span class="badge">Numero</span>
-</td>
-
-</tr>
-
-
-<tr class="numero">
-
-<td>
-  \(\mathbb{Q}\)
-</td>
-
-<td>
-  Razionali
-</td>
-
-<td>
-  Numeri rappresentabili come rapporto di interi.
-</td>
-
-<td>
-  \[
-  q = \frac{a}{b},
-  \qquad
-  b\neq0
-  \]
-</td>
-
-<td>
-  <span class="badge">Numero</span>
-</td>
-
-</tr>
-
-
-<tr class="numero">
-
-<td>
-  \(\mathbb{R}\)
-</td>
-
-<td>
-  Reali
-</td>
-
-<td>
-  Campo dei numeri reali.
-</td>
-
-<td>
-  \(x \in \mathbb{R}\)
-</td>
-
-<td>
-  <span class="badge">Numero</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     LOGICA
-     ===================================================== -->
-
-<tr class="logica">
-
-<td>
-  \(\forall\)
-</td>
-
-<td>
-  Quantificatore universale
-</td>
-
-<td>
-  Esprime una proprietà valida per ogni elemento.
-</td>
-
-<td>
-  \[
-  \forall x,\; P(x)
-  \]
-</td>
-
-<td>
-  <span class="badge">Logica</span>
-</td>
-
-</tr>
-
-
-<tr class="logica">
-
-<td>
-  \(\exists\)
-</td>
-
-<td>
-  Quantificatore esistenziale
-</td>
-
-<td>
-  Esprime l'esistenza di almeno un elemento.
-</td>
-
-<td>
-  \[
-  \exists x,\; P(x)
-  \]
-</td>
-
-<td>
-  <span class="badge">Logica</span>
-</td>
-
-</tr>
-
-
-<tr class="logica">
-
-<td>
-  \(\Rightarrow\)
-</td>
-
-<td>
-  Implicazione
-</td>
-
-<td>
-  Se la prima proposizione è vera, segue la seconda.
-</td>
-
-<td>
-  \(P \Rightarrow Q\)
-</td>
-
-<td>
-  <span class="badge">Logica</span>
-</td>
-
-</tr>
-
-
-<tr class="logica">
-
-<td>
-  \(\Longleftrightarrow\)
-</td>
-
-<td>
-  Equivalenza
-</td>
-
-<td>
-  Equivalenza logica tra due proposizioni.
-</td>
-
-<td>
-  \(P \Longleftrightarrow Q\)
-</td>
-
-<td>
-  <span class="badge">Logica</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     INSIEMISTICA
-     ===================================================== -->
-
-<tr class="insiemistica">
-
-<td>
-  \(\in\)
-</td>
-
-<td>
-  Appartenenza
-</td>
-
-<td>
-  Indica che un elemento appartiene a un insieme.
-</td>
-
-<td>
-  \(x \in A\)
-</td>
-
-<td>
-  <span class="badge">Insiemistica</span>
-</td>
-
-</tr>
-
-
-<tr class="insiemistica">
-
-<td>
-  \(\subseteq\)
-</td>
-
-<td>
-  Inclusione
-</td>
-
-<td>
-  Un insieme è contenuto in un altro.
-</td>
-
-<td>
-  \(A\subseteq B\)
-</td>
-
-<td>
-  <span class="badge">Insiemistica</span>
-</td>
-
-</tr>
-
-
-<!-- =====================================================
-     STRUTTURALE
-     ===================================================== -->
-
-<tr class="strutturale">
-
-<td>
-  \(\circ\)
-</td>
-
-<td>
-  Composizione
-</td>
-
-<td>
-  Composizione di funzioni o operatori.
-</td>
-
-<td>
-  \[
-  (f\circ g)(x)=f(g(x))
-  \]
-</td>
-
-<td>
-  <span class="badge">Strutturale</span>
-</td>
-
-</tr>
-
-
-<tr class="strutturale">
-
-<td>
-  \(\cong\)
-</td>
-
-<td>
-  Isomorfismo
-</td>
-
-<td>
-  Relazione di equivalenza strutturale.
-</td>
-
-<td>
-  \(A\cong B\)
-</td>
-
-<td>
-  <span class="badge">Isomorfismo strutturale</span>
-</td>
-
-</tr>
-
+  <tbody>
+
+    <!-- =====================================================
+         SCALARE — OPERATORI ARITMETICI
+         ===================================================== -->
+
+    <tr class="scalare">
+      <td>\(+\)</td>
+      <td>Addizione</td>
+      <td>Somma di due quantità scalari o vettoriali.</td>
+      <td>\(a+b\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(-\)</td>
+      <td>Sottrazione</td>
+      <td>Differenza tra due quantità.</td>
+      <td>\(a-b\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(*\) o \(\cdot\)</td>
+      <td>Moltiplicazione</td>
+      <td>Prodotto tra quantità numeriche o matematiche.</td>
+      <td>\(a\cdot b\) oppure \(a*b\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(/\)</td>
+      <td>Divisione</td>
+      <td>Rapporto tra due quantità.</td>
+      <td>\(\frac{a}{b}\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+    <tr class="scalare">
+     <td>^ o **</td>
+     <td>Esponente</td>
+     <td>Elevamento a potenza.</td>
+     <td>\(x^2=x\cdot x\)</td>
+     <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(=\)</td>
+      <td>Uguale</td>
+      <td>Esprime un'uguaglianza o un'identità tra due espressioni.</td>
+      <td>\(x+1=2\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\neq\)</td>
+      <td>Diverso</td>
+      <td>Indica che due quantità non sono uguali.</td>
+      <td>\(x\neq y\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(&lt;\), \(&gt;\)</td>
+      <td>Minore / Maggiore</td>
+      <td>Confronto ordinato tra grandezze.</td>
+      <td>\(x&lt;y\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\leq\), \(\geq\)</td>
+      <td>Minore o uguale / Maggiore o uguale</td>
+      <td>Esprime vincoli o confronti non stretti.</td>
+      <td>\(x\leq5\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         SOMME / PRODOTTI / RADICI
+         ===================================================== -->
+
+    <tr class="scalare">
+      <td>\(\sum\)</td>
+      <td>Sigma</td>
+      <td>Somma indicizzata di una famiglia di termini.</td>
+      <td>\(\displaystyle\sum_{n=1}^{10}n\)</td>
+      <td><span class="badge">Funzionale / Serie</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\prod\)</td>
+      <td>Prodotto indicizzato</td>
+      <td>Prodotto di una famiglia di termini indicizzati.</td>
+      <td>\(\displaystyle\prod_{i=1}^{5}i=120\)</td>
+      <td><span class="badge">Funzionale / Serie</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\sqrt{\phantom{x}}\)</td>
+      <td>Radice quadrata</td>
+      <td>Numero non negativo il cui quadrato restituisce la quantità data.</td>
+      <td>\(\sqrt{9}=3\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\sqrt[3]{\phantom{x}}\)</td>
+      <td>Radice cubica</td>
+      <td>Numero il cui cubo restituisce la quantità data.</td>
+      <td>\(\sqrt[3]{8}=2\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         DIFFERENZIALE
+         ===================================================== -->
+
+    <tr class="differenziale">
+      <td>\(\Delta\)</td>
+      <td>Delta</td>
+      <td>Variazione, differenza o incremento finito.</td>
+      <td>\(\Delta x=x_2-x_1\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="differenziale">
+      <td>\(\partial\)</td>
+      <td>Derivata parziale</td>
+      <td>Derivata rispetto a una variabile mantenendo fisse le altre.</td>
+      <td>\(\displaystyle\frac{\partial f}{\partial x}\)</td>
+      <td><span class="badge">Vettoriale / Scalare</span></td>
+    </tr>
+
+    <tr class="differenziale">
+      <td>\(d\)</td>
+      <td>Differenziale</td>
+      <td>Notazione per differenziale o derivata rispetto a una variabile.</td>
+      <td>\(\displaystyle\frac{dy}{dx}\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="differenziale">
+      <td>\(\int\)</td>
+      <td>Integrale</td>
+      <td>Operatore di integrazione, associato anche a somme continue e aree.</td>
+      <td>\(\displaystyle\int f(x)\,dx\)</td>
+      <td><span class="badge">Funzionale / Serie</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         COSTANTI
+         ===================================================== -->
+
+    <tr class="costante">
+      <td>\(\infty\)</td>
+      <td>Infinito</td>
+      <td>Indica un comportamento senza limite finito superiore o inferiore.</td>
+      <td>\(\displaystyle\lim_{x\to\infty}f(x)\)</td>
+      <td><span class="badge">Scalare / Funzionale</span></td>
+    </tr>
+
+    <tr class="costante">
+      <td>\(\pi\)</td>
+      <td>Pi greco</td>
+      <td>Costante pari al rapporto tra circonferenza e diametro.</td>
+      <td>\(C=2\pi r\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="costante">
+      <td>\(\varphi\)</td>
+      <td>Phi / Sezione aurea</td>
+      <td>Costante della sezione aurea, \(\varphi\approx1.618\).</td>
+      <td>\(\displaystyle\varphi=\frac{1+\sqrt5}{2}\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         NUMERI
+         ===================================================== -->
+
+    <tr class="numero">
+      <td>\(i\)</td>
+      <td>Unità immaginaria</td>
+      <td>Unità immaginaria definita dalla relazione \(i^2=-1\).</td>
+      <td>\(z=a+bi\)</td>
+      <td><span class="badge">Vettoriale / Scalare</span></td>
+    </tr>
+
+    <tr class="numero">
+      <td>\(\mathbb{R}\)</td>
+      <td>Insieme dei numeri reali</td>
+      <td>Campo dei numeri reali.</td>
+      <td>\(x\in\mathbb{R}\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="numero">
+      <td>\(\mathbb{C}\)</td>
+      <td>Insieme dei numeri complessi</td>
+      <td>Campo dei numeri complessi, costituiti da parte reale e immaginaria.</td>
+      <td>\(z\in\mathbb{C}\)</td>
+      <td><span class="badge">Vettoriale / Scalare</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         VETTORIALE
+         ===================================================== -->
+
+    <tr class="vettoriale">
+      <td>\(\otimes\)</td>
+      <td>Prodotto tensoriale</td>
+      <td>Operazione che combina strutture vettoriali o moduli in una struttura tensoriale.</td>
+      <td>\(V\otimes W\)</td>
+      <td><span class="badge">Vettoriale</span></td>
+    </tr>
+
+    <tr class="vettoriale">
+      <td>\(\oplus\)</td>
+      <td>Somma diretta</td>
+      <td>Somma diretta di spazi, gruppi o altre strutture algebriche.</td>
+      <td>\(V\oplus W\)</td>
+      <td><span class="badge">Vettoriale</span></td>
+    </tr>
+
+    <tr class="vettoriale">
+      <td>\(\nabla\)</td>
+      <td>Nabla / Gradiente</td>
+      <td>Operatore differenziale vettoriale associato alle derivate parziali.</td>
+      <td>\(\displaystyle\nabla f=
+      \left(
+      \frac{\partial f}{\partial x},
+      \frac{\partial f}{\partial y},
+      \frac{\partial f}{\partial z}
+      \right)\)</td>
+      <td><span class="badge">Vettoriale</span></td>
+    </tr>
+
+    <tr class="vettoriale">
+      <td>\(\times\)</td>
+      <td>Prodotto vettoriale</td>
+      <td>Operazione tra vettori tridimensionali che produce un vettore ortogonale ai due fattori.</td>
+      <td>\(A\times B\)</td>
+      <td><span class="badge">Vettoriale</span></td>
+    </tr>
+
+    <tr class="vettoriale">
+      <td>\(\cdot\)</td>
+      <td>Prodotto scalare</td>
+      <td>Operazione tra vettori che produce uno scalare.</td>
+      <td>\(A\cdot B\)</td>
+      <td><span class="badge">Vettoriale / Scalare</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         IDENTITÀ E APPROSSIMAZIONI
+         ===================================================== -->
+
+    <tr class="scalare">
+      <td>\(\approx\)</td>
+      <td>Circa uguale</td>
+      <td>Indica un'uguaglianza approssimata.</td>
+      <td>\(\pi\approx3.1416\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\equiv\)</td>
+      <td>Identità</td>
+      <td>Uguaglianza che vale identicamente nel dominio considerato.</td>
+      <td>\(\sin^2\theta+\cos^2\theta\equiv1\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         INSIEMISTICA
+         ===================================================== -->
+
+    <tr class="insiemistica">
+      <td>\(\subset,\subseteq\)</td>
+      <td>Sottoinsieme</td>
+      <td>Relazione di inclusione tra insiemi.</td>
+      <td>\(A\subseteq B\)</td>
+      <td><span class="badge">Insiemistica</span></td>
+    </tr>
+
+    <tr class="insiemistica">
+      <td>\(\in\)</td>
+      <td>Appartenenza</td>
+      <td>Indica che un elemento appartiene a un insieme.</td>
+      <td>\(x\in\mathbb{R}\)</td>
+      <td><span class="badge">Insiemistica</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         LOGICA
+         ===================================================== -->
+
+    <tr class="logica">
+      <td>\(\forall\)</td>
+      <td>Per ogni</td>
+      <td>Quantificatore universale.</td>
+      <td>\(\forall x\in\mathbb{R},\;x^2\geq0\)</td>
+      <td><span class="badge">Logica</span></td>
+    </tr>
+
+    <tr class="logica">
+      <td>\(\exists\)</td>
+      <td>Esiste</td>
+      <td>Quantificatore esistenziale.</td>
+      <td>\(\exists x\in\mathbb{R}\mid x^2=4\)</td>
+      <td><span class="badge">Logica</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         FUNZIONI / COMBINATORIA
+         ===================================================== -->
+
+    <tr class="scalare">
+      <td>\(!\)</td>
+      <td>Fattoriale</td>
+      <td>Prodotto degli interi positivi fino a \(n\).</td>
+      <td>\(5!=120\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\theta,\alpha,\beta,\gamma\)</td>
+      <td>Angoli / Parametri angolari</td>
+      <td>Variabili utilizzate per angoli, rotazioni o fasi.</td>
+      <td>\(\cos\theta,\;\alpha+\beta=90^\circ\)</td>
+      <td><span class="badge">Scalare / Vettoriale</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         GEOMETRIA
+         ===================================================== -->
+
+    <tr class="vettoriale">
+      <td>\(\perp\)</td>
+      <td>Perpendicolare</td>
+      <td>Indica ortogonalità tra rette, vettori o sottospazi.</td>
+      <td>\(AB\perp CD\)</td>
+      <td><span class="badge">Vettoriale</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\rightarrow\)</td>
+      <td>Limite / Freccia</td>
+      <td>Può indicare convergenza, direzione o una mappa tra strutture.</td>
+      <td>\(x\rightarrow0\)</td>
+      <td><span class="badge">Scalare / Funzionale</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\lvert x\rvert\)</td>
+      <td>Modulo / Valore assoluto</td>
+      <td>Valore non negativo associato a un numero reale.</td>
+      <td>\(\lvert x\rvert=x\) se \(x\geq0\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="scalare">
+      <td>\(\lfloor x\rfloor,\;\lceil x\rceil\)</td>
+      <td>Floor / Ceiling</td>
+      <td>Arrotondamento rispettivamente verso il basso e verso l'alto.</td>
+      <td>\(\lfloor3.7\rfloor=3,\;\lceil3.7\rceil=4\)</td>
+      <td><span class="badge">Scalare</span></td>
+    </tr>
+
+    <tr class="vettoriale">
+      <td>\(\circ\)</td>
+      <td>Cerchio / Operatore circolare</td>
+      <td>Simbolo utilizzato in geometria e, in altri contesti, per composizione o periodicità.</td>
+      <td>\(f\circ g\)</td>
+      <td><span class="badge">Strutturale / Vettoriale</span></td>
+    </tr>
+
+
+    <!-- =====================================================
+         MODULARE
+         ===================================================== -->
+
+    <tr class="scalare">
+      <td>\(\oplus,\;\ominus\)</td>
+      <td>Somma / Differenza modulare</td>
+      <td>Operazioni utilizzate in strutture modulari e sistemi ciclici.</td>
+      <td>\(a\oplus b\pmod n\)</td>
+      <td><span class="badge">Scalare / Funzionale</span></td>
+    </tr>
 
 <!-- =====================================================
      AUF2026
