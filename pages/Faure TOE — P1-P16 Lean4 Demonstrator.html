@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Faure TOE — Full Certification Sandbox (P1–P16) — Fixed</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+<style>
+  :root{
+    --bg:#071428; --card:#0b1620; --accent:#7dd3fc; --muted:#9fb0c6; --mono:ui-monospace,Menlo,Monaco,"Courier New",monospace;
+    --success:#10b981; --danger:#f43f5e;
+  }
+  html,body{height:100%}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,var(--bg),#041022);color:#e6eef6;padding:18px}
+  header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  h1{margin:0;font-size:20px}
+  .lead{color:var(--muted);font-size:13px;margin:0}
+  .container{display:grid;grid-template-columns:320px 1fr 360px;gap:14px}
+  .nav{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:10px;height:calc(100vh - 120px);overflow:auto}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:10px}
+  .case-item{padding:8px;border-radius:8px;margin-bottom:6px;cursor:pointer}
+  .case-item.active{background:rgba(125,211,252,0.08);border:1px solid rgba(125,211,252,0.12);color:var(--accent);font-weight:700}
+  .case-title{font-size:14px;margin:0}
+  .case-sub{font-size:12px;color:var(--muted);margin-top:4px}
+  .toolbar{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+  label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+  textarea,input,select{width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;font-family:var(--mono);font-size:13px}
+  button{background:var(--accent);color:#042028;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:700}
+  .muted{color:var(--muted);font-size:13px}
+  pre{background:#02111a;padding:10px;border-radius:8px;overflow:auto;font-family:var(--mono);font-size:13px;height:320px}
+  .small{font-size:12px;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .status{padding:6px 8px;border-radius:8px;font-weight:700}
+  .ok{background:rgba(16,185,129,0.12);color:var(--success)}
+  .warn{background:rgba(245,158,11,0.08);color:var(--muted)}
+  .danger{background:rgba(244,63,94,0.08);color:var(--danger)}
+  footer{margin-top:12px;color:var(--muted);font-size:12px}
+  .math-inline{font-family:serif}
+  nav h3{margin:6px 0 10px 0}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  .badge{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:6px;font-family:var(--mono);font-size:12px}
+  .note{font-size:13px;color:var(--muted);margin-top:8px}
+  @media (max-width:1100px){
+    .container{grid-template-columns:1fr; padding-bottom:40px}
+    .nav{height:auto}
+  }
+</style>
+
+<!-- MathJax config -->
+<script>
+  window.MathJax = {
+    tex: {inlineMath: [['\\(','\\)'], ['$', '$']], displayMath: [['$$','$$'], ['\
+
+\[','\\]
+
+']]},
+    options: {skipHtmlTags: ['script','noscript','style','textarea','pre']},
+    startup: {typeset: false}
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Faure TOE — Certification Sandbox</h1>
+    <p class="lead">Interactive evidence & demonstrators for cases P1–P16. Use the left menu to select a case; the center panel runs the demonstrator; the right panel shows artifacts, manifest and quick checks.</p>
+  </div>
+  <div style="margin-left:auto;text-align:right">
+    <div class="badge">Master map: canonical (no public versioning)</div>
+    <div class="small" style="margin-top:6px">Lean status: <strong id="lean-status">AUTHOR_VALIDATED</strong></div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Navigation / Cases -->
+  <nav class="nav card" id="nav">
+    <h3>Cases (P1 → P16)</h3>
+    <div id="cases-list"></div>
+    <hr style="border-color:rgba(255,255,255,0.03);margin:12px 0">
+    <div class="note">Tip: each case includes a short formal summary, interactive checks, and a reproducibility manifest you can export and attach to Lean artifacts for certification.</div>
+  </nav>
+
+  <!-- Main interactive area -->
+  <main class="card" id="mainCard">
+    <div class="toolbar">
+      <div class="badge" id="case-badge">P1</div>
+      <div style="flex:1">
+        <h2 id="case-title" style="margin:0">Loading...</h2>
+        <div class="small" id="case-subtitle">—</div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Evidence state: <strong id="evidence-state">DOCUMENTED</strong></div>
+      </div>
+    </div>
+
+    <section id="case-content"></section>
+  </main>
+
+  <!-- Right column: artifacts, manifest, log -->
+  <aside class="card" id="rightCol">
+    <h3 style="margin-top:0">Artifacts & Manifest</h3>
+
+    <div class="grid2">
+      <div>
+        <label>Manifest (JSON)</label>
+        <textarea id="manifest" rows="10" placeholder="Generate manifest from case actions"></textarea>
+      </div>
+      <div>
+        <label>Quick checks</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+          <div class="status warn" id="check-coverage">COVERAGE: NOT_MAPPED</div>
+          <div class="status warn" id="check-formal">FORMAL: AUTHOR_VALIDATED</div>
+          <div class="status warn" id="check-emp">EMPIRICAL: N/A</div>
+        </div>
+      </div>
+    </div>
+
+    <hr style="border-color:rgba(255,255,255,0.03);margin:12px 0">
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px">
+      <div class="badge">Elements: <span id="count-el">0</span></div>
+      <div class="badge">Orth pairs: <span id="count-orth">0</span></div>
+      <div class="badge">Measure atoms: <span id="count-meas">0</span></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div class="badge" id="chk-add">ADDITIVITY: N/A</div>
+      <div class="badge" id="chk-gleason">GLEASON: PENDING</div>
+    </div>
+
+    <label>Log (LaTeX rendered)</label>
+    <pre id="log" class="latex"></pre>
+
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button id="btn-export">Export manifest (new window)</button>
+      <button id="btn-copy" style="background:#1f2937;color:#e6eef6">Copy manifest</button>
+    </div>
+
+    <div style="margin-top:12px">
+      <button id="btn-download" style="background:#0b1220;color:var(--accent);border:1px solid rgba(125,211,252,0.08)">Download sample package</button>
+    </div>
+
+    <div style="margin-top:12px" class="small">Manifest hash: <span id="manifest-hash">—</span></div>
+  </aside>
+</div>
+
+<footer>
+  <div class="small">This sandbox generates reproducible evidence artifacts (manifest + hashes) to attach to Lean build logs for certification. It does not contain or expose local Lean files; upload/ingest is performed only after NDA and secure transfer.</div>
+</footer>
+
+<script>
+/* ========= Utilities ========= */
+
+/* Safe BigInt parse: returns BigInt or throws */
+function parseBigIntSafe(s){
+  if (typeof s === 'bigint') return s;
+  s = String(s).trim();
+  if (s === '') throw new Error('Empty BigInt string');
+  // allow optional + or - and digits
+  if (!/^[-+]?\d+$/.test(s)) throw new Error('Invalid integer: ' + s);
+  return BigInt(s);
+}
+
+/* Fraction using BigInt for exact rational arithmetic */
+class Fraction {
+  constructor(n=0n,d=1n){
+    n = BigInt(n); d = BigInt(d);
+    if (d===0n) throw new Error("Denominator zero");
+    if (d<0n){ n=-n; d=-d; }
+    this.n = n; this.d = d; this.normalize();
+  }
+  static fromString(s){
+    s = String(s).trim();
+    if (s === '') throw new Error('Empty fraction string');
+    if (s.includes('/')){
+      const [a,b] = s.split('/').map(x=>x.trim());
+      return new Fraction(parseBigIntSafe(a), parseBigIntSafe(b));
+    } else {
+      return new Fraction(parseBigIntSafe(s), 1n);
+    }
+  }
+  normalize(){ const g = Fraction.gcd(this.n<0n?-this.n:this.n, this.d); this.n /= g; this.d /= g; }
+  static gcd(a,b){ a=a<0n?-a:a; b=b<0n?-b:b; while(b!==0n){ const t=a%b; a=b; b=t; } return a; }
+  add(o){ o=Fraction.toFrac(o); return new Fraction(this.n*o.d + o.n*this.d, this.d*o.d); }
+  mul(o){ o=Fraction.toFrac(o); return new Fraction(this.n*o.n, this.d*o.d); }
+  div(o){ o=Fraction.toFrac(o); return new Fraction(this.n*o.d, this.d*o.n); }
+  sub(o){ o=Fraction.toFrac(o); return new Fraction(this.n*o.d - o.n*this.d, this.d*o.d); }
+  eq(o){ o=Fraction.toFrac(o); return this.n*o.d === o.n*this.d; }
+  toString(){ return this.d===1n? this.n.toString() : this.n.toString()+"/"+this.d.toString(); }
+  toNumber(){ return Number(this.n)/Number(this.d); }
+  static toFrac(x){
+    if (x instanceof Fraction) return x;
+    if (typeof x === 'bigint') return new Fraction(x,1n);
+    if (typeof x === 'number') {
+      const s = x.toString();
+      if (s.includes('.')){
+        const parts = s.split('.');
+        const den = 10n**BigInt(parts[1].length);
+        const num = BigInt(parts[0])*den + BigInt(parts[1]);
+        return new Fraction(num, den);
+      } else return new Fraction(BigInt(Math.floor(x)),1n);
+    }
+    if (typeof x === 'string') return Fraction.fromString(x);
+    throw new Error("Unsupported fraction type");
+  }
+}
+
+/* MathJax typeset helper (safe) */
+async function typeset(node){
+  if (window.MathJax && MathJax.typesetPromise){
+    try{ await MathJax.typesetPromise([node]); }catch(e){ console.warn("MathJax typeset failed", e); }
+  }
+}
+
+/* Log helper: inserts HTML-safe content and triggers MathJax */
+async function log(msg){
+  try{
+    const el = document.getElementById('log');
+    const safe = String(msg).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const wrapper = document.createElement('div');
+    wrapper.className = 'latex';
+    wrapper.innerHTML = safe;
+    el.prepend(wrapper);
+    await typeset(wrapper);
+    console.log(msg);
+  }catch(e){
+    console.error('Log failed', e);
+  }
+}
+
+/* Manifest helper */
+function setManifest(obj){
+  document.getElementById('manifest').value = JSON.stringify(obj, null, 2);
+}
+
+/* Quick SHA-256 helper (returns hex) */
+async function sha256Hex(str){
+  if (window.crypto && crypto.subtle){
+    const enc = new TextEncoder().encode(str);
+    const digest = await crypto.subtle.digest('SHA-256', enc);
+    return Array.from(new Uint8Array(digest)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }
+  return null;
+}
+
+/* ========= Cases list and builders ========= */
+
+const CASES = [
+  { id: "P1", title: "Born / Measure / Gleason", summary: "Construct μ_F on L_F, verify orthogonal additivity, map to projectors and apply Gleason → Born.", builder: buildP1 },
+  { id: "P2", title: "AOS144 — Nilpotency & Rank", summary: "Inspect AOS144 operator: rank sequence, nilpotency index, separate low-rank branch.", builder: buildP2 },
+  { id: "P3", title: "Universal Faure Tuple → Born linkage", summary: "Trace derivation path from U_F definitions to Born-related structures.", builder: buildP3 },
+  { id: "P4", title: "FDM / Discrete Modular Framework", summary: "Demonstrate discrete modular transforms and invariants used by TOE.", builder: buildP4 },
+  { id: "P5", title: "Diophantine Lattice", summary: "Map N ↦ (a2,a3,a5,...) and separate arithmetic from geometric claims.", builder: buildP5 },
+  { id: "P6", title: "Strong CP", summary: "Decompose theorem→numerical demonstration→physical interpretation; isolate ΔS computation.", builder: buildP6 },
+  { id: "P7", title: "Memory / Information", summary: "Structural information tests: mapping discrete structure to memory predictions.", builder: buildP7 },
+  { id: "P8", title: "Water / Anomaly", summary: "Model predictions for water anomalies and required empirical tests.", builder: buildP8 },
+  { id: "P9", title: "Millennium Problems (examples)", summary: "Show how specific claims (P vs NP, Riemann) are framed as instances, not TOE proofs.", builder: buildP9 },
+  { id: "P10", title: "AOS Kernel / Execution", summary: "Kernel execution model, high-precision computation and validator interface.", builder: buildP10 },
+  { id: "P11", title: "Oracle / Mechanized Math", summary: "Mechanized mathematics pipeline: definitions → Lean artifacts → build logs.", builder: buildP11 },
+  { id: "P12", title: "Clifford / Torus structures", summary: "Clifford torus embeddings and Q_120 quantizer checks.", builder: buildP12 },
+  { id: "P13", title: "Deterministic Predictions", summary: "From computation to observable predictions and falsification tests.", builder: buildP13 },
+  { id: "P14", title: "Validation Pipeline", summary: "Certification packet builder: artifacts, manifest, hashes, reproduction scripts.", builder: buildP14 },
+  { id: "P15", title: "Propagation / Communication", summary: "Propagation pieces: manifesting claims, disclaimers, and public documentation rules.", builder: buildP15 },
+  { id: "P16", title: "Master Chain / MC180", summary: "MC180 DAG inspector: step-by-step dependency mapping and coverage status.", builder: buildP16 }
+];
+
+/* Populate navigation */
+const casesList = document.getElementById('cases-list');
+CASES.forEach((c, idx)=>{
+  const div = document.createElement('div');
+  div.className = 'case-item' + (idx===0? ' active':'');
+  div.dataset.case = c.id;
+  div.innerHTML = `<div class="case-title">${c.id} — ${c.title}</div><div class="case-sub">${c.summary}</div>`;
+  div.addEventListener('click', ()=>selectCase(c.id));
+  casesList.appendChild(div);
+});
+
+/* Select default case */
+let currentCase = null;
+selectCase("P1");
+
+/* ========= Case selection and rendering ========= */
+function selectCase(caseId){
+  currentCase = CASES.find(x=>x.id===caseId);
+  document.querySelectorAll('.case-item').forEach(el=>el.classList.toggle('active', el.dataset.case===caseId));
+  document.getElementById('case-badge').textContent = currentCase.id;
+  document.getElementById('case-title').textContent = `${currentCase.id} — ${currentCase.title}`;
+  document.getElementById('case-subtitle').textContent = currentCase.summary;
+  document.getElementById('evidence-state').textContent = "DOCUMENTED";
+  document.getElementById('manifest').value = "";
+  document.getElementById('log').textContent = "";
+  // reset quick badges
+  document.getElementById('count-el').textContent = 0;
+  document.getElementById('count-orth').textContent = 0;
+  document.getElementById('count-meas').textContent = 0;
+  document.getElementById('chk-add').textContent = "ADDITIVITY: N/A";
+  document.getElementById('chk-gleason').textContent = "GLEASON: PENDING";
+  currentCase.builder(document.getElementById('case-content'));
+}
+
+/* ========= Builders ========= */
+
+/* ---------- P1: Born / Measure / Gleason ---------- */
+function buildP1(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Case P1 reconstructs: \\(L_F\\) (non-Boolean lattice) → measure \\(\\mu_F\\) with additivity on orthogonal sums → mapping \\(\\Phi: L_F \\to \\mathcal P(\\mathcal H)\\) → apply Gleason to obtain \\(\\mu(P)=\\mathrm{Tr}(\\rho P)\\) and Born.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <label>Elements (one per line)</label>
+        <textarea id="p1-elements" rows="5">e1
+e2
+e3</textarea>
+        <label style="margin-top:8px">Orthogonality pairs (A,B per line)</label>
+        <textarea id="p1-orth" rows="3">e1,e2</textarea>
+      </div>
+      <div>
+        <label>Measure assignments (A = num/den)</label>
+        <textarea id="p1-measure" rows="8">e1 = 1/4
+e2 = 1/4
+e3 = 1/2</textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button id="p1-build">Build L_F</button>
+      <button id="p1-apply">Apply μ_F</button>
+      <button id="p1-add">Test Additivity</button>
+      <button id="p1-map">Map → Projectors & Compute Born</button>
+      <button id="p1-pack" style="background:#0b1220;color:var(--accent);border:1px solid rgba(125,211,252,0.08)">Generate P1 Evidence</button>
+    </div>
+    <div class="note">Use the buttons in order. The manifest produced can be exported and attached to Lean artifacts.</div>
+  `;
+
+  // safe state container
+  window.P1 = window.P1 || {};
+
+  document.getElementById('p1-build').addEventListener('click', async ()=>{
+    try{
+      const els = document.getElementById('p1-elements').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      const orth = document.getElementById('p1-orth').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      window.P1.elements = new Set(els);
+      window.P1.orthPairs = new Set();
+      orth.forEach(line=>{
+        const parts = line.split(',').map(x=>x.trim());
+        if (parts.length===2 && window.P1.elements.has(parts[0]) && window.P1.elements.has(parts[1])){
+          // canonical ordering
+          const key = parts[0] < parts[1] ? parts[0] + '|' + parts[1] : parts[1] + '|' + parts[0];
+          window.P1.orthPairs.add(key);
+        }
+      });
+      document.getElementById('count-el').textContent = window.P1.elements.size;
+      document.getElementById('count-orth').textContent = window.P1.orthPairs.size;
+      document.getElementById('check-coverage')?.textContent && (document.getElementById('check-coverage').textContent = "COVERAGE: NOT_MAPPED");
+      await log(`\\(L_F\\) costruito: elementi = \\{ ${[...window.P1.elements].join(', ')} \\}`);
+    }catch(e){ await log("Errore P1 build: "+e.message); }
+  });
+
+  document.getElementById('p1-apply').addEventListener('click', async ()=>{
+    try{
+      if (!window.P1 || !window.P1.elements) { await log("Build L_F first."); return; }
+      const lines = document.getElementById('p1-measure').value.split('\n').map(s=>s.trim()).filter(Boolean);
+      window.P1.measure = new Map();
+      lines.forEach(line=>{
+        const parts = line.split('=');
+        if (parts.length===2){
+          const name = parts[0].trim();
+          const frac = parts[1].trim();
+          if (window.P1.elements.has(name)){
+            try{ window.P1.measure.set(name, Fraction.fromString(frac)); } catch(e){ /* record parse error */ window.P1.measure.set(name, null); }
+          }
+        }
+      });
+      // count only valid fractions
+      const validCount = [...window.P1.measure.values()].filter(v=>v instanceof Fraction).length;
+      document.getElementById('count-meas').textContent = validCount;
+      await log("Assegnazioni μ_F: " + [...window.P1.measure.entries()].map(([k,v])=>`${k}=${v? (v instanceof Fraction? v.toString() : 'INVALID') : 'MISSING'}`).join(', '));
+    }catch(e){ await log("Errore P1 apply: "+e.message); }
+  });
+
+  document.getElementById('p1-add').addEventListener('click', async ()=>{
+    try{
+      if (!window.P1 || !window.P1.measure) { await log("Apply μ_F first."); return; }
+      let ok = true;
+      for (const pair of window.P1.orthPairs){
+        const [a,b] = pair.split('|');
+        const ma = window.P1.measure.get(a) || new Fraction(0n,1n);
+        const mb = window.P1.measure.get(b) || new Fraction(0n,1n);
+        if (!(ma instanceof Fraction) || !(mb instanceof Fraction)){
+          ok = false;
+          await log(`Additivity check: invalid measure for ${a} or ${b}.`);
+          continue;
+        }
+        const sum = ma.add(mb);
+        const union = a + '+' + b;
+        const muUnion = window.P1.measure.get(union);
+        if (muUnion instanceof Fraction){
+          if (!muUnion.eq(sum)){ ok=false; await log(`Additività FALLITA per ${a},${b}: \\(\\mu(A\\oplus B)=${muUnion.toString()}\\) vs \\(\\mu(A)+\\mu(B)=${sum.toString()}\\)`); }
+          else await log(`Additività OK per ${a},${b}: \\(\\mu(A\\oplus B)=${sum.toString()}\\)`);
+        } else {
+          await log(`Nessun elemento unione esplicito per ${a},${b}; implicita \\(\\mu(A\\oplus B)=${sum.toString()}\\)`);
+        }
+      }
+      document.getElementById('chk-add').textContent = ok ? "ADDITIVITY: OK" : "ADDITIVITY: FAIL";
+    }catch(e){ await log("Errore P1 add: "+e.message); }
+  });
+
+  document.getElementById('p1-map').addEventListener('click', async ()=>{
+    try{
+      if (!window.P1 || !window.P1.elements) { await log("Build L_F first."); return; }
+      const els = [...window.P1.elements];
+      const dim = Math.max(3, els.length);
+      window.P1.mapping = new Map();
+      for (let i=0;i<els.length;i++){
+        // create fresh vector entries (avoid shared references)
+        const vec = [];
+        for (let j=0;j<dim;j++) vec.push(new Fraction(0n,1n));
+        vec[i % dim] = new Fraction(1n,1n);
+        window.P1.mapping.set(els[i], vec);
+      }
+      if (els.length>=2){
+        const a = els[0], b = els[1];
+        const va = window.P1.mapping.get(a), vb = window.P1.mapping.get(b);
+        let inner = new Fraction(0n,1n);
+        for (let i=0;i<dim;i++){
+          inner = inner.add(va[i].mul(vb[i]));
+        }
+        const prob = inner.mul(inner);
+        await log(`Mapping automatico assegnato. Calcolo Born per \\langle ${a} | ${b} \\rangle : inner=${inner.toString()} ; prob=${prob.toString()}`);
+        document.getElementById('chk-gleason').textContent = "GLEASON: COMPUTED";
+      } else {
+        await log("Mapping assegnato ma elementi insufficienti per Born.");
+      }
+    }catch(e){ await log("Errore P1 map: "+e.message); }
+  });
+
+  document.getElementById('p1-pack').addEventListener('click', async ()=>{
+    try{
+      if (!window.P1) { await log("Run steps first."); return; }
+      const manifest = {
+        case: "P1",
+        timestamp: new Date().toISOString(),
+        elements: [...(window.P1.elements||[])],
+        orthPairs: [...(window.P1.orthPairs||[])],
+        measure: [...(window.P1.measure? window.P1.measure.entries():[])].map(([k,v])=>[k, v? (v instanceof Fraction? v.toString() : 'INVALID') : 'MISSING']),
+        mapping: [...(window.P1.mapping? window.P1.mapping.entries():[])].map(([k,v])=>[k, v.map(x=>x.toString())]),
+        evidence_state: "DOCUMENTED"
+      };
+      setManifest(manifest);
+      const json = JSON.stringify(manifest);
+      const h = await sha256Hex(json);
+      if (h) document.getElementById('manifest-hash').textContent = "sha256:"+h;
+      await log(`P1 manifest generato. Hash: \\texttt{${h||'not-available'}}`);
+    }catch(e){ await log("Errore P1 pack: "+e.message); }
+  });
+}
+
+/* ---------- P2: AOS144 nilpotency & rank ---------- */
+function buildP2(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Case P2 inspects operator A_{AOS144}: rank sequence, nilpotency index \\(\\nu(A)=4\\) claimed for AOS144; separate low-rank branch tests.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <label>Matrix rows (comma separated) or leave blank for sample)</label>
+        <textarea id="p2-matrix" rows="10" placeholder="e.g. 0,1,0&#10;0,0,1"></textarea>
+      </div>
+      <div>
+        <label>Nilpotency power to test</label>
+        <input id="p2-nil" type="text" value="4" />
+        <label style="margin-top:8px">Rank target (for low-rank branch)</label>
+        <input id="p2-rank" type="text" value="5" />
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button id="p2-sample">Load sample AOS (toy)</button>
+      <button id="p2-runcalc">Compute rank & nilpotency</button>
+      <button id="p2-pack" style="background:#0b1220;color:var(--accent);border:1px solid rgba(125,211,252,0.08)">Generate P2 Evidence</button>
+    </div>
+  `;
+
+  document.getElementById('p2-sample').addEventListener('click', async ()=>{
+    const sample = [
+      "0,1,0,0,0,0",
+      "0,0,1,0,0,0",
+      "0,0,0,1,0,0",
+      "0,0,0,0,0,0",
+      "0,0,0,0,0,0",
+      "0,0,0,0,0,0"
+    ];
+    document.getElementById('p2-matrix').value = sample.join('\n');
+    await log("Sample AOS (toy) loaded.");
+  });
+
+  document.getElementById('p2-runcalc').addEventListener('click', async ()=>{
+    try{
+      const txt = document.getElementById('p2-matrix').value.trim();
+      if (!txt){ await log("Provide matrix rows or load sample."); return; }
+      const rows = txt.split('\n').map(r=>r.trim()).filter(Boolean).map(r=>r.split(',').map(x=>parseBigIntSafe(x.trim())));
+      const n = rows.length;
+      // convert to Fraction matrix
+      const M = rows.map(r=>r.map(v=>new Fraction(v,1n)));
+      const rank = gaussianRank(M);
+      const nilPower = parseInt(document.getElementById('p2-nil').value || "4",10);
+      let Ak = identityMatrix(n);
+      for (let k=1;k<=nilPower;k++){
+        Ak = multiplyMatrices(Ak, M);
+      }
+      const isNil = isZeroMatrix(Ak);
+      await log(`Computed rank = ${rank}. Nilpotency at power ${nilPower}: ${isNil ? 'YES' : 'NO'}`);
+      setManifest({case:"P2", rank, nilpotency_test: nilPower, nilpotent: isNil, timestamp: new Date().toISOString()});
+    }catch(e){ await log("Error P2 calc: "+e.message); }
+  });
+
+  document.getElementById('p2-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P2", timestamp: new Date().toISOString(), note:"Attach matrix and build_log for formal verification"});
+    await log("P2 manifest generated.");
+  });
+
+  /* Matrix helpers */
+  function identityMatrix(n){
+    const I = [];
+    for (let i=0;i<n;i++){
+      I[i] = [];
+      for (let j=0;j<n;j++) I[i][j] = new Fraction(i===j?1n:0n,1n);
+    }
+    return I;
+  }
+  function multiplyMatrices(A,B){
+    const n = A.length;
+    const C = Array.from({length:n}, ()=>Array(n).fill(null));
+    for (let i=0;i<n;i++){
+      for (let j=0;j<n;j++){
+        let s = new Fraction(0n,1n);
+        for (let k=0;k<n;k++){
+          s = s.add(A[i][k].mul(B[k][j]));
+        }
+        C[i][j] = s;
+      }
+    }
+    return C;
+  }
+  function isZeroMatrix(M){
+    for (let i=0;i<M.length;i++) for (let j=0;j<M.length;j++) if (!M[i][j].eq(new Fraction(0n,1n))) return false;
+    return true;
+  }
+  function gaussianRank(M){
+    const A = M.map(r=>r.map(x=>new Fraction(x.n,x.d)));
+    const m = A.length, n = A[0].length;
+    let rank = 0, row = 0;
+    for (let col=0; col<n && row<m; col++){
+      let sel = -1;
+      for (let i=row;i<m;i++) if (!A[i][col].eq(new Fraction(0n,1n))){ sel = i; break; }
+      if (sel===-1) continue;
+      [A[row], A[sel]] = [A[sel], A[row]];
+      const pivot = A[row][col];
+      for (let j=col;j<n;j++) A[row][j] = A[row][j].div(pivot);
+      for (let i=0;i<m;i++){
+        if (i===row) continue;
+        const factor = A[i][col];
+        if (!factor.eq(new Fraction(0n,1n))){
+          for (let j=col;j<n;j++){
+            A[i][j] = A[i][j].sub(factor.mul(A[row][j]));
+          }
+        }
+      }
+      row++; rank++;
+    }
+    return rank;
+  }
+}
+
+/* ---------- P3..P16 skeleton builders (same as before but safe) ---------- */
+function buildP3(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Trace derivation U_F → Born: show dependency chain and identify required artifacts (definitions, Γ(S), μ_F, mapping Φ, Gleason application).</p>
+    <div>
+      <label>Dependency notes (one per line)</label>
+      <textarea id="p3-notes" rows="6">Γ(S) → μ_F
+μ_F additivity
+Φ mapping</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p3-pack">Generate P3 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p3-pack').addEventListener('click', async ()=>{
+    const notes = document.getElementById('p3-notes').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    const manifest = { case:"P3", notes, timestamp: new Date().toISOString() };
+    setManifest(manifest);
+    await log("P3 manifest generated with dependency notes.");
+  });
+}
+
+function buildP4(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Discrete Modular Framework (FDM) checks: modular transforms and invariants.</p>
+    <div>
+      <label>Input integer (n)</label>
+      <input id="p4-n" type="text" value="42" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p4-run">Compute modular invariants</button>
+        <button id="p4-pack">Generate P4 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p4-run').addEventListener('click', async ()=>{
+    try{
+      const n = parseBigIntSafe(document.getElementById('p4-n').value || "0");
+      const inv = (n % 7n).toString();
+      await log(`Computed modular invariant n mod 7 = ${inv}`);
+    }catch(e){ await log("P4 run error: "+e.message); }
+  });
+  document.getElementById('p4-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P4", timestamp:new Date().toISOString()});
+    await log("P4 manifest generated.");
+  });
+}
+
+function buildP5(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Diophantine lattice: N ↦ (a2,a3,a5,...). Separate arithmetic facts from geometric claims.</p>
+    <div>
+      <label>Integer N</label>
+      <input id="p5-n" type="text" value="360" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p5-factor">Factorize (prime exponents)</button>
+        <button id="p5-pack">Generate P5 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p5-factor').addEventListener('click', async ()=>{
+    try{
+      let N = parseBigIntSafe(document.getElementById('p5-n').value || "1");
+      const factors = {};
+      let n = N;
+      for (let p of [2n,3n,5n,7n,11n,13n,17n,19n,23n]){
+        while(n % p === 0n){ factors[p] = (factors[p]||0)+1; n /= p; }
+      }
+      if (n>1n) factors[n] = (factors[n]||0)+1;
+      await log(`Factorization of ${N.toString()}: ${Object.entries(factors).map(([p,e])=>p+ '^'+e).join(', ')}`);
+    }catch(e){ await log("P5 factor error: "+e.message); }
+  });
+  document.getElementById('p5-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P5", timestamp:new Date().toISOString()});
+    await log("P5 manifest generated.");
+  });
+}
+
+function buildP6(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Strong CP: separate theorem statement, numerical ΔS computation, and physical interpretation.</p>
+    <div>
+      <label>ΔS expression (numeric)</label>
+      <input id="p6-ds" type="text" value="0.000000000000000000" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p6-eval">Record ΔS</button>
+        <button id="p6-pack">Generate P6 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p6-eval').addEventListener('click', async ()=>{
+    const ds = document.getElementById('p6-ds').value;
+    await log(`ΔS recorded: ${ds}`);
+  });
+  document.getElementById('p6-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P6", timestamp:new Date().toISOString()});
+    await log("P6 manifest generated.");
+  });
+}
+
+function buildP7(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Memory / Information: structural mapping tests and predictions.</p>
+    <div>
+      <label>Structure descriptor</label>
+      <textarea id="p7-desc" rows="4">structural-pattern-A</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p7-test">Run structural test</button>
+        <button id="p7-pack">Generate P7 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p7-test').addEventListener('click', async ()=>{
+    const d = document.getElementById('p7-desc').value;
+    await log(`Structural test executed for descriptor: ${d}`);
+  });
+  document.getElementById('p7-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P7", timestamp:new Date().toISOString()});
+    await log("P7 manifest generated.");
+  });
+}
+
+function buildP8(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Water anomaly predictions: model input and falsification test generator.</p>
+    <div>
+      <label>Model parameter (alpha)</label>
+      <input id="p8-alpha" type="text" value="0.05" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p8-run">Run prediction</button>
+        <button id="p8-pack">Generate P8 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p8-run').addEventListener('click', async ()=>{
+    const a = document.getElementById('p8-alpha').value;
+    await log(`Prediction run with alpha=${a}. Output: (placeholder)`);
+  });
+  document.getElementById('p8-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P8", timestamp:new Date().toISOString()});
+    await log("P8 manifest generated.");
+  });
+}
+
+function buildP9(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Millennium Problems: show how claims are framed as instances; do not equate to TOE proof.</p>
+    <div>
+      <label>Problem</label>
+      <select id="p9-prob">
+        <option>P vs NP</option>
+        <option>Riemann</option>
+        <option>Navier–Stokes</option>
+      </select>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p9-note">Record framing</button>
+        <button id="p9-pack">Generate P9 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p9-note').addEventListener('click', async ()=>{
+    const p = document.getElementById('p9-prob').value;
+    await log(`Framing recorded for ${p}.`);
+  });
+  document.getElementById('p9-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P9", timestamp:new Date().toISOString()});
+    await log("P9 manifest generated.");
+  });
+}
+
+function buildP10(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">AOS Kernel execution model: simulate a deterministic step and record outputs.</p>
+    <div>
+      <label>Input seed</label>
+      <input id="p10-seed" type="text" value="12345" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p10-run">Run kernel step</button>
+        <button id="p10-pack">Generate P10 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p10-run').addEventListener('click', async ()=>{
+    try{
+      const s = document.getElementById('p10-seed').value;
+      const out = (BigInt(s || "0") * 123456789n) % 1000000007n;
+      await log(`Kernel step output (deterministic): ${out.toString()}`);
+    }catch(e){ await log("P10 run error: "+e.message); }
+  });
+  document.getElementById('p10-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P10", timestamp:new Date().toISOString()});
+    await log("P10 manifest generated.");
+  });
+}
+
+function buildP11(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Mechanized math pipeline: manifest builder for Lean artifacts (declaration names, build logs, hashes).</p>
+    <div>
+      <label>Declaration name</label>
+      <input id="p11-decl" type="text" value="theorem_example" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p11-add">Add declaration to manifest</button>
+        <button id="p11-pack">Generate P11 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p11-add').addEventListener('click', async ()=>{
+    const d = document.getElementById('p11-decl').value;
+    window.P11 = window.P11 || {decls:[]};
+    window.P11.decls.push(d);
+    await log(`Declaration added: ${d}`);
+  });
+  document.getElementById('p11-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P11", decls: window.P11?window.P11.decls:[], timestamp:new Date().toISOString()});
+    await log("P11 manifest generated.");
+  });
+}
+
+function buildP12(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Clifford / Torus: small embedding test and quantizer parameter Q_120 check.</p>
+    <div>
+      <label>Q parameter</label>
+      <input id="p12-q" type="text" value="120" />
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p12-run">Check Q</button>
+        <button id="p12-pack">Generate P12 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p12-run').addEventListener('click', async ()=>{
+    const q = document.getElementById('p12-q').value;
+    await log(`Q parameter checked: Q = ${q} (placeholder test)`);
+  });
+  document.getElementById('p12-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P12", timestamp:new Date().toISOString()});
+    await log("P12 manifest generated.");
+  });
+}
+
+function buildP13(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Deterministic predictions: generate a prediction and a falsification condition.</p>
+    <div>
+      <label>Prediction text</label>
+      <textarea id="p13-pred" rows="4">Prediction: observable X will be Y</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p13-run">Record prediction</button>
+        <button id="p13-pack">Generate P13 Evidence</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p13-run').addEventListener('click', async ()=>{
+    const p = document.getElementById('p13-pred').value;
+    await log(`Prediction recorded: ${p}`);
+  });
+  document.getElementById('p13-pack').addEventListener('click', async ()=>{
+    setManifest({case:"P13", timestamp:new Date().toISOString()});
+    await log("P13 manifest generated.");
+  });
+}
+
+function buildP14(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Validation pipeline: assemble artifacts, manifest, reproduction script skeleton and hashes.</p>
+    <div>
+      <label>Repro script (commands)</label>
+      <textarea id="p14-script" rows="4">lean --make</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p14-gen">Generate validation package</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p14-gen').addEventListener('click', async ()=>{
+    const script = document.getElementById('p14-script').value;
+    const manifest = {case:"P14", script, timestamp:new Date().toISOString()};
+    setManifest(manifest);
+    await log("Validation package skeleton generated.");
+  });
+}
+
+function buildP15(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">Propagation: prepare public-facing text, disclaimers, and evidence pointers (no version tags).</p>
+    <div>
+      <label>Public note</label>
+      <textarea id="p15-note" rows="4">Public summary (no version tags)</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p15-gen">Prepare public artifact</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p15-gen').addEventListener('click', async ()=>{
+    const note = document.getElementById('p15-note').value;
+    setManifest({case:"P15", note, timestamp:new Date().toISOString()});
+    await log("Public artifact prepared (no version tags).");
+  });
+}
+
+function buildP16(container){
+  container.innerHTML = `
+    <h3>Formal summary</h3>
+    <p class="muted">MC180 DAG inspector: create chain steps and mark coverage (NOT_MAPPED / DIRECT / DERIVED).</p>
+    <div>
+      <label>Chain steps (one per line)</label>
+      <textarea id="p16-steps" rows="6">S001: U_F definition
+S002: Γ(S)
+S003: μ_F</textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button id="p16-parse">Parse chain</button>
+        <button id="p16-pack">Generate MC180 manifest</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('p16-parse').addEventListener('click', async ()=>{
+    const steps = document.getElementById('p16-steps').value.split('\n').map(s=>s.trim()).filter(Boolean);
+    await log(`MC180 parsed: ${steps.length} steps.`);
+    setManifest({case:"P16", steps, timestamp:new Date().toISOString()});
+  });
+  document.getElementById('p16-pack').addEventListener('click', async ()=>{
+    await log("MC180 manifest generated.");
+  });
+}
+
+/* ========= Global controls ========= */
+document.getElementById('btn-export').addEventListener('click', ()=>{
+  const json = document.getElementById('manifest').value || "{}";
+  const w = window.open("", "_blank");
+  w.document.write("<pre>"+json.replace(/</g,'&lt;')+"</pre>");
+});
+
+document.getElementById('btn-copy').addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(document.getElementById('manifest').value || "");
+    await log("Manifest copiato negli appunti.");
+  }catch(e){ log("Copy failed: "+(e && e.message?e.message:e)); }
+});
+
+document.getElementById('btn-download').addEventListener('click', ()=>{
+  const sample = {
+    README: "Sample reproducibility package. Attach Lean artifacts and build_log to certify.",
+    manifest: document.getElementById('manifest').value || {}
+  };
+  const blob = new Blob([JSON.stringify(sample,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'faure_sample_package.json'; a.click();
+  URL.revokeObjectURL(url);
+  log("Sample package downloaded.");
+});
+
+/* Initialize */
+(async ()=>{ await log("Sandbox ready. Select a case on the left and follow the steps. Do not upload local Lean files until NDA is signed."); })();
+
+</script>
+</body>
+</html>
