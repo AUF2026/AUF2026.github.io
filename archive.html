@@ -4450,7 +4450,7 @@ async function loadResource(
       ".txt",
       ".json",
       ".xml",
-            ".yaml",
+      ".yaml",
       ".yml",
       ".log"
     ].includes(ext)
@@ -4502,10 +4502,7 @@ async function loadResource(
 
 
   /*
-   * Unknown but locally validated resource.
-   *
-   * The browser is allowed to handle the resource
-   * directly in a new tab.
+   * Unknown local resource.
    */
 
   const resource =
@@ -4528,9 +4525,26 @@ async function loadResource(
     "archive-resource-note";
 
 
-  note.textContent =
-    "Resource: " +
-    filename;
+  const strong =
+    document.createElement(
+      "strong"
+    );
+
+
+  strong.textContent =
+    "Resource: ";
+
+
+  note.appendChild(
+    strong
+  );
+
+
+  note.appendChild(
+    document.createTextNode(
+      filename
+    )
+  );
 
 
   const link =
@@ -4581,6 +4595,1008 @@ async function loadResource(
 
 }
 
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function renderError(
+  error
+) {
+
+  const message =
+    error &&
+    error.message
+      ? error.message
+      : String(error);
+
+
+  documentElement.innerHTML = "";
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.className =
+    "archive-error";
+
+
+  const heading =
+    document.createElement(
+      "strong"
+    );
+
+
+  heading.textContent =
+    "Unable to load resource.";
+
+
+  const paragraph =
+    document.createElement(
+      "p"
+    );
+
+
+  paragraph.textContent =
+    message;
+
+
+  wrapper.appendChild(
+    heading
+  );
+
+
+  wrapper.appendChild(
+    paragraph
+  );
+
+
+  documentElement.appendChild(
+    wrapper
+  );
+
+
+  console.error(
+    "AUF2026 Archive:",
+    error
+  );
+
+}
+
+
+/* =========================================================
+   MARKDOWN PATH RESOLUTION
+   ========================================================= */
+
+/*
+ * This function is the single source of truth for Markdown
+ * resolution.
+ *
+ * Accepted:
+ *
+ *   README.md
+ *   docs/README.md
+ *   docs/foo/README.md
+ *
+ * The function NEVER blindly prepends "docs/" to a path
+ * that already contains a directory.
+ */
+
+function resolveRequestedMarkdown(
+  requested
+) {
+
+  if (
+    !requested
+  ) {
+
+    return null;
+
+  }
+
+
+  let value =
+    requested
+      .trim()
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+
+  /*
+   * Remove URL query/hash from the document name.
+   */
+  const hashIndex =
+    value.indexOf("#");
+
+
+  const queryIndex =
+    value.indexOf("?");
+
+
+  let cutIndex = -1;
+
+
+  if (
+    hashIndex >= 0 &&
+    queryIndex >= 0
+  ) {
+
+    cutIndex =
+      Math.min(
+        hashIndex,
+        queryIndex
+      );
+
+  } else if (
+    hashIndex >= 0
+  ) {
+
+    cutIndex =
+      hashIndex;
+
+  } else if (
+    queryIndex >= 0
+  ) {
+
+    cutIndex =
+      queryIndex;
+
+  }
+
+
+  if (
+    cutIndex >= 0
+  ) {
+
+    value =
+      value.slice(
+        0,
+        cutIndex
+      );
+
+  }
+
+
+  if (
+    !value
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+   * Markdown only.
+   */
+  if (
+    !value
+      .toLowerCase()
+      .endsWith(".md")
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+   * Reject traversal.
+   */
+  if (
+    value.includes("..")
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+   * ---------------------------------------------------------
+   * CASE 1
+   *
+   * Complete repository path.
+   *
+   * Example:
+   *
+   * docs/README.md
+   * archive/docs/foo.md
+   * research/source.md
+   * ---------------------------------------------------------
+   */
+
+  if (
+    value.includes("/")
+  ) {
+
+    const exact =
+      allowedDocuments.find(
+        path =>
+          path.toLowerCase() ===
+          value.toLowerCase()
+      );
+
+
+    if (
+      exact
+    ) {
+
+      return exact;
+
+    }
+
+
+    return null;
+
+  }
+
+
+  /*
+   * ---------------------------------------------------------
+   * CASE 2
+   *
+   * Historical short form.
+   *
+   * README.md
+   *
+   * First try docs/README.md.
+   * ---------------------------------------------------------
+   */
+
+  const docsCandidate =
+    "docs/" +
+    value;
+
+
+  const docsMatch =
+    allowedDocuments.find(
+      path =>
+        path.toLowerCase() ===
+        docsCandidate.toLowerCase()
+    );
+
+
+  if (
+    docsMatch
+  ) {
+
+    return docsMatch;
+
+  }
+
+
+  /*
+   * ---------------------------------------------------------
+   * CASE 3
+   *
+   * Static historical entries.
+   *
+   * The original array contains:
+   *
+   * README.md
+   *
+   * even though the physical file is:
+   *
+   * docs/README.md
+   *
+   * ---------------------------------------------------------
+   */
+
+  const staticMatch =
+    allowedDocuments.find(
+      path =>
+        path.toLowerCase() ===
+        value.toLowerCase()
+    );
+
+
+  if (
+    staticMatch
+  ) {
+
+    /*
+     * If this is already a complete discovered path,
+     * return it.
+     */
+    if (
+      staticMatch.includes("/")
+    ) {
+
+      return staticMatch;
+
+    }
+
+
+    /*
+     * Historical short-form entry.
+     */
+    return (
+      "docs/" +
+      staticMatch
+    );
+
+  }
+
+
+  /*
+   * ---------------------------------------------------------
+   * CASE 4
+   *
+   * Search recursively by filename.
+   *
+   * Example:
+   *
+   * ?doc=FAURE-THEOREM-NO-GOD.md
+   *
+   * can resolve:
+   *
+   * research/theorems/FAURE-THEOREM-NO-GOD.md
+   *
+   * ---------------------------------------------------------
+   */
+
+  const matches =
+    allowedDocuments.filter(
+      path => {
+
+        const filename =
+          path
+            .split("/")
+            .filter(Boolean)
+            .pop();
+
+
+        return (
+          filename &&
+          filename.toLowerCase() ===
+          value.toLowerCase()
+        );
+
+      }
+    );
+
+
+  /*
+   * Only accept a filename-only request when it resolves
+   * uniquely.
+   */
+  if (
+    matches.length === 1
+  ) {
+
+    return matches[0];
+
+  }
+
+
+  /*
+   * Ambiguous or nonexistent.
+   */
+  return null;
+
+}
+
+
+/* =========================================================
+   LOAD MARKDOWN DOCUMENT
+   ========================================================= */
+
+async function loadMarkdownDocument() {
+
+  if (
+    !requestedDocument
+  ) {
+
+    renderError(
+      new Error(
+        "Markdown document not specified."
+      )
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Resolve the actual repository path.
+   */
+  const resolvedPath =
+    resolveRequestedMarkdown(
+      requestedDocument
+    );
+
+
+  if (
+    !resolvedPath
+  ) {
+
+    renderError(
+      new Error(
+        "Markdown document not found: " +
+        requestedDocument
+      )
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * IMPORTANT:
+   *
+   * Do NOT prepend docs/ here.
+   *
+   * resolveRequestedMarkdown() already returned the
+   * complete repository path.
+   */
+  const sourcePath =
+    resolvedPath;
+
+
+  const filename =
+    sourcePath
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  titleElement.textContent =
+    humanTitle(
+      filename ||
+      requestedDocument
+    );
+
+
+  sourceElement.textContent =
+    sourcePath;
+
+
+  try {
+
+    const response =
+      await fetch(
+        sourcePath,
+        {
+          cache: "no-cache"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status +
+        " while loading " +
+        sourcePath
+      );
+
+    }
+
+
+    const markdown =
+      await response.text();
+
+
+    /*
+     * Verify that we actually received something.
+     */
+    if (
+      !markdown.trim()
+    ) {
+
+      throw new Error(
+        "The Markdown file is empty: " +
+        sourcePath
+      );
+
+    }
+
+
+    /*
+     * marked must exist.
+     */
+    if (
+      typeof marked ===
+      "undefined"
+    ) {
+
+      throw new Error(
+        "Markdown parser 'marked' is not available."
+      );
+
+    }
+
+
+    marked.setOptions({
+
+      gfm: true,
+
+      breaks: true
+
+    });
+
+
+    documentElement.innerHTML =
+      marked.parse(
+        markdown
+      );
+
+
+    /*
+     * Convert .md links to archive.html?doc=...
+     */
+    normalizeMarkdownLinks();
+
+
+    /*
+     * Make tables horizontally scrollable.
+     */
+    improveTables();
+
+
+    /*
+     * Set final browser title.
+     */
+    document.title =
+      "AUF2026 — " +
+      humanTitle(
+        filename ||
+        requestedDocument
+      );
+
+
+  } catch (error) {
+
+    renderError(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD /pages/*.html
+   ========================================================= */
+
+function loadPage() {
+
+  if (
+    !requestedPage
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedPage
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid page path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    requestedPage
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid page."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const ext =
+    getExtension(
+      filename
+    );
+
+
+  if (
+    !allowedPageExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Only HTML pages are allowed."
+      )
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * requestedPage is relative to /pages/.
+   */
+  const path =
+    "pages/" +
+    requestedPage;
+
+
+  loadResource(
+    path,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(
+      filename
+    );
+
+}
+
+
+/* =========================================================
+   LOAD GENERIC RESOURCE
+   ========================================================= */
+
+function loadGenericResource() {
+
+  if (
+    !requestedResource
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedResource
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    requestedResource
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const ext =
+    getExtension(
+      filename
+    );
+
+
+  if (
+    !allowedResourceExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Resource type not allowed: " +
+        ext
+    )
+    );
+
+    return;
+
+  }
+
+
+  loadResource(
+    requestedResource,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(
+      filename
+    );
+
+}
+
+
+/* =========================================================
+   YOUTUBE / VIMEO URL SUPPORT
+   ========================================================= */
+
+function loadExternalEmbed() {
+
+  const url =
+    params.get(
+      "embed"
+    );
+
+
+  if (
+    !url
+  ) {
+
+    return false;
+
+  }
+
+
+  try {
+
+    const parsed =
+      new URL(
+        url
+      );
+
+
+    const allowedHosts = [
+
+      "www.youtube.com",
+      "youtube.com",
+      "youtu.be",
+      "www.youtube-nocookie.com",
+      "youtube-nocookie.com",
+      "player.vimeo.com",
+      "vimeo.com",
+      "www.vimeo.com"
+
+    ];
+
+
+    const hostname =
+      parsed.hostname
+        .toLowerCase();
+
+
+    if (
+      !allowedHosts.includes(
+        hostname
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "External embed host not allowed."
+        )
+      );
+
+      return true;
+
+    }
+
+
+    renderEmbed(
+      parsed.href,
+      "External media"
+    );
+
+
+    sourceElement.textContent =
+      parsed.href;
+
+
+    document.title =
+      "AUF2026 — External Media";
+
+
+    return true;
+
+  } catch (
+    error
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid external media URL."
+      )
+    );
+
+
+    return true;
+
+  }
+
+}
+
+
+/* =========================================================
+   START ARCHIVE
+   ========================================================= */
+
+async function startArchive() {
+
+  /*
+   * First discover the complete repository tree.
+   *
+   * This populates allowedDocuments with paths such as:
+   *
+   *   docs/README.md
+   *   docs/FAURE-THEOREM-NO-GOD.md
+   *   research/foo/bar.md
+   *
+   * If GitHub is unavailable, the static fallback entries
+   * remain usable.
+   */
+  await discoverMarkdownDocuments();
+
+
+  /*
+   * External embed has highest priority.
+   */
+  if (
+    loadExternalEmbed()
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * HTML page.
+   */
+  if (
+    requestedPage
+  ) {
+
+    loadPage();
+
+    return;
+
+  }
+
+
+  /*
+   * Generic resource.
+   */
+  if (
+    requestedResource
+  ) {
+
+    loadGenericResource();
+
+    return;
+
+  }
+
+
+  /*
+   * Markdown document.
+   */
+  if (
+    requestedDocument
+  ) {
+
+    await loadMarkdownDocument();
+
+    return;
+
+  }
+
+
+  /*
+   * Nothing requested.
+   */
+  documentElement.innerHTML = "";
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.className =
+    "archive-error";
+
+
+  const heading =
+    document.createElement(
+      "strong"
+    );
+
+
+  heading.textContent =
+    "Resource not specified.";
+
+
+  const paragraph =
+    document.createElement(
+      "p"
+    );
+
+
+  paragraph.textContent =
+    "Select a document, page or resource " +
+    "from the AUF2026 research archive.";
+
+
+  wrapper.appendChild(
+    heading
+  );
+
+
+  wrapper.appendChild(
+    paragraph
+  );
+
+
+  documentElement.appendChild(
+    wrapper
+  );
+
+
+  sourceElement.textContent =
+    "not specified";
+
+
+  document.title =
+    "AUF2026 — Research Archive";
+
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+startArchive();
 
 /* =========================================================
    ERROR
