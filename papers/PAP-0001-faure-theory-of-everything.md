@@ -4,59 +4,64 @@
  **Publication date:** 19 May 2026\
  **Document type:** Research Publication Record\
  **Archive identifier:** `PAP-0001`\
- **Original source:** Medium
+ **Original source:** Medium\
+ **Canonical source:** https://medium.com/@auf2026/the-faure-theory-of-everything-auf2026-kernel-and-universal-invariance-ebcc7bd58305
 
 ---
 
  ## 1\. Provenance
 
- This record identifies the original public publication and maps its principal mathematical, computational and validation claims to the AUF2026 research corpus.
+ This record identifies the original public publication and preserves its relationship to the AUF2026 research corpus.
 
- The original publication presents the **Faure Theory of Everything** as a framework centered on the **AUF2026 Kernel**, the **AOS Lattice**, deterministic computation and a concept of universal invariance.
+ The original article is:
 
- The publication also describes computational and empirical applications involving GPS jitter, fundamental constants and multidimensional triangulation.
+ The Faure Theory of Everything: AUF2026 Kernel and Universal Invariance
 
- This record preserves the publication as the provenance source while connecting its claims to the formal theorem and validation infrastructure maintained in the AUF2026 repositories.
+ The publication presents the **Faure Theory of Everything** as a framework centered on the **AUF2026 Kernel**, the **AOS Lattice**, deterministic computation and universal invariance.
 
- The publication record and the formal validation record are intentionally distinct:
+ It describes a 144-node computational structure, deterministic numerical procedures, transformation-invariant properties and computational or empirical comparisons involving physical quantities.
 
-```
-PUBLICATION
-    ↓
-CLAIM
-    ↓
-THEOREM / MATHEMATICAL OBJECT
-    ↓
-VALIDATION RECORD
-    ↓
-LEAN ARTIFACT
-```
+ This record preserves the article as the provenance source for the claims it publicly states and connects those claims to the subsequent AUF2026 theorem, proof and validation infrastructure.
 
- A publication statement is therefore not treated as equivalent to a formal proof.
+ The publication record is not itself treated as a formal proof record.
+
+ The evidentiary chain is:
+
+ PUBLICATION\
+ ↓\
+ CLAIM\
+ ↓\
+ MATHEMATICAL OBJECT\
+ ↓\
+ THEOREM\
+ ↓\
+ VALIDATION RECORD\
+ ↓\
+ LEAN ARTIFACT
 
 ---
 
- ## 2\. Publication Summary
+ ## 2\. Abstract
 
- The publication presents the Faure Theory of Everything as a mathematical-computational framework based on a structured computational kernel and an AOS lattice.
+ The publication presents the Faure Theory of Everything as a mathematical-computational framework based on the AUF2026 Kernel and the AOS Lattice.
 
- The central computational structure is described as a **144-node lattice**, corresponding to:
+ The AOS Lattice is described as a 144-node computational structure organized as:
 
-```
-12 × 12 = 144
-```
+ 12 × 12 = 144
 
- The article connects this structure to deterministic numerical computation and to invariant properties under transformations.
+ The article connects this structure with deterministic numerical computation and with the concept of universal invariance under transformations.
 
- The publication additionally reports applications or empirical comparisons involving:
+ The publication additionally describes computational and empirical investigations involving:
 
  - GPS jitter;
 - fundamental physical constants;
 - multidimensional triangulation;
-- deterministic numerical computation;
-- transformation invariance.
+- deterministic numerical procedures;
+- invariant properties under transformations.
 
- The present archival record treats these statements as publication-level claims and connects them, where appropriate, to the broader AUF2026 theorem and validation corpus.
+ The framework is presented as intended to produce testable and reproducible results.
+
+ For archival purposes, the publication-level statements are preserved separately from the formal mathematical artifacts and validation records subsequently associated with the AUF2026 corpus.
 
 ---
 
@@ -64,609 +69,601 @@ LEAN ARTIFACT
 
  The publication identifies the **AUF2026 Kernel** as the computational core of the framework.
 
- The kernel is recorded as a principal research object:
+ The kernel is therefore registered as a principal research object:
 
-```
-AUF2026 KERNEL
-      ↓
-AOS STRUCTURE
-      ↓
-DETERMINISTIC COMPUTATION
-      ↓
-MATHEMATICAL / COMPUTATIONAL OUTPUT
-```
+ AUF2026 KERNEL\
+ ↓\
+ AOS STRUCTURE\
+ ↓\
+ DETERMINISTIC COMPUTATION\
+ ↓\
+ COMPUTATIONAL OUTPUT
 
- The publication provides the conceptual description.
+ The publication provides the conceptual description of the kernel.
 
- The implementation must be traced to the corresponding source-code artifacts in the AUF2026 repositories.
+ Its actual implementation must be established through the corresponding source-code artifacts.
 
- The archival distinction is:
+ The archive distinguishes:
 
  | Layer | Evidence |
 | --- | --- |
-| Kernel described | Publication |
-| Kernel definition | Mathematical/source documentation |
+| Kernel described | `PAP-0001` |
+| Kernel definition | Mathematical / technical source |
 | Kernel implementation | Source code |
 | Kernel execution | Computational record |
 | Kernel correctness | Formal / computational validation |
 
-No implementation detail is inferred solely from the publication.
+No implementation detail is inferred merely from the publication.
 
 ---
 
  ## 4\. AOS Lattice
 
- The publication identifies the AOS Lattice as a 144-node computational structure.
+ The publication identifies the **AOS Lattice** as a 144-node computational structure.
 
- The documented numerical organization is:
+ Its documented numerical organization is:
 
-```
-AOS LATTICE
-     │
-     └── 144 nodes
-          │
-          └── 12 × 12
-```
+ AOS LATTICE\
+ → 144 nodes\
+ → 12 × 12
 
  The archive records:
 
-```
-Object: AOS Lattice
-Size: 144 nodes
-Organization: 12 × 12
-Source: PAP-0001
-```
+ | Property | Value |
+| --- | --- |
+| Object | AOS Lattice |
+| Nodes | 144 |
+| Organization | 12 × 12 |
+| Source | `PAP-0001` |
+| Formal status | Tracked separately |
+| Validation status | Tracked separately |
 
- The numerical identity
+The numerical identity
 
-```
-144 = 12²
-```
+ 144 = 12²
 
  is recorded independently from any stronger mathematical interpretation of the lattice.
 
  The existence of a 144-node structure does not, by itself, establish its algebraic, geometric, spectral or physical properties.
 
- Those properties are tracked through the relevant mathematical and formal records.
+ Such properties require their corresponding mathematical definitions and evidence.
 
 ---
 
  ## 5\. Universal Invariance
 
- Universal invariance is presented by the publication as a central structural principle.
+ Universal invariance is presented as a central concept of the publication.
 
- At the publication level, the concept concerns the persistence of relevant properties under transformations of spatial, numerical or lattice representations.
+ At publication level, the concept concerns the persistence of relevant spatial, numerical or lattice properties under transformations.
 
- The exact mathematical meaning of invariance is therefore treated as a theorem-level extraction problem.
+ The exact mathematical proposition underlying this terminology is treated as a separate theorem-level object.
 
- The corresponding theorem object is:
+ The principal theorem record is:
 
-```
-THM-0001
-```
+ `THM-0001`
 
  The theorem record must preserve:
 
-```
-EXACT STATEMENT
-DEFINITIONS
-ASSUMPTIONS
-DOMAIN
-TRANSFORMATION
-INVARIANT QUANTITY / PROPERTY
-DERIVATION
-PROOF
-FORMALIZATION
-VALIDATION
-```
+ - exact statement;
+- definitions;
+- assumptions;
+- domain;
+- transformation;
+- invariant property;
+- derivation;
+- proof;
+- formalization;
+- validation.
 
- The publication's use of the term _invariance_ is not itself treated as a formal theorem.
+ The use of the term _invariance_ in the publication is therefore not itself treated as the formal theorem.
 
- The exact proposition is the object that must be linked to the formal validation corpus.
+ The exact mathematical proposition and its formal artifact constitute the theorem-level evidence.
 
 ---
 
  ## 6\. Faure Theorem Validation Corpus
 
- The AUF2026 validation repository contains a dedicated collection of **Faure Theorem validation records**.
+ The AUF2026 validation repository contains a dedicated collection of **Faure Theorem** validation records.
 
- Each validation record has a corresponding Lean formal artifact in the dedicated formal-proof directory.
+ Each theorem validation has its corresponding Lean formal artifact in the dedicated formal-proof directory.
 
- The validation architecture is therefore:
+ The architecture is:
 
-```
-FAURE-THEOREM-*.md
-        ↕
-FAURE-THEOREM-*.lean
-        ↓
-FORMAL PROPOSITION
-        ↓
-LEAN CHECK
-```
+ FAURE-THEOREM-_.md\
+ ↕\
+ FAURE-THEOREM-_.lean\
+ ↓\
+ FORMAL PROPOSITION\
+ ↓\
+ LEAN CHECK
 
  The validation records currently identified are:
 
- | Validation record | Lean counterpart | Role |
-| --- | --- | --- |
-| `FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION.md` | Corresponding `.lean` artifact | Arithmetic / additive representation |
-| `FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING.md` | Corresponding `.lean` artifact | Arithmetic-geometric state embedding |
-| `FAURE-THEOREM-ARITHMETIC-IDENTITY.md` | Corresponding `.lean` artifact | Arithmetic identity |
-| `FAURE-THEOREM-ARITHMETIC-POWER.md` | Corresponding `.lean` artifact | Arithmetic power relation |
-| `FAURE-THEOREM-ARITHMETIC-SEPARATION.md` | Corresponding `.lean` artifact | Arithmetic separation |
-| `FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION.md` | Corresponding `.lean` artifact | Diophantine-geometric separation |
-| `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION.md` | Corresponding `.lean` artifact | Discrete-continuous representation |
-| `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2.md` | Corresponding `.lean` artifact | Revised discrete-continuous representation |
-| `FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE.md` | Corresponding `.lean` artifact | Coordinatewise divisibility |
-| `FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY.md` | Corresponding `.lean` artifact | Geometric completion boundary |
-| `FAURE-THEOREM-NO-GOD.md` | Corresponding `.lean` artifact | No-God theorem |
-| `FAURE-THEOREM-PROPER-COMPLETION-SEPARATION.md` | Corresponding `.lean` artifact | Proper completion separation |
-| `FAURE-THEOREM-STABILIZED-IDEMPOTENT.md` | Corresponding `.lean` artifact | Stabilized idempotent |
-| `FAURE-THEOREM-UNIVERSAL-STABILIZATION.md` | Corresponding `.lean` artifact | Universal stabilization |
+ - `FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION.md`
+- `FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING.md`
+- `FAURE-THEOREM-ARITHMETIC-IDENTITY.md`
+- `FAURE-THEOREM-ARITHMETIC-POWER.md`
+- `FAURE-THEOREM-ARITHMETIC-SEPARATION.md`
+- `FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION.md`
+- `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION.md`
+- `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2.md`
+- `FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE.md`
+- `FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY.md`
+- `FAURE-THEOREM-NO-GOD.md`
+- `FAURE-THEOREM-PROPER-COMPLETION-SEPARATION.md`
+- `FAURE-THEOREM-STABILIZED-IDEMPOTENT.md`
+- `FAURE-THEOREM-UNIVERSAL-STABILIZATION.md`
 
-`README.md` in the validation directory is treated as directory documentation and is **not** counted as a theorem validation artifact.
+ The validation directory also contains a `README.md`, which is treated as directory documentation and is not counted as a theorem validation artifact.
 
 ---
 
- ## 7\. Validation Registry
+ ## 7\. Formal Validation Registry
 
- The validation corpus is registered as follows.
+ ### 7.1 FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION
 
- ### `FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION`
+ **Validation file:** `FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION.md`
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Arithmetic / additive representation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Formal artifact:** `FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION.lean`
 
----
+ **Domain:** Arithmetic / additive representation
 
- ### `FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING`
-
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Arithmetic-geometric state embedding\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
-
- The repository commit message explicitly identifies this record as a formal validation for the Faure theorem embedding.
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ### `FAURE-THEOREM-ARITHMETIC-IDENTITY`
+ ### 7.2 FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Arithmetic identity\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING.md`
 
----
+ **Formal artifact:** `FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING.lean`
 
- ### `FAURE-THEOREM-ARITHMETIC-POWER`
+ **Domain:** Arithmetic-geometric state embedding
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Arithmetic / power relation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+ The repository history explicitly records this validation as a formal validation for the Faure theorem embedding.
 
 ---
 
- ### `FAURE-THEOREM-ARITHMETIC-SEPARATION`
+ ### 7.3 FAURE-THEOREM-ARITHMETIC-IDENTITY
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Arithmetic separation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-ARITHMETIC-IDENTITY.md`
 
----
+ **Formal artifact:** `FAURE-THEOREM-ARITHMETIC-IDENTITY.lean`
 
- ### `FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION`
+ **Domain:** Arithmetic identity
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Diophantine / geometric separation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ### `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION`
+ ### 7.4 FAURE-THEOREM-ARITHMETIC-POWER
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Discrete / continuous representation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-ARITHMETIC-POWER.md`
 
----
+ **Formal artifact:** `FAURE-THEOREM-ARITHMETIC-POWER.lean`
 
- ### `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2`
+ **Domain:** Arithmetic / power structure
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Discrete / continuous representation\
- **Revision:** V2\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
-
- The V2 record is retained as a separate artifact because it represents a distinct repository object and must not be silently merged with the earlier representation record.
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ### `FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE`
+ ### 7.5 FAURE-THEOREM-ARITHMETIC-SEPARATION
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Coordinatewise divisibility\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-ARITHMETIC-SEPARATION.md`
 
----
+ **Formal artifact:** `FAURE-THEOREM-ARITHMETIC-SEPARATION.lean`
 
- ### `FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY`
+ **Domain:** Arithmetic separation
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Geometric completion / boundary\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ### `FAURE-THEOREM-NO-GOD`
+ ### 7.6 FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Faure theorem / `No-God` result\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION.md`
 
----
+ **Formal artifact:** `FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION.lean`
 
- ### `FAURE-THEOREM-PROPER-COMPLETION-SEPARATION`
+ **Domain:** Diophantine / geometric separation
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Proper completion / separation\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ### `FAURE-THEOREM-STABILIZED-IDEMPOTENT`
+ ### 7.7 FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION
 
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Stabilized idempotent\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Validation file:** `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION.md`
 
- The repository history identifies this artifact as having been revised together with its formal artifact and validation record.
+ **Formal artifact:** `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION.lean`
 
----
+ **Domain:** Discrete / continuous representation
 
- ### `FAURE-THEOREM-UNIVERSAL-STABILIZATION`
-
- **Validation type:** Formal theorem validation\
- **Mathematical domain:** Universal stabilization\
- **Validation artifact:** Markdown validation record\
- **Formal counterpart:** Corresponding Lean source file\
- **Status:** Validation record present
+ **Status:** Validation record and corresponding Lean artifact identified.
 
 ---
 
- ## 8\. Formal Validation Model
+ ### 7.8 FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2
 
- The AUF2026 validation structure should be represented as a paired artifact model rather than as a generic validation checklist.
+ **Validation file:** `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2.md`
 
-```
-                    FAURE THEOREM
-                          │
-            ┌─────────────┴─────────────┐
-            ↓                           ↓
-     VALIDATION RECORD             LEAN ARTIFACT
-          `.md`                       `.lean`
-            │                           │
-            └─────────────┬─────────────┘
-                          ↓
-                 FORMAL PROPOSITION
-                          ↓
-                    LEAN CHECK
-```
+ **Formal artifact:** `FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2.lean`
 
- The Markdown record documents the validation object.
+ **Domain:** Discrete / continuous representation
+
+ **Revision:** V2
+
+ **Status:** Separate validation artifact.
+
+ The V2 record is retained separately from the original representation record because it is a distinct repository object and may represent a revised formalization or validation pathway.
+
+---
+
+ ### 7.9 FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE
+
+ **Validation file:** `FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE.md`
+
+ **Formal artifact:** `FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE.lean`
+
+ **Domain:** Coordinatewise divisibility
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+---
+
+ ### 7.10 FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY
+
+ **Validation file:** `FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY.md`
+
+ **Formal artifact:** `FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY.lean`
+
+ **Domain:** Geometric completion / boundary
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+---
+
+ ### 7.11 FAURE-THEOREM-NO-GOD
+
+ **Validation file:** `FAURE-THEOREM-NO-GOD.md`
+
+ **Formal artifact:** `FAURE-THEOREM-NO-GOD.lean`
+
+ **Domain:** Faure theorem / No-God result
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+---
+
+ ### 7.12 FAURE-THEOREM-PROPER-COMPLETION-SEPARATION
+
+ **Validation file:** `FAURE-THEOREM-PROPER-COMPLETION-SEPARATION.md`
+
+ **Formal artifact:** `FAURE-THEOREM-PROPER-COMPLETION-SEPARATION.lean`
+
+ **Domain:** Proper completion / separation
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+---
+
+ ### 7.13 FAURE-THEOREM-STABILIZED-IDEMPOTENT
+
+ **Validation file:** `FAURE-THEOREM-STABILIZED-IDEMPOTENT.md`
+
+ **Formal artifact:** `FAURE-THEOREM-STABILIZED-IDEMPOTENT.lean`
+
+ **Domain:** Stabilized idempotent
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+ The repository history records a revision of the formal artifact and validation associated with this theorem.
+
+---
+
+ ### 7.14 FAURE-THEOREM-UNIVERSAL-STABILIZATION
+
+ **Validation file:** `FAURE-THEOREM-UNIVERSAL-STABILIZATION.md`
+
+ **Formal artifact:** `FAURE-THEOREM-UNIVERSAL-STABILIZATION.lean`
+
+ **Domain:** Universal stabilization
+
+ **Status:** Validation record and corresponding Lean artifact identified.
+
+---
+
+ ## 8\. Validation Matrix
+
+ | # | Faure Theorem | Validation `.md` | Lean `.lean` | Domain |
+| --- | --- | --- | --- | --- |
+| 1 | Arithmetic Additive Representation | Present | Present | Arithmetic |
+| 2 | Arithmetic-Geometric State Embedding | Present | Present | Arithmetic / Geometry |
+| 3 | Arithmetic Identity | Present | Present | Arithmetic |
+| 4 | Arithmetic Power | Present | Present | Arithmetic |
+| 5 | Arithmetic Separation | Present | Present | Arithmetic |
+| 6 | Diophantine-Geometric Separation | Present | Present | Diophantine / Geometry |
+| 7 | Discrete-Continuous Representation | Present | Present | Representation |
+| 8 | Discrete-Continuous Representation V2 | Present | Present | Representation |
+| 9 | Divisibility Coordinatewise | Present | Present | Arithmetic |
+| 10 | Geometric Completion Boundary | Present | Present | Geometry |
+| 11 | No-God | Present | Present | Faure Theorem |
+| 12 | Proper Completion Separation | Present | Present | Geometry / Separation |
+| 13 | Stabilized Idempotent | Present | Present | Algebra / Operator structure |
+| 14 | Universal Stabilization | Present | Present | Structural stabilization |
+
+**Total identified Faure Theorem validation records: 14**
+
+---
+
+ ## 9\. Validation Pairing Rule
+
+ Each theorem validation is treated as a paired research artifact:
+
+ | Documentation layer | Formal layer |
+| --- | --- |
+| `.md` validation record | `.lean` formal artifact |
+| Validation description | Formal proposition |
+| Provenance | Formal source |
+| Research context | Lean environment |
+
+The relationship is:
+
+ THEOREM\
+ ↓\
+ VALIDATION `.md`\
+ ↕\
+ FORMAL `.lean`
+
+ The Markdown file documents the validation object.
 
  The Lean file contains the corresponding formal artifact.
 
- The two records should remain linked through a stable theorem/validation identifier or canonical filename relationship.
+ The two files remain separate but linked research objects.
 
 ---
 
- ## 9\. Formal Evidence Record
+ ## 10\. Formal Evidence Chain
 
- For each Faure Theorem validation, the archive should preserve the following metadata:
+ For every theorem, the preferred evidence chain is:
 
-```
-VALIDATION ID
-THEOREM NAME
-VALIDATION FILE
-LEAN FILE
-REPOSITORY
-PATH
-COMMIT
-HASH
-FORMAL STATEMENT
-ASSUMPTIONS
-IMPORTS
-DEPENDENCIES
-LEAN VERSION
-MATHLIB VERSION
-COMPILATION STATUS
-VALIDATION STATUS
-RELATED PUBLICATION
-RELATED CLAIM
-```
+ THEOREM NAME\
+ ↓\
+ EXACT MATHEMATICAL STATEMENT\
+ ↓\
+ DEFINITIONS\
+ ↓\
+ ASSUMPTIONS\
+ ↓\
+ LEAN FORMALIZATION\
+ ↓\
+ IMPORTS / DEPENDENCIES\
+ ↓\
+ LEAN ENVIRONMENT\
+ ↓\
+ COMPILATION\
+ ↓\
+ FORMAL VALIDATION
 
- Where the information is available, the record should additionally preserve:
+ Where available, the archive should additionally preserve:
 
-```
-SOURCE THEOREM
-PREVIOUS THEOREMS
-DEFINITIONS
-CONSTRUCTION
-PROOF TERM
-TESTS
-EXAMPLES
-COUNTEREXAMPLES
-LIMITATIONS
-```
+ - source commit;
+- source hash;
+- Lean version;
+- Mathlib revision;
+- build result;
+- dependency versions;
+- reproduction result.
 
- No field should be populated by inference when the corresponding source artifact has not been inspected.
+ The theorem validation status should therefore be attached to the actual formal artifact and its declared environment.
 
 ---
 
- ## 10\. Relation to PAP-0001
+ ## 11\. Mathematical Domains Covered
 
- The publication `PAP-0001` describes the AUF2026 Kernel, AOS Lattice and universal invariance framework.
+ The current validation corpus spans several mathematical areas:
 
- The formal validation corpus provides a substantially more granular theorem structure.
+ ### Arithmetic
 
- The relationship should therefore be represented as:
+ - additive representation;
+- identity;
+- power;
+- separation;
+- coordinatewise divisibility.
 
-```
-PAP-0001
-   │
-   ├── AUF2026 Kernel
-   │
-   ├── AOS Lattice
-   │
-   ├── Universal Invariance
-   │
-   └── Faure Theorem Corpus
-           │
-           ├── Arithmetic Additive Representation
-           ├── Arithmetic-Geometric State Embedding
-           ├── Arithmetic Identity
-           ├── Arithmetic Power
-           ├── Arithmetic Separation
-           ├── Diophantine-Geometric Separation
-           ├── Discrete-Continuous Representation
-           ├── Discrete-Continuous Representation V2
-           ├── Coordinatewise Divisibility
-           ├── Geometric Completion Boundary
-           ├── No-God
-           ├── Proper Completion Separation
-           ├── Stabilized Idempotent
-           └── Universal Stabilization
-```
+ ### Arithmetic / Geometry
 
- This registry is the appropriate bridge between the publication-level description and the actual formal theorem corpus.
+ - geometric state embedding;
+- Diophantine-geometric separation.
 
----
+ ### Representation
 
- ## 11\. Claim-to-Theorem Mapping
+ - discrete-continuous representation;
+- discrete-continuous representation V2.
 
- The publication contains broad conceptual statements, while the validation repository decomposes the mathematical content into more precise theorem objects.
+ ### Geometry
 
- The archive therefore uses the following mapping model:
+ - geometric completion boundary;
+- proper completion separation.
 
-```
-PUBLICATION CLAIM
-        ↓
-MATHEMATICAL PROPOSITION
-        ↓
-FAURE THEOREM
-        ↓
-VALIDATION RECORD
-        ↓
-LEAN ARTIFACT
-```
+ ### Algebra / Operator Structure
 
- A single publication statement may correspond to multiple formal theorems.
+ - stabilized idempotent.
 
- Conversely, a formal theorem may provide only one component of a broader publication-level claim.
+ ### Universal Structure
 
- The mapping must therefore be explicit rather than one-to-one by default.
+ - universal stabilization.
+
+ ### Faure Theorem
+
+ - No-God.
+
+ The filenames provide the classification labels used by the archive.
+
+ The exact proposition associated with each label is determined by the corresponding validation and Lean files.
 
 ---
 
- ## 12\. Mathematical Scope of the Validation Corpus
+ ## 12\. Relationship Between Publication and Formal Corpus
 
- The currently identified validation names establish that the formal corpus addresses at least the following mathematical areas:
+ `PAP-0001` provides the publication-level presentation of the framework.
 
-```
-ARITHMETIC
-ADDITIVE REPRESENTATION
-GEOMETRIC STATE EMBEDDING
-ARITHMETIC IDENTITIES
-POWER STRUCTURES
-SEPARATION
-DIOPHANTINE STRUCTURES
-DISCRETE / CONTINUOUS REPRESENTATION
-DIVISIBILITY
-GEOMETRIC COMPLETION
-STABILIZATION
-IDEMPOTENCE
-UNIVERSAL STABILIZATION
-```
+ The Faure Theorem validation corpus provides a more granular formal layer.
 
- These names are treated as identifiers for the actual repository artifacts.
+ The relationship is:
 
- The exact mathematical propositions must be taken from the corresponding Markdown and Lean contents.
+ PAP-0001\
+ ↓\
+ AUF2026 Kernel\
+ ↓\
+ AOS Lattice\
+ ↓\
+ Universal Invariance\
+ ↓\
+ Faure Theorem Corpus\
+ ↓\
+ Formal Validation Records\
+ ↓\
+ Lean Artifacts
 
- The archive does not infer theorem statements from filenames alone.
+ The publication should therefore be understood as one node in the larger research graph rather than as the complete representation of the formal corpus.
 
 ---
 
- ## 13\. Versioning
+ ## 13\. Empirical Claims
 
- The validation repository is version-controlled.
+ The publication also describes empirical or computational material concerning:
 
- The current repository state identified for the validation directory includes commit:
+ ### GPS Jitter
 
-```
-7bccdb3
-```
+ The publication reports analysis of satellite GPS jitter and describes an alignment between observed behavior and predictions within stated error margins.
 
- with the commit message:
+ ### Fundamental Constants
 
-```
-Create validation record for FAURE THEOREM
-```
+ The publication reports recovery of fundamental constants from lattice computations.
 
- Individual validation artifacts have their own repository history and may have different commits.
+ ### Multidimensional Triangulation
 
- The archive must therefore distinguish:
+ The publication reports invariant properties associated with multidimensional triangulations under transformations.
 
-```
-VALIDATION DIRECTORY COMMIT
-        ≠
-INDIVIDUAL FILE COMMIT
-        ≠
-LEAN ARTIFACT COMMIT
-```
+ These remain separate from the fourteen formal theorem validations listed above.
 
- For reproducibility, the exact commit associated with each artifact should be preserved.
+ The archive therefore maintains two evidence branches:
 
----
-
- ## 14\. Repository Provenance
-
- The validation records belong to the AUF2026 repository corpus.
-
- The archival provenance chain is:
-
-```
-AUF2026
-   ↓
-VALIDATION DIRECTORY
-   ↓
-FAURE-THEOREM-*.md
-   ↓
-CORRESPONDING LEAN FILE
-   ↓
-COMMIT
-   ↓
-FORMAL ENVIRONMENT
-```
-
- The repository tree establishes the existence of the artifacts.
-
- The individual files establish their contents.
-
- The Lean environment establishes whether the formal artifact can be checked.
-
- The validation record documents the relationship between the mathematical claim and the formal artifact.
-
----
-
- ## 15\. Formal Verification Status
-
- The existence of paired Markdown and Lean artifacts establishes a formal-validation infrastructure.
-
- The archive nevertheless maintains separate statuses for:
-
-```
-VALIDATION RECORD EXISTS
-LEAN FILE EXISTS
-LEAN FILE RETRIEVED
-LEAN FILE INSPECTED
-LEAN FILE COMPILED
-PROPOSITION VERIFIED
-INDEPENDENTLY REPRODUCED
-```
-
- These states are not interchangeable.
-
- The formal validation record should therefore never be reduced to a single binary field when the underlying evidence supports a more precise status.
-
----
-
- ## 16\. Independent Validation
-
- Formal verification and independent validation remain separate evidence dimensions.
-
- A Lean artifact can establish a proposition inside its declared formal environment.
-
- Independent validation asks an additional question:
-
-```
-Can the result be checked or reproduced independently
-of the original author-controlled source presentation?
-```
-
- The archive therefore preserves:
-
-```
-FORMAL VERIFICATION
-        +
-INDEPENDENT VALIDATION
-```
-
- as separate fields.
-
- The presence of a Lean artifact does not automatically imply independent validation.
-
----
-
- ## 17\. Relationship to the Publication's Empirical Claims
-
- The original publication describes empirical material involving GPS jitter, physical constants and multidimensional triangulation.
-
- The current formal validation corpus identified above is principally organized around named **Faure Theorem** mathematical artifacts.
-
- These two evidence families should therefore remain separate:
-
-```
-MATHEMATICAL / FORMAL CORPUS
-        │
-        └── FAURE THEOREM VALIDATIONS
-```
+ MATHEMATICAL / FORMAL\
+ ↓\
+ FAURE THEOREM VALIDATIONS\
+ ↓\
+ LEAN ARTIFACTS
 
  and:
 
-```
-EMPIRICAL / COMPUTATIONAL CORPUS
-        │
-        ├── GPS
-        ├── CONSTANTS
-        └── TRIANGULATION
-```
+ COMPUTATIONAL / EMPIRICAL\
+ ↓\
+ GPS\
+ ↓\
+ CONSTANTS\
+ ↓\
+ TRIANGULATION\
+ ↓\
+ DATA / CODE / OUTPUT\
+ ↓\
+ REPRODUCTION
 
- Where a formal theorem is used to justify an empirical computation, the dependency should be recorded explicitly.
-
- The existence of a formal theorem does not itself validate the empirical dataset.
-
- Likewise, an empirical result does not itself establish the formal theorem.
+ A formal theorem and an empirical result are not interchangeable evidence types.
 
 ---
 
- ## 18\. Related Research Records
+ ## 14\. Reproducibility Requirements
 
- `PAP-0001` should be connected to the wider AUF2026 documentation corpus, including:
+ For computational or empirical claims associated with the publication, the archive requires:
+
+ - input;
+- algorithm;
+- source code;
+- version;
+- parameters;
+- numerical precision;
+- rounding mode;
+- environment;
+- output;
+- reference value;
+- error metric;
+- checksum;
+- reproduction.
+
+ For formal theorem claims, the corresponding evidence is:
+
+ - theorem;
+- statement;
+- Lean source;
+- imports;
+- dependencies;
+- Lean version;
+- Mathlib revision;
+- compilation;
+- formal validation.
+
+ The two protocols remain separate.
+
+---
+
+ ## 15\. Repository Versioning
+
+ The validation directory is version-controlled.
+
+ The currently identified repository state includes:
+
+ **Commit:** `7bccdb3`
+
+ **Commit message:** `Create validation record for FAURE THEOREM`
+
+ Individual files may have more recent or different commits.
+
+ Therefore the archive distinguishes:
+
+ REPOSITORY COMMIT\
+ ≠\
+ DIRECTORY STATE\
+ ≠\
+ INDIVIDUAL FILE COMMIT\
+ ≠\
+ LEAN ARTIFACT COMMIT
+
+ For final reproducibility records, each individual theorem artifact should be pinned to its exact commit and hash.
+
+---
+
+ ## 16\. Validation Status Model
+
+ The archive uses the following evidence states:
+
+ | State | Meaning |
+| --- | --- |
+| **Located** | Artifact identified in repository structure |
+| **Retrieved** | Artifact contents obtained |
+| **Parsed** | Artifact contents structurally inspected |
+| **Classified** | Research role identified |
+| **Formalized** | Mathematical proposition represented in Lean |
+| **Compiled** | Formal artifact successfully checked in its declared environment |
+| **Formally verified** | Proposition established by the checked formal artifact |
+| **Reproduced** | Result independently reproduced |
+| **Independently validated** | Evidence obtained independently of the original source presentation |
+
+The presence of a `.md` file establishes the existence of the validation record.
+
+ The presence of a `.lean` file establishes the existence of the formal artifact.
+
+ Compilation and independent reproduction are separate states.
+
+---
+
+ ## 17\. Related AUF2026 Archive Records
+
+ This publication should be cross-referenced with the following AUF2026 documentation:
 
  - `CLAIMS.md`
 - `CORE-GENEALOGY.md`
@@ -684,132 +681,104 @@ EMPIRICAL / COMPUTATIONAL CORPUS
 - `FAURE-THEOREM-NO-GOD.md`
 - `PROOF-INGESTION-PROTOCOL.md`
 
- These documents form the surrounding archival infrastructure.
+ These documents provide the surrounding provenance, claim, theorem, repository and proof infrastructure.
 
- The individual theorem validation records remain the primary objects for the corresponding formal claims.
+---
+
+ ## 18\. Related Publications
+
+ The publication is also associated with the following research records:
+
+ - `PAP-0002` — **Science Correctly Told: The Faure Theorems**
+- `PAP-0003` — **Deterministic Reality Unveiled**
+- `PAP-0004` — **Beyond the Universe's Source Code**
+- `PAP-0005` — **Millennium Problems**
+- `PAP-0006` — **Strong CP Problem**
+
+ Each publication remains a separate source artifact.
+
+ Where the same theorem or mathematical construction appears across multiple publications, the Research Register should provide the cross-reference rather than duplicating provenance.
 
 ---
 
  ## 19\. Source Integrity
 
- The original publication remains the authoritative source for determining what was publicly stated on **19 May 2026**.
+ The original Medium article remains the authoritative provenance record for what was publicly stated on **19 May 2026**.
 
- The AUF2026 repository remains the provenance source for subsequent source files, theorem records, validation records and formal artifacts.
+ **Canonical publication:**
 
- The archival relationship is therefore:
+ https://medium.com/@auf2026/the-faure-theory-of-everything-auf2026-kernel-and-universal-invariance-ebcc7bd58305
 
-```
-MEDIUM PUBLICATION
-        ↓
-PAP-0001
-        ↓
-CLAIM / CONCEPT
-        ↓
-AUF2026 RESEARCH CORPUS
-        ↓
-THEOREM RECORD
-        ↓
-VALIDATION RECORD
-        ↓
-LEAN ARTIFACT
-```
+ The AUF2026 repository provides the subsequent version-controlled research artifacts.
 
- Each stage retains its own provenance.
+ The relationship is:
 
- No later validation artifact is retroactively inserted into the original publication.
+ MEDIUM ARTICLE\
+ ↓\
+ PAP-0001\
+ ↓\
+ CLAIMS / CONCEPTS\
+ ↓\
+ AUF2026 REPOSITORY\
+ ↓\
+ THEOREM RECORDS\
+ ↓\
+ VALIDATION `.md`\
+ ↕\
+ LEAN `.lean`
 
- Instead, the later artifact is linked to the publication as subsequent supporting evidence.
+ The later formal artifacts do not alter the historical content of the publication.
 
----
-
- ## 20\. Current Archive Status
-
- | Object | Status |
-| --- | --- |
-| `PAP-0001` | **DOCUMENTED** |
-| Original publication | **IDENTIFIED** |
-| AUF2026 Kernel | **DOCUMENTED** |
-| AOS Lattice | **DOCUMENTED** |
-| Universal Invariance | **DOCUMENTED / THEOREM EXTRACTION LINKED** |
-| Faure Theorem validation corpus | **IDENTIFIED** |
-| Validation Markdown records | **PRESENT** |
-| Corresponding Lean artifacts | **PRESENT** |
-| Formal verification | **TRACKED PER ARTIFACT** |
-| Independent validation | **TRACKED SEPARATELY** |
-| Empirical validation | **SEPARATE EVIDENCE TRACK** |
-| Bibliographic comparison | **SEPARATE EVIDENCE TRACK** |
+ They provide subsequent evidence associated with the mathematical claims.
 
 ---
 
- ## 21. Governing Evidence Rule
+ ## 20\. Final Archival Status
 
- The archival rule for `PAP-0001` is:
+ **Archive identifier:** `PAP-0001`
 
-```
-PUBLICATION STATEMENT
-        ≠
-THEOREM STATEMENT
-        ≠
-VALIDATION RECORD
-        ≠
-LEAN ARTIFACT
-        ≠
-SUCCESSFUL FORMAL CHECK
-        ≠
-INDEPENDENT REPRODUCTION
-```
+ **Title:** _The Faure Theory of Everything: AUF2026 Kernel and Universal Invariance_
 
- Likewise:
+ **Author:** Alain Faure
 
-```
-FILE EXISTS
-        ≠
-FILE RETRIEVED
-        ≠
-FILE INSPECTED
-        ≠
-CONTENT CLASSIFIED
-        ≠
-PROPOSITION VERIFIED
-        ≠
-RESULT INDEPENDENTLY VALIDATED
-```
+ **Publication date:** 19 May 2026
 
- The archive preserves these distinctions throughout the research corpus.
+ **Publication:** The Faure Theory of Everything: AUF2026 Kernel and Universal Invariance
 
----
+ **Formal validation corpus:** 14 identified Faure Theorem validation records
 
- ## 22\. Final Record
+ **Formal counterpart:** One corresponding Lean artifact for each validation record
 
- **PAP-0001 — The Faure Theory of Everything: AUF2026 Kernel and Universal Invariance**
+ **Validation directory:** AUF2026 theorem-validation corpus
 
- The publication is preserved as the original public provenance record.
+ **Formal verification:** Tracked at theorem/artifact level
 
- Its principal mathematical and computational concepts are connected to the AUF2026 research corpus.
+ **Independent reproduction:** Tracked separately
 
- The Faure Theorem validation infrastructure is represented by the fourteen named validation artifacts currently present in the dedicated validation directory, each paired with its corresponding Lean formal artifact.
+ **Empirical validation:** Tracked separately from formal theorem validation
 
- The validation corpus currently identified is:
+ **Bibliographic assessment:** Tracked separately
 
-```
-FAURE-THEOREM-ARITHMETIC-ADDITIVE-REPRESENTATION
-FAURE-THEOREM-ARITHMETIC-GEOMETRIC-STATE-EMBEDDING
-FAURE-THEOREM-ARITHMETIC-IDENTITY
-FAURE-THEOREM-ARITHMETIC-POWER
-FAURE-THEOREM-ARITHMETIC-SEPARATION
-FAURE-THEOREM-DIOPHANTINE-GEOMETRIC-SEPARATION
-FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION
-FAURE-THEOREM-DISCRETE-CONTINUOUS-REPRESENTATION-V2
-FAURE-THEOREM-DIVISIBILITY-COORDINATEWISE
-FAURE-THEOREM-GEOMETRIC-COMPLETION-BOUNDARY
-FAURE-THEOREM-NO-GOD
-FAURE-THEOREM-PROPER-COMPLETION-SEPARATION
-FAURE-THEOREM-STABILIZED-IDEMPOTENT
-FAURE-THEOREM-UNIVERSAL-STABILIZATION
-```
+ The publication functions as the provenance node connecting the original public statement of the AUF2026 Kernel, AOS Lattice and universal-invariance framework to the subsequent theorem, proof and validation infrastructure.
 
- `README.md` is retained as directory documentation and is not counted as a theorem validation artifact.
+ The fourteen identified Faure Theorem validation records and their corresponding Lean artifacts constitute the formal validation layer currently associated with this research corpus.
 
- The formal validation records and their Lean counterparts constitute the theorem-level evidence layer associated with the AUF2026 research corpus.
+ The archival chain is:
 
- The publication, theorem, validation, formal-proof and independent-validation layers remain separately identifiable and traceable throughout the archive.
+ PAP-0001\
+ ↓\
+ AUF2026 KERNEL\
+ ↓\
+ AOS LATTICE\
+ ↓\
+ UNIVERSAL INVARIANCE\
+ ↓\
+ FAURE THEOREM CORPUS\
+ ↓\
+ 14 VALIDATION RECORDS\
+ ↓\
+ 14 LEAN FORMAL ARTIFACTS\
+ ↓\
+ FORMAL VERIFICATION\
+ ↓\
+ REPRODUCTION / INDEPENDENT VALIDATION
