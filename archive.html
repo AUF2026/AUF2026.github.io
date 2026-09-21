@@ -4213,6 +4213,8 @@ async function renderMarkdown(
 }
 
 
+<script>
+
 /* =========================================================
    RESOURCE ROUTER
    ========================================================= */
@@ -4222,44 +4224,19 @@ async function loadResource(
   filename
 ) {
 
-  const normalizedPath =
-    normalizeRepositoryPath(
+  const ext =
+    getExtension(
       path
     );
 
 
-  const ext =
-    getExtension(
-      normalizedPath
-    );
-
-
   sourceElement.textContent =
-    normalizedPath;
+    path;
 
 
-  /*
-   * Markdown
-   */
-
-  if (
-    ext === ".md" ||
-    ext === ".markdown"
-  ) {
-
-    await renderMarkdown(
-      normalizedPath,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * HTML
-   */
+  /* ---------------------------------------------------------
+     HTML
+     --------------------------------------------------------- */
 
   if (
     ext === ".html" ||
@@ -4267,7 +4244,7 @@ async function loadResource(
   ) {
 
     renderHTMLPage(
-      normalizedPath,
+      path,
       filename
     );
 
@@ -4276,16 +4253,16 @@ async function loadResource(
   }
 
 
-  /*
-   * PDF
-   */
+  /* ---------------------------------------------------------
+     PDF
+     --------------------------------------------------------- */
 
   if (
     ext === ".pdf"
   ) {
 
     renderPDF(
-      normalizedPath,
+      path,
       filename
     );
 
@@ -4294,9 +4271,9 @@ async function loadResource(
   }
 
 
-  /*
-   * Images
-   */
+  /* ---------------------------------------------------------
+     IMAGES
+     --------------------------------------------------------- */
 
   if (
     [
@@ -4309,13 +4286,11 @@ async function loadResource(
       ".avif",
       ".bmp",
       ".ico"
-    ].includes(
-      ext
-    )
+    ].includes(ext)
   ) {
 
     renderImage(
-      normalizedPath,
+      path,
       filename
     );
 
@@ -4324,9 +4299,9 @@ async function loadResource(
   }
 
 
-  /*
-   * Audio / Video
-   */
+  /* ---------------------------------------------------------
+     AUDIO / VIDEO
+     --------------------------------------------------------- */
 
   if (
     [
@@ -4341,13 +4316,11 @@ async function loadResource(
       ".webm",
       ".ogv",
       ".mov"
-    ].includes(
-      ext
-    )
+    ].includes(ext)
   ) {
 
     renderMedia(
-      normalizedPath,
+      path,
       filename
     );
 
@@ -4356,9 +4329,9 @@ async function loadResource(
   }
 
 
-  /*
-   * CSV
-   */
+  /* ---------------------------------------------------------
+     CSV
+     --------------------------------------------------------- */
 
   if (
     ext === ".csv"
@@ -4368,20 +4341,20 @@ async function loadResource(
 
       const response =
         await fetch(
-          normalizedPath,
+          path,
           {
             cache: "no-cache"
           }
         );
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "HTTP " +
-          response.status +
-          " — " +
-          normalizedPath
+          response.status
         );
 
       }
@@ -4411,34 +4384,142 @@ async function loadResource(
   }
 
 
-  /*
-   * Text / LaTeX / source code / structured text
-   */
+  /* ---------------------------------------------------------
+     MARKDOWN
+     --------------------------------------------------------- */
 
   if (
-    isTextResourceExtension(
-      ext
-    )
+    ext === ".md" ||
+    ext === ".markdown"
   ) {
 
     try {
 
       const response =
         await fetch(
-          normalizedPath,
+          path,
           {
             cache: "no-cache"
           }
         );
 
 
-      if (!response.ok) {
+      if (
+        !response.ok
+      ) {
 
         throw new Error(
           "HTTP " +
-          response.status +
-          " — " +
-          normalizedPath
+          response.status
+        );
+
+      }
+
+
+      const markdown =
+        await response.text();
+
+
+      if (
+        typeof marked ===
+        "undefined"
+      ) {
+
+        throw new Error(
+          "Markdown parser 'marked' is not loaded."
+        );
+
+      }
+
+
+      marked.setOptions({
+
+        gfm: true,
+
+        breaks: true
+
+      });
+
+
+      documentElement.innerHTML =
+        marked.parse(
+          markdown
+        );
+
+
+      normalizeMarkdownLinks();
+
+      improveTables();
+
+
+      titleElement.textContent =
+        humanTitle(
+          filename
+        );
+
+
+      document.title =
+        "AUF2026 — " +
+        humanTitle(
+          filename
+        );
+
+
+    } catch (error) {
+
+      console.error(
+        "AUF2026 Markdown:",
+        error
+      );
+
+
+      renderError(
+        error
+      );
+
+    }
+
+
+    return;
+
+  }
+
+
+  /* ---------------------------------------------------------
+     TEXT / SOURCE / DATA
+     --------------------------------------------------------- */
+
+  if (
+    [
+      ".txt",
+      ".tex",
+      ".latex",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(ext)
+  ) {
+
+    try {
+
+      const response =
+        await fetch(
+          path,
+          {
+            cache: "no-cache"
+          }
+        );
+
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "HTTP " +
+          response.status
         );
 
       }
@@ -4468,9 +4549,9 @@ async function loadResource(
   }
 
 
-  /*
-   * Unknown but local resource.
-   */
+  /* ---------------------------------------------------------
+     UNKNOWN BUT DISCOVERED RESOURCE
+     --------------------------------------------------------- */
 
   const resource =
     document.createElement(
@@ -4492,8 +4573,8 @@ async function loadResource(
     "archive-resource-note";
 
 
-  note.innerHTML =
-    "<strong>Resource:</strong> " +
+  note.textContent =
+    "Resource: " +
     filename;
 
 
@@ -4508,7 +4589,7 @@ async function loadResource(
 
 
   link.href =
-    normalizedPath;
+    path;
 
 
   link.target =
@@ -4569,36 +4650,27 @@ function renderError(
         Unable to load resource.
       </strong>
 
-      <p>
-        ${escapeHTML(message)}
-      </p>
+      <p></p>
 
     </div>
 
   `;
 
-}
 
-
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
-
-function escapeHTML(
-  value
-) {
-
-  const div =
-    document.createElement(
-      "div"
+  const paragraph =
+    documentElement.querySelector(
+      "p"
     );
 
 
-  div.textContent =
-    value;
+  if (
+    paragraph
+  ) {
 
+    paragraph.textContent =
+      message;
 
-  return div.innerHTML;
+  }
 
 }
 
@@ -4627,19 +4699,14 @@ async function loadMarkdownDocument() {
   /*
    * IMPORTANT:
    *
-   * Do NOT prepend "docs/" blindly.
+   * Do NOT prepend "docs/" here.
    *
-   * The document may be anywhere:
-   *
-   *   docs/file.md
-   *   papers/file.md
-   *   proofs/file.md
-   *   Ricerche-Scientifiche/Theorem/file.md
-   *   etc.
+   * The requested document can now exist anywhere
+   * in the repository.
    */
 
   const resolvedPath =
-    resolveMarkdownPath(
+    normalizeRepositoryPath(
       requestedDocument
     );
 
@@ -4673,7 +4740,7 @@ async function loadMarkdownDocument() {
 
     renderError(
       new Error(
-        "Invalid Markdown document path."
+        "Invalid Markdown document."
       )
     );
 
@@ -4682,7 +4749,7 @@ async function loadMarkdownDocument() {
   }
 
 
-  await renderMarkdown(
+  await loadResource(
     resolvedPath,
     filename
   );
@@ -4694,7 +4761,7 @@ async function loadMarkdownDocument() {
    LOAD /pages/*.html
    ========================================================= */
 
-function loadPage() {
+async function loadPage() {
 
   if (
     !requestedPage
@@ -4722,14 +4789,30 @@ function loadPage() {
   }
 
 
-  const normalizedPage =
+  const requestedPath =
     normalizeRepositoryPath(
       requestedPage
     );
 
 
+  if (
+    !requestedPath
+  ) {
+
+    renderError(
+      new Error(
+        "Page not found: " +
+        requestedPage
+      )
+    );
+
+    return;
+
+  }
+
+
   const filename =
-    normalizedPage
+    requestedPath
       .split("/")
       .filter(Boolean)
       .pop();
@@ -4757,9 +4840,8 @@ function loadPage() {
 
 
   if (
-    !allowedPageExtensions.includes(
-      ext
-    )
+    ext !== ".html" &&
+    ext !== ".htm"
   ) {
 
     renderError(
@@ -4773,49 +4855,10 @@ function loadPage() {
   }
 
 
-  const path =
-    normalizedPage.startsWith(
-      "pages/"
-    )
-      ? normalizedPage
-      : "pages/" +
-        normalizedPage;
-
-
-  /*
-   * If GitHub discovery knows the file, verify it.
-   *
-   * This prevents arbitrary local traversal.
-   */
-
-  const resolved =
-    resolveArchivePath(
-      path
-    );
-
-
-  if (
-    resolved
-  ) {
-
-    loadResource(
-      resolved,
-      filename
-    );
-
-  } else {
-
-    /*
-     * Preserve compatibility with /pages/*.html even
-     * if GitHub API discovery was unavailable.
-     */
-
-    loadResource(
-      path,
-      filename
-    );
-
-  }
+  await loadResource(
+    requestedPath,
+    filename
+  );
 
 
   document.title =
@@ -4827,9 +4870,105 @@ function loadPage() {
 }
 
 
-  /* =========================================================
-     LOAD RESOURCE
-     ========================================================= */
+/* =========================================================
+   LOAD GENERIC RESOURCE
+   ========================================================= */
+
+async function loadGenericResource() {
+
+  if (
+    !requestedResource
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedResource
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const normalized =
+    normalizeRepositoryPath(
+      requestedResource
+    );
+
+
+  if (
+    !normalized
+  ) {
+
+    renderError(
+      new Error(
+        "Resource not found: " +
+        requestedResource
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    normalized
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const ext =
+    getExtension(
+      filename
+    );
+
+
+  if (
+    !archiveExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Resource type not allowed: " +
+        ext
+      )
+    );
+
+    return;
+
+  }
+
 
   await loadResource(
     normalized,
@@ -4943,16 +5082,15 @@ function loadExternalEmbed() {
 async function startArchive() {
 
   /*
-   * Discover the complete repository tree first.
-   *
-   * This includes every supported file type in every
-   * directory and subdirectory.
+   * FIRST:
+   * discover the complete repository tree.
    */
+
   await discoverArchiveFiles();
 
 
   /*
-   * External media has highest priority.
+   * External media.
    */
 
   if (
@@ -4965,14 +5103,14 @@ async function startArchive() {
 
 
   /*
-   * Explicit HTML page.
+   * Explicit page.
    */
 
   if (
     requestedPage
   ) {
 
-    loadPage();
+    await loadPage();
 
     return;
 
@@ -4980,7 +5118,7 @@ async function startArchive() {
 
 
   /*
-   * Generic repository resource.
+   * Generic resource.
    */
 
   if (
@@ -4995,7 +5133,7 @@ async function startArchive() {
 
 
   /*
-   * Markdown / archive document.
+   * Markdown/document.
    */
 
   if (
@@ -5048,3 +5186,5 @@ async function startArchive() {
 startArchive();
 
 </script>
+</body>
+</html>
