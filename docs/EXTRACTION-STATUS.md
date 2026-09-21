@@ -1,99 +1,322 @@
 # AUF2026 — Extraction Status
 
- **Document type:** Repository, Research Archive and Evidence Extraction Status\
+ **Document type:** Repository Extraction, Research Corpus and Evidence Status\
  **Status:** Living Research Document\
- **Scope:** Public AUF2026 research corpus\
- **Purpose:** Establish a traceable record of what has been identified, retrieved, inspected, classified, formally checked, reproduced and independently validated across the AUF2026 mathematical, formal, computational, bibliographic and archival layers.
+ **Scope:** Public AUF2026 corpus\
+ **Purpose:** Establish a complete, structured and traceable extraction record of the AUF2026 research archive, from public presentation and repository provenance through mathematical objects, formal proofs, computational artifacts, datasets, validation records and bibliographic evidence.
 
 ---
 
- ## 1\. Purpose and Archival Scope
+ ## 1\. Archive Scope
 
- The AUF2026 public archive presents a research corpus organized across mathematical definitions, operators, relations, observables, formal proofs, computational implementations, application protocols, research manuscripts, validation records, datasets, bibliography and archival documentation. The public website functions as the presentation layer, while the version-controlled repository is identified as the underlying source layer for manuscripts, formal proofs, computational artifacts, datasets, validation records, bibliographic material and research documentation.  AUF2026
+ The AUF2026 archive is not a single document and should not be treated as one.
 
- The extraction record therefore distinguishes between the public presentation of a research object and the underlying artifact from which that object derives.
+ It is a layered research corpus containing mathematical definitions, structural relations, theorem statements, formal proofs, computational implementations, datasets, validation material, research manuscripts, bibliographic comparisons and archival registries.
 
- The archive uses the following evidence progression:
+ The public website acts as the presentation and navigation layer. The underlying repositories and source files provide the versioned research artifacts. The extraction record connects the two.
+
+ The fundamental archival chain is:
 
 ```
 PUBLIC PRESENTATION
         ↓
-REPOSITORY OBJECT
+ARCHIVE MAP
         ↓
-FILE / ARTIFACT
+RESEARCH REGISTER
         ↓
-RETRIEVED CONTENT
+SOURCE REPOSITORY
         ↓
-INSPECTED CONTENT
+VERSIONED ARTIFACT
         ↓
-CLASSIFIED OBJECT
+MATHEMATICAL OBJECT
         ↓
-MATHEMATICAL CLAIM
+CLAIM / THEOREM
         ↓
-FORMAL / COMPUTATIONAL ARTIFACT
+FORMALIZATION
         ↓
-VERIFICATION / EXECUTION
+IMPLEMENTATION
         ↓
-REPRODUCTION
-        ↓
-INDEPENDENT VALIDATION
-```
-
- These stages are independent.
-
- The existence of a theorem entry does not establish the existence of a formal proof.
-
- The existence of a formal proof source does not by itself establish that the proof has been compiled in the declared environment.
-
- A successful compilation establishes the result within the specified formal system; it does not automatically establish every broader scientific interpretation associated with the proposition.
-
- Likewise, a computational configuration, numerical output or application result must be evaluated through its own evidence chain.
-
- The purpose of the extraction record is therefore not simply to enumerate files. It is to connect the public research presentation to the exact source artifacts, mathematical objects, formal developments, computational implementations, validation records and bibliographic comparisons from which the corresponding claims can be evaluated.
-
----
-
- ## 2\. Public AUF2026 Research Architecture
-
- The public AUF2026 site identifies a Universal structural framework consisting of mathematical definitions, operators, relations, observables, formal proofs, computational implementations and application protocols. The principal structural kernel is represented as:
-
-```
-U_F = (M, G, A, Ψ, Λ, Π)
-```
-
- The site separately identifies structural independence, spectral structure, an arithmetic lattice, a subspace lattice, a Measure Gate, formal verification, computational configurations and application research.  AUF2026
-
- The public research architecture currently exposes the following major layers:
-
-```
-FOUNDATIONAL FRAMEWORK
-        ↓
-THEOREM REGISTRY
-        ↓
-MATHEMATICAL CORE
-        ↓
-FORMAL VERIFICATION
-        ↓
-COMPUTATIONAL KERNEL
-        ↓
-APPLICATIONS
-        ↓
-RESEARCH ARCHIVE
-        ↓
-CLAIM / THEOREM / PROOF REGISTRIES
+EXECUTION / TEST
         ↓
 VALIDATION
         ↓
 BIBLIOGRAPHIC COMPARISON
 ```
 
- The public corpus therefore has to be treated as a structured research archive rather than as a single README or a single repository directory.
+ The purpose of the present document is to make that chain explicit and preserve its evidence boundaries.
+
+ The archive does not treat the existence of an entry in a website, repository index or registry as equivalent to verification of the underlying mathematical or computational claim.
 
 ---
 
- ## 3\. Foundational Mathematical Architecture
+ ## 2\. AUF2026 Public Research Structure
 
- The public corpus records a foundational dependency architecture connecting:
+ The public AUF2026 presentation exposes a research architecture organized around several interconnected layers:
+
+ - **Framework**
+- **Theorems**
+- **Mathematics**
+- **Lean**
+- **Kernel**
+- **Applications**
+- **Documents**
+- **Research Register**
+- **Archive Map**
+- **Proof Registry**
+- **Master Claim Matrix**
+- **Theorem Originality Matrix**
+- **Bibliographic Novelty Matrix**
+- **Validation**
+- **Datasets**
+- **Source Code**
+- **Documentation**
+
+ These layers are related but not interchangeable.
+
+ The framework defines the mathematical architecture.
+
+ The theorem registry identifies mathematical propositions.
+
+ The mathematics layer contains definitions, structures and derivations.
+
+ The Lean layer contains machine-checkable formal artifacts.
+
+ The kernel contains computational implementations and configurations.
+
+ The applications layer connects the framework to concrete computational or scientific use cases.
+
+ The documents layer contains the written research corpus.
+
+ The registries provide cross-reference and traceability.
+
+ The validation layer records evidence concerning reproducibility and independent checking.
+
+ The bibliography layer provides claim-level comparison with existing literature.
+
+ The extraction archive therefore follows the structure of the research corpus rather than reducing the archive to a directory listing.
+
+---
+
+ ## 3\. Evidence Model
+
+ Every artifact in the archive is assigned an evidence state independently.
+
+ The principal states are:
+
+ | State | Definition |
+| --- | --- |
+| **Located** | The object has been identified in the public site, repository tree, registry or archive structure. |
+| **Retrieved** | The underlying source artifact has been obtained. |
+| **Parsed** | The retrieved content has been structurally inspected. |
+| **Classified** | The role of the artifact within the research corpus has been established. |
+| **Formally verified** | The relevant formal proposition has been checked in its declared formal environment. |
+| **Reproduced** | The relevant computational or formal result has been independently rerun or reconstructed. |
+| **Independently validated** | Separate evidence has been obtained addressing the relevant claim or result. |
+
+These states are cumulative only when the evidence for each transition exists.
+
+```
+LOCATED
+   ≠
+RETRIEVED
+   ≠
+PARSED
+   ≠
+CLASSIFIED
+   ≠
+FORMALLY VERIFIED
+   ≠
+REPRODUCED
+   ≠
+INDEPENDENTLY VALIDATED
+```
+
+ A repository index therefore establishes existence at the repository level.
+
+ It does not establish extraction of the file.
+
+ A retrieved file establishes access to the source.
+
+ It does not establish that the source has been formally verified.
+
+ A compiled Lean artifact establishes a formal result within the specified environment.
+
+ It does not automatically establish every broader interpretation associated with that result.
+
+ A reproduced computation establishes that the computation can be rerun under recorded conditions.
+
+ It does not automatically establish the general mathematical validity of every proposition associated with the computation.
+
+---
+
+ ## 4\. Repository Provenance
+
+ Every extracted source artifact should remain permanently connected to its repository provenance.
+
+ The minimum provenance record is:
+
+```
+Repository
+Path
+Branch
+Commit
+Version
+Hash
+File
+Retrieval date
+```
+
+ Where available, the extraction should additionally preserve:
+
+```
+Language
+Dependencies
+Build environment
+Execution environment
+Lean version
+Mathlib revision
+Package versions
+Configuration
+Input specification
+Output specification
+```
+
+ The commit identifies the versioned state from which the artifact was extracted.
+
+ The hash provides an integrity reference for the retrieved artifact.
+
+ Neither the commit nor the hash establishes mathematical correctness.
+
+ They establish provenance and artifact identity.
+
+ Two files with the same filename but different commits must not be silently treated as the same research object.
+
+ Likewise, a rendered HTML or PDF document must not automatically replace the underlying Markdown, LaTeX, Lean, source-code or dataset artifact when the latter is available.
+
+---
+
+ ## 5\. AOS-DETERMINISTIC-PROTOCOL
+
+ **Repository**
+
+ `https://github.com/AUF2026/AOS-DETERMINISTIC-PROTOCOL`
+
+ ### Repository status
+
+ **PUBLIC**
+
+ ### Repository history
+
+ The public repository currently exposes **79 commits**.
+
+ ### Identified principal directories
+
+```
+assets/
+proofs/
+```
+
+ ### Identified principal source
+
+```
+README.md
+```
+
+ ### Current extraction status
+
+ | Object | Located | Retrieved | Parsed |
+| --- | --- | --- | --- |
+| `README.md` | YES | YES | YES |
+| `proofs/` | YES | NO | NO |
+| `assets/` | YES | NO | NO |
+
+The repository structure establishes the existence of `proofs/` and `assets/`.
+
+ It does not establish the contents of those directories.
+
+ Individual proof files, Lean implementations, theorem names, imports, dependencies and formal verification states must therefore remain unassigned until the underlying artifacts have been directly retrieved and inspected.
+
+ The same rule applies to the `assets/` directory.
+
+ A directory listing is repository evidence.
+
+ It is not file-level extraction.
+
+---
+
+ ## 6\. WYP\_system
+
+ **Repository**
+
+ `https://github.com/AUF2026/WYP_system`
+
+ ### Repository status
+
+ **PUBLIC**
+
+ ### Repository history
+
+ The public repository currently exposes **234 commits**.
+
+ ### Identified directories
+
+```
+docs/
+examples/
+src/wyp/
+tests/
+```
+
+ ### Identified files
+
+```
+CHANGELOG.md
+COMMERCIAL_LICENSE.md
+README.md
+VERSION
+index.html
+license.md
+pyproject.toml
+```
+
+ ### Current extraction status
+
+ | Object | Located | Retrieved | Parsed |
+| --- | --- | --- | --- |
+| `README.md` | YES | YES | YES |
+| `src/wyp/` | YES | NO | NO |
+| `tests/` | YES | NO | NO |
+| `examples/` | YES | NO | NO |
+| `docs/` | YES | NO | NO |
+| `pyproject.toml` | YES | NOT YET | NOT YET |
+| `VERSION` | YES | NOT YET | NOT YET |
+| `CHANGELOG.md` | YES | NOT YET | NOT YET |
+
+The repository index establishes that these objects exist in the public repository.
+
+ It does not establish their contents, implementation details, algorithms, test coverage, dependencies or computational behavior.
+
+ Those properties require direct extraction.
+
+---
+
+ ## 7\. README-Level Mathematical Architecture
+
+ The retrieved README material identifies the following principal mathematical objects.
+
+ ### Faure Dynamic Model
+
+```
+F = (A, A', S, S', R, R', T, φ)
+```
+
+ ### Universal Faure Tuple
+
+```
+U_F = (M, G, A, Ψ, Λ, Π)
+```
+
+ ### AOS genealogy
 
 ```
 K_min
@@ -102,303 +325,388 @@ F
    ↓
 U_F
    ↓
+AOS
+   ↓
 AOS144
    ↓
-N_F
-   ↓
-μ_F
+Measure Gate
    ↓
 L_F
-   ↓
-⊥_F
    ↓
 Born
 ```
 
- It separately records the operator-related chain:
+ These are currently recorded as README-level architectural statements.
 
-```
-F
- ↓
-Ψ
- ↓
-Ψ⁴ ≡ Ψ⁵
- ↓
-P₉
- ↓
-representation / witness elimination
-```
+ They are therefore part of the extracted documentation layer.
 
- These diagrams are part of the public architectural description of the research framework. They should therefore be preserved as source-level architectural statements.  AUF2026
+ The extraction record does not automatically upgrade each arrow to a formally verified mathematical implication.
 
- The extraction process must nevertheless distinguish between an architectural relation and a formally established mathematical implication.
+ For every relationship, the next extraction stage must determine whether the underlying source contains:
 
- For each arrow in the architecture, the archive should determine whether the underlying relation is:
-
-```
-DEFINITIONAL
-DERIVATIONAL
-STRUCTURAL
-CONSTRUCTIVE
-FORMAL
-IMPLEMENTATIONAL
-DOCUMENTATIONAL
-```
-
- The graphical representation itself does not determine which of these meanings applies.
+ - a definition;
+- a proposition;
+- a theorem;
+- a derivation;
+- a formal Lean statement;
+- an executable implementation;
+- a test;
+- or only explanatory documentation.
 
 ---
 
- ## 4\. Universal Faure Tuple
+ ## 8\. Structural Closure
 
- The principal structural object is:
-
-```
-U_F = (M, G, A, Ψ, Λ, Π)
-```
-
- Each component must be treated as an individual mathematical object as well as a component of the tuple.
-
- The extraction record should therefore preserve:
+ The public material records the operator relation:
 
 ```
+Ψ⁴ ≡ Ψ⁵
+```
+
+ This relation is currently preserved as a documented structural statement.
+
+ Its mathematical consequences must be extracted independently.
+
+ The archive should distinguish between:
+
+```
+Ψ⁴ ≡ Ψ⁵
+```
+
+ as a source-level statement and any proposition derived from it.
+
+ The extraction sequence is therefore:
+
+```
+SOURCE STATEMENT
+      ↓
+MATHEMATICAL INTERPRETATION
+      ↓
+FORMAL PROPOSITION
+      ↓
+FORMAL PROOF
+      ↓
+DEPENDENCIES
+      ↓
+VERIFICATION
+```
+
+ No later status should be inferred solely from the presence of the original equation.
+
+---
+
+ ## 9\. AOS144 and 1728
+
+ The public documentation distinguishes:
+
+```
+144 = 12²
+```
+
+ from:
+
+```
+1728 = 12³
+```
+
+ The extraction archive therefore preserves `AOS144` as a distinct structural object.
+
+ The numerical relationship between 144 and 1728 does not, by itself, establish equivalence between the corresponding mathematical constructions.
+
+ The archive must therefore distinguish:
+
+```
+144
+```
+
+ as a numerical quantity,
+
+```
+AOS144
+```
+
+ as a named structural object,
+
+ and:
+
+```
+1728
+```
+
+ as a separate numerical or structural quantity where documented.
+
+ Any claim connecting these objects must be supported by the relevant source.
+
+---
+
+ ## 10\. WYP Precision Configurations
+
+ The retrieved WYP documentation identifies the following precision configurations:
+
+```
+DEC-80
+DEC-90
+DEC-100
+DEC-110
+DEC-120
+DEC-130
+DEC-660
+```
+
+ The archive therefore treats numerical precision as a configuration dimension.
+
+ A precision setting does not automatically constitute a different mathematical kernel.
+
+ The distinction is:
+
+```
+MATHEMATICAL DEFINITION
+        ↓
+ALGORITHM
+        ↓
+IMPLEMENTATION
+        ↓
+NUMERICAL CONFIGURATION
+        ↓
+EXECUTION
+```
+
+ Different decimal precisions may represent different computational configurations of the same mathematical object.
+
+ A configuration should be classified as a distinct research object only where the underlying mathematical definition, algorithm, domain, implementation, parameterization or documented purpose establishes a substantive distinction.
+
+ The extraction of `pyproject.toml`, source code, tests, examples and version information is therefore required before making stronger implementation-level classifications.
+
+---
+
+ ## 11\. Mathematical Object Registry
+
+ The extraction process should maintain an explicit registry of principal mathematical objects.
+
+ The current README-level registry includes:
+
+```
+K_min
+F
+U_F
 M
 G
 A
 Ψ
 Λ
 Π
-U_F
-```
-
- For each component, the source record should identify, where applicable:
-
-```
-definition
-domain
-codomain
-type
-operations
-dependencies
-associated claims
-associated theorems
-formal representation
-computational representation
-tests
-validation
-```
-
- The tuple should be recorded separately from its components.
-
- A component's presence in the tuple does not by itself establish its mathematical properties.
-
- Likewise, the tuple's documented existence does not by itself establish every relationship later attributed to it.
-
- The extraction boundary therefore remains claim-specific.
-
----
-
- ## 5\. Mathematical Core
-
- The public mathematical core currently documents:
-
-```
-U_F = (M, G, A, Ψ, Λ, Π)
-
-P₉ = Ψ₉⁴
-
-P₉² = P₉
-
-V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉)
-```
-
- The public corpus separately documents an arithmetic lattice:
-
-```
-L = Z^(P)
-```
-
- and its relationship with prime factorization and logarithmic embedding.
-
- It also documents the non-distributive structure of:
-
-```
-P(V)
-```
-
- for:
-
-```
-dim V ≥ 2
-```
-
- and a Measure Gate associated with measure conditions and a density-operator construction.  AUF2026
-
- These objects should be extracted independently.
-
- The archive should therefore distinguish:
-
-```
-UNIVERSAL KERNEL
-SPECTRAL STRUCTURE
-ARITHMETIC STRUCTURE
-SUBSPACE-LATTICE STRUCTURE
-MEASURE STRUCTURE
-```
-
- rather than treating them as one undifferentiated mathematical object.
-
----
-
- ## 6\. Spectral Structure
-
- The spectral layer contains at least the documented objects:
-
-```
-Ψ₉
+AOS
+AOS144
+N_F
+μ_F
+L_F
+⊥_F
+Born
 P₉
-P₉²
-ker(Ψ₉⁴)
-ker(I − Ψ₉)
 V₀
 ```
 
- The relation:
+ The registry should not be interpreted as a claim that all objects have the same mathematical status.
+
+ Each object must eventually be classified as one or more of:
 
 ```
-P₉ = Ψ₉⁴
+Definition
+Structure
+Operator
+Space
+Subspace
+Projection
+Measure
+Functional
+Algorithmic object
+Computational object
+Observable
+Derived quantity
+Theorem-related object
 ```
 
- must be recorded separately from:
+ The registry is an indexing layer.
 
-```
-P₉² = P₉
-```
-
- and separately from:
-
-```
-V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉)
-```
-
- Each proposition requires its own evidence chain.
-
- Where a formal Lean proposition exists, the formal artifact must be linked directly to the corresponding mathematical statement.
-
- Where only documentation exists, the status remains documentary until the underlying source is inspected.
-
- The extraction record must not infer that all displayed equations have identical formal status.
+ The mathematical meaning of each object remains determined by its source definition and associated formal or mathematical documentation.
 
 ---
 
- ## 7\. Theorem Registry
+ ## 12\. Theorem Registry
 
- The public AUF2026 corpus contains a dedicated theorem registry.
+ The public AUF2026 architecture contains a dedicated theorem registry.
 
- The site states that public theorem names use descriptive Faure Theorem nomenclature, while internal identifiers such as `T1`, `T2`, `T3` and subsequent identifiers are retained for repository traceability and do not constitute public theorem numbering.  AUF2026
+ The theorem registry should be treated as the principal index of mathematical propositions.
 
- The extraction record should therefore preserve both layers whenever they occur:
-
-```
-PUBLIC THEOREM NAME
-```
-
- and:
+ Each theorem record should contain, where available:
 
 ```
-INTERNAL REPOSITORY IDENTIFIER
+Theorem name
+Internal identifier
+Exact statement
+Assumptions
+Definitions used
+Dependencies
+Source document
+Source path
+Commit
+Hash
+Formal artifact
+Lean version
+Mathlib revision
+Compilation status
+Validation status
+Bibliographic comparison
 ```
 
- A theorem record should contain:
+ Public theorem names and internal repository identifiers must be preserved separately.
+
+ The internal identifier is provenance information.
+
+ The public theorem name is presentation information.
+
+ Neither should replace the exact proposition.
+
+ The exact proposition is the object that must ultimately be connected to the formal artifact.
+
+---
+
+ ## 13\. Master Claim Matrix
+
+ The Master Claim Matrix is the claim-level layer connecting research assertions with their mathematical, formal, computational and evidentiary sources.
+
+ The canonical relationship is:
 
 ```
-theorem name
-internal identifier
-exact statement
-assumptions
-mathematical domain
-source document
+CLAIM
+  ↓
+MATHEMATICAL OBJECT
+  ↓
+THEOREM / PROPOSITION
+  ↓
+SOURCE DOCUMENT
+  ↓
+FORMALIZATION
+  ↓
+IMPLEMENTATION
+  ↓
+TEST
+  ↓
+VALIDATION
+  ↓
+PRIOR ART
+```
+
+ Every claim should have an identifiable status at each applicable stage.
+
+ For example:
+
+```
+Claim
+  ├── Source: identified
+  ├── Theorem: identified
+  ├── Lean: retrieved
+  ├── Compilation: verified
+  ├── Reproduction: pending
+  └── Bibliographic comparison: pending
+```
+
+ This is preferable to a single global status because different evidence axes can mature at different times.
+
+---
+
+ ## 14\. Proof Registry
+
+ The Proof Registry is the formal-evidence layer connecting mathematical propositions to formal source artifacts.
+
+ For every proof artifact, the archive should preserve:
+
+```
+Proof identifier
+Theorem
+Proposition
+Source file
+Path
+Repository
+Commit
+Hash
+Imports
+Dependencies
+Lean version
+Mathlib revision
+Compilation result
+Verification result
+Reproduction status
+```
+
+ The minimum formal evidence chain is:
+
+```
+THEOREM
+   ↓
+FORMAL PROPOSITION
+   ↓
+LEAN SOURCE
+   ↓
+DECLARED ENVIRONMENT
+   ↓
+COMPILATION
+   ↓
+VERIFICATION
+```
+
+ A theorem entry without a retrieved Lean artifact remains a theorem-registry statement.
+
+ A Lean file without a recorded compilation environment remains a source artifact whose exact verification conditions have not yet been completely established.
+
+ A compiled proof remains formal evidence for the formal proposition actually compiled.
+
+---
+
+ ## 15\. Lean Verification
+
+ Formal verification is treated as a distinct research layer.
+
+ The relevant environment must be preserved.
+
+ At minimum:
+
+```
+Lean version
+Mathlib revision
+imports
 source file
 commit
 hash
-formal artifact
-formal environment
-dependencies
-verification status
-validation status
-bibliographic comparison
+proposition
+compilation result
 ```
 
- The theorem registry is consequently not merely a list of names.
-
- It is the bridge between the mathematical corpus and the formal, computational and bibliographic evidence associated with each proposition.
-
----
-
- ## 8\. Formal Verification and Lean Layer
-
- The public archive explicitly separates formal verification artifacts from explanatory prose.
-
- The stated formal-verification protocol requires each formal claim to identify:
+ The verification record should distinguish:
 
 ```
-exact proposition
-assumptions
-source file
-Lean version
-Mathlib revision
-compilation status
-```
-
- The archive further states that a formal proof artifact establishes what is proved inside the stated formal system, while broader scientific interpretations are documented separately.  AUF2026
-
- The extraction record therefore treats the Lean layer as a separate evidence layer.
-
- For every retrieved formal artifact, the record should preserve:
-
-```
-SOURCE FILE
-PATH
-COMMIT
-HASH
-LEAN VERSION
-MATHLIB REVISION
-IMPORTS
-DEPENDENCIES
-PROPOSITION
-PROOF
-COMPILATION COMMAND
-COMPILATION RESULT
-REPRODUCIBILITY STATUS
-```
-
- The relevant status distinctions are:
-
-```
-FORMAL SOURCE IDENTIFIED
-        ↓
-FORMAL SOURCE RETRIEVED
-        ↓
-FORMAL SOURCE INSPECTED
-        ↓
-FORMAL SOURCE COMPILED
-        ↓
+SOURCE LOCATED
+      ↓
+SOURCE RETRIEVED
+      ↓
+SOURCE PARSED
+      ↓
+SOURCE COMPILED
+      ↓
 PROPOSITION VERIFIED
-        ↓
-VERIFICATION REPRODUCED
 ```
 
- A theorem appearing in a proof registry must not automatically be assigned the final status merely because the registry lists it.
+ The archive must not infer a successful compilation merely because a source file is called `proof`, `theorem`, `formal`, `verified` or similar.
 
- The corresponding artifact and formal environment must be checked.
+ The actual artifact and its environment must be inspected.
 
 ---
 
- ## 9\. Computational Kernel
+ ## 16\. Computational Kernel
 
- The public AUF2026 archive identifies a computational-kernel layer in which configuration identifiers are maintained independently from the mathematical kernel.
+ The computational layer is treated separately from the mathematical framework.
 
- The currently documented configurations include:
+ The public corpus identifies computational configurations including:
 
 ```
 AOS V1.0
@@ -407,525 +715,193 @@ AOS250
 AOS600
 ```
 
- The public site describes these as explicit computational configurations and parameterizations.  AUF2026
-
- The extraction record must therefore distinguish:
+ and the WYP documentation identifies high-precision configurations including:
 
 ```
-MATHEMATICAL OBJECT
+DEC-80
+DEC-90
+DEC-100
+DEC-110
+DEC-120
+DEC-130
+DEC-660
 ```
 
- from:
+ These identifiers must be preserved as configuration records.
+
+ For each configuration, extraction should establish:
 
 ```
-COMPUTATIONAL CONFIGURATION
+Configuration
+Version
+Source file
+Commit
+Hash
+Algorithm
+Parameters
+Precision
+Dependencies
+Input
+Output
+Execution environment
+Tests
+Benchmarks
+Reproduction status
 ```
 
- and from:
+ The computational kernel must remain distinct from the mathematical definition it implements.
 
-```
-EXECUTED COMPUTATION
-```
+ A numerical implementation is evidence about an implementation.
 
- For each computational configuration, the relevant record should preserve:
-
-```
-configuration name
-source file
-commit
-version
-algorithm
-precision
-parameters
-dependencies
-input
-output
-execution environment
-test status
-benchmark status
-reproduction status
-```
-
- A configuration identifier alone does not establish the internal implementation.
-
- Likewise, a high-precision configuration does not automatically establish a corresponding mathematical error bound or universal numerical accuracy.
-
- Those properties must be extracted from the implementation and associated validation evidence.
+ It is not automatically a proof of the mathematical proposition represented by that implementation.
 
 ---
 
- ## 10\. Applications
+ ## 17\. Source Code
 
- The public archive defines applications as independently testable computational or mathematical propositions.
+ Source code constitutes an independent evidence layer.
 
- The documented application areas include:
-
-```
-Formal mathematics
-Deterministic computation
-Scientific computing
-Verification infrastructure
-Research reproducibility
-Industrial proof-of-concept
-```
-
- The site describes formal mathematics as involving automated and machine-checkable structures and proof workflows; deterministic computation as reproducible computational configurations and exact verification protocols; scientific computing as numerical structures, operators and reproducibility benchmarks; verification infrastructure as evidence connecting source code, mathematical claims and executable proofs; and research reproducibility as versioned datasets, source code, hashes and reproducible computational environments.  AUF2026
-
- The extraction archive should treat each application as its own evidence chain:
+ The extraction record should preserve:
 
 ```
-APPLICATION
-    ↓
-MATHEMATICAL / TECHNICAL PROPOSITION
-    ↓
-IMPLEMENTATION
-    ↓
-INPUT
-    ↓
-OUTPUT
-    ↓
-TEST
-    ↓
-REPRODUCTION
-    ↓
-VALIDATION
+Repository
+Path
+File
+Commit
+Hash
+Language
+Version
+Dependencies
+Entry point
+Algorithm
+Parameters
+Input
+Output
+Tests
+Execution instructions
 ```
 
- An application should not automatically inherit the verification status of a foundational theorem.
-
----
-
- ## 11\. Research Manuscripts
-
- The public research archive identifies a dedicated manuscripts layer containing canonical articles, theoretical manuscripts and technical research documents forming the written mathematical corpus.  AUF2026
-
- The extraction record should therefore treat manuscripts as primary research artifacts.
-
- For each manuscript:
+ For WYP\_system, the principal source tree requiring direct extraction is:
 
 ```
-TITLE
-AUTHOR
+src/wyp/
+```
+
+ The principal associated test and documentation layers are:
+
+```
+tests/
+examples/
+docs/
+pyproject.toml
 VERSION
-DATE
-PATH
-COMMIT
-HASH
-DOCUMENT TYPE
-MATHEMATICAL OBJECTS
-THEOREMS
-CLAIMS
-REFERENCES
-FORMAL LINKS
-COMPUTATIONAL LINKS
-VALIDATION LINKS
+CHANGELOG.md
 ```
 
- The rendered document should be treated as a presentation of the manuscript rather than automatically as the canonical source.
-
- The public archive explicitly states that rendered documents do not replace the canonical source files.  AUF2026
-
- Consequently, the extraction status must identify whether a document has been:
-
-```
-RENDERED
-LOCATED IN REPOSITORY
-RETRIEVED
-PARSED
-HASHED
-VERSION-LINKED
-```
+ Until these artifacts are retrieved and inspected, their repository-level existence must not be converted into detailed claims about the implementation.
 
 ---
 
- ## 12\. Proofs and Formal Source Archive
+ ## 18\. Tests and Examples
 
- The public archive identifies a dedicated proofs layer containing Lean 4 source files, formal theorem developments and associated proof artifacts.  AUF2026
+ Tests and examples form a separate computational evidence layer.
 
- The proof archive should be extracted independently from the manuscripts.
+ Tests should be extracted as executable or inspectable artifacts and linked to the corresponding implementation.
 
- The minimum proof record should contain:
-
-```
-proof file
-path
-repository
-commit
-hash
-theorem
-proposition
-imports
-dependencies
-Lean version
-Mathlib revision
-compilation status
-verification status
-```
-
- The extraction record must preserve the distinction:
+ For each test:
 
 ```
-THEOREM DOCUMENTED
-≠
-THEOREM FORMALIZED
-≠
-THEOREM COMPILED
-≠
-THEOREM VERIFIED
+Test
+Source file
+Function / module
+Input
+Expected output
+Observed output
+Assertions
+Environment
+Version
+Execution status
 ```
 
- This is one of the central evidence distinctions of the AUF2026 archive.
+ Examples should be classified separately.
+
+ An example demonstrates intended use or behavior.
+
+ A test provides an explicit verification procedure.
+
+ The two must not be automatically treated as equivalent.
+
+ The presence of an `examples/` directory does not establish that every example has been executed.
+
+ The presence of a `tests/` directory does not establish complete test coverage.
 
 ---
 
- ## 13\. Validation Archive
+ ## 19\. Datasets
 
- The public corpus contains a dedicated validation layer described as containing independent checks, validation records, reproducibility material, benchmarks and supporting verification evidence.  AUF2026
+ Datasets must remain connected to their generation or acquisition provenance.
 
- The validation archive should therefore be extracted separately from both source code and mathematical documents.
-
- Validation records should preserve:
+ The minimum dataset record is:
 
 ```
-CLAIM
-VALIDATION METHOD
-SOURCE
-INPUT
-ENVIRONMENT
-PROCEDURE
-OUTPUT
-EXPECTED RESULT
-OBSERVED RESULT
-COMPARISON
-DATE
-VERSION
-INDEPENDENCE BASIS
+Dataset
+Path
+Version
+Commit
+Hash
+Format
+Source
+Generation method
+Parameters
+Associated code
+Associated claim
+Associated experiment
+Validation status
 ```
 
- The archive should not collapse different types of validation.
-
- For example:
-
-```
-FORMAL VERIFICATION
-```
-
- is distinct from:
-
-```
-NUMERICAL REPRODUCTION
-```
-
- which is distinct from:
-
-```
-INDEPENDENT IMPLEMENTATION
-```
-
- which is distinct from:
-
-```
-BIBLIOGRAPHIC COMPARISON
-```
-
- Each should retain its own evidence state.
-
----
-
- ## 14\. Datasets and Computational Provenance
-
- The public archive identifies datasets as a separate research layer containing computational datasets, provenance records, versions and experimental material associated with the research corpus.  AUF2026
-
- For every relevant dataset, the extraction record should preserve:
-
-```
-DATASET NAME
-PATH
-VERSION
-COMMIT
-HASH
-SIZE
-FORMAT
-SOURCE
-GENERATION METHOD
-INPUTS
-PARAMETERS
-ASSOCIATED CODE
-ASSOCIATED CLAIM
-EXPERIMENT
-OUTPUT
-VALIDATION STATUS
-```
-
- Generated datasets should be distinguished from externally sourced datasets.
-
- Where data are generated computationally, the archive should preserve the generation chain:
+ For generated datasets:
 
 ```
 SOURCE
-    ↓
+  ↓
 ALGORITHM
-    ↓
+  ↓
 PARAMETERS
-    ↓
+  ↓
 EXECUTION
-    ↓
+  ↓
 DATASET
-    ↓
+  ↓
 HASH
 ```
 
- The existence of a dataset does not establish the correctness of the procedure that generated it.
+ For externally sourced datasets:
+
+```
+EXTERNAL SOURCE
+  ↓
+RETRIEVAL
+  ↓
+VERSION
+  ↓
+HASH
+  ↓
+TRANSFORMATION
+  ↓
+DERIVED DATASET
+```
+
+ The dataset hash establishes artifact identity.
+
+ It does not establish scientific validity.
 
 ---
 
- ## 15\. Source Code and Execution Environments
+ ## 20\. Validation
 
- The public archive identifies source code as a distinct layer containing computational implementations, dependencies, execution instructions and expected outputs associated with the research and validation workflow.  AUF2026
+ Validation must remain claim-specific.
 
- The extraction record should therefore maintain a source-code inventory containing:
-
-```
-repository
-path
-file
-commit
-hash
-language
-version
-dependencies
-entry point
-algorithm
-configuration
-input specification
-output specification
-test suite
-execution instructions
-expected output
-```
-
- Where execution is required for validation, the environment should additionally record:
-
-```
-OPERATING SYSTEM
-LANGUAGE VERSION
-PACKAGE VERSIONS
-DEPENDENCY VERSIONS
-PRECISION
-HARDWARE
-CONFIGURATION
-COMMAND
-```
-
- The source code itself is provenance evidence.
-
- Its execution provides computational evidence.
-
- Its test suite provides test evidence.
-
- These must remain distinct.
-
----
-
- ## 16\. Documentation and Research Infrastructure
-
- The public archive identifies technical specifications, research protocols, corpus maps, registries, source manifests and archival documentation as a dedicated documentation layer.  AUF2026
-
- This layer is particularly important because it defines how the other layers are connected.
-
- The extraction record should therefore retrieve and preserve:
-
-```
-ARCHIVE MAP
-RESEARCH REGISTER
-SOURCE MANIFESTS
-CLAIM REGISTRIES
-THEOREM REGISTRIES
-PROOF REGISTRIES
-VALIDATION PROTOCOLS
-RESEARCH PROTOCOLS
-TECHNICAL SPECIFICATIONS
-```
-
- Documentation should not be treated as equivalent to primary mathematical evidence.
-
- Its role is to establish provenance, organization, relationships, protocols and traceability.
-
----
-
- ## 17\. Research Register
-
- The public archive identifies the Research Register as a central registry connecting:
-
-```
-claims
-theorems
-manuscripts
-proofs
-experiments
-validation records
-applications
-```
-
- throughout the AUF2026 corpus.  AUF2026
-
- The Research Register should therefore function as the principal cross-reference layer for the extraction process.
-
- The intended traceability chain is:
-
-```
-CLAIM
-   ↓
-THEOREM
-   ↓
-MANUSCRIPT
-   ↓
-FORMAL PROOF
-   ↓
-CODE
-   ↓
-EXPERIMENT
-   ↓
-VALIDATION
-```
-
- Where one or more stages are absent, the archive should record that absence explicitly rather than infer the missing relationship.
-
----
-
- ## 18\. Archive Map
-
- The public Archive Map is described as the complete map connecting the public AUF2026 website with the version-controlled research repository and its mathematical, formal, computational and bibliographic layers.  AUF2026
-
- The extraction architecture should therefore follow:
-
-```
-AUF2026 WEBSITE
-        ↓
-ARCHIVE MAP
-        ↓
-REPOSITORY
-        ↓
-DOCUMENTATION
-        ↓
-MATHEMATICS
-        ↓
-PROOFS
-        ↓
-CODE
-        ↓
-DATASETS
-        ↓
-VALIDATION
-        ↓
-BIBLIOGRAPHY
-```
-
- The Archive Map should be treated as infrastructure rather than as mathematical evidence.
-
- Its purpose is to make the source relationships explicit and reproducible.
-
----
-
- ## 19\. Master Claim Matrix
-
- The public archive identifies a Master Claim Matrix as a structured registry of mathematical claims and their corresponding source, proof, validation and evidentiary relationships.  AUF2026
-
- The extraction record should therefore use the claim matrix as the central claim-level evidence structure.
-
- Each claim should ultimately be traceable through:
-
-```
-CLAIM
-   ↓
-SOURCE
-   ↓
-THEOREM
-   ↓
-FORMALIZATION
-   ↓
-IMPLEMENTATION
-   ↓
-TEST
-   ↓
-VALIDATION
-   ↓
-PRIOR ART
-```
-
- The absence of an item in one of these stages must remain visible.
-
- A claim with a formal proof but no independent validation should not be represented as though all evidence layers were complete.
-
- A computational result with reproduction but without formal proof should retain that status.
-
- A documented claim without an underlying retrieved artifact should remain documentary.
-
----
-
- ## 20\. Theorem Originality Matrix
-
- The public archive identifies a Theorem Originality Matrix connecting theorem statements, formal artifacts, prior mathematical literature, mathematical differences and evidence status.  AUF2026
-
- The extraction record should preserve the following comparison dimensions:
-
-```
-THEOREM
-STATEMENT
-HYPOTHESES
-CONSTRUCTION
-DERIVATION
-CONCLUSION
-GENERALITY
-FORMALIZATION
-PRIOR RESULT
-MATHEMATICAL DIFFERENCE
-EVIDENCE STATUS
-```
-
- The purpose of this layer is claim-level comparison with prior mathematics.
-
- The absence of an identified bibliographic match should not be converted into a universal statement that no prior result exists.
-
- The public archive itself states that absence of a bibliographic match is not treated as a global mathematical novelty certificate. Each result receives its own evidence state and comparison record.  AUF2026
-
----
-
- ## 21\. Bibliographic Novelty Matrix
-
- The Bibliographic Novelty Matrix is identified as a structured comparison layer for prior literature, mathematical claims, source provenance and documented relationships to existing results.  AUF2026
-
- The extraction record should therefore maintain separate records for:
-
-```
-CLAIM
-LITERATURE RESULT
-SOURCE
-DATE
-AUTHORS
-HYPOTHESES
-CONSTRUCTION
-DERIVATION
-CONCLUSION
-GENERALITY
-RELATIONSHIP
-MATHEMATICAL DIFFERENCE
-COMPARISON STATUS
-```
-
- A bibliographic comparison should not be confused with formal proof.
-
- A formal proof establishes a proposition in a formal system.
-
- A bibliographic comparison establishes the documented relationship between that proposition and identified prior literature.
-
- They answer different questions.
-
----
-
- ## 22\. Independent Evidence Axes
-
- The public archive explicitly separates:
+ The public archive identifies multiple evidence dimensions, including:
 
 ```
 mathematical originality
@@ -936,384 +912,579 @@ computational performance
 application validity
 ```
 
- as independent validation dimensions.  AUF2026
+ These dimensions must not be collapsed into one global score.
 
- The extraction status should preserve these axes independently.
-
- A claim can therefore have:
+ A claim may therefore be:
 
 ```
-FORMAL STATUS
-COMPUTATIONAL STATUS
-BIBLIOGRAPHIC STATUS
-REPRODUCIBILITY STATUS
-APPLICATION STATUS
+FORMALLY VERIFIED
 ```
 
- without reducing them to one overall score.
+ while:
 
- No single status should overwrite the others.
+```
+INDEPENDENTLY REPRODUCED
+```
 
- The archive should not create a synthetic “verified” label that conceals which evidence dimension has actually been established.
+ remains pending.
+
+ A computational result may be:
+
+```
+REPRODUCED
+```
+
+ while its bibliographic relationship remains under review.
+
+ A theorem may have:
+
+```
+FORMAL PROOF
+```
+
+ while its application-level consequences remain unvalidated.
+
+ The extraction archive records each dimension separately.
 
 ---
 
- ## 23\. Evidence States
+ ## 21\. Research Manuscripts
 
- The AUF2026 extraction record uses the following evidence distinctions:
+ Research manuscripts form the written mathematical and scientific corpus.
 
- | State | Meaning |
-| --- | --- |
-| **Located** | The object has been identified in the public corpus or repository structure. |
-| **Retrieved** | The underlying artifact has been obtained. |
-| **Parsed** | The retrieved artifact has been inspected structurally. |
-| **Classified** | The artifact's research role has been identified. |
-| **Formally verified** | The relevant formal proposition has been checked in its declared environment. |
-| **Reproduced** | The relevant computational or formal result has been independently rerun or reconstructed under the recorded conditions. |
-| **Independently validated** | Separate evidence has been obtained that addresses the relevant claim. |
-
-These states must not be collapsed.
-
- In particular:
+ Each manuscript should be linked to:
 
 ```
-LOCATED
-≠
-RETRIEVED
+Title
+Author
+Version
+Date
+Source file
+Path
+Commit
+Hash
+Claims
+Definitions
+Theorems
+References
+Formal artifacts
+Computational artifacts
+Validation records
 ```
 
-```
-RETRIEVED
-≠
-VERIFIED
-```
+ Rendered documents are presentation artifacts.
+
+ The underlying source remains the canonical provenance object whenever available.
+
+ Therefore:
 
 ```
-VERIFIED
-≠
-INDEPENDENTLY VALIDATED
-```
-
- The archive should always report the strongest status actually supported by evidence.
-
----
-
- ## 24\. Repository and Corpus Provenance
-
- The repository remains the provenance layer for the underlying source artifacts.
-
- For each extracted object, the archival record should preserve:
-
-```
-REPOSITORY
-PATH
-BRANCH
+RENDERED DOCUMENT
+       ↓
+SOURCE DOCUMENT
+       ↓
 COMMIT
-VERSION
+       ↓
 HASH
-FILE TYPE
-SOURCE URL
-RETRIEVAL DATE
 ```
 
- The commit is the primary versioned source reference.
+ must remain traceable.
 
- A filename alone is insufficient to identify a unique source artifact across repository history.
-
- A document with the same filename at two different commits must therefore be treated as two versioned source states until their contents are established to be identical.
-
- The hash provides an additional integrity reference.
-
- The hash does not establish mathematical correctness.
-
- It establishes the identity of the retrieved artifact under the specified hashing procedure.
+ A PDF or HTML rendering without source-level provenance should not be treated as equivalent to a version-controlled manuscript source.
 
 ---
 
- ## 25\. Author and Attribution Layer
+ ## 22\. Bibliographic Novelty
 
- The public archive contains a dedicated Author Identity record associating the AUF2026 corpus with Alain Faure and providing bibliographic attribution, author disambiguation, repository provenance and persistent identification information.  AUF2026
+ The bibliographic layer is claim-specific.
 
- The author record must remain separate from the mathematical evidence.
-
- The archive should therefore distinguish:
+ For each claim, the extraction record should compare:
 
 ```
-AUTHORSHIP
+Hypotheses
+Construction
+Derivation
+Conclusion
+Generality
 ```
 
- from:
+ against the relevant prior result.
+
+ The comparison record should preserve:
 
 ```
-MATHEMATICAL CORRECTNESS
+Claim
+Prior result
+Bibliographic source
+Date
+Authors
+Hypotheses
+Construction
+Derivation
+Conclusion
+Generality
+Mathematical difference
+Comparison status
 ```
 
- and from:
+ The absence of an identified match is recorded as an evidence state.
+
+ It is not converted into a universal certificate of mathematical novelty.
+
+ The archive therefore preserves the difference between:
 
 ```
-MATHEMATICAL ORIGINALITY
+NO MATCH IDENTIFIED
 ```
 
- and from:
+ and:
 
 ```
-FORMAL VALIDITY
+GLOBAL NOVELTY ESTABLISHED
 ```
 
- The author record establishes attribution and identity.
-
- It does not, by itself, establish the validity or originality of an individual mathematical proposition.
-
- The public archive explicitly makes this distinction.  AUF2026
+ These are not equivalent archival statements.
 
 ---
 
- ## 26\. Current Extraction Boundary
+ ## 23\. Theorem Originality
 
- The extraction record currently establishes the public architecture and the principal research layers of the AUF2026 corpus.
+ Theorem-level originality must be treated independently from formal verification.
 
- The public architecture identifies:
+ A formally verified theorem may still require bibliographic comparison.
+
+ A theorem with a bibliographic novelty record may still require formal verification.
+
+ The two evidence chains are:
 
 ```
-Research manuscripts
-Formal proofs
-Validation
-Bibliography
-Datasets
-Source code
-Documentation
-Research Register
-Archive Map
-Author Identity
-Theorem Originality Matrix
-Master Claim Matrix
-Bibliographic Novelty Matrix
-Proof Registry
+THEOREM
+   ↓
+FORMAL PROPOSITION
+   ↓
+LEAN PROOF
+   ↓
+COMPILATION
 ```
 
- as distinct archival components.  AUF2026
+ and:
 
- The extraction process must therefore treat these as separate research objects rather than collapsing them into a generic `docs/` or `proofs/` category.
+```
+THEOREM
+   ↓
+PRIOR-ART SEARCH
+   ↓
+COMPARISON
+   ↓
+MATHEMATICAL DIFFERENCE
+   ↓
+NOVELTY STATUS
+```
 
- The earlier repository-level extraction remains valid for the specific repositories and directories already directly identified, but it is not sufficient to describe the complete AUF2026 public research corpus.
-
- The complete corpus is broader than the initially extracted repository tree.
+ The archive should preserve both chains without merging them.
 
 ---
 
- ## 27\. Required Extraction Record
+ ## 24\. Archive Map and Research Register
 
- For each relevant artifact, the final extraction record should preserve:
+ The Archive Map establishes the relationship between the public presentation and the underlying research corpus.
+
+ The Research Register provides the cross-reference between claims, mathematical objects, manuscripts, formal artifacts, code, experiments and validation records.
+
+ The combined structure is:
 
 ```
+AUF2026 WEBSITE
+        ↓
+ARCHIVE MAP
+        ↓
+RESEARCH REGISTER
+        ↓
+CLAIM
+   ┌────┼────┬────┐
+   ↓    ↓    ↓    ↓
+THEOREM CODE PROOF DATA
+   │    │    │    │
+   └────┴────┴────┘
+          ↓
+      VALIDATION
+          ↓
+      BIBLIOGRAPHY
+```
+
+ This structure allows the same research claim to be followed across multiple evidence domains without treating those domains as interchangeable.
+
+---
+
+ ## 25\. Complete Extraction Pipeline
+
+ Every artifact selected for detailed extraction should pass through the same archival pipeline:
+
+```
+SOURCE IDENTIFICATION
+        ↓
 REPOSITORY
+        ↓
 PATH
-BRANCH
+        ↓
 COMMIT
+        ↓
+HASH
+        ↓
+RETRIEVAL
+        ↓
+CONTENT EXTRACTION
+        ↓
+STRUCTURAL PARSING
+        ↓
+OBJECT IDENTIFICATION
+        ↓
+CLAIM IDENTIFICATION
+        ↓
+THEOREM IDENTIFICATION
+        ↓
+FORMAL / COMPUTATIONAL ARTIFACT
+        ↓
+TEST / COMPILATION / EXECUTION
+        ↓
+OUTPUT
+        ↓
+VALIDATION
+        ↓
+PRIOR-ART COMPARISON
+```
+
+ The pipeline is deliberately linear at the provenance level while allowing multiple evidence branches at the verification level.
+
+ A mathematical theorem may branch into formal verification and bibliographic comparison.
+
+ A computational claim may branch into implementation testing, benchmark execution and independent reproduction.
+
+ A dataset may branch into provenance verification and computational regeneration.
+
+---
+
+ ## 26\. Current Repository-Level Status
+
+ ### AOS-DETERMINISTIC-PROTOCOL
+
+```
+Repository identified       YES
+Public status               YES
+README retrieved            YES
+README parsed               YES
+proofs/ identified          YES
+proofs/ extracted           NO
+assets/ identified          YES
+assets/ extracted           NO
+Formal artifacts complete   NO
+```
+
+ ### WYP\_system
+
+```
+Repository identified       YES
+Public status               YES
+README retrieved            YES
+README parsed               YES
+src/wyp/ identified         YES
+src/wyp/ extracted          NO
+tests/ identified           YES
+tests/ extracted            NO
+examples/ identified        YES
+examples/ extracted         NO
+docs/ identified            YES
+docs/ extracted             NO
+pyproject.toml identified   YES
+pyproject.toml extracted    NOT YET
+VERSION identified          YES
+VERSION extracted           NOT YET
+CHANGELOG identified        YES
+CHANGELOG extracted         NOT YET
+```
+
+ This is the current repository-level extraction boundary.
+
+---
+
+ ## 27\. Current Corpus-Level Status
+
+```
+Public archive mapped                 YES
+Research architecture identified      YES
+Repository architecture identified   YES
+README-level extraction              PARTIAL
+Mathematical objects identified      PARTIAL
+Theorem registry identified          YES
+Proof registry identified            YES
+Claim matrix identified              YES
+Archive Map identified               YES
+Research Register identified         YES
+Formal layer identified              YES
+Computational layer identified       YES
+Dataset layer identified             YES
+Validation layer identified          YES
+Bibliographic layer identified       YES
+File-level extraction                IN PROGRESS
+Claim-level extraction               IN PROGRESS
+Formal verification                  CLAIM-SPECIFIC
+Computational reproduction           CLAIM-SPECIFIC
+Independent validation               CLAIM-SPECIFIC
+Complete corpus extraction           NOT COMPLETED
+```
+
+---
+
+ ## 28. Required Next Extraction
+
+ The next extraction phase must proceed from the highest-value unresolved artifacts rather than from additional narrative description.
+
+ For `AOS-DETERMINISTIC-PROTOCOL`:
+
+```
+proofs/
+assets/
+```
+
+ must be retrieved recursively.
+
+ For `WYP_system`:
+
+```
+src/wyp/
+tests/
+examples/
+docs/
+pyproject.toml
 VERSION
+CHANGELOG.md
+```
+
+ must be retrieved and inspected.
+
+ For each artifact, the extraction record must preserve:
+
+```
+FILE
+PATH
+COMMIT
 HASH
 CONTENT
-OBJECT
-DEFINITION
-THEOREM
-CLAIM
-ALGORITHM
 DEPENDENCIES
-FORMALIZATION
+DEFINITIONS
+THEOREMS
+ALGORITHMS
 TESTS
 OUTPUTS
-VALIDATION
-BIBLIOGRAPHIC RELATION
-REPRODUCIBILITY STATUS
+RELATED CLAIMS
+VALIDATION STATUS
 ```
 
- Not every field will apply to every artifact.
-
- A theorem may have a formal proof but no computational implementation.
-
- A dataset may have an execution provenance chain but no formal theorem.
-
- A bibliography record may have no executable artifact.
-
- A documentation page may define the relationship between several other artifacts without itself constituting mathematical evidence.
-
- The schema must therefore remain flexible while maintaining consistent provenance.
+ The next phase should then connect those artifacts to the public theorem, claim, proof and research registries.
 
 ---
 
- ## 28\. Final Extraction Status
+ ## 29\. Final Evidence Boundary
 
- The current status of the AUF2026 corpus is:
-
-```
-PUBLIC ARCHIVE IDENTIFICATION        DOCUMENTED
-
-PUBLIC SITE ARCHITECTURE             DOCUMENTED
-
-REPOSITORY ARCHITECTURE              DOCUMENTED
-
-MATHEMATICAL CORE                    IDENTIFIED
-
-THEOREM REGISTRY                     IDENTIFIED
-
-FORMAL VERIFICATION LAYER            IDENTIFIED
-
-COMPUTATIONAL KERNEL                 IDENTIFIED
-
-APPLICATION LAYER                    IDENTIFIED
-
-RESEARCH MANUSCRIPTS                 IDENTIFIED
-
-PROOF ARCHIVE                        IDENTIFIED
-
-VALIDATION ARCHIVE                   IDENTIFIED
-
-DATASET LAYER                        IDENTIFIED
-
-SOURCE-CODE LAYER                    IDENTIFIED
-
-DOCUMENTATION LAYER                  IDENTIFIED
-
-RESEARCH REGISTER                    IDENTIFIED
-
-ARCHIVE MAP                          IDENTIFIED
-
-MASTER CLAIM MATRIX                  IDENTIFIED
-
-THEOREM ORIGINALITY MATRIX           IDENTIFIED
-
-BIBLIOGRAPHIC NOVELTY MATRIX         IDENTIFIED
-
-PROOF REGISTRY                       IDENTIFIED
-
-FILE-LEVEL EXTRACTION                IN PROGRESS
-
-CLAIM-LEVEL EXTRACTION               IN PROGRESS
-
-FORMAL VERIFICATION                  CLAIM-SPECIFIC
-
-COMPUTATIONAL REPRODUCTION           CLAIM-SPECIFIC
-
-INDEPENDENT VALIDATION               CLAIM-SPECIFIC
-
-COMPLETE CORPUS EXTRACTION           NOT YET COMPLETED
-```
-
----
-
- ## 29\. Governing Evidence Rule
-
- The AUF2026 extraction archive is governed by the following rule:
-
-```
-WHAT IS DISPLAYED
-        ≠
-WHAT EXISTS IN THE REPOSITORY
-        ≠
-WHAT HAS BEEN RETRIEVED
-        ≠
-WHAT HAS BEEN INSPECTED
-        ≠
-WHAT HAS BEEN FORMALIZED
-        ≠
-WHAT HAS BEEN VERIFIED
-        ≠
-WHAT HAS BEEN REPRODUCED
-        ≠
-WHAT HAS BEEN INDEPENDENTLY VALIDATED
-```
-
- The public website provides the presentation layer.
-
- The repository provides the version-controlled source layer.
-
- The research documents provide the written mathematical layer.
-
- The Lean artifacts provide the formal layer.
-
- The source code provides the computational layer.
-
- The datasets provide the experimental layer.
-
- The validation records provide the reproducibility layer.
-
- The bibliography provides the prior-art comparison layer.
-
- The Research Register, Archive Map, Master Claim Matrix, Theorem Originality Matrix, Bibliographic Novelty Matrix and Proof Registry provide the traceability layer.
-
- The extraction archive connects these layers without treating them as interchangeable.
-
----
-
- ## 30\. Final Archival Principle
-
- The final purpose of the AUF2026 extraction record is to make every substantive research claim traceable through its complete evidence chain:
-
-```
-PUBLIC CLAIM
-     ↓
-RESEARCH OBJECT
-     ↓
-SOURCE DOCUMENT
-     ↓
-REPOSITORY PATH
-     ↓
-COMMIT
-     ↓
-HASH
-     ↓
-MATHEMATICAL DEFINITION
-     ↓
-THEOREM / PROPOSITION
-     ↓
-FORMAL ARTIFACT
-     ↓
-IMPLEMENTATION
-     ↓
-TEST / EXECUTION
-     ↓
-REPRODUCTION
-     ↓
-VALIDATION
-     ↓
-BIBLIOGRAPHIC COMPARISON
-```
-
- Where a stage has not yet been established, the archive records that stage as pending, unavailable or not yet retrieved.
-
- It does not fill the gap by inference.
-
- The resulting research record is therefore designed to preserve, at the same time:
-
-```
-PROVENANCE
-MATHEMATICAL CONTENT
-FORMAL EVIDENCE
-COMPUTATIONAL EVIDENCE
-EXPERIMENTAL EVIDENCE
-REPRODUCIBILITY
-VALIDATION
-BIBLIOGRAPHIC CONTEXT
-```
-
- The central archival distinction remains:
+ The complete AUF2026 archive must always preserve the following distinction:
 
 ```
 FILE EXISTS
-     ≠
+        ≠
 FILE RETRIEVED
-     ≠
+        ≠
 FILE INSPECTED
-     ≠
-CLAIM IDENTIFIED
-     ≠
+        ≠
+CONTENT CLASSIFIED
+        ≠
+MATHEMATICAL CLAIM IDENTIFIED
+        ≠
 CLAIM FORMALIZED
-     ≠
-CLAIM VERIFIED
-     ≠
-RESULT REPRODUCED
-     ≠
-RESULT INDEPENDENTLY VALIDATED
+        ≠
+FORMAL PROOF VERIFIED
+        ≠
+COMPUTATION REPRODUCED
+        ≠
+CLAIM INDEPENDENTLY VALIDATED
 ```
 
- This distinction is the governing evidence principle for the AUF2026 research corpus and defines the boundary between repository provenance, mathematical content, formal verification, computational reproduction and independent research validation.
+ This distinction applies equally to:
+
+```
+README files
+research manuscripts
+theorems
+Lean proofs
+source code
+datasets
+tests
+examples
+benchmarks
+validation records
+bibliographic records
+```
+
+ The archive therefore avoids upgrading evidence merely because a later layer exists.
+
+ A theorem registry cannot replace the theorem source.
+
+ A theorem source cannot replace its proof.
+
+ A proof cannot replace its compilation record.
+
+ A compiled proof cannot replace independent reproduction where reproduction is required.
+
+ A computational output cannot replace the mathematical proposition it is claimed to support.
+
+ A bibliography entry cannot replace a mathematical comparison.
+
+ A website page cannot replace the versioned source artifact.
+
+---
+
+ ## 30\. Archival Completion Criterion
+
+ The AUF2026 extraction can be considered complete only when every relevant public research object has a traceable path from presentation to source and, where applicable, through verification and validation.
+
+ The completion condition is:
+
+```
+PUBLIC OBJECT
+      ↓
+CANONICAL SOURCE
+      ↓
+VERSION
+      ↓
+COMMIT
+      ↓
+HASH
+      ↓
+EXTRACTED CONTENT
+      ↓
+CLASSIFICATION
+      ↓
+CLAIM / THEOREM
+      ↓
+FORMAL / COMPUTATIONAL ARTIFACT
+      ↓
+EXECUTION / COMPILATION
+      ↓
+REPRODUCTION
+      ↓
+VALIDATION
+      ↓
+BIBLIOGRAPHIC CONTEXT
+```
+
+ Not every research object will contain every stage.
+
+ The completion criterion is therefore not that every object must have a formal proof or an independent experiment.
+
+ The criterion is that the applicable evidence stages are explicitly identified and that missing stages are recorded rather than silently inferred.
+
+---
+
+ ## 31\. Archival Principle
+
+ The AUF2026 extraction archive is ultimately a provenance and evidence system.
+
+ Its function is to preserve the relationship between:
+
+```
+WHAT IS PRESENTED
+```
+
+```
+WHAT EXISTS
+```
+
+```
+WHAT HAS BEEN RETRIEVED
+```
+
+```
+WHAT HAS BEEN INSPECTED
+```
+
+```
+WHAT IS CLAIMED
+```
+
+```
+WHAT IS FORMALIZED
+```
+
+```
+WHAT IS COMPUTED
+```
+
+```
+WHAT IS REPRODUCED
+```
+
+```
+WHAT IS VALIDATED
+```
+
+```
+WHAT IS COMPARED WITH PRIOR ART
+```
+
+ The repository remains the source of provenance.
+
+ The mathematical corpus remains the source of definitions, derivations and theorem statements.
+
+ The formal corpus provides machine-checkable evidence.
+
+ The computational corpus provides executable evidence.
+
+ The dataset corpus provides experimental evidence.
+
+ The validation corpus provides reproducibility and independent-check evidence.
+
+ The bibliographic corpus provides prior-art comparison.
+
+ The Archive Map and Research Register connect these layers.
+
+ The Master Claim Matrix connects claims to their evidence.
+
+ The Theorem Originality Matrix connects theorem-level claims to prior mathematics.
+
+ The Bibliographic Novelty Matrix records literature-level comparison.
+
+ The Proof Registry connects formal propositions to their machine-checkable artifacts.
+
+ The final extraction record therefore preserves a single continuous provenance chain:
+
+```
+AUF2026 PUBLIC ARCHIVE
+          ↓
+      ARCHIVE MAP
+          ↓
+   RESEARCH REGISTER
+          ↓
+       CLAIM
+          ↓
+  MATHEMATICAL OBJECT
+          ↓
+     THEOREM / PROP.
+          ↓
+   SOURCE ARTIFACT
+          ↓
+   COMMIT + HASH
+          ↓
+ FORMAL / COMPUTATIONAL
+       ARTIFACT
+          ↓
+ COMPILATION / EXECUTION
+          ↓
+     REPRODUCTION
+          ↓
+      VALIDATION
+          ↓
+  BIBLIOGRAPHIC RECORD
+```
+
+ No stronger evidentiary status is assigned without the corresponding underlying evidence.
+
+ This separation is the governing principle of the AUF2026 extraction archive.
