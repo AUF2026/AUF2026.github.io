@@ -3990,10 +3990,7 @@
   async function loadMarkdownDocument() {
 
     if (
-      !requestedDocument ||
-      !allowedDocuments.includes(
-        requestedDocument
-      )
+      !requestedDocument
     ) {
 
       renderError(
@@ -4007,14 +4004,49 @@
     }
 
 
+    /*
+     * Resolve the requested document against the
+     * complete list discovered from GitHub.
+     *
+     * This supports all of these forms:
+     *
+     *   ARCHIVE-MAP.md
+     *   docs/ARCHIVE-MAP.md
+     *   folder/example.md
+     *   folder/subfolder/example.md
+     */
     const sourcePath =
-      "docs/" +
-      requestedDocument;
+      resolveMarkdownPath(
+        requestedDocument
+      );
+
+
+    if (
+      !sourcePath
+    ) {
+
+      renderError(
+        new Error(
+          "Markdown document not found: " +
+          requestedDocument
+        )
+      );
+
+      return;
+
+    }
+
+
+    const filename =
+      sourcePath
+        .split("/")
+        .filter(Boolean)
+        .pop();
 
 
     titleElement.textContent =
       humanTitle(
-        requestedDocument
+        filename
       );
 
 
@@ -4070,7 +4102,7 @@
       document.title =
         "AUF2026 — " +
         humanTitle(
-          requestedDocument
+          filename
         );
 
 
@@ -4368,7 +4400,7 @@
   }
 
 
-    /* =========================================================
+  /* =========================================================
      START
      ========================================================= */
 
