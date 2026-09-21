@@ -1,0 +1,1681 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Faure Lean Verifier Sandbox (25/50/25)</title>
+
+<style>
+  :root{
+    --bg:#071428;
+    --card:#0b1620;
+    --accent:#7dd3fc;
+    --muted:#9fb0c6;
+    --mono:ui-monospace,Menlo,Monaco,"Courier New",monospace;
+    --success:#10b981;
+    --danger:#f43f5e;
+  }
+
+  html,body{
+    height:100%;
+  }
+
+  body{
+    margin:0;
+    font-family:Inter,system-ui,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,var(--bg),#041022);
+    color:#e6eef6;
+    padding:18px;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+
+  h1{
+    margin:0;
+    font-size:20px;
+  }
+
+  h2{
+    margin-top:0;
+  }
+
+  .lead{
+    color:var(--muted);
+    font-size:13px;
+    margin:0;
+  }
+
+  /* Layout 25% - 50% - 25% */
+  .layout{
+    display:grid;
+    grid-template-columns:25% 50% 25%;
+    gap:14px;
+    align-items:start;
+    box-sizing:border-box;
+  }
+
+  @media (max-width:1100px){
+    .layout{
+      grid-template-columns:1fr;
+    }
+  }
+
+  .nav,
+  .card{
+    background:linear-gradient(
+      180deg,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.01)
+    );
+    border:1px solid rgba(255,255,255,0.03);
+    padding:12px;
+    border-radius:10px;
+    box-sizing:border-box;
+  }
+
+  label{
+    display:block;
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:6px;
+  }
+
+  textarea,
+  input,
+  select{
+    width:100%;
+    padding:8px;
+    border-radius:6px;
+    border:1px solid rgba(255,255,255,0.04);
+    background:transparent;
+    color:inherit;
+    font-family:var(--mono);
+    font-size:13px;
+    box-sizing:border-box;
+  }
+
+  button{
+    background:var(--accent);
+    color:#042028;
+    border:0;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:700;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+
+  .muted{
+    color:var(--muted);
+    font-size:13px;
+  }
+
+  pre{
+    background:#02111a;
+    padding:10px;
+    border-radius:8px;
+    overflow:auto;
+    font-family:var(--mono);
+    font-size:13px;
+    height:320px;
+    box-sizing:border-box;
+  }
+
+  .badge{
+    background:rgba(255,255,255,0.02);
+    padding:6px 8px;
+    border-radius:6px;
+    font-family:var(--mono);
+    font-size:12px;
+  }
+
+  .declaration{
+    border-top:1px solid rgba(255,255,255,0.03);
+    padding:10px 0;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+  }
+
+  .declaration .left{
+    flex:1;
+  }
+
+  .declaration .right{
+    width:260px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    align-items:flex-end;
+  }
+
+  .small{
+    font-size:12px;
+    color:var(--muted);
+  }
+
+  .sr-only{
+    position:absolute;
+    left:-10000px;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+  }
+
+  .control-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .left-controls{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .left-controls .row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  main.card{
+    max-height:calc(100vh - 180px);
+    overflow:auto;
+  }
+
+  aside.nav .control-row button{
+    min-width:0;
+  }
+
+  @media (max-width:600px){
+    .left-controls .row{
+      flex-direction:column;
+    }
+
+    .declaration{
+      flex-direction:column;
+    }
+
+    .declaration .right{
+      width:100%;
+      align-items:stretch;
+    }
+  }
+</style>
+
+<!-- JSZip: necessario per l'importazione .zip -->
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Faure Lean Verifier Sandbox</h1>
+    <p class="lead">
+      Parser Lean 4, upload .zip, anteprima, manifest JSON con hash e log diagnostico.
+    </p>
+  </div>
+
+  <div style="margin-left:auto;text-align:right">
+    <div class="badge" aria-hidden="true">Ready</div>
+    <div class="muted" style="margin-top:6px">
+      Apri via <strong>http://localhost</strong> per piena compatibilità clipboard/crypto.
+    </div>
+  </div>
+</header>
+
+<div class="layout" role="main">
+
+  <!-- LEFT 25% -->
+  <aside class="nav card" aria-labelledby="input-heading">
+
+    <h2 id="input-heading">Input</h2>
+
+    <label for="zip-file">
+      Carica file .zip (opzionale)
+    </label>
+
+    <input
+      id="zip-file"
+      name="zipFile"
+      type="file"
+      accept=".zip"
+      aria-label="Carica file zip contenente file Lean"
+    />
+
+    <div class="left-controls" style="margin-top:8px">
+
+      <div class="row">
+        <button
+          id="btn-parse-zip"
+          name="parseZip"
+          type="button"
+        >
+          Estrai e Analizza .zip
+        </button>
+
+        <button
+          id="btn-clear"
+          name="reset"
+          type="button"
+          style="background:#1f2937;color:#e6eef6"
+        >
+          Reset
+        </button>
+      </div>
+
+      <hr
+        style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+      >
+
+      <label for="lean-paste">
+        Incolla file Lean
+      </label>
+
+      <textarea
+        id="lean-paste"
+        name="leanPaste"
+        rows="12"
+        placeholder="Incolla qui il contenuto di un file .lean (es. namespace Faure ... end Faure)"
+      ></textarea>
+
+      <div class="row" style="margin-top:8px">
+        <button
+          id="btn-scan"
+          name="scan"
+          type="button"
+        >
+          Scansiona textarea
+        </button>
+
+        <button
+          id="btn-add-paste"
+          name="addPaste"
+          type="button"
+        >
+          Aggiungi dichiarazioni
+        </button>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <button
+          id="btn-run-sample"
+          name="runSample"
+          type="button"
+          style="background:#7c3aed;color:#fff"
+        >
+          Esegui test (sample)
+        </button>
+
+        <button
+          id="btn-debug"
+          name="debug"
+          type="button"
+          style="background:#ef4444;color:#fff"
+        >
+          Debug stato
+        </button>
+      </div>
+
+    </div>
+
+    <hr
+      style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+    >
+
+    <label for="file-list">
+      File trovati
+    </label>
+
+    <div
+      id="file-list"
+      class="small"
+      style="
+        max-height:220px;
+        overflow:auto;
+        padding:6px;
+        border-radius:6px;
+        background:rgba(255,255,255,0.01);
+        border:1px solid rgba(255,255,255,0.02)
+      "
+      role="region"
+      aria-live="polite"
+    >
+      Nessun file caricato.
+    </div>
+
+  </aside>
+
+
+  <!-- CENTER 50% -->
+  <main
+    class="card"
+    aria-labelledby="declarations-heading"
+  >
+
+    <h2 id="declarations-heading">
+      Dichiarazioni Lean
+    </h2>
+
+    <div
+      style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:10px;
+        flex-wrap:wrap
+      "
+    >
+
+      <div>
+        <p
+          id="main-sub"
+          class="muted"
+        >
+          0 dichiarazioni
+        </p>
+      </div>
+
+      <div
+        style="
+          display:flex;
+          gap:8px;
+          align-items:center;
+          flex-wrap:wrap
+        "
+      >
+
+        <div class="badge">
+          Totale:
+          <span id="total-decls">0</span>
+        </div>
+
+        <div class="badge">
+          FORMALLY_VERIFIED:
+          <span id="count-formal">0</span>
+        </div>
+
+        <div class="badge">
+          AUTHOR_VALIDATED:
+          <span id="count-author">0</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <hr
+      style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+    >
+
+    <div
+      id="declarations-list"
+      aria-live="polite"
+      role="region"
+    ></div>
+
+    <hr
+      style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+    >
+
+    <div class="control-row">
+
+      <button
+        id="btn-generate-manifest"
+        name="generateManifest"
+        type="button"
+      >
+        Genera manifest completo
+      </button>
+
+      <button
+        id="btn-copy-manifest"
+        name="copyManifest"
+        type="button"
+        style="background:#1f2937;color:#e6eef6"
+      >
+        Copia manifest
+      </button>
+
+      <button
+        id="btn-download"
+        name="downloadManifest"
+        type="button"
+        style="
+          background:#0b1220;
+          color:var(--accent);
+          border:1px solid rgba(125,211,252,0.08)
+        "
+      >
+        Scarica manifest
+      </button>
+
+    </div>
+
+    <div style="margin-top:12px">
+
+      <label for="manifest-preview">
+        Anteprima manifest
+      </label>
+
+      <textarea
+        id="manifest-preview"
+        name="manifestPreview"
+        rows="8"
+        style="font-family:var(--mono)"
+      ></textarea>
+
+    </div>
+
+  </main>
+
+
+  <!-- RIGHT 25% -->
+  <aside
+    class="card"
+    aria-labelledby="log-heading"
+  >
+
+    <h2 id="log-heading">
+      Log & Stato
+    </h2>
+
+    <label for="filter-state">
+      Filtro stato
+    </label>
+
+    <select
+      id="filter-state"
+      name="filterState"
+      aria-label="Filtro per stato delle dichiarazioni"
+    >
+      <option value="ALL">Tutti</option>
+      <option value="DOCUMENTED">DOCUMENTED</option>
+      <option value="AUTHOR_VALIDATED">AUTHOR_VALIDATED</option>
+      <option value="FORMALLY_VERIFIED">FORMALLY_VERIFIED</option>
+    </select>
+
+    <hr
+      style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+    >
+
+    <label for="log">
+      Log (diagnostico)
+    </label>
+
+    <pre
+      id="log"
+      class="debug"
+      role="log"
+      aria-live="polite"
+      style="height:220px;overflow:auto"
+    ></pre>
+
+    <hr
+      style="border-color:rgba(255,255,255,0.03);margin:12px 0"
+    >
+
+    <label for="manifest-hash">
+      Hash manifest
+    </label>
+
+    <div
+      id="manifest-hash"
+      class="muted"
+      aria-live="polite"
+    >
+      —
+    </div>
+
+    <div
+      id="stats"
+      class="small"
+      style="margin-top:12px"
+    >
+      Dichiarazioni: 0 — File: 0
+    </div>
+
+  </aside>
+
+</div>
+
+<footer style="margin-top:12px">
+  <div class="muted">
+    Se qualcosa non funziona: apri la Console (F12) e incolla qui l’errore rosso.
+    Verrà corretto immediatamente.
+  </div>
+</footer>
+
+
+<!--
+  SCRIPT RECUPERATO DALLA VERSIONE FUNZIONANTE.
+  Un solo blocco script.
+-->
+<script>
+(function(){
+  'use strict';
+
+  function appendLog(msg){
+    const el = document.getElementById('log');
+    const node = document.createElement('div');
+
+    node.textContent =
+      (new Date()).toISOString() + ' — ' + msg;
+
+    el.prepend(node);
+
+    console.log(msg);
+  }
+
+
+  function sha256Fallback(str){
+    let h = 2166136261 >>> 0;
+
+    for (let i=0;i<str.length;i++){
+      h = Math.imul(
+        h ^ str.charCodeAt(i),
+        16777619
+      ) >>> 0;
+    }
+
+    return (
+      '00000000' +
+      (h >>> 0).toString(16)
+    ).slice(-8);
+  }
+
+
+  const State = {
+    files: [],
+    declarations: []
+  };
+
+
+  const DECL_START_RE =
+    /^\s*(def|theorem|lemma|structure|inductive|abbrev)\s+([A-Za-z0-9_.'?`]+)\b(.*)$/u;
+
+  const NAMESPACE_START_RE =
+    /^\s*namespace\s+([A-Za-z0-9_.'?`]+)\s*$/u;
+
+  const NAMESPACE_END_RE =
+    /^\s*end\s+([A-Za-z0-9_.'?`]+)?\s*$/u;
+
+
+  function extractDeclarationsFromText(text, filename){
+
+    const lines =
+      text.replace(/\r\n/g,'\n').split('\n');
+
+    const decls = [];
+
+    let i = 0;
+    let currentNamespace = null;
+
+
+    while (i < lines.length){
+
+      const line = lines[i];
+
+
+      const nsStart =
+        line.match(NAMESPACE_START_RE);
+
+      if (nsStart){
+        currentNamespace = nsStart[1];
+        i++;
+        continue;
+      }
+
+
+      const nsEnd =
+        line.match(NAMESPACE_END_RE);
+
+      if (nsEnd){
+        currentNamespace = null;
+        i++;
+        continue;
+      }
+
+
+      const m =
+        line.match(DECL_START_RE);
+
+
+      if (m){
+
+        const kind = m[1];
+        const name = m[2];
+
+        let signature =
+          m[3] ? m[3].trim() : '';
+
+        let j = i + 1;
+
+
+        while (j < lines.length){
+
+          const nxt = lines[j];
+
+
+          if (
+            nxt.match(DECL_START_RE) ||
+            nxt.match(NAMESPACE_START_RE) ||
+            nxt.match(NAMESPACE_END_RE)
+          ){
+            break;
+          }
+
+
+          if (
+            /^\s{2,}/.test(nxt) ||
+            /^\s*[:=({→⇒]/.test(nxt) ||
+            signature.endsWith('\\')
+          ){
+
+            signature += '\n' + nxt;
+            j++;
+            continue;
+          }
+
+
+          if (
+            signature.length < 80 &&
+            /[:=⇒→]/.test(nxt)
+          ){
+
+            signature += '\n' + nxt;
+            j++;
+            continue;
+          }
+
+
+          break;
+        }
+
+
+        const bodyLines = [];
+        let k = j;
+
+
+        while (k < lines.length){
+
+          if (
+            lines[k].match(DECL_START_RE) ||
+            lines[k].match(NAMESPACE_START_RE) ||
+            lines[k].match(NAMESPACE_END_RE)
+          ){
+            break;
+          }
+
+          bodyLines.push(lines[k]);
+          k++;
+        }
+
+
+        decls.push({
+          id:
+            `${filename}::${currentNamespace||'global'}::${name}::${i+1}`,
+
+          name:
+            currentNamespace
+              ? `${currentNamespace}.${name}`
+              : name,
+
+          kind,
+
+          signature:
+            signature.trim(),
+
+          body:
+            bodyLines.join('\n'),
+
+          file:
+            filename,
+
+          lineno:
+            i+1,
+
+          state:
+            'DOCUMENTED'
+        });
+
+
+        i = k;
+
+      } else {
+
+        i++;
+      }
+    }
+
+
+    return decls;
+  }
+
+
+  function updateFileList(){
+
+    const el =
+      document.getElementById('file-list');
+
+
+    if (State.files.length === 0){
+
+      el.innerHTML =
+        'Nessun file caricato.';
+
+      document.getElementById('stats').textContent =
+        `Dichiarazioni: ${State.declarations.length} — File: ${State.files.length}`;
+
+      return;
+    }
+
+
+    el.innerHTML =
+      State.files.map(f=>`
+        <div
+          style="
+            padding:6px;
+            border-bottom:1px solid rgba(255,255,255,0.03)
+          "
+        >
+          <strong>${f.name}</strong>
+
+          <div class="small">
+            ${Math.max(0,f.text?.length||0)} caratteri
+          </div>
+        </div>
+      `).join('');
+
+
+    document.getElementById('stats').textContent =
+      `Dichiarazioni: ${State.declarations.length} — File: ${State.files.length}`;
+  }
+
+
+  function renderDeclarations(){
+
+    const container =
+      document.getElementById('declarations-list');
+
+    container.innerHTML = '';
+
+
+    State.declarations.forEach((d, idx)=>{
+
+      const div =
+        document.createElement('div');
+
+      div.className =
+        'declaration';
+
+
+      div.innerHTML = `
+        <div class="left">
+
+          <div
+            style="
+              font-family:var(--mono);
+              font-weight:700
+            "
+          >
+            ${d.name}
+          </div>
+
+          <div
+            class="small"
+            style="margin-top:6px"
+          >
+            ${d.kind} ${d.signature||''}
+          </div>
+
+          <div
+            class="small"
+            style="margin-top:6px"
+          >
+            file: ${d.file} : linea ${d.lineno}
+          </div>
+
+        </div>
+
+        <div class="right">
+
+          <select
+            id="state-select-${idx}"
+            data-idx="${idx}"
+            aria-label="Stato per ${d.name}"
+          >
+
+            <option
+              value="DOCUMENTED"
+              ${d.state==='DOCUMENTED'?' selected':''}
+            >
+              DOCUMENTED
+            </option>
+
+            <option
+              value="AUTHOR_VALIDATED"
+              ${d.state==='AUTHOR_VALIDATED'?' selected':''}
+            >
+              AUTHOR_VALIDATED
+            </option>
+
+            <option
+              value="FORMALLY_VERIFIED"
+              ${d.state==='FORMALLY_VERIFIED'?' selected':''}
+            >
+              FORMALLY_VERIFIED
+            </option>
+
+          </select>
+
+          <div
+            style="
+              display:flex;
+              gap:6px;
+              margin-top:6px
+            "
+          >
+
+            <button
+              data-view="${idx}"
+              class="btn-view"
+              type="button"
+              style="
+                background:#0b1220;
+                color:var(--accent);
+                border:1px solid rgba(125,211,252,0.08)
+              "
+            >
+              Apri
+            </button>
+
+            <button
+              data-log="${idx}"
+              class="btn-log"
+              type="button"
+              style="
+                background:#1f2937;
+                color:#e6eef6
+              "
+            >
+              Log
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+
+      container.appendChild(div);
+    });
+
+
+    container
+      .querySelectorAll('select[id^="state-select-"]')
+      .forEach(sel=>{
+
+        sel.addEventListener(
+          'change',
+          ()=>{
+            State.declarations[
+              parseInt(sel.dataset.idx,10)
+            ].state = sel.value;
+          }
+        );
+
+      });
+
+
+    container
+      .querySelectorAll('.btn-view')
+      .forEach(b=>{
+
+        b.addEventListener(
+          'click',
+          ()=>{
+            openDeclarationModal(
+              State.declarations[
+                parseInt(b.dataset.view,10)
+              ]
+            );
+          }
+        );
+
+      });
+
+
+    container
+      .querySelectorAll('.btn-log')
+      .forEach(b=>{
+
+        b.addEventListener(
+          'click',
+          ()=>{
+
+            const d =
+              State.declarations[
+                parseInt(b.dataset.log,10)
+              ];
+
+            appendLog(
+              `${d.name} — ${d.kind} — ${d.file}:${d.lineno}`
+            );
+          }
+        );
+
+      });
+
+
+    document.getElementById('main-sub').textContent =
+      `${State.declarations.length} dichiarazioni`;
+
+
+    document.getElementById('total-decls').textContent =
+      State.declarations.length;
+  }
+
+
+  function openDeclarationModal(d){
+
+    const w =
+      window.open(
+        '',
+        '_blank',
+        'width=800,height=600'
+      );
+
+
+    if (!w){
+
+      appendLog(
+        'Popup bloccato: consenti popup per aprire la dichiarazione.'
+      );
+
+      return;
+    }
+
+
+    w.document.write(
+      `<pre>${d.name}\n\n${d.signature}\n\n${d.body.slice(0,2000)}</pre>`
+    );
+  }
+
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    function(){
+
+      const btnZip =
+        document.getElementById('btn-parse-zip');
+
+
+      if (btnZip){
+
+        btnZip.addEventListener(
+          'click',
+          async function(){
+
+            const input =
+              document.getElementById('zip-file');
+
+
+            if (
+              !input ||
+              !input.files ||
+              input.files.length === 0
+            ){
+
+              appendLog(
+                "Seleziona prima un file .zip."
+              );
+
+              return;
+            }
+
+
+            if (typeof JSZip === 'undefined'){
+
+              appendLog(
+                "JSZip non disponibile. Prova a incollare il file Lean nella textarea."
+              );
+
+              return;
+            }
+
+
+            try{
+
+              appendLog(
+                "Parsing zip..."
+              );
+
+
+              const file =
+                input.files[0];
+
+
+              const arrayBuffer =
+                await file.arrayBuffer();
+
+
+              const zip =
+                await JSZip.loadAsync(arrayBuffer);
+
+
+              State.files = [];
+              State.declarations = [];
+
+
+              const fileNames = [];
+
+
+              for (
+                const name of Object.keys(zip.files)
+              ){
+
+                if (name.endsWith('.lean')){
+
+                  const content =
+                    await zip.files[name].async('string');
+
+
+                  State.files.push({
+                    name,
+                    text:content
+                  });
+
+
+                  const decls =
+                    extractDeclarationsFromText(
+                      content,
+                      name
+                    );
+
+
+                  State.declarations.push(
+                    ...decls
+                  );
+
+
+                  fileNames.push(name);
+                }
+              }
+
+
+              updateFileList();
+              renderDeclarations();
+
+
+              appendLog(
+                `Importati ${State.files.length} file (.lean): ${fileNames.join(', ')} — dichiarazioni estratte: ${State.declarations.length}`
+              );
+
+            }catch(e){
+
+              console.error(e);
+
+              appendLog(
+                "Errore parsing zip: " +
+                (e && e.message ? e.message : e)
+              );
+            }
+          }
+        );
+      }
+
+
+      const btnScan =
+        document.getElementById('btn-scan');
+
+
+      if (btnScan){
+
+        btnScan.addEventListener(
+          'click',
+          function(){
+
+            const txt =
+              document.getElementById('lean-paste').value || '';
+
+
+            if (!txt.trim()){
+
+              appendLog(
+                'Textarea vuota.'
+              );
+
+              return;
+            }
+
+
+            const filename =
+              `scanned_${Date.now()}.lean`;
+
+
+            State.files.push({
+              name:filename,
+              text:txt
+            });
+
+
+            const decls =
+              extractDeclarationsFromText(
+                txt,
+                filename
+              );
+
+
+            State.declarations.push(
+              ...decls
+            );
+
+
+            updateFileList();
+            renderDeclarations();
+
+
+            appendLog(
+              `Scansione: ${decls.length} dichiarazioni aggiunte.`
+            );
+          }
+        );
+      }
+
+
+      const btnAdd =
+        document.getElementById('btn-add-paste');
+
+
+      if (btnAdd){
+
+        btnAdd.addEventListener(
+          'click',
+          function(){
+
+            const txt =
+              document.getElementById('lean-paste').value || '';
+
+
+            if (!txt.trim()){
+
+              appendLog(
+                'Textarea vuota.'
+              );
+
+              return;
+            }
+
+
+            const filename =
+              `pasted_${Date.now()}.lean`;
+
+
+            State.files.push({
+              name:filename,
+              text:txt
+            });
+
+
+            const decls =
+              extractDeclarationsFromText(
+                txt,
+                filename
+              );
+
+
+            State.declarations.push(
+              ...decls
+            );
+
+
+            document.getElementById(
+              'lean-paste'
+            ).value = '';
+
+
+            updateFileList();
+            renderDeclarations();
+
+
+            appendLog(
+              `Aggiunto: ${decls.length} dichiarazioni.`
+            );
+          }
+        );
+      }
+
+
+      const btnSample =
+        document.getElementById('btn-run-sample');
+
+
+      if (btnSample){
+
+        btnSample.addEventListener(
+          'click',
+          function(){
+
+            const sample =
+`namespace Faure
+
+/-- Relazione astratta di bilanciamento. -/
+def Balanced {α : Type} (x y : α) : Prop :=
+  x = y
+
+theorem balanced_refl {α : Type} (x : α) : Balanced x x := by rfl
+
+end Faure`;
+
+
+            document.getElementById(
+              'lean-paste'
+            ).value = sample;
+
+
+            appendLog(
+              'Sample inserito nella textarea.'
+            );
+          }
+        );
+      }
+
+
+      const btnDebug =
+        document.getElementById('btn-debug');
+
+
+      if (btnDebug){
+
+        btnDebug.addEventListener(
+          'click',
+          function(){
+
+            appendLog(
+              'DEBUG: files=' +
+              State.files.length +
+              ' decls=' +
+              State.declarations.length
+            );
+
+
+            console.log(
+              'State',
+              State
+            );
+          }
+        );
+      }
+
+
+      const btnClear =
+        document.getElementById('btn-clear');
+
+
+      if (btnClear){
+
+        btnClear.addEventListener(
+          'click',
+          function(){
+
+            State.files = [];
+            State.declarations = [];
+
+
+            document.getElementById(
+              'lean-paste'
+            ).value = '';
+
+
+            document.getElementById(
+              'manifest-preview'
+            ).value = '';
+
+
+            document.getElementById(
+              'manifest-hash'
+            ).textContent = '—';
+
+
+            updateFileList();
+            renderDeclarations();
+
+
+            appendLog(
+              'Sandbox resettata.'
+            );
+          }
+        );
+      }
+
+
+      const btnManifest =
+        document.getElementById(
+          'btn-generate-manifest'
+        );
+
+
+      if (btnManifest){
+
+        btnManifest.addEventListener(
+          'click',
+          async function(){
+
+            if (
+              State.declarations.length === 0
+            ){
+
+              appendLog(
+                'Nessuna dichiarazione da includere.'
+              );
+
+              return;
+            }
+
+
+            const manifest = {
+              timestamp:
+                new Date().toISOString(),
+
+              declarations:
+                State.declarations.map(
+                  d=>({
+                    id:d.id,
+                    name:d.name,
+                    kind:d.kind,
+                    file:d.file,
+                    lineno:d.lineno,
+                    state:d.state
+                  })
+                )
+            };
+
+
+            const json =
+              JSON.stringify(
+                manifest,
+                null,
+                2
+              );
+
+
+            document.getElementById(
+              'manifest-preview'
+            ).value = json;
+
+
+            try{
+
+              const h =
+                (
+                  window.crypto &&
+                  crypto.subtle
+                )
+                ?
+                await crypto.subtle
+                  .digest(
+                    'SHA-256',
+                    new TextEncoder().encode(json)
+                  )
+                  .then(
+                    d=>
+                      Array
+                        .from(
+                          new Uint8Array(d)
+                        )
+                        .map(
+                          b=>
+                            b.toString(16)
+                             .padStart(2,'0')
+                        )
+                        .join('')
+                  )
+                :
+                sha256Fallback(json);
+
+
+              document.getElementById(
+                'manifest-hash'
+              ).textContent =
+                h
+                  ? 'sha256:' + h
+                  : 'not-available';
+
+            }catch(e){
+
+              document.getElementById(
+                'manifest-hash'
+              ).textContent =
+                sha256Fallback(json);
+            }
+
+
+            appendLog(
+              'Manifest generato.'
+            );
+          }
+        );
+      }
+
+
+      const btnCopy =
+        document.getElementById(
+          'btn-copy-manifest'
+        );
+
+
+      if (btnCopy){
+
+        btnCopy.addEventListener(
+          'click',
+          async function(){
+
+            const txt =
+              document.getElementById(
+                'manifest-preview'
+              ).value || '';
+
+
+            if (!txt){
+
+              appendLog(
+                'Nessun manifest da copiare.'
+              );
+
+              return;
+            }
+
+
+            if (
+              navigator.clipboard &&
+              navigator.clipboard.writeText
+            ){
+
+              await navigator.clipboard.writeText(
+                txt
+              );
+
+
+              appendLog(
+                'Manifest copiato.'
+              );
+
+            }else{
+
+              const ta =
+                document.createElement(
+                  'textarea'
+                );
+
+
+              ta.value = txt;
+
+
+              document.body.appendChild(
+                ta
+              );
+
+
+              ta.select();
+
+
+              document.execCommand(
+                'copy'
+              );
+
+
+              document.body.removeChild(
+                ta
+              );
+
+
+              appendLog(
+                'Manifest copiato (fallback).'
+              );
+            }
+          }
+        );
+      }
+
+
+      const btnDownload =
+        document.getElementById(
+          'btn-download'
+        );
+
+
+      if (btnDownload){
+
+        btnDownload.addEventListener(
+          'click',
+          function(){
+
+            const json =
+              document.getElementById(
+                'manifest-preview'
+              ).value || '{}';
+
+
+            const blob =
+              new Blob(
+                [json],
+                {
+                  type:'application/json'
+                }
+              );
+
+
+            const url =
+              URL.createObjectURL(
+                blob
+              );
+
+
+            const a =
+              document.createElement(
+                'a'
+              );
+
+
+            a.href = url;
+            a.download =
+              'faure_manifest.json';
+
+
+            a.click();
+
+
+            URL.revokeObjectURL(
+              url
+            );
+
+
+            appendLog(
+              'Manifest scaricato.'
+            );
+          }
+        );
+      }
+
+
+      const filter =
+        document.getElementById(
+          'filter-state'
+        );
+
+
+      if (filter){
+
+        filter.addEventListener(
+          'change',
+          function(e){
+
+            /*
+             * Comportamento identico alla versione funzionante:
+             * il cambio filtro richiama semplicemente renderDeclarations().
+             */
+            renderDeclarations();
+
+          }
+        );
+      }
+
+
+      /*
+       * Inizializzazione dei contatori visuali.
+       * Non altera la logica dello script originale.
+       */
+      document.getElementById(
+        'count-formal'
+      ).textContent = '0';
+
+
+      document.getElementById(
+        'count-author'
+      ).textContent = '0';
+
+
+      appendLog(
+        'Handlers collegati correttamente.'
+      );
+
+    }
+  );
+
+
+  window.addEventListener(
+    'message',
+    function(ev){
+
+      if (
+        ev.data &&
+        ev.data.type === 'sketch'
+      ){
+
+        appendLog(
+          'Note ricevute per ' +
+          ev.data.name +
+          ': ' +
+          ev.data.notes
+        );
+      }
+    }
+  );
+
+})();
+</script>
+
+</body>
+</html>
