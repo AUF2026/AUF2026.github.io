@@ -1,0 +1,2554 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Glossario AUF2026 — Simboli, Glifi, Operatori e Notazione</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)'], ['$', '$']],
+    displayMath: [['\\[','\\]'], ['$$','$$']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* =========================================================
+   AUF2026 — GLOSSARIO / MATHLIB
+   ========================================================= */
+
+:root {
+  --bg: #f7f9fc;
+  --surface: rgba(255,255,255,.88);
+  --surface-solid: #ffffff;
+  --surface-2: #f1f5f9;
+
+  --text: #111827;
+  --muted: #64748b;
+  --border: rgba(100,116,139,.22);
+
+  --accent: #2563eb;
+  --accent-2: #7c3aed;
+  --accent-3: #06b6d4;
+
+  --header: rgba(239,246,255,.92);
+
+  --shadow: 0 18px 55px rgba(15,23,42,.10);
+  --glow: rgba(37,99,235,.20);
+
+  --radius: 20px;
+  --transition: .35s cubic-bezier(.2,.8,.2,1);
+
+  --scalare: #e0f7fa;
+  --vettoriale: #e8f5e9;
+  --differenziale: #fff3e0;
+  --costante: #fce4ec;
+  --numero: #f3e5f5;
+  --strutturale: #e8eaf6;
+  --logica: #fffde7;
+  --insiemistica: #e0f2fe;
+  --formale: #f1f5f9;
+  --auf: #ede9fe;
+
+  color-scheme: light;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  color: var(--text);
+
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      color-mix(in srgb, var(--accent) 13%, transparent),
+      transparent 32rem
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      color-mix(in srgb, var(--accent-2) 10%, transparent),
+      transparent 30rem
+    ),
+    var(--bg);
+
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+/* =========================================================
+   AMBIENT BACKGROUND
+   ========================================================= */
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+  z-index: -2;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      color-mix(in srgb, var(--accent) 3%, transparent) 45%,
+      transparent 75%
+    );
+
+  animation: ambient 14s ease-in-out infinite alternate;
+}
+
+body::after {
+  content: "";
+
+  position: fixed;
+
+  width: 420px;
+  height: 420px;
+
+  top: -180px;
+  right: -120px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--accent-2) 13%, transparent),
+      transparent 68%
+    );
+
+  filter: blur(18px);
+
+  pointer-events: none;
+  z-index: -1;
+
+  animation: orb 16s ease-in-out infinite alternate;
+}
+
+@keyframes ambient {
+  from {
+    transform: translate3d(-1%,0,0) scale(1);
+  }
+
+  to {
+    transform: translate3d(1%,1%,0) scale(1.03);
+  }
+}
+
+@keyframes orb {
+  from {
+    transform: translate(0,0);
+  }
+
+  to {
+    transform: translate(-80px,70px);
+  }
+}
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.container {
+  width: min(1800px, calc(100% - 32px));
+  margin: auto;
+  padding: 42px 0 70px;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+header {
+  position: relative;
+  text-align: center;
+
+  padding: 45px 25px 35px;
+  margin-bottom: 24px;
+
+  border: 1px solid var(--border);
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--surface-solid) 88%, transparent),
+      color-mix(in srgb, var(--accent) 4%, var(--surface-solid))
+    );
+
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+header::before {
+  content: "";
+
+  position: absolute;
+
+  width: 280px;
+  height: 280px;
+
+  left: 50%;
+  top: -210px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      var(--glow),
+      transparent 70%
+    );
+
+  filter: blur(8px);
+}
+
+.header-kicker {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 7px 13px;
+  margin-bottom: 15px;
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--accent) 30%,
+    var(--border)
+  );
+
+  border-radius: 999px;
+
+  color: var(--accent);
+
+  font:
+    700 .72rem
+    "JetBrains Mono",
+    monospace;
+
+  letter-spacing: .12em;
+  text-transform: uppercase;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--accent) 7%,
+      transparent
+    );
+}
+
+.header-kicker::before {
+  content: "";
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--accent-3);
+
+  box-shadow:
+    0 0 10px var(--accent-3);
+
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .45;
+    transform: scale(.75);
+  }
+}
+
+h1 {
+  position: relative;
+
+  margin: 0 0 10px;
+
+  font-size:
+    clamp(2rem, 5vw, 4rem);
+
+  line-height: 1.05;
+  letter-spacing: -.055em;
+
+  background:
+    linear-gradient(
+      110deg,
+      var(--text),
+      var(--accent),
+      var(--accent-2)
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.subtitle {
+  position: relative;
+
+  max-width: 1050px;
+
+  margin: auto;
+
+  color: var(--muted);
+
+  font-size: 1rem;
+}
+
+/* =========================================================
+   CONTROLS
+   ========================================================= */
+
+.controls {
+  position: sticky;
+  top: 12px;
+
+  z-index: 1000;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin: 20px 0;
+  padding: 12px;
+
+  border: 1px solid var(--border);
+  border-radius: 18px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-solid) 82%,
+      transparent
+    );
+
+  backdrop-filter: blur(20px) saturate(150%);
+
+  box-shadow:
+    0 12px 35px rgba(15,23,42,.08);
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+button,
+select {
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  padding: 9px 13px;
+
+  color: var(--text);
+  background: var(--surface-solid);
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+button:hover,
+select:hover {
+  transform: translateY(-2px);
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--accent) 60%,
+      var(--border)
+    );
+
+  box-shadow:
+    0 7px 22px var(--glow);
+}
+
+button:active {
+  transform: translateY(0) scale(.97);
+}
+
+.theme-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.theme-control label {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.theme-slider {
+  appearance: none;
+
+  width: 180px;
+  height: 7px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--accent),
+      var(--accent-2),
+      var(--accent-3)
+    );
+
+  cursor: pointer;
+}
+
+.theme-slider::-webkit-slider-thumb {
+  appearance: none;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--surface-solid);
+
+  border: 3px solid var(--accent);
+
+  box-shadow:
+    0 0 0 5px var(--glow),
+    0 3px 10px rgba(0,0,0,.15);
+}
+
+.theme-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: var(--surface-solid);
+
+  border: 3px solid var(--accent);
+
+  box-shadow:
+    0 0 0 5px var(--glow),
+    0 3px 10px rgba(0,0,0,.15);
+}
+
+.theme-name {
+  min-width: 90px;
+
+  color: var(--accent);
+
+  font:
+    800 .78rem
+    "JetBrains Mono",
+    monospace;
+}
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-box {
+  position: relative;
+
+  flex: 1 1 260px;
+  max-width: 430px;
+}
+
+.search-box input {
+  width: 100%;
+
+  padding: 10px 14px 10px 38px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  outline: none;
+
+  color: var(--text);
+  background: var(--surface-solid);
+
+  transition:
+    border-color .2s,
+    box-shadow .2s;
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+
+  box-shadow:
+    0 0 0 4px var(--glow);
+}
+
+.search-icon {
+  position: absolute;
+
+  left: 13px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: var(--muted);
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status {
+  display: flex;
+
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap: 9px;
+
+  margin: 14px 0;
+
+  color: var(--muted);
+
+  font-size: .78rem;
+}
+
+.status-chip {
+  padding: 5px 9px;
+
+  border: 1px solid var(--border);
+  border-radius: 999px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-solid) 75%,
+      transparent
+    );
+}
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.table-wrap {
+  position: relative;
+
+  overflow: auto;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--surface);
+
+  box-shadow: var(--shadow);
+
+  backdrop-filter: blur(15px);
+}
+
+table {
+  width: 100%;
+  min-width: 1250px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th,
+td {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+
+  padding: 13px 12px;
+
+  text-align: center;
+  vertical-align: middle;
+
+  overflow-wrap: anywhere;
+}
+
+th:last-child,
+td:last-child {
+  border-right: 0;
+}
+
+th {
+  position: sticky;
+  top: 0;
+
+  z-index: 20;
+
+  background: var(--header);
+
+  color: var(--text);
+
+  font-size: .76rem;
+
+  text-transform: uppercase;
+  letter-spacing: .045em;
+
+  backdrop-filter: blur(15px);
+}
+
+tbody tr {
+  position: relative;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease,
+    filter .25s ease,
+    background .25s ease;
+}
+
+tbody tr:hover {
+  transform: translateX(3px);
+
+  filter:
+    saturate(1.12)
+    brightness(1.015);
+}
+
+tbody tr:hover td {
+  box-shadow:
+    inset 0 1px 0
+    color-mix(
+      in srgb,
+      var(--accent) 25%,
+      transparent
+    );
+}
+
+tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+td:first-child {
+  font-family:
+    "Cambria Math",
+    "STIX Two Math",
+    "Latin Modern Math",
+    "Times New Roman",
+    serif;
+
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.math-code {
+  display: inline-block;
+
+  margin-top: 5px;
+  padding: 5px 7px;
+
+  border-radius: 7px;
+
+  color: var(--accent);
+
+  background:
+    color-mix(
+      in srgb,
+      var(--accent) 7%,
+      transparent
+    );
+
+  font:
+    .72rem
+    "JetBrains Mono",
+    "SFMono-Regular",
+    monospace;
+
+  text-align: left;
+}
+
+.mjx-math,
+.MathJax {
+  color: var(--text) !important;
+}
+
+/* =========================================================
+   CATEGORY COLORS
+   ========================================================= */
+
+.scalare       { background: var(--scalare); }
+.vettoriale    { background: var(--vettoriale); }
+.differenziale { background: var(--differenziale); }
+.costante      { background: var(--costante); }
+.numero        { background: var(--numero); }
+.strutturale   { background: var(--strutturale); }
+.logica        { background: var(--logica); }
+.insiemistica  { background: var(--insiemistica); }
+.formale       { background: var(--formale); }
+.auf           { background: var(--auf); }
+
+/* =========================================================
+   CATEGORY BADGE
+   ========================================================= */
+
+.badge {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 4px 8px;
+
+  border-radius: 999px;
+
+  font:
+    700 .64rem
+    "JetBrains Mono",
+    monospace;
+
+  text-transform: uppercase;
+  letter-spacing: .04em;
+
+  border:
+    1px solid color-mix(
+      in srgb,
+      var(--accent) 20%,
+      var(--border)
+    );
+}
+
+/* =========================================================
+   MATHLIB PANEL
+   ========================================================= */
+
+.mathlib-panel {
+  margin-top: 28px;
+  padding: 28px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(
+        in srgb,
+        var(--surface-solid) 88%,
+        transparent
+      ),
+      color-mix(
+        in srgb,
+        var(--accent) 5%,
+        var(--surface-solid)
+      )
+    );
+
+  box-shadow: var(--shadow);
+}
+
+.mathlib-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0 0 8px;
+
+  font-size: 1.25rem;
+}
+
+.mathlib-title span {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 9px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent),
+      var(--accent-2)
+    );
+
+  box-shadow:
+    0 6px 20px var(--glow);
+}
+
+.mathlib-description {
+  margin: 0 0 20px;
+  color: var(--muted);
+}
+
+.equations {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(260px, 1fr));
+
+  gap: 12px;
+}
+
+.equation-card {
+  position: relative;
+  overflow: hidden;
+
+  padding: 18px;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  background:
+    color-mix(
+      in srgb,
+      var(--surface-solid) 80%,
+      transparent
+    );
+
+  transition:
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.equation-card::before {
+  content: "";
+
+  position: absolute;
+
+  width: 100px;
+  height: 100px;
+
+  right: -45px;
+  top: -45px;
+
+  border-radius: 50%;
+
+  background: var(--glow);
+
+  filter: blur(20px);
+}
+
+.equation-card:hover {
+  transform: translateY(-4px);
+
+  border-color:
+    color-mix(
+      in srgb,
+      var(--accent) 45%,
+      var(--border)
+    );
+
+  box-shadow:
+    0 12px 30px var(--glow);
+}
+
+.equation-name {
+  position: relative;
+
+  margin-bottom: 10px;
+
+  color: var(--accent);
+
+  font:
+    700 .75rem
+    "JetBrains Mono",
+    monospace;
+
+  text-transform: uppercase;
+}
+
+.equation {
+  position: relative;
+
+  min-height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 10px 0;
+
+  font-size: 1.15rem;
+}
+
+.lean {
+  position: relative;
+
+  display: block;
+
+  margin-top: 12px;
+  padding: 10px;
+
+  border-radius: 8px;
+
+  overflow-x: auto;
+
+  color: #b7f7d1;
+
+  background: #0b1220;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  font:
+    .72rem/1.55
+    "JetBrains Mono",
+    "SFMono-Regular",
+    monospace;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+  margin-top: 30px;
+
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: .75rem;
+}
+
+/* =========================================================
+   SIX THEMES
+   ========================================================= */
+
+body.theme-aurora {
+  --bg: #f5fbff;
+  --accent: #0077b6;
+  --accent-2: #7b2cbf;
+  --accent-3: #00b4d8;
+  --header: rgba(231,243,255,.92);
+  --glow: rgba(0,119,182,.20);
+}
+
+body.theme-midnight {
+  --bg: #070b12;
+  --surface: rgba(15,23,34,.88);
+  --surface-solid: #101722;
+  --surface-2: #151e2b;
+  --text: #eaf2ff;
+  --muted: #9eacc0;
+  --border: rgba(148,163,184,.20);
+  --accent: #60a5fa;
+  --accent-2: #a78bfa;
+  --accent-3: #22d3ee;
+  --header: rgba(23,34,53,.92);
+  --glow: rgba(96,165,250,.23);
+
+  color-scheme: dark;
+}
+
+body.theme-forest {
+  --bg: #f2f8f1;
+  --accent: #26734d;
+  --accent-2: #806000;
+  --accent-3: #16a34a;
+  --header: rgba(227,240,223,.92);
+  --glow: rgba(38,115,77,.20);
+}
+
+body.theme-ocean {
+  --bg: #eefaff;
+  --accent: #008fa8;
+  --accent-2: #0057b7;
+  --accent-3: #06b6d4;
+  --header: rgba(220,244,250,.92);
+  --glow: rgba(0,143,168,.20);
+}
+
+body.theme-amber {
+  --bg: #fffaf0;
+  --accent: #b45309;
+  --accent-2: #92400e;
+  --accent-3: #f59e0b;
+  --header: rgba(255,240,199,.92);
+  --glow: rgba(180,83,9,.20);
+}
+
+body.theme-graphite {
+  --bg: #e9ebee;
+  --surface: rgba(248,249,250,.90);
+  --accent: #343a40;
+  --accent-2: #6f42c1;
+  --accent-3: #495057;
+  --header: rgba(223,226,230,.94);
+  --glow: rgba(52,58,64,.18);
+}
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+body.dark-mode {
+  --bg: #080b11;
+
+  --surface: rgba(15,21,31,.88);
+  --surface-solid: #101722;
+  --surface-2: #151e2b;
+
+  --text: #edf4ff;
+  --muted: #9eacbc;
+  --border: rgba(148,163,184,.20);
+
+  --header: rgba(24,34,49,.94);
+
+  --scalare: #0b3638;
+  --vettoriale: #123c26;
+  --differenziale: #402a15;
+  --costante: #421b2d;
+  --numero: #30204a;
+  --strutturale: #202c47;
+  --logica: #403912;
+  --insiemistica: #10384d;
+  --formale: #202832;
+  --auf: #35204f;
+
+  color-scheme: dark;
+}
+
+body.dark-mode .table-wrap {
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.35);
+}
+
+body.dark-mode tbody tr:hover {
+  filter:
+    brightness(1.12)
+    saturate(1.12);
+}
+
+body.dark-mode button,
+body.dark-mode select,
+body.dark-mode .search-box input {
+  background: var(--surface-solid);
+  color: var(--text);
+}
+
+/* =========================================================
+   TRANSIZIONI
+   ========================================================= */
+
+.theme-transition * {
+  transition:
+    background .35s ease,
+    color .35s ease,
+    border-color .35s ease,
+    box-shadow .35s ease !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+  .container {
+    width: min(100% - 14px, 1800px);
+    padding-top: 14px;
+  }
+
+  header {
+    padding: 32px 18px 28px;
+    border-radius: 20px;
+  }
+
+  .controls {
+    top: 5px;
+    border-radius: 14px;
+  }
+
+  .theme-slider {
+    width: 135px;
+  }
+
+  .search-box {
+    flex-basis: 100%;
+    max-width: none;
+  }
+
+  .mathlib-panel {
+    padding: 20px 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+
+<body class="theme-aurora">
+
+<div class="container">
+
+<header>
+
+  <div class="header-kicker">
+    AUF2026 · FORMAL MATHEMATICS
+  </div>
+
+  <h1>
+    Glossario dei simboli
+  </h1>
+
+  <p class="subtitle">
+    Simboli matematici, operatori, strutture logiche, notazione
+    differenziale e formalizzazioni utilizzate nel corpus AUF2026,
+    con riferimenti alle convenzioni Lean / Mathlib.
+  </p>
+
+</header>
+
+
+<!-- =======================================================
+     CONTROLLI
+     ======================================================= -->
+
+<div class="controls">
+
+  <button id="darkButton" onclick="toggleDarkMode()">
+    🌙 Dark Mode
+  </button>
+
+  <div class="theme-control">
+
+    <label for="themeSlider">
+      Tema
+    </label>
+
+    <input
+      id="themeSlider"
+      class="theme-slider"
+      type="range"
+      min="0"
+      max="5"
+      step="1"
+      value="0"
+      oninput="changeTheme(this.value)"
+    >
+
+    <span id="themeName" class="theme-name">
+      Aurora
+    </span>
+
+  </div>
+
+  <select id="categoryFilter" onchange="filterRows()">
+
+    <option value="all">
+      Tutte le categorie
+    </option>
+
+    <option value="scalare">
+      Scalare
+    </option>
+
+    <option value="vettoriale">
+      Vettoriale
+    </option>
+
+    <option value="differenziale">
+      Differenziale
+    </option>
+
+    <option value="costante">
+      Costante
+    </option>
+
+    <option value="numero">
+      Numero
+    </option>
+
+    <option value="strutturale">
+      Strutturale
+    </option>
+
+    <option value="logica">
+      Logica
+    </option>
+
+    <option value="insiemistica">
+      Insiemistica
+    </option>
+
+    <option value="formale">
+      Formale
+    </option>
+
+    <option value="auf">
+      AUF2026
+    </option>
+
+  </select>
+
+  <div class="search-box">
+
+    <span class="search-icon">
+      ⌕
+    </span>
+
+    <input
+      id="search"
+      type="search"
+      placeholder="Cerca simbolo, nome, Lean, categoria..."
+      oninput="filterRows()"
+    >
+
+  </div>
+
+</div>
+
+
+<div class="status">
+
+  <span class="status-chip">
+    <strong id="visibleCount">0</strong>
+    elementi visibili
+  </span>
+
+  <span class="status-chip">
+    6 temi
+  </span>
+
+  <span class="status-chip">
+    Light / Dark
+  </span>
+
+  <span class="status-chip">
+    MathJax
+  </span>
+
+  <span class="status-chip">
+    Lean / Mathlib
+  </span>
+
+</div>
+
+
+<!-- =======================================================
+     TABELLA
+     ======================================================= -->
+
+<div class="table-wrap">
+
+<table id="glossary">
+
+<thead>
+
+<tr>
+
+  <th>
+    Simbolo / Glifo
+  </th>
+
+  <th>
+    Nome comune
+  </th>
+
+  <th>
+    Significato / Uso
+  </th>
+
+  <th>
+    Esempio / Contesto
+  </th>
+
+  <th>
+    Tipo / Formalizzazione
+  </th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+
+<!-- =====================================================
+     SCALARE
+     ===================================================== -->
+
+<tr class="scalare">
+
+<td>
+  \(x\)
+</td>
+
+<td>
+  Variabile scalare
+</td>
+
+<td>
+  Quantità descritta da un singolo valore.
+</td>
+
+<td>
+  \(x + y = z\)
+  <br>
+  <code class="math-code">x + y = z</code>
+</td>
+
+<td>
+  <span class="badge">Scalare</span>
+</td>
+
+</tr>
+
+
+<tr class="scalare">
+
+<td>
+  \(a \in \mathbb{R}\)
+</td>
+
+<td>
+  Numero reale
+</td>
+
+<td>
+  Elemento appartenente all'insieme dei reali.
+</td>
+
+<td>
+  \(a^2 \geq 0\)
+</td>
+
+<td>
+  <span class="badge">Numero</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     VETTORIALE
+     ===================================================== -->
+
+<tr class="vettoriale">
+
+<td>
+  \(\vec v\)
+</td>
+
+<td>
+  Vettore
+</td>
+
+<td>
+  Oggetto orientato appartenente a uno spazio vettoriale.
+</td>
+
+<td>
+  \(\vec v = (v_1,v_2,v_3)\)
+</td>
+
+<td>
+  <span class="badge">Vettoriale</span>
+</td>
+
+</tr>
+
+
+<tr class="vettoriale">
+
+<td>
+  \(\langle u,v\rangle\)
+</td>
+
+<td>
+  Prodotto interno
+</td>
+
+<td>
+  Operatore bilineare tra vettori.
+</td>
+
+<td>
+  \(\langle u,v\rangle = \sum_i u_i v_i\)
+</td>
+
+<td>
+  <span class="badge">Vettoriale</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     DIFFERENZIALE
+     ===================================================== -->
+
+<tr class="differenziale">
+
+<td>
+  \(\frac{d}{dx}\)
+</td>
+
+<td>
+  Derivata
+</td>
+
+<td>
+  Operatore differenziale rispetto alla variabile \(x\).
+</td>
+
+<td>
+  \[
+  \frac{d}{dx}x^n = nx^{n-1}
+  \]
+</td>
+
+<td>
+  <span class="badge">Differenziale</span>
+</td>
+
+</tr>
+
+
+<tr class="differenziale">
+
+<td>
+  \(\nabla\)
+</td>
+
+<td>
+  Gradiente
+</td>
+
+<td>
+  Operatore vettoriale delle derivate parziali.
+</td>
+
+<td>
+  \[
+  \nabla f =
+  \left(
+  \frac{\partial f}{\partial x_1},
+  \ldots,
+  \frac{\partial f}{\partial x_n}
+  \right)
+  \]
+</td>
+
+<td>
+  <span class="badge">Differenziale</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     COSTANTI
+     ===================================================== -->
+
+<tr class="costante">
+
+<td>
+  \(c\)
+</td>
+
+<td>
+  Costante
+</td>
+
+<td>
+  Quantità indipendente dalla variabile considerata.
+</td>
+
+<td>
+  \(f(x)=cx\)
+</td>
+
+<td>
+  <span class="badge">Costante</span>
+</td>
+
+</tr>
+
+
+<tr class="costante">
+
+<td>
+  \(\pi\)
+</td>
+
+<td>
+  Pi greco
+</td>
+
+<td>
+  Costante matematica fondamentale.
+</td>
+
+<td>
+  \(C = 2\pi r\)
+</td>
+
+<td>
+  <span class="badge">Costante</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     NUMERI
+     ===================================================== -->
+
+<tr class="numero">
+
+<td>
+  \(\mathbb{N}\)
+</td>
+
+<td>
+  Naturali
+</td>
+
+<td>
+  Insieme dei numeri naturali.
+</td>
+
+<td>
+  \(n \in \mathbb{N}\)
+</td>
+
+<td>
+  <span class="badge">Numero</span>
+</td>
+
+</tr>
+
+
+<tr class="numero">
+
+<td>
+  \(\mathbb{Z}\)
+</td>
+
+<td>
+  Interi
+</td>
+
+<td>
+  Insieme degli interi relativi.
+</td>
+
+<td>
+  \(z \in \mathbb{Z}\)
+</td>
+
+<td>
+  <span class="badge">Numero</span>
+</td>
+
+</tr>
+
+
+<tr class="numero">
+
+<td>
+  \(\mathbb{Q}\)
+</td>
+
+<td>
+  Razionali
+</td>
+
+<td>
+  Numeri rappresentabili come rapporto di interi.
+</td>
+
+<td>
+  \[
+  q = \frac{a}{b},
+  \qquad
+  b\neq0
+  \]
+</td>
+
+<td>
+  <span class="badge">Numero</span>
+</td>
+
+</tr>
+
+
+<tr class="numero">
+
+<td>
+  \(\mathbb{R}\)
+</td>
+
+<td>
+  Reali
+</td>
+
+<td>
+  Campo dei numeri reali.
+</td>
+
+<td>
+  \(x \in \mathbb{R}\)
+</td>
+
+<td>
+  <span class="badge">Numero</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     LOGICA
+     ===================================================== -->
+
+<tr class="logica">
+
+<td>
+  \(\forall\)
+</td>
+
+<td>
+  Quantificatore universale
+</td>
+
+<td>
+  Esprime una proprietà valida per ogni elemento.
+</td>
+
+<td>
+  \[
+  \forall x,\; P(x)
+  \]
+</td>
+
+<td>
+  <span class="badge">Logica</span>
+</td>
+
+</tr>
+
+
+<tr class="logica">
+
+<td>
+  \(\exists\)
+</td>
+
+<td>
+  Quantificatore esistenziale
+</td>
+
+<td>
+  Esprime l'esistenza di almeno un elemento.
+</td>
+
+<td>
+  \[
+  \exists x,\; P(x)
+  \]
+</td>
+
+<td>
+  <span class="badge">Logica</span>
+</td>
+
+</tr>
+
+
+<tr class="logica">
+
+<td>
+  \(\Rightarrow\)
+</td>
+
+<td>
+  Implicazione
+</td>
+
+<td>
+  Se la prima proposizione è vera, segue la seconda.
+</td>
+
+<td>
+  \(P \Rightarrow Q\)
+</td>
+
+<td>
+  <span class="badge">Logica</span>
+</td>
+
+</tr>
+
+
+<tr class="logica">
+
+<td>
+  \(\Longleftrightarrow\)
+</td>
+
+<td>
+  Equivalenza
+</td>
+
+<td>
+  Equivalenza logica tra due proposizioni.
+</td>
+
+<td>
+  \(P \Longleftrightarrow Q\)
+</td>
+
+<td>
+  <span class="badge">Logica</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     INSIEMISTICA
+     ===================================================== -->
+
+<tr class="insiemistica">
+
+<td>
+  \(\in\)
+</td>
+
+<td>
+  Appartenenza
+</td>
+
+<td>
+  Indica che un elemento appartiene a un insieme.
+</td>
+
+<td>
+  \(x \in A\)
+</td>
+
+<td>
+  <span class="badge">Insiemistica</span>
+</td>
+
+</tr>
+
+
+<tr class="insiemistica">
+
+<td>
+  \(\subseteq\)
+</td>
+
+<td>
+  Inclusione
+</td>
+
+<td>
+  Un insieme è contenuto in un altro.
+</td>
+
+<td>
+  \(A\subseteq B\)
+</td>
+
+<td>
+  <span class="badge">Insiemistica</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     STRUTTURALE
+     ===================================================== -->
+
+<tr class="strutturale">
+
+<td>
+  \(\circ\)
+</td>
+
+<td>
+  Composizione
+</td>
+
+<td>
+  Composizione di funzioni o operatori.
+</td>
+
+<td>
+  \[
+  (f\circ g)(x)=f(g(x))
+  \]
+</td>
+
+<td>
+  <span class="badge">Strutturale</span>
+</td>
+
+</tr>
+
+
+<tr class="strutturale">
+
+<td>
+  \(\cong\)
+</td>
+
+<td>
+  Isomorfismo
+</td>
+
+<td>
+  Relazione di equivalenza strutturale.
+</td>
+
+<td>
+  \(A\cong B\)
+</td>
+
+<td>
+  <span class="badge">Isomorfismo strutturale</span>
+</td>
+
+</tr>
+
+
+<!-- =====================================================
+     AUF2026
+     ===================================================== -->
+
+<tr class="auf">
+
+<td>
+  \(\mathcal{A}_{UF}\)
+</td>
+
+<td>
+  AUF2026
+</td>
+
+<td>
+  Struttura di riferimento per il corpus di formalizzazione
+  matematica e verifica formale.
+</td>
+
+<td>
+  \(AUF2026 \subseteq \mathrm{FormalVerification}\)
+</td>
+
+<td>
+  <span class="badge">AUF2026</span>
+</td>
+
+</tr>
+
+
+<tr class="auf">
+
+<td>
+  <span style="font-family:monospace;font-size:.95rem;">
+    FAURE-THEOREM-UNIVERSAL-STABILIZATION.lean
+  </span>
+</td>
+
+<td>
+  Universal Stabilization — Lean
+</td>
+
+<td>
+  File Lean corrispondente alla validazione formale
+  della stabilizzazione universale.
+</td>
+
+<td>
+  <code class="math-code">
+    Formal Verification
+  </code>
+</td>
+
+<td>
+  <span class="badge">Formal artifact</span>
+</td>
+
+</tr>
+
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<!-- =======================================================
+     MATHLIB
+     ======================================================= -->
+
+<section class="mathlib-panel">
+
+  <h2 class="mathlib-title">
+    <span>∑</span>
+    Mathlib / Formalizzazione
+  </h2>
+
+  <p class="mathlib-description">
+    Alcuni pattern matematici rappresentativi utilizzabili
+    nella formalizzazione Lean / Mathlib.
+  </p>
+
+  <div class="equations">
+
+    <article class="equation-card">
+
+      <div class="equation-name">
+        Equivalenza
+      </div>
+
+      <div class="equation">
+        \(A \cong B\)
+      </div>
+
+      <code class="lean">
+        <span class="kw">example</span>
+        (A B : Type) :
+        A ≃ B := <span class="fn">by</span>
+        ...
+      </code>
+
+    </article>
+
+
+    <article class="equation-card">
+
+      <div class="equation-name">
+        Implicazione
+      </div>
+
+      <div class="equation">
+        \(P \Rightarrow Q\)
+      </div>
+
+      <code class="lean">
+        <span class="kw">theorem</span>
+        implication
+        (hP : P) :
+        Q := <span class="fn">by</span>
+        ...
+      </code>
+
+    </article>
+
+
+    <article class="equation-card">
+
+  <div class="equation-name">
+    Quantificazione
+  </div>
+
+  <div class="equation">
+    \[
+      \forall x \in X,\quad P(x)
+    \]
+  </div>
+
+  <div class="equation-description">
+    Affermazione di una proprietà per ogni elemento di un insieme.
+  </div>
+
+</article>
+      <article class="equation-card">
+
+        <div class="equation-name">
+          Esistenza
+        </div>
+
+        <div class="equation">
+          \[
+            \exists x \in X,\quad P(x)
+          \]
+        </div>
+
+        <div class="equation-description">
+          Affermazione dell'esistenza di almeno un elemento dell'insieme
+          che soddisfa una determinata proprietà.
+        </div>
+
+      </article>
+
+      <article class="equation-card">
+
+        <div class="equation-name">
+          Equivalenza
+        </div>
+
+        <div class="equation">
+          \[
+            A \Longleftrightarrow B
+          \]
+        </div>
+
+        <div class="equation-description">
+          Due proposizioni sono equivalenti quando ciascuna implica l'altra.
+        </div>
+
+      </article>
+
+      <article class="equation-card">
+
+        <div class="equation-name">
+          Implicazione
+        </div>
+
+        <div class="equation">
+          \[
+            A \Longrightarrow B
+          \]
+        </div>
+
+        <div class="equation-description">
+          La validità di A implica la validità di B.
+        </div>
+
+      </article>
+
+      <article class="equation-card">
+
+        <div class="equation-name">
+          Isomorfismo
+        </div>
+
+        <div class="equation">
+          \[
+            A \cong B
+          \]
+        </div>
+
+        <div class="equation-description">
+          Relazione che esprime equivalenza strutturale tra due oggetti
+          matematici.
+        </div>
+
+      </article>
+
+      <article class="equation-card">
+
+        <div class="equation-name">
+          Stabilizzazione
+        </div>
+
+        <div class="equation">
+          \[
+            \exists N\;\forall n \geq N,\quad P(n)=P_\infty
+          \]
+        </div>
+
+        <div class="equation-description">
+          Proprietà secondo cui, oltre una determinata soglia, una
+          struttura o quantità mantiene un comportamento stabile.
+        </div>
+
+      </article>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-line"></div>
+
+      <div class="footer-content">
+        <span>AUF2026</span>
+        <span>·</span>
+        <span>Glossario Matematico</span>
+        <span>·</span>
+        <span>Formal Verification</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+/* =========================================================
+   AUF2026 — GLOSSARIO
+   INTERAZIONI / TEMI / DARK MODE / FILTRI
+   ========================================================= */
+
+const themes = [
+  {
+    name: "Aurora",
+    className: "theme-aurora"
+  },
+  {
+    name: "Midnight",
+    className: "theme-midnight"
+  },
+  {
+    name: "Forest",
+    className: "theme-forest"
+  },
+  {
+    name: "Ocean",
+    className: "theme-ocean"
+  },
+  {
+    name: "Amber",
+    className: "theme-amber"
+  },
+  {
+    name: "Graphite",
+    className: "theme-graphite"
+  }
+];
+
+
+/* =========================================================
+   ELEMENTI DOM
+   ========================================================= */
+
+const body = document.body;
+
+const themeSlider =
+  document.getElementById("themeSlider");
+
+const themeName =
+  document.getElementById("themeName");
+
+const darkButton =
+  document.getElementById("darkButton");
+
+const searchInput =
+  document.getElementById("search");
+
+const categoryFilter =
+  document.getElementById("categoryFilter");
+
+const visibleCount =
+  document.getElementById("visibleCount");
+
+const rows =
+  Array.from(
+    document.querySelectorAll("#glossary tbody tr")
+  );
+
+
+/* =========================================================
+   CAMBIO TEMA
+   ========================================================= */
+
+function changeTheme(value) {
+
+  const index = Number(value);
+
+  const theme =
+    themes[index] || themes[0];
+
+  /*
+   * Rimuove tutti i temi precedenti.
+   */
+
+  themes.forEach(themeItem => {
+    body.classList.remove(themeItem.className);
+  });
+
+  /*
+   * Applica il nuovo tema.
+   */
+
+  body.classList.add(theme.className);
+
+  /*
+   * Aggiorna il nome visualizzato.
+   */
+
+  if (themeName) {
+    themeName.textContent = theme.name;
+  }
+
+  /*
+   * Mantiene il valore anche dopo un refresh.
+   */
+
+  localStorage.setItem(
+    "auf-theme",
+    String(index)
+  );
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+function toggleDarkMode() {
+
+  body.classList.toggle("dark-mode");
+
+  const dark =
+    body.classList.contains("dark-mode");
+
+  /*
+   * Aggiorna il pulsante.
+   */
+
+  if (darkButton) {
+
+    darkButton.textContent =
+      dark
+        ? "☀️ Light Mode"
+        : "🌙 Dark Mode";
+  }
+
+  /*
+   * Salva preferenza.
+   */
+
+  localStorage.setItem(
+    "auf-dark-mode",
+    dark ? "1" : "0"
+  );
+}
+
+
+/* =========================================================
+   FILTRO / RICERCA
+   ========================================================= */
+
+function filterRows() {
+
+  const search =
+    (searchInput?.value || "")
+      .trim()
+      .toLowerCase();
+
+  const category =
+    categoryFilter?.value || "all";
+
+  let count = 0;
+
+  rows.forEach(row => {
+
+    /*
+     * Testo completo della riga.
+     */
+
+    const text =
+      row.textContent
+        .toLowerCase();
+
+    /*
+     * Categoria = classe CSS della riga.
+     */
+
+    const categoryMatch =
+      category === "all" ||
+      row.classList.contains(category);
+
+    /*
+     * Ricerca libera.
+     */
+
+    const searchMatch =
+      search === "" ||
+      text.includes(search);
+
+    /*
+     * Visibilità finale.
+     */
+
+    const visible =
+      categoryMatch &&
+      searchMatch;
+
+    row.style.display =
+      visible ? "" : "none";
+
+    if (visible) {
+      count++;
+    }
+  });
+
+  /*
+   * Aggiorna contatore.
+   */
+
+  if (visibleCount) {
+    visibleCount.textContent =
+      count;
+  }
+}
+
+
+/* =========================================================
+   RIPRISTINO PREFERENZE
+   ========================================================= */
+
+function restorePreferences() {
+
+  /*
+   * Tema
+   */
+
+  const savedTheme =
+    localStorage.getItem("auf-theme");
+
+  if (
+    savedTheme !== null &&
+    themeSlider
+  ) {
+
+    const index =
+      Number(savedTheme);
+
+    if (
+      Number.isInteger(index) &&
+      index >= 0 &&
+      index < themes.length
+    ) {
+
+      themeSlider.value =
+        String(index);
+
+      changeTheme(index);
+    }
+
+  } else {
+
+    /*
+     * Tema iniziale.
+     */
+
+    changeTheme(
+      themeSlider
+        ? themeSlider.value
+        : 0
+    );
+  }
+
+
+  /*
+   * Dark mode
+   */
+
+  const savedDark =
+    localStorage.getItem("auf-dark-mode");
+
+  if (savedDark === "1") {
+
+    body.classList.add("dark-mode");
+
+    if (darkButton) {
+      darkButton.textContent =
+        "☀️ Light Mode";
+    }
+
+  } else {
+
+    body.classList.remove("dark-mode");
+
+    if (darkButton) {
+      darkButton.textContent =
+        "🌙 Dark Mode";
+    }
+  }
+}
+
+
+/* =========================================================
+   TRANSIZIONE TEMA
+   ========================================================= */
+
+function enableThemeTransition() {
+
+  body.classList.add(
+    "theme-transition"
+  );
+
+  window.setTimeout(() => {
+
+    body.classList.remove(
+      "theme-transition"
+    );
+
+  }, 400);
+}
+
+
+/*
+ * Intercetta lo slider per applicare
+ * una transizione morbida.
+ */
+
+if (themeSlider) {
+
+  themeSlider.addEventListener(
+    "input",
+    () => {
+
+      enableThemeTransition();
+
+      changeTheme(
+        themeSlider.value
+      );
+
+    }
+  );
+}
+
+
+/* =========================================================
+   TASTIERA
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    /*
+     * "/" = ricerca
+     */
+
+    if (
+      event.key === "/" &&
+      document.activeElement !== searchInput
+    ) {
+
+      event.preventDefault();
+
+      searchInput?.focus();
+    }
+
+    /*
+     * ESC = svuota ricerca
+     */
+
+    if (
+      event.key === "Escape" &&
+      document.activeElement === searchInput
+    ) {
+
+      searchInput.value = "";
+
+      filterRows();
+
+      searchInput.blur();
+    }
+  }
+);
+
+
+/* =========================================================
+   AVVIO
+   ========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    restorePreferences();
+
+    filterRows();
+
+    /*
+     * MathJax:
+     * aspetta che sia disponibile e poi
+     * forza il rendering delle formule.
+     */
+
+    if (
+      window.MathJax &&
+      typeof window.MathJax.typesetPromise === "function"
+    ) {
+
+      window.MathJax
+        .typesetPromise()
+        .catch(error => {
+          console.warn(
+            "MathJax rendering error:",
+            error
+          );
+        });
+
+    }
+  }
+);
+
+
+/* =========================================================
+   FALLBACK MATHJAX
+   ========================================================= */
+
+window.addEventListener(
+  "load",
+  () => {
+
+    if (
+      window.MathJax &&
+      typeof window.MathJax.typesetPromise === "function"
+    ) {
+
+      window.MathJax
+        .typesetPromise()
+        .catch(() => {});
+    }
+
+    filterRows();
+  }
+);
+</script>
+
+</body>
+</html>
+
