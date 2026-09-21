@@ -2120,218 +2120,35 @@
        ========================================================= -->
 
   <script
-    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
-  ></script>
+  src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+></script>
 
+<!-- =========================================================
+     ARCHIVE LOADER
+     ========================================================= -->
 
-  <!-- =========================================================
-       ARCHIVE LOADER
-       ========================================================= -->
+<script>
+(() => {
 
-  <script>
-
-  /* =========================================================
-     THEME
-     ========================================================= */
-
-  const THEME_STORAGE_KEY =
-    "auf2026-theme";
-
-
-  function getCurrentTheme() {
-
-    return (
-      document.documentElement.getAttribute(
-        "data-theme"
-      ) || "dark"
-    );
-
-  }
-
-
-  function updateThemeControls(theme) {
-
-    const isLight =
-      theme === "light";
-
-
-    const toggle =
-      document.getElementById(
-        "theme-toggle"
-      );
-
-
-    const icon =
-      document.getElementById(
-        "theme-icon"
-      );
-
-
-    const label =
-      document.getElementById(
-        "theme-label"
-      );
-
-
-    if (toggle) {
-
-      toggle.setAttribute(
-        "aria-pressed",
-        String(!isLight)
-      );
-
-
-      toggle.setAttribute(
-        "aria-label",
-        isLight
-          ? "Switch to dark theme"
-          : "Switch to light theme"
-      );
-
-    }
-
-
-    if (icon) {
-
-      icon.textContent =
-        isLight
-          ? "☀"
-          : "☾";
-
-    }
-
-
-    if (label) {
-
-      label.textContent =
-        isLight
-          ? "Light"
-          : "Dark";
-
-    }
-
-  }
-
-
-  function applyTheme(theme) {
-
-    if (
-      theme !== "dark" &&
-      theme !== "light"
-    ) {
-
-      theme = "dark";
-
-    }
-
-
-    document.documentElement.setAttribute(
-      "data-theme",
-      theme
-    );
-
-
-    localStorage.setItem(
-      THEME_STORAGE_KEY,
-      theme
-    );
-
-
-    updateThemeControls(theme);
-
-  }
-
-
-  updateThemeControls(
-    getCurrentTheme()
-  );
-
-
-  document
-    .getElementById(
-      "theme-toggle"
-    )
-    .addEventListener(
-      "click",
-      function () {
-
-        const current =
-          getCurrentTheme();
-
-
-        applyTheme(
-          current === "light"
-            ? "dark"
-            : "light"
-        );
-
-      }
-    );
+  "use strict";
 
 
   /* =========================================================
-     URL PARAMETERS
+     CONFIGURATION
      ========================================================= */
 
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
+  const THEME_STORAGE_KEY = "auf2026-theme";
 
-
-  const requestedDocument =
-    params.get("doc");
-
-
-  const requestedPage =
-    params.get("page");
-
-
-  const requestedResource =
-    params.get("file");
+  const GITHUB_OWNER = "AUF2026";
+  const GITHUB_REPOSITORY = "AUF2026.github.io";
+  const GITHUB_BRANCH = "main";
 
 
   /* =========================================================
-     DOM REFERENCES
+     STATIC MARKDOWN FALLBACK
      ========================================================= */
 
-  const documentElement =
-    document.getElementById(
-      "document"
-    );
-
-
-  const titleElement =
-    document.getElementById(
-      "document-title"
-    );
-
-
-  const sourceElement =
-    document.getElementById(
-      "document-source"
-    );
-
-
-    /* =========================================================
-     ALLOWED MARKDOWN DOCUMENTS
-     ========================================================= */
-
-  /*
-   * Static fallback / known documents.
-   *
-   * These remain available immediately even if the GitHub API
-   * is temporarily unavailable.
-   *
-   * The static entries intentionally keep their historical
-   * short form because existing links use:
-   *
-   * archive.html?doc=ARCHIVE-MAP.md
-   *
-   * GitHub discovery below adds the complete repository path
-   * for every Markdown file found recursively.
-   */
-  const allowedDocuments = [
+  const allowedDocuments = new Set([
 
     "ARCHIVE-MAP.md",
     "AUTHOR-IDENTITY.md",
@@ -2356,34 +2173,497 @@
     "SOURCE-MANIFEST.md",
     "THEOREM-ORIGINALITY-MATRIX.md"
 
-  ];
+  ]);
 
 
   /* =========================================================
-     GITHUB API DOCUMENT DISCOVERY
+     DOM REFERENCES
      ========================================================= */
 
-  const GITHUB_OWNER =
-    "AUF2026";
+  const documentElement =
+    document.getElementById("document");
+
+  const titleElement =
+    document.getElementById("document-title");
+
+  const sourceElement =
+    document.getElementById("document-source");
+
+  const themeToggle =
+    document.getElementById("theme-toggle");
 
 
-  const GITHUB_REPOSITORY =
-    "AUF2026.github.io";
+  /* =========================================================
+     BASIC DOM VALIDATION
+     ========================================================= */
+
+  if (!documentElement) {
+
+    console.error(
+      "AUF2026 Archive: #document not found."
+    );
+
+    return;
+
+  }
 
 
-  const GITHUB_BRANCH =
-    "main";
+  /* =========================================================
+     URL PARAMETERS
+     ========================================================= */
 
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+  const requestedDocument =
+    params.get("doc");
+
+  const requestedPage =
+    params.get("page");
+
+  const requestedResource =
+    params.get("file");
+
+  const requestedEmbed =
+    params.get("embed");
+
+
+  /* =========================================================
+     THEME
+     ========================================================= */
+
+  function getCurrentTheme() {
+
+    return (
+      document.documentElement
+        .getAttribute("data-theme") || "dark"
+    );
+
+  }
+
+
+  function updateThemeControls(theme) {
+
+    const isLight =
+      theme === "light";
+
+    const icon =
+      document.getElementById("theme-icon");
+
+    const label =
+      document.getElementById("theme-label");
+
+
+    if (themeToggle) {
+
+      themeToggle.setAttribute(
+        "aria-pressed",
+        String(!isLight)
+      );
+
+      themeToggle.setAttribute(
+        "aria-label",
+        isLight
+          ? "Switch to dark theme"
+          : "Switch to light theme"
+      );
+
+    }
+
+
+    if (icon) {
+
+      icon.textContent =
+        isLight ? "☀" : "☾";
+
+    }
+
+
+    if (label) {
+
+      label.textContent =
+        isLight ? "Light" : "Dark";
+
+    }
+
+  }
+
+
+  function applyTheme(theme) {
+
+    if (
+      theme !== "dark" &&
+      theme !== "light"
+    ) {
+
+      theme = "dark";
+
+    }
+
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      theme
+    );
+
+
+    try {
+
+      localStorage.setItem(
+        THEME_STORAGE_KEY,
+        theme
+      );
+
+    } catch (error) {
+
+      console.warn(
+        "AUF2026 Theme: localStorage unavailable.",
+        error
+      );
+
+    }
+
+
+    updateThemeControls(theme);
+
+  }
+
+
+  function initialiseTheme() {
+
+    let theme =
+      getCurrentTheme();
+
+
+    try {
+
+      const stored =
+        localStorage.getItem(
+          THEME_STORAGE_KEY
+        );
+
+
+      if (
+        stored === "dark" ||
+        stored === "light"
+      ) {
+
+        theme = stored;
+
+      }
+
+    } catch (error) {
+
+      console.warn(
+        "AUF2026 Theme: unable to read localStorage.",
+        error
+      );
+
+    }
+
+
+    applyTheme(theme);
+
+  }
+
+
+  initialiseTheme();
+
+
+  if (themeToggle) {
+
+    themeToggle.addEventListener(
+      "click",
+      () => {
+
+        const current =
+          getCurrentTheme();
+
+
+        applyTheme(
+          current === "light"
+            ? "dark"
+            : "light"
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     UTILITY: SAFE PATH
+     ========================================================= */
+
+  function isSafeLocalPath(path) {
+
+    if (
+      typeof path !== "string" ||
+      !path.trim()
+    ) {
+
+      return false;
+
+    }
+
+
+    const clean =
+      path.trim();
+
+
+    if (
+      clean.startsWith("/") ||
+      clean.startsWith("\\")
+    ) {
+
+      return false;
+
+    }
+
+
+    if (
+      clean.includes("\\")
+    ) {
+
+      return false;
+
+    }
+
+
+    /*
+     * Prevent directory traversal.
+     */
+    const segments =
+      clean.split("/");
+
+
+    if (
+      segments.includes("..")
+    ) {
+
+      return false;
+
+    }
+
+
+    return true;
+
+  }
+
+
+  /* =========================================================
+     UTILITY: NORMALIZE PATH
+     ========================================================= */
+
+  function normalizePath(path) {
+
+    if (
+      typeof path !== "string"
+    ) {
+
+      return "";
+
+    }
+
+
+    return path
+      .trim()
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+  }
+
+
+  /* =========================================================
+     UTILITY: EXTENSION
+     ========================================================= */
+
+  function getExtension(path) {
+
+    const clean =
+      String(path || "")
+        .split("?")[0]
+        .split("#")[0]
+        .toLowerCase();
+
+
+    const index =
+      clean.lastIndexOf(".");
+
+
+    if (index < 0) {
+
+      return "";
+
+    }
+
+
+    return clean.slice(index);
+
+  }
+
+
+  /* =========================================================
+     UTILITY: FILENAME
+     ========================================================= */
+
+  function getFilename(path) {
+
+    const clean =
+      normalizePath(path);
+
+
+    const parts =
+      clean
+        .split("/")
+        .filter(Boolean);
+
+
+    return (
+      parts[parts.length - 1] || ""
+    );
+
+  }
+
+
+  /* =========================================================
+     HUMAN TITLE
+     ========================================================= */
+
+  function humanTitle(filename) {
+
+    return String(filename || "")
+
+      .replace(
+        /\.(md|html?|pdf|csv|svg|txt|json|xml|ya?ml)$/i,
+        ""
+      )
+
+      .replace(
+        /[-_]+/g,
+        " "
+      )
+
+      .replace(
+        /\b\w/g,
+        character =>
+          character.toUpperCase()
+      );
+
+  }
+
+
+  /* =========================================================
+     ERROR RENDERER
+     ========================================================= */
+
+  function renderError(error) {
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.className =
+      "archive-error";
+
+
+    const strong =
+      document.createElement("strong");
+
+    strong.textContent =
+      "Unable to load resource.";
+
+
+    const paragraph =
+      document.createElement("p");
+
+    paragraph.textContent =
+      error instanceof Error
+        ? error.message
+        : String(error);
+
+
+    wrapper.appendChild(strong);
+    wrapper.appendChild(paragraph);
+
+
+    documentElement.replaceChildren(
+      wrapper
+    );
+
+  }
+
+
+  /* =========================================================
+     BACK NAVIGATION
+     ========================================================= */
+
+  function goBack() {
+
+    if (
+      window.history.length > 1
+    ) {
+
+      window.history.back();
+
+      return;
+
+    }
+
+
+    window.location.href =
+      "index.html#verification";
+
+  }
+
+
+  const backButton =
+    document.getElementById(
+      "back-button"
+    );
+
+
+  const backButtonBottom =
+    document.getElementById(
+      "back-button-bottom"
+    );
+
+
+  if (backButton) {
+
+    backButton.addEventListener(
+      "click",
+      goBack
+    );
+
+  }
+
+
+  if (backButtonBottom) {
+
+    backButtonBottom.addEventListener(
+      "click",
+      goBack
+    );
+
+  }
+
+
+  /* =========================================================
+     GITHUB MARKDOWN DISCOVERY
+     ========================================================= */
 
   async function discoverMarkdownDocuments() {
 
     const apiURL =
       "https://api.github.com/repos/" +
-      GITHUB_OWNER +
+      encodeURIComponent(GITHUB_OWNER) +
       "/" +
-      GITHUB_REPOSITORY +
+      encodeURIComponent(GITHUB_REPOSITORY) +
       "/git/trees/" +
-      GITHUB_BRANCH +
+      encodeURIComponent(GITHUB_BRANCH) +
       "?recursive=1";
 
 
@@ -2428,82 +2708,39 @@
       }
 
 
-      /*
-       * Discover EVERY Markdown file in EVERY directory.
-       *
-       * No directory is hardcoded.
-       *
-       * Examples:
-       *
-       *   docs/ARCHIVE-MAP.md
-       *   docs/FAURE-THEOREM-NO-GOD.md
-       *   some-new-folder/example.md
-       *   future-folder/subfolder/file.md
-       *
-       * All of them are discovered automatically.
-       */
-      data.tree
-        .filter(item => {
+      for (
+        const item of data.tree
+      ) {
 
-          return (
-            item.type === "blob" &&
-            typeof item.path === "string" &&
-            item.path
-              .toLowerCase()
-              .endsWith(".md")
-          );
+        if (
+          item.type !== "blob" ||
+          typeof item.path !== "string"
+        ) {
 
-        })
-        .forEach(item => {
+          continue;
 
-          const path =
-            item.path
-              .replace(/^\/+/, "")
-              .replace(/\\/g, "/");
+        }
 
 
-          if (
-            path &&
-            !allowedDocuments.includes(
-              path
-            )
-          ) {
-
-            allowedDocuments.push(
-              path
-            );
-
-          }
-
-        });
+        const path =
+          normalizePath(item.path);
 
 
-      /*
-       * Keep the array deterministic.
-       */
-      allowedDocuments.sort(
-        (a, b) =>
-          a.localeCompare(
-            b,
-            undefined,
-            {
-              sensitivity: "base"
-            }
-          )
-      );
+        if (
+          path.toLowerCase().endsWith(".md")
+        ) {
+
+          allowedDocuments.add(path);
+
+        }
+
+      }
 
 
       return true;
 
-
     } catch (error) {
 
-      /*
-       * GitHub discovery is additive.
-       *
-       * If the API is unavailable, the existing static
-       * documents continue to work exactly as before.
-       */
       console.warn(
         "AUF2026 Markdown discovery:",
         error
@@ -2521,12 +2758,11 @@
      MARKDOWN PATH RESOLUTION
      ========================================================= */
 
-  function resolveMarkdownPath(
-    requestedDocument
-  ) {
+  function resolveMarkdownPath(value) {
 
     if (
-      !requestedDocument
+      typeof value !== "string" ||
+      !value.trim()
     ) {
 
       return null;
@@ -2535,33 +2771,13 @@
 
 
     const cleanPath =
-      requestedDocument
-        .replace(/^\/+/, "")
-        .replace(/\\/g, "/");
+      normalizePath(value);
 
 
-    /*
-     * If the URL already contains a repository path,
-     * use it directly.
-     *
-     * Example:
-     *
-     * archive.html?doc=docs/FAURE-THEOREM-NO-GOD.md
-     */
     if (
-      cleanPath.includes("/")
+      !cleanPath ||
+      !cleanPath.toLowerCase().endsWith(".md")
     ) {
-
-      if (
-        allowedDocuments.includes(
-          cleanPath
-        )
-      ) {
-
-        return cleanPath;
-
-      }
-
 
       return null;
 
@@ -2569,83 +2785,96 @@
 
 
     /*
-     * Historical compatibility:
+     * 1. Exact discovered repository path.
      *
-     * Existing navigation uses:
-     *
-     * archive.html?doc=ARCHIVE-MAP.md
-     *
-     * These documents live in /docs/.
+     * Example:
+     * docs/example.md
+     * research/source/example.md
      */
-    const docsPath =
-      "docs/" +
-      cleanPath;
-
-
     if (
-      allowedDocuments.includes(
-        docsPath
-      )
+      allowedDocuments.has(cleanPath)
     ) {
 
-      return docsPath;
+      return cleanPath;
 
     }
 
 
     /*
-     * Static fallback compatibility.
+     * 2. Historical short form.
      *
-     * This preserves the behaviour of the original archive
-     * while GitHub discovery is unavailable.
+     * Example:
+     * ARCHIVE-MAP.md
+     *
+     * -> docs/ARCHIVE-MAP.md
      */
     if (
-      allowedDocuments.includes(
-        cleanPath
-      )
+      !cleanPath.includes("/")
     ) {
 
-      return (
-        "docs/" +
-        cleanPath
-      );
+      const docsPath =
+        "docs/" + cleanPath;
+
+
+      if (
+        allowedDocuments.has(docsPath)
+      ) {
+
+        return docsPath;
+
+      }
+
+
+      /*
+       * Static historical fallback.
+       *
+       * The static list may contain only the filename.
+       */
+      if (
+        allowedDocuments.has(cleanPath)
+      ) {
+
+        return docsPath;
+
+      }
 
     }
 
 
     /*
-     * Finally, look for a discovered repository path
-     * whose filename matches the requested short name.
+     * 3. Filename-only discovery.
      *
-     * This allows:
-     *
-     * archive.html?doc=FAURE-THEOREM-NO-GOD.md
-     *
-     * to resolve automatically even after the file has
-     * moved outside /docs/.
+     * Useful when a Markdown file has moved to another
+     * directory but the old URL still uses ?doc=file.md.
      */
-    const matches =
-      allowedDocuments.filter(
-        path => {
+    if (
+      !cleanPath.includes("/")
+    ) {
+
+      const lower =
+        cleanPath.toLowerCase();
+
+
+      const matches =
+        Array.from(
+          allowedDocuments
+        ).filter(path => {
 
           return (
-            path
-              .split("/")
-              .filter(Boolean)
-              .pop()
-              ?.toLowerCase() ===
-            cleanPath.toLowerCase()
+            getFilename(path)
+              .toLowerCase() === lower
           );
 
-        }
-      );
+        });
 
 
-    if (
-      matches.length === 1
-    ) {
+      if (
+        matches.length === 1
+      ) {
 
-      return matches[0];
+        return matches[0];
+
+      }
 
     }
 
@@ -2656,377 +2885,200 @@
 
 
   /* =========================================================
-     PAGE / RESOURCE VALIDATION
+     PAGE / RESOURCE EXTENSIONS
      ========================================================= */
 
-  const allowedPageExtensions = [
+  const allowedPageExtensions =
+    new Set([
+      ".html",
+      ".htm"
+    ]);
 
-    ".html",
-    ".htm"
 
-  ];
+  const allowedResourceExtensions =
+    new Set([
 
+      ".pdf",
+      ".csv",
 
-  const allowedResourceExtensions = [
+      ".svg",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".avif",
+      ".bmp",
+      ".ico",
 
-    ".pdf",
-    ".csv",
-    ".svg",
-    ".png",
-    ".jpg",
-    ".jpeg",
-    ".gif",
-    ".webp",
-    ".avif",
-    ".bmp",
-    ".ico",
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac",
 
-    ".mp3",
-    ".wav",
-    ".ogg",
-    ".oga",
-    ".m4a",
-    ".aac",
-    ".flac",
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov",
 
-    ".mp4",
-    ".webm",
-    ".ogv",
-    ".mov",
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
 
-    ".txt",
-    ".json",
-    ".xml",
-    ".yaml",
-    ".yml",
-    ".log"
-
-  ];
+    ]);
 
 
   /* =========================================================
-     HUMAN TITLE
-     ========================================================= */
-
-  function humanTitle(filename) {
-
-    return filename
-
-      .replace(
-        /\.(md|html?|pdf|csv|svg|txt|json|xml)$/i,
-        ""
-      )
-
-      .replace(
-        /[-_]+/g,
-        " "
-      )
-
-      .replace(
-        /\b\w/g,
-        character =>
-          character.toUpperCase()
-      );
-
-  }
-
-
-  /* =========================================================
-     SAFE LOCAL PATH
-     ========================================================= */
-
-  function isSafeLocalPath(path) {
-
-    if (!path) {
-
-      return false;
-
-    }
-
-
-    if (
-      path.includes("..")
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      path.startsWith("/")
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      path.includes("\\")
-    ) {
-
-      return false;
-
-    }
-
-
-    return true;
-
-  }
-
-
-  /* =========================================================
-     EXTENSION
-     ========================================================= */
-
-  function getExtension(path) {
-
-    const clean =
-      path
-        .split("?")[0]
-        .split("#")[0]
-        .toLowerCase();
-
-
-    const index =
-      clean.lastIndexOf(".");
-
-
-    if (
-      index < 0
-    ) {
-
-      return "";
-
-    }
-
-
-    return clean.slice(
-      index
-    );
-
-  }
-
-
-  /* =========================================================
-     BACK NAVIGATION
-     ========================================================= */
-
-  function goBack() {
-
-    if (
-      window.history.length > 1
-    ) {
-
-      window.history.back();
-
-      return;
-
-    }
-
-
-    window.location.href =
-      "index.html#verification";
-
-  }
-
-
-  document
-    .getElementById(
-      "back-button"
-    )
-    .addEventListener(
-      "click",
-      goBack
-    );
-
-
-  document
-    .getElementById(
-      "back-button-bottom"
-    )
-    .addEventListener(
-      "click",
-      goBack
-    );
-
-
-    /* =========================================================
      MARKDOWN LINK NORMALIZATION
      ========================================================= */
 
   function normalizeMarkdownLinks() {
 
-    documentElement
-      .querySelectorAll("a")
-      .forEach(link => {
-
-        const rawHref =
-          link.getAttribute("href");
+    const links =
+      documentElement.querySelectorAll("a");
 
 
-        if (!rawHref) {
+    links.forEach(link => {
 
-          return;
-
-        }
-
-
-        const href =
-          rawHref.trim();
+      const rawHref =
+        link.getAttribute("href");
 
 
-        if (
+      if (!rawHref) {
 
-          href.startsWith("http://") ||
+        return;
 
-          href.startsWith("https://") ||
-
-          href.startsWith("mailto:") ||
-
-          href.startsWith("tel:") ||
-
-          href.startsWith("#")
-
-        ) {
-
-          return;
-
-        }
+      }
 
 
-        const hashIndex =
-          href.indexOf("#");
+      const href =
+        rawHref.trim();
 
 
-        const queryIndex =
-          href.indexOf("?");
+      /*
+       * Do not touch external links or anchors.
+       */
+      if (
+
+        href.startsWith("http://") ||
+        href.startsWith("https://") ||
+        href.startsWith("mailto:") ||
+        href.startsWith("tel:") ||
+        href.startsWith("#") ||
+        href.startsWith("javascript:")
+
+      ) {
+
+        return;
+
+      }
 
 
-        let splitIndex = -1;
+      /*
+       * Separate pathname from query/hash.
+       */
+      let path = href;
+      let suffix = "";
 
 
-        if (
-          hashIndex >= 0 &&
-          queryIndex >= 0
-        ) {
+      const hashIndex =
+        href.indexOf("#");
 
-          splitIndex =
-            Math.min(
-              hashIndex,
-              queryIndex
-            );
-
-        } else if (
-          hashIndex >= 0
-        ) {
-
-          splitIndex =
-            hashIndex;
-
-        } else if (
-          queryIndex >= 0
-        ) {
-
-          splitIndex =
-            queryIndex;
-
-        }
+      const queryIndex =
+        href.indexOf("?");
 
 
-        const path =
-          splitIndex >= 0
-            ? href.slice(0, splitIndex)
-            : href;
+      let splitIndex = -1;
 
 
-        const suffix =
-          splitIndex >= 0
-            ? href.slice(splitIndex)
-            : "";
+      if (
+        hashIndex >= 0 &&
+        queryIndex >= 0
+      ) {
 
-
-        if (
-          !path
-            .toLowerCase()
-            .endsWith(".md")
-        ) {
-
-          return;
-
-        }
-
-
-        const normalizedPath =
-          path
-            .replace(/^\/+/, "")
-            .replace(/\\/g, "/");
-
-
-        /*
-         * Direct repository path.
-         */
-        if (
-          allowedDocuments.includes(
-            normalizedPath
-          )
-        ) {
-
-          link.href =
-            "archive.html?doc=" +
-            encodeURIComponent(
-              normalizedPath
-            ) +
-            suffix;
-
-          return;
-
-        }
-
-
-        /*
-         * Historical /docs/ Markdown link.
-         */
-        const filename =
-          normalizedPath
-            .split("/")
-            .filter(Boolean)
-            .pop();
-
-
-        if (
-          !filename
-        ) {
-
-          return;
-
-        }
-
-
-        const resolvedPath =
-          resolveMarkdownPath(
-            filename
+        splitIndex =
+          Math.min(
+            hashIndex,
+            queryIndex
           );
 
+      } else if (
+        hashIndex >= 0
+      ) {
 
-        if (
-          !resolvedPath
-        ) {
+        splitIndex =
+          hashIndex;
 
-          return;
+      } else if (
+        queryIndex >= 0
+      ) {
 
-        }
+        splitIndex =
+          queryIndex;
+
+      }
 
 
-        link.href =
-          "archive.html?doc=" +
-          encodeURIComponent(
-            resolvedPath
-          ) +
-          suffix;
+      if (
+        splitIndex >= 0
+      ) {
 
-      });
+        path =
+          href.slice(
+            0,
+            splitIndex
+          );
+
+        suffix =
+          href.slice(
+            splitIndex
+          );
+
+      }
+
+
+      if (
+        !path
+          .toLowerCase()
+          .endsWith(".md")
+      ) {
+
+        return;
+
+      }
+
+
+      const normalizedPath =
+        normalizePath(path);
+
+
+      const resolvedPath =
+        resolveMarkdownPath(
+          normalizedPath
+        );
+
+
+      if (!resolvedPath) {
+
+        return;
+
+      }
+
+
+      link.href =
+        "archive.html?doc=" +
+        encodeURIComponent(
+          resolvedPath
+        ) +
+        suffix;
+
+    });
 
   }
 
@@ -3085,9 +3137,7 @@
     const rows = [];
 
     let row = [];
-
     let cell = "";
-
     let insideQuotes = false;
 
 
@@ -3099,7 +3149,6 @@
 
       const char =
         text[i];
-
 
       const next =
         text[i + 1];
@@ -3201,7 +3250,10 @@
      CSV RENDERER
      ========================================================= */
 
-  function renderCSV(text, filename) {
+  function renderCSV(
+    text,
+    filename
+  ) {
 
     const rows =
       parseCSV(text);
@@ -3209,7 +3261,6 @@
 
     const wrapper =
       document.createElement("div");
-
 
     wrapper.className =
       "archive-resource-table";
@@ -3219,43 +3270,39 @@
       document.createElement("table");
 
 
-    rows.forEach((row, index) => {
+    rows.forEach(
+      (row, rowIndex) => {
 
-      const tr =
-        document.createElement("tr");
-
-
-      row.forEach(value => {
-
-        const cell =
-          document.createElement(
-            index === 0
-              ? "th"
-              : "td"
-          );
+        const tr =
+          document.createElement("tr");
 
 
-        cell.textContent =
-          value;
+        row.forEach(value => {
+
+          const cell =
+            document.createElement(
+              rowIndex === 0
+                ? "th"
+                : "td"
+            );
 
 
-        tr.appendChild(
-          cell
-        );
-
-      });
+          cell.textContent =
+            value;
 
 
-      table.appendChild(
-        tr
-      );
+          tr.appendChild(cell);
 
-    });
+        });
 
 
-    wrapper.appendChild(
-      table
+        table.appendChild(tr);
+
+      }
     );
+
+
+    wrapper.appendChild(table);
 
 
     documentElement.replaceChildren(
@@ -3281,7 +3328,6 @@
     const resource =
       document.createElement("div");
 
-
     resource.className =
       "archive-resource";
 
@@ -3294,9 +3340,7 @@
       text;
 
 
-    resource.appendChild(
-      pre
-    );
+    resource.appendChild(pre);
 
 
     documentElement.replaceChildren(
@@ -3326,68 +3370,67 @@
     const resource =
       document.createElement("div");
 
-
     resource.className =
       "archive-resource";
 
 
-    let element;
+    let element = null;
 
 
-    const audioExtensions = [
+    const audioExtensions =
+      new Set([
 
-      ".mp3",
-      ".wav",
-      ".ogg",
-      ".oga",
-      ".m4a",
-      ".aac",
-      ".flac"
+        ".mp3",
+        ".wav",
+        ".ogg",
+        ".oga",
+        ".m4a",
+        ".aac",
+        ".flac"
 
-    ];
-
-
-    const videoExtensions = [
-
-      ".mp4",
-      ".webm",
-      ".ogv",
-      ".mov"
-
-    ];
+      ]);
 
 
-    if (
-      audioExtensions.includes(ext)
-    ) {
+    const videoExtensions =
+      new Set([
 
-      element =
-        document.createElement(
-          "audio"
-        );
+        ".mp4",
+        ".webm",
+        ".ogv",
+        ".mov"
 
-      element.controls = true;
-
-    }
+      ]);
 
 
     if (
-      videoExtensions.includes(ext)
+      audioExtensions.has(ext)
     ) {
 
       element =
-        document.createElement(
-          "video"
-        );
+        document.createElement("audio");
 
       element.controls = true;
 
+    } else if (
+      videoExtensions.has(ext)
+    ) {
+
+      element =
+        document.createElement("video");
+
+      element.controls = true;
       element.playsInline = true;
 
     }
 
 
     if (!element) {
+
+      renderError(
+        new Error(
+          "Unsupported media type."
+        )
+      );
 
       return;
 
@@ -3396,7 +3439,6 @@
 
     element.src =
       path;
-
 
     element.preload =
       "metadata";
@@ -3419,7 +3461,7 @@
 
 
   /* =========================================================
-     IMAGE / SVG RESOURCE
+     IMAGE RESOURCE
      ========================================================= */
 
   function renderImage(
@@ -3429,7 +3471,6 @@
 
     const resource =
       document.createElement("div");
-
 
     resource.className =
       "archive-resource";
@@ -3442,9 +3483,11 @@
     image.src =
       path;
 
-
     image.alt =
       filename;
+
+    image.loading =
+      "lazy";
 
 
     resource.appendChild(
@@ -3475,7 +3518,6 @@
     const resource =
       document.createElement("div");
 
-
     resource.className =
       "archive-resource";
 
@@ -3487,7 +3529,6 @@
     object.data =
       path;
 
-
     object.type =
       "application/pdf";
 
@@ -3497,7 +3538,7 @@
 
 
     fallback.textContent =
-      "Your browser cannot display this PDF directly.";
+      "Your browser cannot display this PDF directly. ";
 
 
     const link =
@@ -3507,37 +3548,19 @@
     link.href =
       path;
 
-
     link.target =
       "_blank";
 
-
     link.rel =
       "noopener noreferrer";
-
 
     link.textContent =
       "Open PDF";
 
 
-    fallback.appendChild(
-      document.createTextNode(" ")
-    );
-
-
-    fallback.appendChild(
-      link
-    );
-
-
-    object.appendChild(
-      fallback
-    );
-
-
-    resource.appendChild(
-      object
-    );
+    fallback.appendChild(link);
+    object.appendChild(fallback);
+    resource.appendChild(object);
 
 
     documentElement.replaceChildren(
@@ -3552,7 +3575,7 @@
 
 
   /* =========================================================
-     EXTERNAL VIDEO EMBEDS
+     EXTERNAL EMBED
      ========================================================= */
 
   function renderEmbed(
@@ -3562,7 +3585,6 @@
 
     const resource =
       document.createElement("div");
-
 
     resource.className =
       "archive-resource";
@@ -3575,18 +3597,14 @@
     iframe.src =
       url;
 
-
     iframe.title =
       title;
-
 
     iframe.loading =
       "lazy";
 
-
     iframe.allow =
       "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-
 
     iframe.allowFullscreen =
       true;
@@ -3609,424 +3627,169 @@
 
 
   /* =========================================================
-     HTML PAGE
-     ========================================================= */
+   HTML PAGE
+   ========================================================= */
 
-  function renderHTMLPage(
-    path,
-    filename
+function renderHTMLPage(
+  path,
+  filename
+) {
+
+  const resource =
+    document.createElement("div");
+
+
+  resource.className =
+    "archive-page-viewer";
+
+
+  const frame =
+    document.createElement("iframe");
+
+
+  frame.className =
+    "archive-page-frame";
+
+
+  frame.src =
+    path;
+
+
+  frame.title =
+    humanTitle(filename);
+
+
+  frame.loading =
+    "eager";
+
+
+  frame.allow =
+    "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
+
+
+  frame.allowFullscreen =
+    true;
+
+
+  resource.appendChild(
+    frame
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+
+  titleElement.textContent =
+    humanTitle(filename);
+
+}
+
+
+/* =========================================================
+   RESOURCE ROUTER
+   ========================================================= */
+
+async function loadResource(
+  path,
+  filename
+) {
+
+  const ext =
+    getExtension(path);
+
+
+  sourceElement.textContent =
+    path;
+
+
+  if (
+    ext === ".html" ||
+    ext === ".htm"
   ) {
 
-    const resource =
-      document.createElement("div");
-
-
-    resource.className =
-      "archive-page-viewer";
-
-
-    const frame =
-      document.createElement("iframe");
-
-
-    frame.className =
-      "archive-page-frame";
-
-
-    frame.src =
-      path;
-
-
-    frame.title =
-      humanTitle(filename);
-
-
-    /*
-     * The page is loaded as a real document inside the iframe.
-     *
-     * Therefore:
-     *
-     * - its own CSS works
-     * - its own JavaScript works
-     * - canvas works
-     * - SVG works
-     * - animations work
-     * - audio works
-     * - video works
-     * - YouTube embeds work
-     * - Vimeo embeds work
-     * - WebGL / Three.js pages can work
-     *
-     * without having to inject foreign HTML into archive.html.
-     */
-
-    frame.loading =
-      "eager";
-
-
-    frame.allow =
-      "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
-
-
-    frame.allowFullscreen =
-      true;
-
-
-    resource.appendChild(
-      frame
+    renderHTMLPage(
+      path,
+      filename
     );
 
-
-    documentElement.replaceChildren(
-      resource
-    );
-
-
-    titleElement.textContent =
-      humanTitle(filename);
+    return;
 
   }
 
 
-  /* =========================================================
-     RESOURCE ROUTER
-     ========================================================= */
-
-  async function loadResource(
-    path,
-    filename
+  if (
+    ext === ".pdf"
   ) {
 
-    const ext =
-      getExtension(path);
-
-
-    sourceElement.textContent =
-      path;
-
-
-    if (
-      ext === ".html" ||
-      ext === ".htm"
-    ) {
-
-      renderHTMLPage(
-        path,
-        filename
-      );
-
-      return;
-
-    }
-
-
-    if (
-      ext === ".pdf"
-    ) {
-
-      renderPDF(
-        path,
-        filename
-      );
-
-      return;
-
-    }
-
-
-    if (
-      ext === ".svg" ||
-      ext === ".png" ||
-      ext === ".jpg" ||
-      ext === ".jpeg" ||
-      ext === ".gif" ||
-      ext === ".webp" ||
-      ext === ".avif" ||
-      ext === ".bmp" ||
-      ext === ".ico"
-    ) {
-
-      renderImage(
-        path,
-        filename
-      );
-
-      return;
-
-    }
-
-
-    if (
-      [
-        ".mp3",
-        ".wav",
-        ".ogg",
-        ".oga",
-        ".m4a",
-        ".aac",
-        ".flac",
-        ".mp4",
-        ".webm",
-        ".ogv",
-        ".mov"
-      ].includes(ext)
-    ) {
-
-      renderMedia(
-        path,
-        filename
-      );
-
-      return;
-
-    }
-
-
-    if (
-      ext === ".csv"
-    ) {
-
-      try {
-
-        const response =
-          await fetch(
-            path,
-            {
-              cache: "no-cache"
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "HTTP " +
-            response.status
-          );
-
-        }
-
-
-        const text =
-          await response.text();
-
-
-        renderCSV(
-          text,
-          filename
-        );
-
-
-      } catch (error) {
-
-        renderError(
-          error
-        );
-
-      }
-
-
-      return;
-
-    }
-
-
-    if (
-      [
-        ".txt",
-        ".json",
-        ".xml",
-        ".yaml",
-        ".yml",
-        ".log"
-      ].includes(ext)
-    ) {
-
-      try {
-
-        const response =
-          await fetch(
-            path,
-            {
-              cache: "no-cache"
-            }
-          );
-
-
-        if (!response.ok) {
-
-          throw new Error(
-            "HTTP " +
-            response.status
-          );
-
-        }
-
-
-        const text =
-          await response.text();
-
-
-        renderText(
-          text,
-          filename
-        );
-
-
-      } catch (error) {
-
-        renderError(
-          error
-        );
-
-      }
-
-
-      return;
-
-    }
-
-
-    /*
-     * Unknown but local resource:
-     * let the browser handle it.
-     */
-
-    const resource =
-      document.createElement("div");
-
-
-    resource.className =
-      "archive-resource";
-
-
-    const note =
-      document.createElement("div");
-
-
-    note.className =
-      "archive-resource-note";
-
-
-    note.innerHTML =
-      "<strong>Resource:</strong> " +
-      filename;
-
-
-    const link =
-      document.createElement("a");
-
-
-    link.className =
-      "archive-resource-download";
-
-
-    link.href =
-      path;
-
-
-    link.target =
-      "_blank";
-
-
-    link.rel =
-      "noopener noreferrer";
-
-
-    link.textContent =
-      "Open resource";
-
-
-    resource.appendChild(
-      note
+    renderPDF(
+      path,
+      filename
     );
 
-
-    resource.appendChild(
-      link
-    );
-
-
-    documentElement.replaceChildren(
-      resource
-    );
-
-
-    titleElement.textContent =
-      humanTitle(filename);
+    return;
 
   }
 
 
-  /* =========================================================
-     ERROR
-     ========================================================= */
+  if (
+    ext === ".svg" ||
+    ext === ".png" ||
+    ext === ".jpg" ||
+    ext === ".jpeg" ||
+    ext === ".gif" ||
+    ext === ".webp" ||
+    ext === ".avif" ||
+    ext === ".bmp" ||
+    ext === ".ico"
+  ) {
 
-  function renderError(error) {
+    renderImage(
+      path,
+      filename
+    );
 
-    documentElement.innerHTML = `
-
-      <div class="archive-error">
-
-        <strong>
-          Unable to load resource.
-        </strong>
-
-        <p>
-          ${error.message}
-        </p>
-
-      </div>
-
-    `;
+    return;
 
   }
 
 
-  /* =========================================================
-     LOAD MARKDOWN DOCUMENT
-     ========================================================= */
+  if (
+    [
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac",
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov"
+    ].includes(ext)
+  ) {
 
-  async function loadMarkdownDocument() {
+    renderMedia(
+      path,
+      filename
+    );
 
-    if (
-      !requestedDocument ||
-      !allowedDocuments.includes(
-        requestedDocument
-      )
-    ) {
+    return;
 
-      renderError(
-        new Error(
-          "Document not specified."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const sourcePath =
-      "docs/" +
-      requestedDocument;
+  }
 
 
-    titleElement.textContent =
-      humanTitle(
-        requestedDocument
-      );
-
-
-    sourceElement.textContent =
-      sourcePath;
-
+  if (
+    ext === ".csv"
+  ) {
 
     try {
 
       const response =
         await fetch(
-          sourcePath,
+          path,
           {
             cache: "no-cache"
           }
@@ -4043,403 +3806,714 @@
       }
 
 
-      const markdown =
+      const text =
         await response.text();
 
 
-      marked.setOptions({
-
-        gfm: true,
-
-        breaks: true
-
-      });
-
-
-      documentElement.innerHTML =
-        marked.parse(
-          markdown
-        );
-
-
-      normalizeMarkdownLinks();
-
-      improveTables();
-
-
-      document.title =
-        "AUF2026 — " +
-        humanTitle(
-          requestedDocument
-        );
+      renderCSV(
+        text,
+        filename
+      );
 
 
     } catch (error) {
 
-      console.error(
-        "AUF2026 Archive:",
-        error
-      );
-
-
       renderError(
         error
       );
 
     }
 
-  }
 
-
-  /* =========================================================
-     LOAD /pages/*.html
-     ========================================================= */
-
-  function loadPage() {
-
-    if (
-      !requestedPage
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      !isSafeLocalPath(
-        requestedPage
-      )
-    ) {
-
-      renderError(
-        new Error(
-          "Invalid page path."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const filename =
-      requestedPage
-        .split("/")
-        .filter(Boolean)
-        .pop();
-
-
-    if (
-      !filename
-    ) {
-
-      renderError(
-        new Error(
-          "Invalid page."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const ext =
-      getExtension(
-        filename
-      );
-
-
-    if (
-      !allowedPageExtensions.includes(
-        ext
-      )
-    ) {
-
-      renderError(
-        new Error(
-          "Only HTML pages are allowed in /pages/."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const path =
-      "pages/" +
-      requestedPage;
-
-
-    loadResource(
-      path,
-      filename
-    );
-
-
-    document.title =
-      "AUF2026 — " +
-      humanTitle(
-        filename
-      );
+    return;
 
   }
 
 
-  /* =========================================================
-     LOAD GENERIC RESOURCE
-     ========================================================= */
-
-  function loadGenericResource() {
-
-    if (
-      !requestedResource
-    ) {
-
-      return;
-
-    }
-
-
-    if (
-      !isSafeLocalPath(
-        requestedResource
-      )
-    ) {
-
-      renderError(
-        new Error(
-          "Invalid resource path."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const filename =
-      requestedResource
-        .split("/")
-        .filter(Boolean)
-        .pop();
-
-
-    if (
-      !filename
-    ) {
-
-      renderError(
-        new Error(
-          "Invalid resource."
-        )
-      );
-
-      return;
-
-    }
-
-
-    const ext =
-      getExtension(
-        filename
-      );
-
-
-    if (
-      !allowedResourceExtensions.includes(
-        ext
-      )
-    ) {
-
-      renderError(
-        new Error(
-          "Resource type not allowed."
-        )
-      );
-
-      return;
-
-    }
-
-
-    loadResource(
-      requestedResource,
-      filename
-    );
-
-
-    document.title =
-      "AUF2026 — " +
-      humanTitle(
-        filename
-      );
-
-  }
-
-
-  /* =========================================================
-     YOUTUBE / VIMEO URL SUPPORT
-     ========================================================= */
-
-  function loadExternalEmbed() {
-
-    const url =
-      params.get("embed");
-
-
-    if (
-      !url
-    ) {
-
-      return false;
-
-    }
-
+  if (
+    [
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(ext)
+  ) {
 
     try {
 
-      const parsed =
-        new URL(
-          url
+      const response =
+        await fetch(
+          path,
+          {
+            cache: "no-cache"
+          }
         );
 
 
-      const allowedHosts = [
+      if (!response.ok) {
 
-        "www.youtube.com",
-        "youtube.com",
-        "youtu.be",
-        "www.youtube-nocookie.com",
-        "player.vimeo.com",
-        "vimeo.com"
-
-      ];
-
-
-      if (
-        !allowedHosts.includes(
-          parsed.hostname
-        )
-      ) {
-
-        renderError(
-          new Error(
-            "External embed host not allowed."
-          )
+        throw new Error(
+          "HTTP " +
+          response.status
         );
-
-        return true;
 
       }
 
 
-      renderEmbed(
-        parsed.href,
-        "External media"
+      const text =
+        await response.text();
+
+
+      renderText(
+        text,
+        filename
       );
 
 
-      sourceElement.textContent =
-        parsed.href;
-
-
-      document.title =
-        "AUF2026 — External Media";
-
-
-      return true;
-
-    } catch {
+    } catch (error) {
 
       renderError(
-        new Error(
-          "Invalid external media URL."
-        )
+        error
       );
 
-
-      return true;
-
     }
+
+
+    return;
 
   }
 
 
-    /* =========================================================
-     START
-     ========================================================= */
+  /*
+   * Unknown but locally validated resource:
+   * let the browser handle it.
+   */
 
-  async function startArchive() {
+  const resource =
+    document.createElement("div");
 
-    /*
-     * Discover the current repository tree first.
-     *
-     * This is intentionally awaited so that newly created
-     * Markdown files are available before URL routing begins.
-     */
-    await discoverMarkdownDocuments();
+
+  resource.className =
+    "archive-resource";
+
+
+  const note =
+    document.createElement("div");
+
+
+  note.className =
+    "archive-resource-note";
+
+
+  note.textContent =
+    "Resource: " +
+    filename;
+
+
+  const link =
+    document.createElement("a");
+
+
+  link.className =
+    "archive-resource-download";
+
+
+  link.href =
+    path;
+
+
+  link.target =
+    "_blank";
+
+
+  link.rel =
+    "noopener noreferrer";
+
+
+  link.textContent =
+    "Open resource";
+
+
+  resource.appendChild(
+    note
+  );
+
+
+  resource.appendChild(
+    link
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+
+  titleElement.textContent =
+    humanTitle(filename);
+
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function renderError(error) {
+
+  const message =
+    error &&
+    error.message
+      ? error.message
+      : "Unknown error.";
+
+
+  documentElement.innerHTML = "";
+
+
+  const container =
+    document.createElement("div");
+
+
+  container.className =
+    "archive-error";
+
+
+  const strong =
+    document.createElement("strong");
+
+
+  strong.textContent =
+    "Unable to load resource.";
+
+
+  const paragraph =
+    document.createElement("p");
+
+
+  paragraph.textContent =
+    message;
+
+
+  container.appendChild(
+    strong
+  );
+
+
+  container.appendChild(
+    paragraph
+  );
+
+
+  documentElement.appendChild(
+    container
+  );
+
+}
+
+
+/* =========================================================
+   LOAD MARKDOWN DOCUMENT
+   ========================================================= */
+
+async function loadMarkdownDocument() {
+
+  if (
+    !requestedDocument
+  ) {
+
+    renderError(
+      new Error(
+        "Document not specified."
+      )
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Resolve the requested Markdown document
+   * against the recursively discovered repository tree.
+   */
+  const sourcePath =
+    resolveMarkdownPath(
+      requestedDocument
+    );
+
+
+  if (!sourcePath) {
+
+    renderError(
+      new Error(
+        "Markdown document not found or not allowed."
+      )
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !sourcePath
+      .toLowerCase()
+      .endsWith(".md")
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid Markdown document path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    sourcePath
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  titleElement.textContent =
+    humanTitle(
+      filename
+    );
+
+
+  sourceElement.textContent =
+    sourcePath;
+
+
+  try {
+
+    const response =
+      await fetch(
+        sourcePath,
+        {
+          cache: "no-cache"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const markdown =
+      await response.text();
+
+
+    marked.setOptions({
+
+      gfm: true,
+
+      breaks: true
+
+    });
+
+
+    documentElement.innerHTML =
+      marked.parse(
+        markdown
+      );
+
+
+    normalizeMarkdownLinks(
+      sourcePath
+    );
+
+
+    improveTables();
+
+
+    document.title =
+      "AUF2026 — " +
+      humanTitle(
+        filename
+      );
+
+
+  } catch (error) {
+
+    console.error(
+      "AUF2026 Archive:",
+      error
+    );
+
+
+    renderError(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   LOAD /pages/*.html
+   ========================================================= */
+
+function loadPage() {
+
+  if (
+    !requestedPage
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedPage
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid page path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    requestedPage
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid page."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const ext =
+    getExtension(
+      filename
+    );
+
+
+  if (
+    !allowedPageExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Only HTML pages are allowed in /pages/."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const path =
+    "pages/" +
+    requestedPage;
+
+
+  loadResource(
+    path,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(filename);
+
+}
+
+
+/* =========================================================
+   LOAD GENERIC RESOURCE
+   ========================================================= */
+
+function loadGenericResource() {
+
+  if (
+    !requestedResource
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedResource
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource path."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    requestedResource
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource."
+      )
+    );
+
+    return;
+
+  }
+
+
+  const ext =
+    getExtension(
+      filename
+    );
+
+
+  if (
+    !allowedResourceExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Resource type not allowed."
+      )
+    );
+
+    return;
+
+  }
+
+
+  loadResource(
+    requestedResource,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(filename);
+
+}
+
+
+/* =========================================================
+   YOUTUBE / VIMEO URL SUPPORT
+   ========================================================= */
+
+function loadExternalEmbed() {
+
+  const url =
+    params.get("embed");
+
+
+  if (
+    !url
+  ) {
+
+    return false;
+
+  }
+
+
+  try {
+
+    const parsed =
+      new URL(
+        url
+      );
+
+
+    const allowedHosts = [
+
+      "www.youtube.com",
+      "youtube.com",
+      "youtu.be",
+      "www.youtube-nocookie.com",
+      "player.vimeo.com",
+      "vimeo.com"
+
+    ];
 
 
     if (
-      loadExternalEmbed()
+      !allowedHosts.includes(
+        parsed.hostname.toLowerCase()
+      )
     ) {
 
-      /* External embed loaded. */
+      renderError(
+        new Error(
+          "External embed host not allowed."
+        )
+      );
 
-    } else if (
-      requestedPage
-    ) {
-
-      loadPage();
-
-    } else if (
-      requestedResource
-    ) {
-
-      loadGenericResource();
-
-    } else if (
-      requestedDocument
-    ) {
-
-      loadMarkdownDocument();
-
-    } else {
-
-      documentElement.innerHTML = `
-
-        <div class="archive-error">
-
-          <strong>
-            Resource not specified.
-          </strong>
-
-          <p>
-            Select a document, page or resource
-            from the AUF2026 research archive.
-          </p>
-
-        </div>
-
-      `;
-
-
-      sourceElement.textContent =
-        "not specified";
-
-
-      document.title =
-        "AUF2026 — Research Archive";
+      return true;
 
     }
 
+
+    renderEmbed(
+      parsed.href,
+      "External media"
+    );
+
+
+    sourceElement.textContent =
+      parsed.href;
+
+
+    document.title =
+      "AUF2026 — External Media";
+
+
+    return true;
+
+
+  } catch {
+
+    renderError(
+      new Error(
+        "Invalid external media URL."
+      )
+    );
+
+
+    return true;
+
   }
 
+}
 
-  startArchive();
+
+/* =========================================================
+   START
+   ========================================================= */
+
+async function startArchive() {
+
+  /*
+   * Discover the current repository tree first.
+   *
+   * This is intentionally awaited so that newly created
+   * Markdown files are available before URL routing begins.
+   */
+  await discoverMarkdownDocuments();
+
+
+  if (
+    loadExternalEmbed()
+  ) {
+
+    /* External embed loaded. */
+
+  } else if (
+    requestedPage
+  ) {
+
+    loadPage();
+
+  } else if (
+    requestedResource
+  ) {
+
+    loadGenericResource();
+
+  } else if (
+    requestedDocument
+  ) {
+
+    loadMarkdownDocument();
+
+  } else {
+
+    documentElement.innerHTML = `
+
+      <div class="archive-error">
+
+        <strong>
+          Resource not specified.
+        </strong>
+
+        <p>
+          Select a document, page or resource
+          from the AUF2026 research archive.
+        </p>
+
+      </div>
+
+    `;
+
+
+    sourceElement.textContent =
+      "not specified";
+
+
+    document.title =
+      "AUF2026 — Research Archive";
+
+  }
+
+}
+
+
+/* =========================================================
+   START ARCHIVE
+   ========================================================= */
+
+startArchive();
 
 </script>
 
