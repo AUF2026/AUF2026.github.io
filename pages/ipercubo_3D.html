@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>AOS KERNEL | HYPER-DATA CORE 100x100 | TIER 44</title>
+    <style>
+        body { margin: 0; background: #000; color: #00f2ff; font-family: monospace; overflow: hidden; }
+        #ui {
+            position: absolute; top: 10px; left: 10px; z-index: 100;
+            background: rgba(0,0,0,0.9); padding: 15px; border: 1px solid #00f2ff;
+            width: 300px; border-radius: 5px; font-size: 11px;
+        }
+        .ctrl-box { border-left: 3px solid #ffaa00; padding-left: 10px; margin-bottom: 10px; }
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: #ffaa00; }
+        .btn { width: 100%; background: #111; border: 1px solid #00f2ff; color: #fff; padding: 5px; cursor: pointer; margin: 2px 0; font-size: 10px; }
+        .btn.active { background: #00f2ff; color: #000; font-weight: bold; }
+        .stat { color: #ffaa00; font-size: 9px; margin-top: 5px; }
+        #data-monitor { font-size: 9px; color: #00ff44; border-top: 1px solid #333; padding-top: 5px; margin-top: 10px; height: 50px; overflow: hidden; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <b style="font-size: 14px; color: #ffaa00;">AOS HYPER-DATA CORE 100x100</b><br><br>
+    
+    <div class="ctrl-box">
+        <label>ASSE X (Hz/Φ): <span id="vhx">432</span> | <span id="vpx">3.478</span></label>
+        <input type="range" id="hzX" min="0" max="5000" value="432">
+        <input type="range" id="phiX" min="0.1" max="9" step="0.001" value="3.478">
+        <button id="dirX" class="btn active">X-DIRECTION: CW</button>
+    </div>
+
+    <div class="ctrl-box" style="border-color: #00ff44;">
+        <label>ASSE Y (Hz/Φ): <span id="vhy">432</span> | <span id="vpy">3.478</span></label>
+        <input type="range" id="hzY" min="0" max="5000" value="432">
+        <input type="range" id="phiY" min="0.1" max="9" step="0.001" value="3.478">
+        <button id="dirY" class="btn active">Y-DIRECTION: CW</button>
+    </div>
+
+    <div class="ctrl-box" style="border-color: #00d2ff;">
+        <label>ASSE Z (Hz/Φ): <span id="vhz">432</span> | <span id="vpz">3.478</span></label>
+        <input type="range" id="hzZ" min="0" max="5000" value="432">
+        <input type="range" id="phiZ" min="0.1" max="9" step="0.001" value="3.478">
+        <button id="dirZ" class="btn active">Z-DIRECTION: CW</button>
+    </div>
+
+    <button id="viewMode" class="btn">SWITCH 2D / 3D</button>
+    
+    <div id="data-monitor">STREAM: Fibonacci, Euler, Ulam, Sacks, Faure...</div>
+    <div class="stat">MASTER ARCHITECT: ALAIN FAURE | STATUS: TIER 44</div>
+</div>
+
+<canvas id="kernel"></canvas>
+
+<script>
+    const canvas = document.getElementById('kernel');
+    const ctx = canvas.getContext('2d');
+    const monitor = document.getElementById('data-monitor');
+    let w, h, t = 0, is3D = true;
+    let dirs = { x: 1, y: 1, z: 1 };
+    let config = { x: {hz:432, phi:3.478}, y: {hz:432, phi:3.478}, z: {hz:432, phi:3.478} };
+
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
+
+    // -- SEQUENZE DETERMINISTICHE AOS --
+    const getFib = (n) => { let a=0, b=1; for(let i=0; i<n; i++) [a,b]=[b, a+b]; return a % 9; };
+    const getEuler = (n) => Math.floor(Math.exp(n * 0.1) * 10) % 9;
+    const getUlam = (n) => (n*n + n + 41) % 9;
+    const getSacks = (n) => Math.floor(Math.pow(Math.sqrt(n) + 0.5, 2)) % 9;
+
+    // Controlli UI
+    ['X','Y','Z'].forEach(axis => {
+        const low = axis.toLowerCase();
+        document.getElementById(`hz${axis}`).oninput = (e) => { 
+            config[low].hz = parseFloat(e.target.value); 
+            document.getElementById(`vh${low}`).innerText = e.target.value;
+        };
+        document.getElementById(`phi${axis}`).oninput = (e) => { 
+            config[low].phi = parseFloat(e.target.value); 
+            document.getElementById(`vp${low}`).innerText = e.target.value;
+        };
+        document.getElementById(`dir${axis}`).onclick = (e) => {
+            dirs[low] *= -1;
+            e.target.innerText = `${axis}-DIRECTION: ${dirs[low]>0?'CW':'CCW'}`;
+            e.target.classList.toggle('active');
+        };
+    });
+    document.getElementById('viewMode').onclick = (e) => { is3D = !is3D; e.target.innerText = is3D ? "SWITCH 3D -> 2D" : "SWITCH 2D -> 3D"; };
+
+    const nodes = [];
+    let count = 0;
+    for(let i = -50; i <= 50; i += 10) {
+        for(let j = -50; j <= 50; j += 10) {
+            for(let k = -50; k <= 50; k += 10) {
+                nodes.push({ 
+                    x: i, y: j, z: k, 
+                    id: count,
+                    fib: getFib(count % 20),
+                    eul: getEuler(count % 50),
+                    ulm: getUlam(count),
+                    sck: getSacks(count),
+                    mod9: Math.abs(i+j+k) % 9 
+                });
+                count++;
+            }
+        }
+    }
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.2)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.save(); ctx.translate(w/2, h/2);
+
+        nodes.forEach((n, idx) => {
+            let x = n.x, y = n.y, z = n.z;
+            
+            const stepX = t * config.x.hz * 0.00001 * dirs.x;
+            const stepY = t * config.y.hz * 0.00001 * dirs.y;
+            const stepZ = t * config.z.hz * 0.00001 * dirs.z;
+
+            // Rotazione X
+            let ty = y * Math.cos(stepX) - z * Math.sin(stepX);
+            let tz = y * Math.sin(stepX) + z * Math.cos(stepX);
+            y = ty * (config.x.phi/3.478); z = tz;
+
+            // Rotazione Y
+            let tx = x * Math.cos(stepY) + z * Math.sin(stepY);
+            let tzz = -x * Math.sin(stepY) + z * Math.cos(stepY);
+            x = tx * (config.y.phi/3.478); z = tzz;
+
+            // Rotazione Z
+            let txx = x * Math.cos(stepZ) - y * Math.sin(stepZ);
+            let tyy = x * Math.sin(stepZ) + y * Math.cos(stepZ);
+            x = txx * (config.z.phi/3.478); y = tyy;
+
+            let px = x * 4, py = y * 4;
+            if(is3D) {
+                let p = 600 / (600 + z * 4);
+                px *= p; py *= p;
+            }
+
+            // Checksum Faure: Risonanza tra le serie
+            const res = (n.fib + n.eul + n.ulm + n.sck) % 9;
+            
+            ctx.fillStyle = res === 0 ? "#ffaa00" : (n.mod9 === 0 ? "#fff" : "#00f2ff");
+            ctx.beginPath();
+            ctx.arc(px, py, res === 0 ? 3 : 1, 0, Math.PI*2);
+            ctx.fill();
+
+            if (idx === 0) { // Monitor del primo nodo visibile
+                monitor.innerText = `NODE INFO [ID:${n.id}] - F:${n.fib} E:${n.eul} U:${n.ulm} S:${n.sck} | MOD9:${n.mod9}`;
+            }
+        });
+
+        ctx.restore();
+        t++;
+        requestAnimationFrame(draw);
+    }
+    draw();
+</script>
+</body>
+</html>

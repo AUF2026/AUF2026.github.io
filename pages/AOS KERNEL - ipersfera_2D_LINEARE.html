@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>AOS KERNEL | Hyper-Lattice Monitor</title>
+    <style>
+        :root { --neon-cyan: #00f2ff; --neon-magenta: #ff00ea; --bg: #050505; }
+        body { background: var(--bg); color: #fff; font-family: 'Segoe UI', monospace; margin: 0; overflow: hidden; }
+        
+        #ui-overlay {
+            position: absolute; top: 20px; left: 20px; z-index: 10;
+            background: rgba(0, 0, 0, 0.85); padding: 20px;
+            border: 1px solid var(--neon-cyan); border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            backdrop-filter: blur(10px); min-width: 250px;
+        }
+
+        h1 { font-size: 14px; margin: 0 0 15px 0; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 2px; }
+        .control-group { margin-bottom: 15px; }
+        label { display: block; font-size: 10px; margin-bottom: 5px; opacity: 0.8; }
+        
+        input[type="range"] { width: 100%; cursor: pointer; accent-color: var(--neon-cyan); }
+        .value-display { float: right; font-weight: bold; color: var(--neon-cyan); }
+        
+        .status-bar { border-top: 1px solid #333; padding-top: 10px; font-size: 10px; color: #666; }
+        .status-on { color: #0f0; }
+
+        canvas { display: block; filter: contrast(1.2) brightness(1.1); }
+    </style>
+</head>
+<body>
+
+<div id="ui-overlay">
+    <h1>AOS Kernel Audit v4.4</h1>
+    
+    <div class="control-group">
+        <label>LAYER (Profondità Lattice) <span id="v-layer" class="value-display">1.00</span></label>
+        <input type="range" id="layer" min="0.1" max="9" step="0.001" value="1">
+    </div>
+
+    <div class="control-group">
+        <label>ZOOM (Magnitudo) <span id="v-zoom" class="value-display">1.00</span></label>
+        <input type="range" id="zoom" min="0.1" max="10" step="0.01" value="1.5">
+    </div>
+
+    <div class="control-group">
+        <label>SOGLIA MODULO 9 (Filtro)</label>
+        <input type="checkbox" id="showPi" checked> <span style="color:var(--neon-cyan)">Segnale π</span>
+        <input type="checkbox" id="showPhi" checked> <span style="color:var(--neon-magenta)">Segnale φ</span>
+    </div>
+
+    <div class="status-bar">
+        STATUS: <span class="status-on">TIER 44 OPERATIONAL</span><br>
+        CLOCK: 432Hz | SYNC: LOCK<br>
+        GATE 137: <span id="gate-status">STABLE</span>
+    </div>
+</div>
+
+<canvas id="kernelCanvas"></canvas>
+
+<script>
+    const canvas = document.getElementById('kernelCanvas');
+    const ctx = canvas.getContext('2d');
+    const layerIn = document.getElementById('layer');
+    const zoomIn = document.getElementById('zoom');
+    
+    let w, h;
+    const N = 15000; // Campionamento nodi
+
+    function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+    }
+
+    // Generatore Deterministico AOS (Decimali ad alta precisione)
+    function getKernelData(count) {
+        const data = [];
+        let p = 3.1415926535;
+        let f = 1.6180339887;
+        for(let i=0; i<count; i++) {
+            p = (p * 1.3478) % 1; // 1.3478 è il driver Faure
+            f = (f * 1.3478) % 1;
+            data.push({
+                pi: Math.floor(p * 10),
+                phi: Math.floor(f * 10)
+            });
+        }
+        return data;
+    }
+
+    const kernelFlow = getKernelData(N);
+
+    function render() {
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, w, h);
+
+        const L = parseFloat(layerIn.value);
+        const Z = parseFloat(zoomIn.value);
+        document.getElementById('v-layer').innerText = L.toFixed(3);
+        document.getElementById('v-zoom').innerText = Z.toFixed(2);
+
+        // Effetto Glow
+        ctx.shadowBlur = 10;
+        
+        kernelFlow.forEach((node, i) => {
+            const modPi = (node.pi * L) % 9;
+            const modPhi = (node.phi * L) % 9;
+
+            // Coordinate con traslazione armonica
+            const posX = (i * Z) % w;
+            
+            if(document.getElementById('showPi').checked) {
+                const posY_pi = h/2 + (modPi - 4.5) * 60 * Z;
+                ctx.fillStyle = `rgba(0, 242, 255, ${0.4 + modPi/15})`;
+                ctx.shadowColor = '#00f2ff';
+                ctx.beginPath();
+                ctx.arc(posX, posY_pi, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            if(document.getElementById('showPhi').checked) {
+                const posY_phi = h/2 + (modPhi - 4.5) * 60 * Z;
+                ctx.fillStyle = `rgba(255, 0, 234, ${0.4 + modPhi/15})`;
+                ctx.shadowColor = '#ff00ea';
+                ctx.beginPath();
+                ctx.arc(posX, posY_phi, 1.5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        });
+
+        // Linea di equilibrio Singlepoint
+        ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+        ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
+
+        requestAnimationFrame(render);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    render();
+</script>
+</body>
+</html>

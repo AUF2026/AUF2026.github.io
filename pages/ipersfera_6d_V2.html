@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kernel π/φ – Ipersfera 6D Definitiva</title>
+<style>
+body { font-family:'Arial',sans-serif; background:#f0f0f0; color:#111; margin:0; padding:0; }
+header { background:#111; color:#f0f0f0; text-align:center; padding:1em; font-size:1.5em; }
+section { margin:2em auto; max-width:1600px; padding:1em; background:#fff; border-radius:8px; box-shadow:0 0 12px rgba(0,0,0,0.15);}
+button { padding:0.5em 1em; margin:0.3em; background:#111; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+button:hover { background:#333; }
+canvas { display:block; margin:1em auto; background:#fff; border:1px solid #ccc; }
+#tooltip { position:absolute; background:#111; color:#fff; padding:6px 10px; border-radius:4px; display:none; pointer-events:none; font-size:0.9em; white-space:pre; }
+</style>
+</head>
+<body>
+
+<header>Kernel π/φ – Ipersfera 6D Definitiva</header>
+
+<section>
+<h2>Canvas Interattivo 6D con Layer Numerici, Archetipici e Storici</h2>
+<!-- Bottoni principali -->
+<button onclick="toggleLayer('triadi')">Triadi Modulo 9</button>
+<button onclick="toggleLayer('resonance')">Risonanza π/φ</button>
+<button onclick="toggleLayer('mobius')">Layer Möbius</button>
+<button onclick="toggleLayer('archetype')">Archetipi</button>
+<button onclick="toggleLayer('texts')">Testi Sacri</button>
+<button onclick="toggleLayer('hyperlayer')">Hyper-Layer Storico</button>
+<button onclick="toggleLayer('triArchetype')">Triangoli Archetipici</button>
+
+<!-- Nuovi bottoni avanzati -->
+<button onclick="toggleLayer('nube')">Mostra/Nascondi Nube 3D</button>
+<button onclick="toggleLayer('archeFilter')">Filtra Archetipi Principali</button>
+<button onclick="toggleLayer('textsFilter')">Filtra Testi Sacri</button>
+<button onclick="toggleLayer('historicalFilter')">Filtra Pattern Storici</button>
+
+<!-- Bottone speciale: solo triangoli 1-9 -->
+<button onclick="soloTriangoli1to9()">Solo Triangoli 1-9</button>
+</section>
+
+<canvas id="canvas" width="1400" height="900"></canvas>
+<div id="tooltip"></div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+const W = canvas.width, H = canvas.height, cx = W/2, cy = H/2;
+const rSphere = 300;
+let t = 0;
+
+// Layer toggle
+const layers = {triadi:true,resonance:true,mobius:true,archetype:true,texts:true,hyperlayer:true,triArchetype:false,nube:true,archeFilter:false,textsFilter:false,historicalFilter:false};
+function toggleLayer(name) { layers[name] = !layers[name]; }
+
+// Generazione nodi 6D
+const N = 20000;
+const Nodi = [];
+function genDecimals(N){ let seq=[], prev=1; for(let i=0;i<N;i++){ prev=(prev*7+3)%10; seq.push(prev);} return seq;}
+const piDecimals = genDecimals(N);
+const phiDecimals = genDecimals(N);
+
+const archetypes = ["Terra","Sole","Luna","Sefirot1","Sefirot2","Veda1","Veda2","Chakra1","Chakra2"];
+const sacredTexts = ["א","ב","ג","ד","ה","ו","ז","ח","ט","י","ॐ","क","ख","ग","घ","ङ","च","छ","ज","झ","天","地","日","月","水","火","風","雷","山","川"];
+const historicalPatterns = ["Egypt","Assyro-Babylon","Greek","Chinese","Japanese","Arabic","Biblical","Vedic"];
+
+for(let i=0;i<N;i++){
+  const theta = Math.acos(2*Math.random()-1);
+  const phi = Math.random()*2*Math.PI;
+  const x = rSphere*Math.sin(theta)*Math.cos(phi);
+  const y = rSphere*Math.sin(theta)*Math.sin(phi);
+  const z = rSphere*Math.cos(theta);
+  const w = Math.random()*2*Math.PI;
+  const v = Math.random()*2*Math.PI;
+  const u = Math.random()*2*Math.PI;
+  const piDigit = piDecimals[i], phiDigit = phiDecimals[i];
+  const archetype = archetypes[(piDigit+phiDigit)%archetypes.length];
+  const text = sacredTexts[(piDigit+phiDigit)%sacredTexts.length];
+  const hyper = historicalPatterns[(piDigit+phiDigit)%historicalPatterns.length];
+  Nodi.push({x,y,z,w,v,u,index:i,piDigit,phiDigit,archetype,text,hyper,showSpecial:true});
+}
+
+// Triadi modulo 9
+const Triadi = [];
+for(let i=0;i<500;i++){
+  const a=Math.floor(Math.random()*N);
+  const b=Math.floor(Math.random()*N);
+  const c=Math.floor(Math.random()*N);
+  if((piDecimals[a]+phiDecimals[a]+piDecimals[b]+phiDecimals[b]+piDecimals[c]+phiDecimals[c])%9===0){
+    Triadi.push([a,b,c]);
+  }
+}
+
+// Möbius layer
+const MobiusLinks = [];
+for(let i=0;i<500;i++){
+  const a = Math.floor(Math.random()*N);
+  const b = (a + Math.floor(Math.random()*10) + 1) % N;
+  MobiusLinks.push([a,b]);
+}
+
+// Triangoli archetipici
+const archeNodeIndices = Nodi.filter(n=>archetypes.includes(n.archetype)).map(n=>n.index);
+const TriArchetype = [];
+for(let i=0;i<300;i++){
+  const a = archeNodeIndices[Math.floor(Math.random()*archeNodeIndices.length)];
+  const b = archeNodeIndices[Math.floor(Math.random()*archeNodeIndices.length)];
+  const c = archeNodeIndices[Math.floor(Math.random()*archeNodeIndices.length)];
+  TriArchetype.push([a,b,c]);
+}
+
+// Proiezione 6D -> 2D
+function hyperProject6D(n,t){
+  const angleW = n.w + t*0.002;
+  const angleV = n.v + t*0.003;
+  const angleU = n.u + t*0.004;
+  const x = n.x*Math.cos(angleW) - n.w*Math.sin(angleW);
+  const y = n.y*Math.cos(angleV) - n.v*Math.sin(angleV);
+  const z = n.z*Math.cos(angleU) - n.u*Math.sin(angleU);
+  const scale = 1 + 0.3*(x+y+z)/rSphere;
+  return {x: cx + x*scale, y: cy + y*scale, scale, node:n};
+}
+
+// Bottone speciale: solo punti 1-9 e triangolazioni lineari
+function soloTriangoli1to9() {
+  for (let key in layers) layers[key] = false;
+  layers.triadi = true;
+  layers.triArchetype = true;
+  Nodi.forEach(n => {
+    n.showSpecial = (n.piDigit >= 1 && n.piDigit <= 9 && n.phiDigit >= 1 && n.phiDigit <= 9);
+  });
+}
+
+// Animazione unica
+function animate(){
+  ctx.clearRect(0,0,W,H);
+
+  // Nube principale
+  if(layers.nube){
+    Nodi.forEach(n=>{
+      if(!n.showSpecial) return;
+      const p = hyperProject6D(n,t);
+      let color = `rgba(${n.piDigit*25},0,${n.phiDigit*25},0.2)`;
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,2,0,2*Math.PI);
+      ctx.fill();
+    });
+  }
+
+  // Triadi
+  if(layers.triadi){
+    ctx.strokeStyle='rgba(50,50,50,0.1)';
+    Triadi.forEach(tri=>{
+      if(!Nodi[tri[0]].showSpecial || !Nodi[tri[1]].showSpecial || !Nodi[tri[2]].showSpecial) return;
+      const p0=hyperProject6D(Nodi[tri[0]],t);
+      const p1=hyperProject6D(Nodi[tri[1]],t);
+      const p2=hyperProject6D(Nodi[tri[2]],t);
+      ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.closePath(); ctx.stroke();
+    });
+  }
+
+  // Triangoli archetipici evidenti
+  if(layers.triArchetype){
+    ctx.strokeStyle='rgba(0,200,0,0.6)';
+    TriArchetype.forEach(tri=>{
+      if(!Nodi[tri[0]].showSpecial || !Nodi[tri[1]].showSpecial || !Nodi[tri[2]].showSpecial) return;
+      const p0=hyperProject6D(Nodi[tri[0]],t);
+      const p1=hyperProject6D(Nodi[tri[1]],t);
+      const p2=hyperProject6D(Nodi[tri[2]],t);
+      ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(p1.x,p1.y); ctx.lineTo(p2.x,p2.y); ctx.closePath(); ctx.stroke();
+    });
+  }
+
+  // Möbius layer
+  if(layers.mobius){
+    ctx.strokeStyle='rgba(200,50,50,0.08)';
+    MobiusLinks.forEach(link=>{
+      const p0 = hyperProject6D(Nodi[link[0]],t);
+      const p1 = hyperProject6D(Nodi[link[1]],t);
+      ctx.beginPath(); ctx.moveTo(p0.x,p0.y); ctx.lineTo(p1.x,p1.y); ctx.stroke();
+    });
+  }
+
+  // Layer testo/archetype/hyperlayer filtrati
+  Nodi.forEach(n=>{
+    if(!n.showSpecial) return;
+    const p = hyperProject6D(n,t);
+    if(layers.resonance){
+      const intensity = (n.piDigit + n.phiDigit)/18;
+      ctx.fillStyle=`rgb(${Math.floor(255*intensity)},0,${Math.floor(255*(1-intensity))})`;
+      ctx.beginPath(); ctx.arc(p.x,p.y,2,0,2*Math.PI);
+      ctx.fill();
+    }
+    if(layers.archetype){
+      if(!layers.archeFilter || (n.archetype==='Sole'||n.archetype==='Luna'||n.archetype==='Terra')){
+        ctx.fillStyle='rgba(0,0,0,0.3)'; ctx.font='10px Arial';
+        ctx.fillText(n.archetype,p.x+3,p.y+3);
+      }
+    }
+    if(layers.texts){
+      if(!layers.textsFilter || n.text==='א' || n.text==='ॐ'){
+        ctx.fillStyle='rgba(0,0,150,0.4)'; ctx.font='9px Arial';
+        ctx.fillText(n.text,p.x+3,p.y+15);
+      }
+    }
+    if(layers.hyperlayer){
+      if(!layers.historicalFilter || n.hyper==='Egypt'||n.hyper==='Greek'){
+        ctx.fillStyle='rgba(150,0,0,0.3)'; ctx.font='8px Arial';
+        ctx.fillText(n.hyper,p.x+3,p.y+25);
+      }
+    }
+  });
+
+  t+=1;
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Tooltip avanzato
+canvas.addEventListener('mousemove', e=>{
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  let found = false;
+  Nodi.forEach(n=>{
+    if(!n.showSpecial) return;
+    const p = hyperProject6D(n,t);
+    if(Math.hypot(mx-p.x,my-p.y)<4){
+      tooltip.style.display='block';
+      tooltip.style.left = (e.clientX + 15) + 'px';
+      tooltip.style.top = (e.clientY + 15) + 'px';
+      tooltip.textContent = `Index: ${n.index}\nπ: ${n.piDigit}, φ: ${n.phiDigit}\nArchetipo: ${n.archetype}\nTesto: ${n.text}\nPattern Storico: ${n.hyper}\nCoord: x=${n.x.toFixed(2)}, y=${n.y.toFixed(2)}, z=${n.z.toFixed(2)}, w=${n.w.toFixed(2)}, v=${n.v.toFixed(2)}, u=${n.u.toFixed(2)}`;
+      found = true;
+    }
+  });
+  if(!found) tooltip.style.display='none';
+});
+</script>
+
+</body>
+</html>

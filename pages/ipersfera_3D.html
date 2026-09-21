@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Kernel Numerico Definitivo π-φ – Scientifico</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+  body {margin:0; font-family: Arial, sans-serif; background:#fff; color:#000;}
+  h2 {text-align:center; margin:10px 0;}
+  #buttons {text-align:center; margin-bottom:10px;}
+  button {margin:5px; padding:8px 16px; font-size:14px; cursor:pointer;}
+  #plot3d {width:100%; height:85vh;}
+</style>
+</head>
+<body>
+<h2>Kernel Numerico 3D – π vs φ – Scientifico</h2>
+
+<div id="buttons">
+  <button onclick="showLayer('all')">Tutti i nodi</button>
+  <button onclick="showLayer('primary')">144 Nodi principali</button>
+  <button onclick="showLayer('links')">Legami Triadi/Doppiette</button>
+  <button onclick="showLayer('resonance')">Risonanza π/φ</button>
+  <button onclick="showLayer('all')">Tutto</button>
+</div>
+
+<div id="plot3d"></div>
+
+<script>
+/* --- CONFIGURAZIONE NODI --- */
+const totalNodes = 27958;
+let nodi = [];
+let primaryNodes = new Set();
+for(let i=0;i<totalNodes;i++){
+  let x = Math.floor(i / 100);
+  let y = i % 100;
+  let z = Math.floor(i / 5000);
+  let modulo9 = i % 9;
+  let piVal = (Math.floor(3.141592653589793*Math.pow(10,i))%10);
+  let phiVal = (Math.floor(1.6180339887498948*Math.pow(10,i))%10);
+  nodi.push({x:x, y:y, z:z, modulo9:modulo9, id:i, pi:piVal, phi:phiVal});
+  if(i % 194 === 0 && primaryNodes.size < 144) primaryNodes.add(i);
+}
+
+/* --- TRACCE --- */
+const traceNodi = {
+  x: nodi.map(n=>n.x), y: nodi.map(n=>n.y), z: nodi.map(n=>n.z),
+  mode:'markers',
+  marker:{size:3, color:nodi.map(n=>200-20*n.modulo9), colorscale:'Greys', showscale:true, colorbar:{title:'Modulo 9'}},
+  text: nodi.map(n=>`ID: ${n.id}<br>π: ${n.pi}<br>φ: ${n.phi}`),
+  type:'scatter3d', name:'Tutti i nodi'
+};
+
+const tracePrimary = {
+  x: nodi.filter(n=>primaryNodes.has(n.id)).map(n=>n.x),
+  y: nodi.filter(n=>primaryNodes.has(n.id)).map(n=>n.y),
+  z: nodi.filter(n=>primaryNodes.has(n.id)).map(n=>n.z),
+  mode:'markers',
+  marker:{size:6,color:'#000000',symbol:'diamond'},
+  type:'scatter3d', name:'Nodi principali'
+};
+
+const traceLegami = {x:[],y:[],z:[],mode:'lines',line:{color:'#444444',width:1},type:'scatter3d',name:'Legami Triadi/Doppiette'};
+for(let i=0;i<totalNodes-2;i+=3){
+  traceLegami.x.push(nodi[i].x,nodi[i+1].x,nodi[i+2].x,null);
+  traceLegami.y.push(nodi[i].y,nodi[i+1].y,nodi[i+2].y,null);
+  traceLegami.z.push(nodi[i].z,nodi[i+1].z,nodi[i+2].z,null);
+}
+
+const traceResonance = {
+  x:nodi.map(n=>n.x), y:nodi.map(n=>n.y), z:nodi.map(n=>n.z),
+  mode:'markers',
+  marker:{size:4,color:nodi.map(n=>Math.abs(n.pi-n.phi)*20),colorscale:'Greys',showscale:true,colorbar:{title:'|π-φ|'}},
+  text:nodi.map(n=>`ID:${n.id}<br>|π-φ|=${Math.abs(n.pi-n.phi)}`),
+  type:'scatter3d', name:'Risonanza π/φ'
+};
+
+/* --- PLOT INIZIALE --- */
+const layout = {scene:{xaxis:{title:'X'},yaxis:{title:'Y'},zaxis:{title:'Z'}},margin:{l:0,r:0,b:0,t:0},showlegend:true};
+let data = [traceNodi, tracePrimary, traceLegami, traceResonance];
+Plotly.newPlot('plot3d',data,layout);
+
+/* --- FUNZIONE PULSANTI --- */
+function showLayer(layer){
+  let visibility = {
+    'all':[true,true,true,true],
+    'primary':[false,true,false,false],
+    'links':[false,false,true,false],
+    'resonance':[false,false,false,true]
+  };
+  data.forEach((d,i)=>Plotly.restyle('plot3d','visible',visibility[layer][i]?true:'legendonly',i));
+}
+</script>
+</body>
+</html>

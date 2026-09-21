@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>AOS KERNEL | UNIVERSAL AUDITOR 50K</title>
+    <style>
+        :root { --gold: #ffaa00; --cyan: #00f2ff; --bg: #000000; }
+        body { margin: 0; background: var(--bg); color: var(--cyan); font-family: 'Courier New', monospace; overflow: hidden; }
+        
+        #ui {
+            position: absolute; top: 15px; left: 15px; z-index: 100;
+            background: rgba(0,0,0,0.92); padding: 20px; border: 1px solid var(--cyan);
+            border-radius: 8px; width: 340px; backdrop-filter: blur(10px);
+            max-height: 95vh; overflow-y: auto; font-size: 11px;
+        }
+
+        .section { margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 8px; }
+        label { display: flex; justify-content: space-between; color: var(--gold); margin-bottom: 4px; text-transform: uppercase; }
+        input[type="range"] { width: 100%; accent-color: var(--cyan); cursor: pointer; }
+        
+        .axis-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-top: 5px; }
+        .btn {
+            background: #111; border: 1px solid var(--cyan); color: #fff;
+            padding: 6px; cursor: pointer; font-size: 10px; text-align: center;
+        }
+        .btn.active { background: var(--cyan); color: #000; font-weight: bold; }
+        .btn-mode { width: 100%; background: var(--gold); color: #000; border: none; font-weight: bold; margin-top: 10px; }
+
+        #data-dump {
+            background: #050505; border: 1px solid #222; padding: 10px;
+            margin-top: 10px; height: 100px; overflow-y: auto;
+            color: #0f0; font-size: 9px; line-height: 1.2;
+        }
+        canvas { display: block; cursor: move; }
+        .footer { font-size: 9px; color: var(--gold); margin-top: 10px; text-align: left; }
+    </style>
+</head>
+<body>
+
+<div id="ui">
+    <div style="font-size: 16px; font-weight: bold; color: var(--gold); margin-bottom: 10px;">AOS KERNEL AUDITOR</div>
+    
+    <div class="section">
+        <label>FREQUENZA (Hz) <span id="v-hz">432</span></label>
+        <input type="range" id="hz-range" min="0" max="2000" value="432">
+        
+        <label>CURVATURA (Φ) <span id="v-phi">3.478</span></label>
+        <input type="range" id="phi-range" min="0.1" max="144" step="0.001" value="3.478">
+    </div>
+
+    <div class="section">
+        <label>ROTATORI TERNARI (X-Y-Z)</label>
+        <div class="axis-grid">
+            <button id="rotX" class="btn active">X: CW</button>
+            <button id="rotY" class="btn active">Y: CW</button>
+            <button id="rotZ" class="btn active">Z: CW</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <label>NAVIGAZIONE LATTICE</label>
+        <div style="font-size: 9px; color: #888;">WHEEL: ZOOM | DRAG: PAN</div>
+        <button id="viewMode" class="btn btn-mode">SWITCH 3D / 2D</button>
+    </div>
+
+    <div id="data-dump">ESTRAZIONE BIT LATTICE 144...</div>
+    
+    <div class="footer">MASTER ARCHITECT: ALAIN FAURE | TIER 44</div>
+</div>
+
+<canvas id="c"></canvas>
+
+<script>
+const canvas = document.getElementById("c");
+const gl = canvas.getContext("webgl");
+
+const vs = `
+    attribute float a_index;
+    uniform float u_time;
+    uniform float u_hz;
+    uniform float u_phi;
+    uniform vec3 u_dir;
+    uniform vec2 u_res;
+    uniform float u_zoom;
+    uniform vec2 u_offset;
+    uniform float u_is3d;
+    varying float v_res;
+
+    void main() {
+        float count = 50000.0;
+        float theta = 6.2831853 * a_index * 0.6180339; 
+        float phi = acos(1.0 - 2.0 * (a_index / count));
+        float r = 0.6 * (u_phi / 3.478);
+
+        float step = u_time * u_hz * 0.0001;
+        
+        // Rotazione Ternaria XYZ
+        vec3 p = vec3(
+            r * sin(phi) * cos(theta + step * u_dir.x),
+            r * sin(phi) * sin(theta + step * u_dir.y),
+            r * cos(phi + step * u_dir.z * 0.5)
+        );
+
+        // Proiezione & Camera (Zoom/Pan)
+        vec2 pos = p.xy;
+        if(u_is3d > 0.5) {
+            float depth = 1.0 / (2.0 + p.z);
+            pos = p.xy * depth;
+        }
+
+        gl_Position = vec4((pos * u_zoom) + u_offset, p.z * u_is3d, 1.0);
+        gl_Position.x *= u_res.y / u_res.x;
+        
+        v_res = mod(floor(a_index * 1.618) + floor(a_index * 3.1415), 9.0);
+        gl_PointSize = (v_res < 1.0) ? 4.0 * u_zoom : 1.0 * u_zoom;
+    }
+`;
+
+const fs = `
+    precision mediump float;
+    varying float v_res;
+    void main() {
+        if (v_res < 1.0) gl_FragColor = vec4(1.0, 0.65, 0.0, 1.0);
+        else gl_FragColor = vec4(0.0, 0.95, 1.0, 0.4);
+    }
+`;
+
+function createShader(gl, type, source) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, source);
+    gl.compileShader(s);
+    return s;
+}
+
+const program = gl.createProgram();
+gl.attachShader(program, createShader(gl, gl.VERTEX_SHADER, vs));
+gl.attachShader(program, createShader(gl, gl.FRAGMENT_SHADER, fs));
+gl.linkProgram(program);
+gl.useProgram(program);
+
+const indices = new Float32Array(50000);
+for(let i=0; i<50000; i++) indices[i] = i;
+const buffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+gl.bufferData(gl.ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+
+const aIndex = gl.getAttribLocation(program, "a_index");
+gl.enableVertexAttribArray(aIndex);
+gl.vertexAttribPointer(aIndex, 1, gl.FLOAT, false, 0, 0);
+
+const locs = {
+    time: gl.getUniformLocation(program, "u_time"),
+    hz: gl.getUniformLocation(program, "u_hz"),
+    phi: gl.getUniformLocation(program, "u_phi"),
+    dir: gl.getUniformLocation(program, "u_dir"),
+    res: gl.getUniformLocation(program, "u_res"),
+    zoom: gl.getUniformLocation(program, "u_zoom"),
+    offset: gl.getUniformLocation(program, "u_offset"),
+    is3d: gl.getUniformLocation(program, "u_is3d")
+};
+
+let time = 0, zoom = 1.0, offset = {x:0, y:0}, is3d = 1.0;
+let dirs = {x:1, y:1, z:1}, isDragging = false, lastMouse = {x:0, y:0};
+
+// Eventi
+['X','Y','Z'].forEach(axis => {
+    document.getElementById('rot'+axis).onclick = (e) => {
+        dirs[axis.toLowerCase()] *= -1;
+        e.target.innerText = `${axis}: ${dirs[axis.toLowerCase()]>0?'CW':'CCW'}`;
+        e.target.classList.toggle('active');
+    };
+});
+
+document.getElementById('viewMode').onclick = (e) => {
+    is3d = is3d === 1.0 ? 0.0 : 1.0;
+    e.target.innerText = is3d ? "SWITCH 3D / 2D" : "SWITCH 2D / 3D";
+};
+
+window.addEventListener('wheel', e => { zoom *= e.deltaY > 0 ? 0.9 : 1.1; });
+window.addEventListener('mousedown', e => { isDragging = true; lastMouse = {x:e.clientX, y:e.clientY}; });
+window.addEventListener('mouseup', () => isDragging = false);
+window.addEventListener('mousemove', e => {
+    if(!isDragging) return;
+    offset.x += (e.clientX - lastMouse.x) / (canvas.width/2);
+    offset.y -= (e.clientY - lastMouse.y) / (canvas.height/2);
+    lastMouse = {x:e.clientX, y:e.clientY};
+});
+
+function render() {
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    const hz = document.getElementById('hz-range').value;
+    const phi = document.getElementById('phi-range').value;
+    document.getElementById('v-hz').innerText = hz;
+    document.getElementById('v-phi').innerText = phi;
+
+    gl.uniform1f(locs.time, time++);
+    gl.uniform1f(locs.hz, hz);
+    gl.uniform1f(locs.phi, phi);
+    gl.uniform3f(locs.dir, dirs.x, dirs.y, dirs.z);
+    gl.uniform2f(locs.res, canvas.width, canvas.height);
+    gl.uniform1f(locs.zoom, zoom);
+    gl.uniform2f(locs.offset, offset.x, offset.y);
+    gl.uniform1f(locs.is3d, is3d);
+
+    gl.drawArrays(gl.POINTS, 0, 50000);
+
+    // DUMP DATI REAL-TIME
+    if(time % 30 === 0) {
+        let dump = "";
+        for(let i=0; i<5; i++) {
+            let val = Math.floor(Math.abs(Math.sin(time*0.01 + i)*100000));
+            dump += `NODE_${i}: [BIT:${val % 9 === 0 ? 'GOLD' : 'SYNC'} | Φ:${(val*phi/100000).toFixed(3)}]\n`;
+        }
+        document.getElementById('data-dump').innerText = dump + "LATTICE_SYNC: 144/T≈0.0";
+    }
+
+    requestAnimationFrame(render);
+}
+render();
+</script>
+</body>
+</html>

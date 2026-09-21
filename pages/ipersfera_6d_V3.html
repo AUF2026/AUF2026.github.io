@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>AOS KERNEL v9.8 | TOTAL SYNC CORE | TIER 44</title>
+    <style>
+        :root { --gold: #ffaa00; --cyan: #00f2ff; --magenta: #ff00ea; --bg: #000; }
+        body { margin: 0; background: var(--bg); color: var(--cyan); font-family: 'Courier New', monospace; overflow: hidden; }
+        #ui {
+            position: absolute; top: 10px; left: 10px; z-index: 100;
+            background: rgba(0,0,0,0.95); padding: 12px; border: 1px solid var(--gold);
+            width: 320px; font-size: 10px; backdrop-filter: blur(10px); max-height: 90vh; overflow-y: auto;
+        }
+        .axis-box { border-left: 2px solid var(--cyan); padding: 6px; margin-bottom: 5px; background: rgba(255,255,255,0.02); }
+        .input-row { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+        input[type="number"], input[type="text"] { background: #000; border: 1px solid #444; color: var(--gold); width: 60px; font-size: 10px; padding: 2px; }
+        input[type="range"] { flex-grow: 1; accent-color: var(--gold); cursor: pointer; }
+        .btn { width: 100%; background: #111; border: 1px solid var(--gold); color: var(--gold); padding: 6px; cursor: pointer; margin: 3px 0; font-size: 9px; text-transform: uppercase; font-weight: bold; transition: 0.2s; }
+        .btn.active { background: var(--gold); color: #000; }
+        #tooltip { 
+            position: absolute; pointer-events: none; background: rgba(0,8,15,0.98); 
+            border: 1px solid var(--cyan); padding: 12px; font-size: 10px; color: #fff; 
+            display: none; z-index: 1000; line-height: 1.4; box-shadow: 0 0 20px var(--cyan);
+        }
+        #data-monitor { 
+            margin-top: 10px; padding: 8px; border: 1px solid #333; background: rgba(0,255,68,0.05);
+            font-size: 9px; color: #00ff44; line-height: 1.3; font-family: monospace; min-height: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="tooltip"></div>
+<div id="ui">
+    <b style="font-size: 13px; color: var(--gold);">AOS KERNEL v9.8: TOTAL SYNC</b><br>
+    <small>SCIENTIFIC ANALYZER | 144 NODAL POINTS</small><hr style="border:0; border-top:1px solid #333;">
+
+    <!-- X-AXIS -->
+    <div class="axis-box">
+        <label>X-AXIS (Hz / Φ)</label>
+        <div class="input-row"><input type="number" id="hzX" value="432"><input type="range" id="shzX" min="0" max="2000" value="432"></div>
+        <div class="input-row"><input type="text" id="phiX" value="3.478"><input type="range" id="sphiX" min="0.1" max="9" step="0.001" value="3.478"></div>
+    </div>
+    <!-- Y-AXIS -->
+    <div class="axis-box" style="border-color: #0ff444;">
+        <label>Y-AXIS (Hz / Φ)</label>
+        <div class="input-row"><input type="number" id="hzY" value="432"><input type="range" id="shzY" min="0" max="2000" value="432"></div>
+        <div class="input-row"><input type="text" id="phiY" value="3.478"><input type="range" id="sphiY" min="0.1" max="9" step="0.001" value="3.478"></div>
+    </div>
+    <!-- Z-AXIS -->
+    <div class="axis-box" style="border-color: var(--magenta);">
+        <label>Z-AXIS (Hz / Φ)</label>
+        <div class="input-row"><input type="number" id="hzZ" value="432"><input type="range" id="shzZ" min="0" max="2000" value="432"></div>
+        <div class="input-row"><input type="text" id="phiZ" value="3.478"><input type="range" id="sphiZ" min="0.1" max="9" step="0.001" value="3.478"></div>
+    </div>
+
+    <button id="toggleData" class="btn">MODE: VECTOR NUMBERS</button>
+    <button id="viewMode" class="btn active">DIMENSION: 3D</button>
+    <button id="freezeAnim" class="btn">FREEZE ANIMATION</button>
+    <button id="resetCam" class="btn">RESET CAMERA</button>
+    
+    <div id="data-monitor">NODE MONITOR [IDLE]</div>
+
+    <div style="font-size: 8px; margin-top: 10px; color: var(--gold); opacity: 0.8;">
+        ZERO-POINT: STABLE (0,0,0) | ARCHITECT: ALAIN FAURE
+    </div>
+</div>
+<canvas id="kernel"></canvas>
+
+<script>
+    const canvas = document.getElementById('kernel'), ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip'), monitor = document.getElementById('data-monitor');
+    
+    let w, h, t = 0, is3D = true, showNumbers = false, isFrozen = false;
+    let zoom = 1, offset = { x: 0, y: 0 }, isDragging = false, lastMouse = { x: 0, y: 0 };
+    let cfg = { x: {hz: 432, phi: 3.478}, y: {hz: 432, phi: 3.478}, z: {hz: 432, phi: 3.478} };
+
+    function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
+
+    // Sincronizzazione Bi-Direzionale Integrale
+    ['X', 'Y', 'Z'].forEach(axis => {
+        const low = axis.toLowerCase();
+        const ihz = document.getElementById(`hz${axis}`), shz = document.getElementById(`shz${axis}`),
+              iphi = document.getElementById(`phi${axis}`), sphi = document.getElementById(`sphi${axis}`);
+        
+        const syncHz = (v) => { ihz.value = v; shz.value = v; cfg[low].hz = parseFloat(v); };
+        const syncPhi = (v) => { iphi.value = v; sphi.value = v; cfg[low].phi = parseFloat(v); };
+
+        shz.oninput = (e) => syncHz(e.target.value);
+        ihz.onchange = (e) => syncHz(e.target.value);
+        sphi.oninput = (e) => syncPhi(e.target.value);
+        iphi.onchange = (e) => syncPhi(e.target.value);
+    });
+
+    document.getElementById('toggleData').onclick = (e) => { showNumbers = !showNumbers; e.target.classList.toggle('active'); };
+    document.getElementById('viewMode').onclick = (e) => { is3D = !is3D; e.target.innerText = is3D ? "DIMENSION: 3D" : "DIMENSION: 2D"; };
+    document.getElementById('freezeAnim').onclick = (e) => { isFrozen = !isFrozen; e.target.innerText = isFrozen ? "RESUME" : "FREEZE"; e.target.classList.toggle('active'); };
+    document.getElementById('resetCam').onclick = () => { zoom = 1; offset = { x: 0, y: 0 }; };
+
+    canvas.onmousedown = (e) => { isDragging = true; lastMouse = { x: e.clientX, y: e.clientY }; };
+    window.onmouseup = () => isDragging = false;
+    window.onmousemove = (e) => {
+        if (isDragging) { offset.x += e.clientX - lastMouse.x; offset.y += e.clientY - lastMouse.y; lastMouse = { x: e.clientX, y: e.clientY }; }
+        updateDiagnostics(e);
+    };
+    canvas.onwheel = (e) => { e.preventDefault(); zoom *= e.deltaY > 0 ? 0.95 : 1.05; };
+
+    const nodes = Array.from({length: 144}, (_, i) => ({ id: i, mod9: i % 9, proj: {} }));
+
+    function updateDiagnostics(e) {
+        let close = null, dMin = 25;
+        nodes.forEach(n => {
+            const dx = (n.proj.px + w/2 + offset.x) - e.clientX, dy = (n.proj.py + h/2 + offset.y) - e.clientY;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < dMin) { dMin = d; close = n; }
+        });
+
+        if (!close) { tooltip.style.display = 'none'; return; }
+        
+        tooltip.style.display = 'block'; tooltip.style.left = (e.clientX + 20) + 'px'; tooltip.style.top = (e.clientY + 20) + 'px';
+        const d_mm = Math.sqrt(close.proj.x**2 + close.proj.y**2 + close.proj.z**2).toFixed(3);
+        const log = `ID:${close.id} | M9:${close.mod9}<br>REL_SADDLE:[${close.proj.x.toFixed(1)},${close.proj.y.toFixed(1)},${close.proj.z.toFixed(1)}]<br>DIST:${d_mm}mm`;
+        tooltip.innerHTML = log; monitor.innerHTML = log.replace(/<br>/g, ' | ');
+    }
+
+    function draw() {
+        ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.fillRect(0, 0, w, h);
+        ctx.save(); ctx.translate(w/2 + offset.x, h/2 + offset.y); ctx.scale(zoom, zoom);
+        
+        const sX = t * cfg.x.hz * 0.0001, sY = t * cfg.y.hz * 0.0001, sZ = t * cfg.z.hz * 0.0001;
+
+        nodes.forEach(n => {
+            let x, y, z;
+            if (n.mod9 === 0) { x = 0; y = 0; z = 0; }
+            else {
+                const baseR = n.id * 8;
+                const p = n.id * 0.15 + sX, th = n.id * 0.25 + sY;
+                x = Math.sin(p) * Math.cos(th) * baseR * (cfg.x.phi / 3.478);
+                y = Math.sin(p) * Math.sin(th) * baseR * (cfg.y.phi / 3.478);
+                z = is3D ? Math.cos(p) * baseR * (cfg.z.phi / 3.478) : 0;
+            }
+
+            if (is3D && n.mod9 !== 0) {
+                let ry = y*Math.cos(sX)-z*Math.sin(sX); z = y*Math.sin(sX)+z*Math.cos(sX); y = ry;
+                let rx = x*Math.cos(sY)+z*Math.sin(sY); z = -x*Math.sin(sY)+z*Math.cos(sY); x = rx;
+                let rz = x*Math.cos(sZ)-y*Math.sin(sZ); y = x*Math.sin(sZ)+y*Math.cos(sZ); x = rz;
+            }
+            n.proj = { x, y, z, px: x * (is3D ? 600/(600+z) : 1), py: y * (is3D ? 600/(600+z) : 1) };
+        });
+
+        if (showNumbers) {
+            ctx.lineWidth = 0.5;
+            nodes.forEach((n, i) => {
+                if (n.mod9 === 3 || n.mod9 === 6 || n.mod9 === 0) {
+                    nodes.slice(i+1, i+15).forEach(m => {
+                        if ((n.mod9+m.mod9)%9 === 0 || m.mod9 === n.mod9) {
+                            ctx.strokeStyle = n.mod9 === 0 ? 'rgba(255,170,0,0.3)' : 'rgba(0,242,255,0.15)';
+                            ctx.beginPath(); ctx.moveTo(n.proj.px, n.proj.py); ctx.lineTo(m.proj.px, m.proj.py); ctx.stroke();
+                        }
+                    });
+                }
+            });
+        }
+
+        nodes.forEach(n => {
+            ctx.fillStyle = n.mod9 === 0 ? '#ffaa00' : (n.mod9===3||n.mod9===6 ? '#ff00ea' : '#00f2ff');
+            if (showNumbers) { ctx.font = "bold 11px Arial"; ctx.fillText(n.mod9, n.proj.px-4, n.proj.py+4); }
+            else { ctx.beginPath(); ctx.arc(n.proj.px, n.proj.py, n.mod9===0?4:1.5, 0, Math.PI*2); ctx.fill(); }
+        });
+        
+        ctx.restore(); 
+        if (!isFrozen) t++; 
+        requestAnimationFrame(draw);
+    }
+    draw();
+</script>
+</body>
+</html>
