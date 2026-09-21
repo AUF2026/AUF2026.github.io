@@ -1,0 +1,588 @@
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Faure vs Modello Standard — Equazioni, Manifest e Riproduzione</title>
+
+  <style>
+    /* BODY: identico ma ora full-width + centrato + flex */
+    body{
+        font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+        line-height:1.5;
+        color:#111;
+
+        margin:1rem;
+        padding:1rem;
+
+        /* RIMOSSO max-width:1100px */
+        width:95%;
+
+        /* FLEX + CENTRATO */
+        display:flex;
+        justify-content:center;
+
+        /* Mantiene la colonna come ora */
+        flex-direction:column;
+
+        background:#fff;
+    }
+
+    /* CONTENITORE CENTRALE IDENTICO MA CON MARGINI */
+    .container{
+        width:100%;
+        max-width:1100px; /* identico al tuo stile */
+        margin:0 auto;    /* centrato */
+    }
+
+    header,h1,h2,h3{
+        margin:0 0 .5rem;
+        text-align:left; /* identico */
+    }
+
+    .badge{
+        display:inline-block;
+        padding:.25rem .5rem;
+        background:#0b6;
+        color:#fff;
+        border-radius:.25rem;
+        font-weight:600;
+    }
+
+    .badge-warning{
+        display:inline-block;
+        padding:.25rem .5rem;
+        background:#c96;
+        color:#fff;
+        border-radius:.25rem;
+        font-weight:600;
+    }
+
+    .section{
+        margin:1.25rem 0;
+        padding:1rem;
+        border-radius:.5rem;
+        background:#f8f9fb;
+        width:100%;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    th,td{
+        padding:.5rem;
+        border:1px solid #ddd;
+        text-align:left;
+        font-size:.95rem;
+    }
+
+    pre{
+        background:#0f1720;
+        color:#e6eef8;
+        padding:.75rem;
+        border-radius:.4rem;
+        overflow:auto;
+    }
+
+    .controls{
+        display:flex;
+        gap:.5rem;
+        flex-wrap:wrap;
+        margin:.5rem 0;
+    }
+
+    .btn{
+        padding:.4rem .7rem;
+        border-radius:.35rem;
+        border:1px solid #ccc;
+        background:#fff;
+        cursor:pointer;
+    }
+
+    .note{
+        font-size:.9rem;
+        color:#444;
+    }
+
+    code{
+        font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+</style>
+
+</head>
+
+<body>
+
+  <header>
+    <h1>Faure ToE — Confronto Numerico: Faure vs Modello Standard</h1>
+    <div class="note">
+      Pagina di audit, riproduzione e confronto numerico tra il paradigma Faure (TOE Tupla Universale, Tupla Primitiva, Tupla di Trasporto, P1‑P16, AOS144/HDFP) e il modello probabilistico standard.
+      Questa pagina è uno strato di presentazione: ogni stato formale è determinato dai file Lean e dalle applicazioni Python locali.
+    </div>
+
+    <div style="margin-top:.5rem">
+      <span class="badge">CORE TOE (P1‑P16, Tupla Universale, Tupla Primitiva, Trasporto): FORMALMENTE VERIFICATO IN LEAN</span>
+      <span class="badge-warning" style="margin-left:.4rem">ESTENSIONI AOS144/HDFP E 90 CLAIM STORICI: IN AUDIT CONTINUO</span>
+      <span style="margin-left:.6rem" class="note">Ultimo aggiornamento: ricostruzione basata sui percorsi locali forniti</span>
+    </div>
+  </header>
+
+  <section class="section" id="abstract">
+    <h2>Abstract</h2>
+    <p>
+      Questa pagina mostra il mapping tra:
+      <strong>LOCAL CORPUS</strong> (file Lean e applicazioni Python),
+      <strong>DICHIARAZIONI FORMALI</strong>,
+      <strong>DAG MATEMATICO</strong>,
+      <strong>EVIDENCE MANIFEST</strong>,
+      <strong>P1 / STRUCTURAL CORE / FAURE / 90 CLAIMS</strong>,
+      <strong>REPRODUZIONE COMPUTAZIONALE</strong> (AOS144/HDFP, NSSE/MSSE),
+      e lo strato di presentazione HTML.
+    </p>
+    <p>
+      Ogni affermazione di stato (formale, computazionale, fisico) deve essere supportata da:
+      build Lean riuscito, esecuzione Python riproducibile, e — dove applicabile — dati sperimentali.
+      Questa pagina non è prova matematica: è un cruscotto di audit.
+    </p>
+  </section>
+
+  <section class="section" id="formal-status">
+    <h2>Stato formale e artefatti Lean</h2>
+
+    <p class="note">
+      Elenco dei file Lean della TOE Faure, separando:
+      <strong>CORE VERIFICATO</strong> (P1‑S01…P1‑S16, Tupla Universale, Tupla Primitiva, Trasporto, FDM),
+      e <strong>ESTENSIONI ANCORA DA VALIDARE</strong>.
+      Lo stato reale è determinato dal corpus locale e dai log di build, non da questa pagina.
+    </p>
+
+    <h3>Core TOE — Tupla Universale, Tupla Primitiva, FDM, P1‑P16</h3>
+    <ul>
+      <li><strong>Singlepointmind (famiglia P1‑S01…P1‑S16)</strong></li>
+      <ul>
+        <li><a data-file="Singlepointmind.lean">Singlepointmind.lean</a></li>
+        <li><a data-file="Singlepointmind1.lean">Singlepointmind1.lean</a></li>
+        <li><a data-file="Singlepointmind2.lean">Singlepointmind2.lean</a></li>
+        <li><a data-file="Singlepointmind3.lean">Singlepointmind3.lean</a></li>
+        <li><a data-file="Singlepointmind4.lean">Singlepointmind4.lean</a></li>
+        <li><a data-file="Singlepointmind5.lean">Singlepointmind5.lean</a></li>
+        <li><a data-file="Singlepointmind6.lean">Singlepointmind6.lean</a></li>
+        <li><a data-file="Singlepointmind7.lean">Singlepointmind7.lean</a></li>
+        <li><a data-file="Singlepointmind8.lean">Singlepointmind8.lean</a></li>
+        <li><a data-file="Singlepointmind9.lean">Singlepointmind9.lean</a></li>
+        <li><a data-file="Singlepointmind10.lean">Singlepointmind10.lean</a></li>
+        <li><a data-file="Singlepointmind11.lean">Singlepointmind11.lean</a></li>
+        <li><a data-file="Singlepointmind12.lean">Singlepointmind12.lean</a></li>
+        <li><a data-file="Singlepointmind13.lean">Singlepointmind13.lean</a></li>
+        <li><a data-file="Singlepointmind14.lean">Singlepointmind14.lean</a></li>
+        <li><a data-file="Singlepointmind15.lean">Singlepointmind15.lean</a></li>
+        <li><a data-file="Singlepointmind16.lean">Singlepointmind16.lean</a></li>
+        <li><a data-file="Singlepointmind17.lean">Singlepointmind17.lean</a></li>
+        <li><a data-file="Singlepointmind18.lean">Singlepointmind18.lean</a></li>
+      </ul>
+
+      <li><strong>Tupla Universale / FDM Core</strong></li>
+      <ul>
+        <li><a data-file="AUF2026_Faure_TOE_Universal_Tuple_FDM_Core.lean">AUF2026_Faure_TOE_Universal_Tuple_FDM_Core.lean</a></li>
+        <li><a data-file="UniversalToeTuple_U_F.lean">UniversalToeTuple_U_F.lean</a></li>
+        <li><a data-file="FAURE_FDM_COMPLETE FORMALISM.lean">FAURE_FDM_COMPLETE FORMALISM.lean</a></li>
+        <li><a data-file="FAURE_FDM_COMPLETE FORMALISM_IMMUTABLE_BACKUP.lean">FAURE_FDM_COMPLETE FORMALISM_IMMUTABLE_BACKUP.lean</a></li>
+        <li><a data-file="FAURE_FDM_Faure_Deterministic_Mathematics.lean">FAURE_FDM_Faure_Deterministic_Mathematics.lean</a></li>
+        <li><a data-file="FAURE_FDM_theorem.lean">FAURE_FDM_theorem.lean</a></li>
+        <li><a data-file="FAURE_ANCHESTRAL_THEOREM_FDM.lean">FAURE_ANCHESTRAL_THEOREM_FDM.lean</a></li>
+        <li><a data-file="FAURE-FDM-CORE-ONLY FOUNDATION.lean">FAURE-FDM-CORE-ONLY FOUNDATION.lean</a></li>
+      </ul>
+
+      <li><strong>Tupla Primitiva, Trasporto, Struttura Primordiale</strong></li>
+      <ul>
+        <li><a data-file="The Definitive Algebraic Foundations, Operator  Universal Tuple (Faure EASY Proofs).lean">The Definitive Algebraic Foundations, Operator  Universal Tuple (Faure EASY Proofs).lean</a></li>
+        <li><a data-file="The Definitive Algebraic Foundations, Operator.lean">The Definitive Algebraic Foundations, Operator.lean</a></li>
+        <li><a data-file="AOS144 TOE TUPLA FDM - Kernel 129 DEC.lean">AOS144 TOE TUPLA FDM - Kernel 129 DEC.lean</a></li>
+      </ul>
+
+      <li><strong>Teoremi I–X, Invarianze, Sintesi</strong></li>
+      <ul>
+        <li><a data-file="FAURE_ToE_Tupla_FDM_Teorema_I.lean">FAURE_ToE_Tupla_FDM_Teorema_I.lean</a></li>
+        <li><a data-file="FAURE_Invarianza_Entropica_MasterTeorema_II.lean">FAURE_Invarianza_Entropica_MasterTeorema_II.lean</a></li>
+        <li><a data-file="FAURE_Analisi_Coerenza_Incoerenza_MasterTeorema_III.lean">FAURE_Analisi_Coerenza_Incoerenza_MasterTeorema_III.lean</a></li>
+        <li><a data-file="FAURE_Stabilizzazione_Campo_Densita_Energetica_MasterTeorema_IV.lean">FAURE_Stabilizzazione_Campo_Densita_Energetica_MasterTeorema_IV.lean</a></li>
+        <li><a data-file="FAURE_Sintesi_Universale_Validazione_Finale_Teorema_V.lean">FAURE_Sintesi_Universale_Validazione_Finale_Teorema_V.lean</a></li>
+        <li><a data-file="FAURE_Omogeneita_Armonica_Sistemi_Complessi_Teorema_VI.lean">FAURE_Omogeneita_Armonica_Sistemi_Complessi_Teorema_VI.lean</a></li>
+        <li><a data-file="FAURE_VincoloDellaMetricaAngolareDiscreta_RisoluzioneDelDifettoDiParallasse_TeoremaVI.lean">FAURE_VincoloDellaMetricaAngolareDiscreta_RisoluzioneDelDifettoDiParallasse_TeoremaVI.lean</a></li>
+        <li><a data-file="FAURE_Invarianza_Isomorfa_del_Lattice_e_Coerenza_Elicoidale_TOTUM_Teorema_VIII.lean">FAURE_Invarianza_Isomorfa_del_Lattice_e_Coerenza_Elicoidale_TOTUM_Teorema_VIII.lean</a></li>
+        <li><a data-file="FAURE Assioma della Stazionarietà Piana e Vincolo di Contenimento VolumetricoTeorema IX.lean">FAURE Assioma della Stazionarietà Piana e Vincolo di Contenimento VolumetricoTeorema IX.lean</a></li>
+        <li><a data-file="FAURE Serie e Matrici Deterministiche di Faure Teorema X.lean">FAURE Serie e Matrici Deterministiche di Faure Teorema X.lean</a></li>
+      </ul>
+
+      <li><strong>Altri teoremi e strutture</strong></li>
+      <ul>
+        <li><a data-file="Faure_Torus_Laplacian_Ratio.lean">Faure_Torus_Laplacian_Ratio.lean</a></li>
+        <li><a data-file="Faure_Hyper_Resolution.lean">Faure_Hyper_Resolution.lean</a></li>
+        <li><a data-file="Faure_Sync_Loop.lean">Faure_Sync_Loop.lean</a></li>
+        <li><a data-file="Faure_Taylor_Seed.lean">Faure_Taylor_Seed.lean</a></li>
+        <li><a data-file="Faure_Theorem_X.lean">Faure_Theorem_X.lean</a></li>
+        <li><a data-file="Faure_Theorem_IX.lean">Faure_Theorem_IX.lean</a></li>
+        <li><a data-file="Faure_Theorem_VIII.lean">Faure_Theorem_VIII.lean</a></li>
+        <li><a data-file="Faure_Theorem_VII.lean">Faure_Theorem_VII.lean</a></li>
+        <li><a data-file="Faure_Theorem_VI.lean">Faure_Theorem_VI.lean</a></li>
+        <li><a data-file="Faure_Theorem_V.lean">Faure_Theorem_V.lean</a></li>
+        <li><a data-file="Faure_Theorem_IV.lean">Faure_Theorem_IV.lean</a></li>
+        <li><a data-file="Faure_Invariance_144.lean">Faure_Invariance_144.lean</a></li>
+        <li><a data-file="Faure_Discrete_Flux.lean">Faure_Discrete_Flux.lean</a></li>
+        <li><a data-file="Faure_Theorem_III_INVARIANZA_ENTROPICA_MASTER.lean">Faure_Theorem_III_INVARIANZA_ENTROPICA_MASTER.lean</a></li>
+        <li><a data-file="Faure_Theorem_I_ANALISI_BILANCIAMENTO_DETERMINISTICO.lean">Faure_Theorem_I_ANALISI_BILANCIAMENTO_DETERMINISTICO.lean</a></li>
+        <li><a data-file="Faure_Phase_Coherence_Invariance_Theorem.lean">Faure_Phase_Coherence_Invariance_Theorem.lean</a></li>
+        <li><a data-file="Faure_Saddle_Geometry.lean">Faure_Saddle_Geometry.lean</a></li>
+        <li><a data-file="Faure_Wielandt_ToE.lean">Faure_Wielandt_ToE.lean</a></li>
+        <li><a data-file="Faure_Gleason_Born.lean">Faure_Gleason_Born.lean</a></li>
+      </ul>
+
+      <li><strong>File abbreviati (.LEA) collegati al core</strong></li>
+      <ul>
+        <li><a data-file="THEFAU~1.LEA">THEFAU~1.LEA</a></li>
+        <li><a data-file="THEUNI~3.LEA">THEUNI~3.LEA</a></li>
+        <li><a data-file="THESTR~1.LEA">THESTR~1.LEA</a></li>
+        <li><a data-file="THEUNI~2.LEA">THEUNI~2.LEA</a></li>
+        <li><a data-file="THEPRI~1.LEA">THEPRI~1.LEA</a></li>
+        <li><a data-file="THEUNI~1.LEA">THEUNI~1.LEA</a></li>
+        <li><a data-file="THEMON~3.LEA">THEMON~3.LEA</a></li>
+        <li><a data-file="THEMON~2.LEA">THEMON~2.LEA</a></li>
+        <li><a data-file="THEMON~1.LEA">THEMON~1.LEA</a></li>
+        <li><a data-file="THEDIS~1.LEA">THEDIS~1.LEA</a></li>
+        <li><a data-file="THEHAR~1.LEA">THEHAR~1.LEA</a></li>
+        <li><a data-file="THESPE~1.LEA">THESPE~1.LEA</a></li>
+        <li><a data-file="THECAN~1.LEA">THECAN~1.LEA</a></li>
+      </ul>
+    </ul>
+
+    <h3>Estensioni Lean ancora da validare (AOS144/HDFP, kernel, applicazioni fisiche)</h3>
+    <p class="note">
+      Questi file sono parte del corpus ma il loro stato formale deve essere determinato da build Lean e log locali.
+      Qui sono elencati come <strong>IN VALIDAZIONE</strong>.
+    </p>
+    <ul>
+      <li><a data-file="Faure_Asymmetric_Sign_Preservation.lean">Faure_Asymmetric_Sign_Preservation.lean</a> (in validazione)</li>
+      <li><a data-file="Faure_Asymmetric_Sign_Preservation.V2lean.lean">Faure_Asymmetric_Sign_Preservation.V2lean.lean</a> (in validazione)</li>
+      <li><a data-file="Faure_Bare_Operator_Resolvent.lean">Faure_Bare_Operator_Resolvent.lean</a></li>
+      <li><a data-file="Faure_Binary_Lattice_Clock.lean">Faure_Binary_Lattice_Clock.lean</a></li>
+      <li><a data-file="Faure_Bloch_Deconstruction_Lattice.lean">Faure_Bloch_Deconstruction_Lattice.lean</a></li>
+      <li><a data-file="Faure_Bloch_Spectral_Unification.lean">Faure_Bloch_Spectral_Unification.lean</a></li>
+      <!-- … tutti gli altri file Lean “ANCORA DA VALIDARE TOE-TUPLA-FDM” elencati nel corpus locale … -->
+      <li><a data-file="Faure_Toroidal_Grid_Geometry_APP_AOS144_HDFP.lean">Faure_Toroidal_Grid_Geometry_APP_AOS144_HDFP.lean</a></li>
+      <li><a data-file="Faure_Toroidal_Laplacian_Spectrum.lean">Faure_Toroidal_Laplacian_Spectrum.lean</a></li>
+      <li><a data-file="Faure_Toroidal_Spectral_Fourier_Kernel.lean">Faure_Toroidal_Spectral_Fourier_Kernel.lean</a></li>
+      <li><a data-file="Faure_Torus_Matrix_144.lean">Faure_Torus_Matrix_144.lean</a></li>
+      <li><a data-file="Faure_Theory_Of_Everything.lean">Faure_Theory_Of_Everything.lean</a></li>
+      <li><a data-file="Faure_Unified_ToE.lean">Faure_Unified_ToE.lean</a></li>
+      <li><a data-file="Faure_Universal_Spectral_Theorem.lean">Faure_Universal_Spectral_Theorem.lean</a></li>
+      <li><a data-file="Faure_Universal_Unification.lean">Faure_Universal_Unification.lean</a></li>
+      <li><a data-file="Faure_Wielandt_Primitivity_Torus.lean">Faure_Wielandt_Primitivity_Torus.lean</a></li>
+    </ul>
+  </section>
+
+  <section class="section" id="python-apps">
+    <h2>Applicazioni Python e manifest computazionali</h2>
+
+    <p class="note">
+      Le applicazioni Python costituiscono il livello di <strong>COMPUTATIONAL EVIDENCE</strong> (AOS144, NSSE/MSSE, WATER, validatori).
+      Qui sono mappate rispetto al corpus Lean e ai claim fisici.
+    </p>
+
+    <ul>
+      <li><strong>Dashboard AOS144 / HDFP</strong></li>
+      <ul>
+        <li><a data-file="AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD.py">AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD.py</a></li>
+        <li><a data-file="AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD_V2_GUI.py">AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD_V2_GUI.py</a></li>
+        <li><a data-file="AOS_Engine_Validator_Master_V1.0.py">AOS_Engine_Validator_Master_V1.0.py</a></li>
+        <li><a data-file="toe_validator_faure_aos144.py">toe_validator_faure_aos144.py</a></li>
+      </ul>
+
+      <li><strong>WATER — Teoria Universale dell’Acqua (derivazione, verifica, riproduzione)</strong></li>
+      <ul>
+        <li><a data-file="FaureUniversalTheory_UF_VerificationApp.py">FaureUniversalTheory_UF_VerificationApp.py</a></li>
+        <li><a data-file="UniversalToeTuple_U_F_Demo.py">UniversalToeTuple_U_F_Demo.py</a></li>
+        <li><a data-file="Faure_Water_Verification.py">Faure_Water_Verification.py</a></li>
+        <li><a data-file="Faure_Water_Reproducible_Examples.py">Faure_Water_Reproducible_Examples.py</a></li>
+        <li><a data-file="FAURE_WATER_DERIVATION_Exact Faure Water Demonstrator.py">FAURE_WATER_DERIVATION_Exact Faure Water Demonstrator.py</a></li>
+        <li><a data-file="FAURE WATER UNIVERSAL THEORY FORMAL VERIFICATION.md">FAURE WATER UNIVERSAL THEORY FORMAL VERIFICATION.md</a></li>
+        <li><a data-file="FAURE WATER UNIVERSAL THEORY DERIVATION EXACT STRUCTURAL PROOF.md">FAURE WATER UNIVERSAL THEORY DERIVATION EXACT STRUCTURAL PROOF.md</a></li>
+        <li><a data-file="FAURE WATER UNIVERSAL THEORY README.md">FAURE WATER UNIVERSAL THEORY README.md</a></li>
+        <li><a data-file="FAURE WATER UNIVERSAL THEORY MATHEMATICAL DERIVATION.md">FAURE WATER UNIVERSAL THEORY MATHEMATICAL DERIVATION.md</a></li>
+      </ul>
+
+      <li><strong>NSSE/MSSE e moduli fisici</strong></li>
+      <ul>
+        <li><a data-file="NSSE_WAKE_CONVOLUTION_ENGINE_V1.0.py">NSSE_WAKE_CONVOLUTION_ENGINE_V1.0.py</a></li>
+        <li><a data-file="msse_wake_convolution_engine.json">msse_wake_convolution_engine.json</a></li>
+        <li><a data-file="conferma_bootstrap_kernel_Faure.py">conferma_bootstrap_kernel_Faure.py</a></li>
+        <li><a data-file="conferma_chiusura_olografica_Faure.py">conferma_chiusura_olografica_Faure.py</a></li>
+        <li><a data-file="conferma_modulo_geofisico_Faure.py">conferma_modulo_geofisico_Faure.py</a></li>
+        <li><a data-file="conferma_corrispondenza_reale_Faure.py">conferma_corrispondenza_reale_Faure.py</a></li>
+        <li><a data-file="conferma_granularità_scala_unificata.py">conferma_granularità_scala_unificata.py</a></li>
+        <li><a data-file="conferma_corrispondenza_scala_Faure.py">conferma_corrispondenza_scala_Faure.py</a></li>
+        <li><a data-file="conferma_scalabilità_modello_Faure.py">conferma_scalabilità_modello_Faure.py</a></li>
+      </ul>
+
+      <li><strong>Manifest, checklist, supplementi</strong></li>
+      <ul>
+        <li><a data-file="FORMAL_VERIFICATION_CORPUS_MANIFEST.md">FORMAL_VERIFICATION_CORPUS_MANIFEST.md</a></li>
+        <li><a data-file="COMPUTATIONAL_SUPPLEMENT_MANIFEST.md">COMPUTATIONAL_SUPPLEMENT_MANIFEST.md</a></li>
+        <li><a data-file="CLAIMS_AND_VERIFICATION_STATUS.md">CLAIMS_AND_VERIFICATION_STATUS.md</a></li>
+        <li><a data-file="EXCLUSIONS_AND_PLACEHOLDERS.md">EXCLUSIONS_AND_PLACEHOLDERS.md</a></li>
+        <li><a data-file="DATA AVAILABILITY.txt">DATA AVAILABILITY.txt</a></li>
+        <li><a data-file="WATER_Data_and_Code_Availability.md">WATER_Data_and_Code_Availability.md</a></li>
+        <li><a data-file="ANNALS_SUBMISSION_CHECKLIST.md">ANNALS_SUBMISSION_CHECKLIST.md</a></li>
+        <li><a data-file="Submission_Checklist.md">Submission_Checklist.md</a></li>
+        <li><a data-file="README_FOR_REVIEWER.md">README_FOR_REVIEWER.md</a></li>
+        <li><a data-file="README_SUBMISSION.md">README_SUBMISSION.md</a></li>
+        <li><a data-file="AOS Manual.md">AOS Manual.md</a></li>
+        <li><a data-file="manuscript.tex.md">manuscript.tex.md</a></li>
+        <li><a data-file="AI_DISCLOSURE.md">AI_DISCLOSURE.md</a></li>
+        <li><a data-file="WATER_Reference.md">WATER_Reference.md</a></li>
+        <li><a data-file="WATER_Results_and_Experimental_Comparison.md">WATER_Results_and_Experimental_Comparison.md</a></li>
+        <li><a data-file="WATER_Discussion.md">WATER_Discussion.md</a></li>
+        <li><a data-file="WATER_Results.md">WATER_Results.md</a></li>
+        <li><a data-file="WATER_Methods.md">WATER_Methods.md</a></li>
+        <li><a data-file="Supplementary_Information_Water.md">Supplementary_Information_Water.md</a></li>
+        <li><a data-file="WATER MDSO README.md">WATER MDSO README.md</a></li>
+        <li><a data-file="SUBMISSION_NOTE.md">SUBMISSION_NOTE.md</a></li>
+        <li><a data-file="WATER_APP_Requirements.txt">WATER_APP_Requirements.txt</a></li>
+      </ul>
+    </ul>
+  </section>
+
+  <section class="section" id="mapping">
+    <h2>Mapping ipotesi → osservabili → livelli di evidenza</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Assunzione formale (Lean)</th>
+          <th>Osservabile fisico</th>
+          <th>Protocollo computazionale (Python / AOS144)</th>
+          <th>Stato evidenza</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>Transport R(a,s) → R'(T(a), φ(s)) (Tupla di Trasporto, Tupla Universale)</td>
+          <td>Shift spettrale su torus / lattice (AOS144/HDFP)</td>
+          <td>AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD, toe_validator_faure_aos144.py</td>
+          <td>
+            <strong>Matematica:</strong> derivazione Lean nel core FDM<br>
+            <strong>Computazionale:</strong> riproduzione numerica tramite AOS144 (valori specifici determinati dai run locali)<br>
+            <strong>Fisica:</strong> stato dipendente dai dataset in WATER_Results_and_Experimental_Comparison.md
+          </td>
+        </tr>
+
+        <tr>
+          <td>Tupla Primitiva F = (A,A',S,S',R,R',T,φ)</td>
+          <td>Configurazione discreta di stati e transizioni</td>
+          <td>UniversalToeTuple_U_F_Demo.py, FaureUniversalTheory_UF_VerificationApp.py</td>
+          <td>
+            <strong>Matematica:</strong> formalizzata nei file Lean della Tupla Universale/Primitiva<br>
+            <strong>Computazionale:</strong> esempi riproducibili in Faure_Water_Reproducible_Examples.py<br>
+            <strong>Fisica:</strong> mapping verso osservabili documentato in WATER_Methods.md
+          </td>
+        </tr>
+
+        <tr>
+          <td>Ricostruzione Born via Gleason (Faure_Gleason_Born.lean)</td>
+          <td>Misure additive e probabilità discrete</td>
+          <td>Faure_Water_Verification.py, FAURE WATER UNIVERSAL THEORY FORMAL VERIFICATION.md</td>
+          <td>
+            <strong>Matematica:</strong> dimostrazione Lean nel corpus Gleason/Born<br>
+            <strong>Computazionale:</strong> verifica numerica tramite app WATER (risultati specifici nei file WATER_Results*.md)<br>
+            <strong>Fisica:</strong> confronto con dati sperimentali in Supplementary_Information_Water.md
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      Non sono usati placeholder come “X ± ε”, “Pattern Y”, “Errore &lt; δ”.
+      I valori numerici concreti sono determinati dalle esecuzioni locali delle app Python e dai dataset associati, e devono essere riportati nei manifest (COMPUTATIONAL_SUPPLEMENT_MANIFEST.md, WATER_Results_and_Experimental_Comparison.md).
+    </div>
+  </section>
+
+  <section class="section" id="demo">
+    <h2>Demo comparativa (strato di riproduzione)</h2>
+
+    <div class="controls">
+      <button class="btn" id="load-default">Carica manifest</button>
+      <button class="btn" id="run-compare">Confronto Faure vs Modello Standard</button>
+      <button class="btn" id="download-data">Scarica dataset / manifest</button>
+    </div>
+
+    <div id="chart" style="height:360px;background:#fff;border:1px solid #eee;display:flex;align-items:center;justify-content:center">
+      <div class="note">Grafico interattivo basato sui risultati dei run AOS144/WATER (da eseguire localmente).</div>
+    </div>
+  </section>
+
+  <section class="section" id="reproduce">
+    <h2>Istruzioni di riproduzione (pipeline PRO di audit)</h2>
+
+    <pre><code># 1. Corpus Inventory (Lean + Python)
+#   - usare FORMAL_VERIFICATION_CORPUS_MANIFEST.md e COMPUTATIONAL_SUPPLEMENT_MANIFEST.md
+#   - verificare che tutti i file elencati in questa pagina siano presenti nel filesystem locale
+
+# 2. Build / Toolchain Extraction (Lean)
+lake build
+
+# 3. Dependency Extraction & DAG (Lean)
+#   - usare gli script locali (es. toe_validator_faure_aos144.py) per estrarre dipendenze
+#   - generare un DAG dei teoremi core (P1‑P16, Tupla Universale, Tupla Primitiva, FDM)
+
+# 4. Demo numerica AOS144 / HDFP
+python3 "AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD.py"
+python3 "AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD_V2_GUI.py"
+python3 toe_validator_faure_aos144.py
+
+# 5. WATER — derivazione e verifica
+python3 FaureUniversalTheory_UF_VerificationApp.py
+python3 UniversalToeTuple_U_F_Demo.py
+python3 Faure_Water_Verification.py
+python3 Faure_Water_Reproducible_Examples.py
+python3 "FAURE_WATER_DERIVATION_Exact Faure Water Demonstrator.py"
+
+# 6. NSSE/MSSE e moduli fisici
+python3 NSSE_WAKE_CONVOLUTION_ENGINE_V1.0.py
+python3 conferma_bootstrap_kernel_Faure.py
+python3 conferma_chiusura_olografica_Faure.py
+python3 conferma_modulo_geofisico_Faure.py
+python3 conferma_corrispondenza_reale_Faure.py
+
+# 7. SHA-256 Hashing (esempi)
+sha256sum AUF2026_Faure_TOE_Universal_Tuple_FDM_Core.lean
+sha256sum FAURE_FDM_COMPLETE\ FORMALISM.lean
+sha256sum "AOS144 TOROIDAL FRAMEWORK GRAPHICAL DASHBOARD.py"
+sha256sum FaureUniversalTheory_UF_VerificationApp.py
+
+# 8. Evidence Manifest Generation
+#   - aggiornare FORMAL_VERIFICATION_CORPUS_MANIFEST.md con:
+#       * stato Lean (build OK / KO)
+#       * livello: HISTORICAL / FAURE REFORMULATION / MATHEMATICAL DERIVATION / LEAN FORMALIZATION / LEAN VERIFICATION
+#   - aggiornare COMPUTATIONAL_SUPPLEMENT_MANIFEST.md con:
+#       * stato Python (run OK / KO)
+#       * livello: COMPUTATIONAL REPRODUCTION / PHYSICAL / EMPIRICAL STATUS
+
+# 9. HTML Audit Dashboard
+#   - questa pagina è lo strato di presentazione
+#   - ogni claim deve puntare a un artefatto Lean/Python e a un manifest aggiornato</code></pre>
+  </section>
+
+  <section class="section" id="references">
+    <h2>Riferimenti e livelli di stato</h2>
+    <ul>
+      <li><strong>LOCAL CORPUS:</strong> tutti i file Lean e Python elencati nelle sezioni precedenti.</li>
+      <li><strong>DECLARATIONS / DEPENDENCIES / DAG:</strong> determinati dai file Lean core (P1‑P16, Tupla Universale, Tupla Primitiva, FDM) e dai log di build.</li>
+      <li><strong>EVIDENCE MANIFEST:</strong> FORMAL_VERIFICATION_CORPUS_MANIFEST.md, COMPUTATIONAL_SUPPLEMENT_MANIFEST.md, CLAIMS_AND_VERIFICATION_STATUS.md.</li>
+      <li><strong>P1 / STRUCTURAL CORE / FAURE / 90 CLAIMS:</strong> ricostruiti e mappati nei manifest; lo stato di ciascun claim deve essere esplicito (stabilito / concettuale / non stabilito).</li>
+      <li><strong>REPRODUZIONE:</strong> app AOS144, WATER, NSSE/MSSE, validatori Python.</li>
+      <li><strong>HTML AUDIT APPLICATION:</strong> questa pagina, che non aggiunge prova matematica ma rende trasparente lo stato del corpus.</li>
+    </ul>
+  </section>
+
+  <footer style="margin-top:1.5rem">
+    <div class="note">
+      Separazione netta:
+      <strong>FILE</strong> ≠ <strong>RISULTATO</strong> •
+      <strong>HTML</strong> ≠ <strong>PROVA</strong> •
+      <strong>CONCETTUALE</strong> ≠ <strong>FORMALE</strong> •
+      <strong>FORMAL VERIFICATION</strong> ≠ <strong>PHYSICAL VALIDATION</strong> •
+      <strong>LEAN BUILD SUCCESS</strong> ≠ <strong>SCIENTIFIC NOVELTY</strong> •
+      <strong>SCIENTIFIC NOVELTY</strong> ≠ <strong>PHYSICAL TRUTH</strong>.
+    </div>
+  </footer>
+
+  </section>
+
+  <section class="section" id="demo">
+    <h2>Demo comparativa (strato di riproduzione)</h2>
+    <p class="note">
+      I pulsanti sotto interrogano il backend di audit:
+      <strong>Carica manifest</strong> legge i manifest e il DAG,
+      <strong>Confronto Faure vs Modello Standard</strong> esegue le app Python di confronto,
+      <strong>Scarica dataset / manifest</strong> scarica i risultati numerici e i manifest aggiornati.
+    </p>
+
+    <div class="controls">
+      <button class="btn" id="load-default">Carica manifest</button>
+      <button class="btn" id="run-compare">Confronto Faure vs Modello Standard</button>
+      <button class="btn" id="download-data">Scarica dataset / manifest</button>
+    </div>
+
+    <div id="chart">
+      <pre>// Output del backend (manifest, risultati, DAG) verrà mostrato qui.</pre>
+    </div>
+  </section>
+
+  <section class="section" id="reproduce">
+    <h2>Istruzioni di riproduzione (pipeline PRO di audit)</h2>
+    <p>
+      La riproduzione completa richiede:
+    </p>
+    <ul>
+      <li>Accesso al corpus Lean locale (directory <code>data/lean</code>).</li>
+      <li>Accesso alle applicazioni Python (<code>data/python</code>).</li>
+      <li>Backend Python di audit in esecuzione (FastAPI/Flask) con gli endpoint:
+        <code>/api/manifest</code>, <code>/api/validate/lean</code>, <code>/api/validate/python</code>, <code>/api/validate/aos144</code>, <code>/api/run-comparison</code>, <code>/api/dag</code>.
+      </li>
+      <li>Manifest aggiornati in <code>data/manifests</code>:
+        <code>FORMAL_VERIFICATION_CORPUS_MANIFEST.md</code>,
+        <code>COMPUTATIONAL_SUPPLEMENT_MANIFEST.md</code>,
+        <code>CLAIMS_AND_VERIFICATION_STATUS.md</code>,
+        <code>WATER_Results_and_Experimental_Comparison.md</code>.
+      </li>
+    </ul>
+  </section>
+
+</div>
+
+<script>
+async function callApi(path, options = {}) {
+  const res = await fetch(path, options);
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || ('HTTP ' + res.status));
+  }
+  return res.json();
+}
+
+function showOutput(obj) {
+  const chart = document.getElementById('chart');
+  chart.innerHTML = '<pre>' + JSON.stringify(obj, null, 2) + '</pre>';
+}
+
+document.getElementById('load-default').addEventListener('click', async () => {
+  try {
+    const data = await callApi('/api/manifest');
+    showOutput(data);
+  } catch (err) {
+    showOutput({ error: 'Errore nel caricamento manifest', detail: err.message });
+  }
+});
+
+document.getElementById('run-compare').addEventListener('click', async () => {
+  try {
+    const data = await callApi('/api/run-comparison', { method: 'POST' });
+    showOutput(data);
+  } catch (err) {
+    showOutput({ error: 'Errore nel confronto Faure vs Modello Standard', detail: err.message });
+  }
+});
+
+document.getElementById('download-data').addEventListener('click', () => {
+  window.location.href = '/api/download?type=dataset';
+});
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
