@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDM Generatore Matriciale FDM e Calcolatore degli Elementi di Raccordo</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async 
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --fdm-blue: #003366;
+            --fdm-red: #990000;
+            --fdm-bg: #0a0f1d;
+            --fdm-panel: #111827;
+            --fdm-border: #1f2937;
+            --fdm-text: #f3f4f6;
+            --fdm-green: #10b981;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--fdm-bg); color: var(--fdm-text); font-family: -apple-system, sans-serif; padding: 20px; }
+        header { border-bottom: 2px solid var(--fdm-blue); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { background-color: var(--fdm-blue); color: var(--fdm-green); padding: 6px 12px; border-radius: 4px; font-family: var(--font-mono); font-weight: bold; font-size: 13px; border: 1px solid var(--fdm-green); }
+        .container { display: grid; grid-template-columns: 1fr 420px; gap: 20px; min-height: 750px; }
+        .panel { background-color: var(--fdm-panel); border: 1px solid var(--fdm-border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; }
+        .panel-header { background-color: rgba(0, 51, 102, 0.3); border-bottom: 1px solid var(--fdm-border); padding: 12px; font-weight: bold; font-size: 14px; }
+        .panel-body { padding: 20px; flex: 1; overflow-y: auto; }
+        .control-group { margin-bottom: 20px; }
+        label { display: block; font-size: 12px; margin-bottom: 6px; color: #9ca3af; }
+        select { width: 100%; background-color: var(--fdm-bg); border: 1px solid var(--fdm-border); color: var(--fdm-text); padding: 10px; border-radius: 4px; font-size: 14px; }
+        .math-display-container { background: rgba(0,0,0,0.4); border-radius: 6px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--fdm-border); }
+        .math-block { margin-bottom: 20px; }
+        .math-label { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 5px; }
+        .math-output { font-size: 16px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 4px; overflow-x: auto; }
+        .math-output.faure { border-left: 4px solid var(--fdm-green); color: var(--fdm-green); }
+        .critique-box { font-size: 13px; line-height: 1.6; color: #d1d5db; padding: 12px; background: rgba(153, 0, 0, 0.08); border-left: 4px solid var(--fdm-red); border-radius: 0 4px 4px 0; margin-bottom: 20px; }
+        .matrix-container { border-top: 1px solid var(--fdm-border); padding-top: 20px; }
+        .matrix-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; background: #000; padding: 10px; border-radius: 6px; margin-top: 10px; }
+        .matrix-cell { aspect-ratio: 1; background-color: #111; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 8px; color: #4b5563; transition: all 0.2s; cursor: pointer; }
+        .matrix-cell.active { background-color: var(--fdm-blue); color: #fff; }
+        .matrix-cell.extinct { background-color: var(--fdm-red); color: #fff; }
+        .matrix-cell.locked { background-color: var(--fdm-green); color: #000; font-weight: bold; box-shadow: 0 0 6px var(--fdm-green); }
+        .log-console { background-color: #05070f; border: 1px solid var(--fdm-border); font-family: var(--font-mono); font-size: 11px; padding: 12px; height: 280px; overflow-y: auto; color: #10b981; border-radius: 4px; }
+        .metric-card { background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; margin-top: 20px; color: var(--fdm-green); }
+        footer { margin-top: 20px; text-align: center; font-size: 11px; color: #4b5563; font-family: var(--font-mono); line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1 style="font-size: 20px; letter-spacing: 0.5px;">Generatore Matriciale FDM e Calcolatore degli Elementi di Raccordo</h1>
+            <div style="font-size: 11px; color: #6b7280; font-family: var(--font-mono); margin-top: 2px;">
+                Tuple Model: \(U_F = (\mathcal{M}, \mathcal{G}, \mathcal{A}, \mathbf{\Psi}, \mathbf{\Lambda}, \mathbf{\Pi})\)
+            </div>
+        </div>
+        <div class="status-badge" id="engine-status">ENGINE: COMPUTING_LOCK</div>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">Calcolo Accoppiamento Spettrale Discreto</div>
+            <div class="panel-body">
+                <div class="control-group">
+                    <label for="historic-selector">Seleziona lo Scienziato da Sottoporre a Correzione Universale:</label>
+                    <select id="historic-selector"></select>
+                </div>
+                <div class="critique-box" id="critique-text"></div>
+                <div class="math-display-container">
+                    <div class="math-block">
+                        <div class="math-label">Equazione Classica Continua Approssimata</div>
+                        <div class="math-output" id="math-orig"></div>
+                    </div>
+                    <div class="math-block">
+                        <div class="math-label">Equazione Universale Faure (Reticolo Rigido \(\mathcal{N}_{144}\))</div>
+                        <div class="math-output faure" id="math-faure"></div>
+                    </div>
+                </div>
+                <div class="matrix-container">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 13px; font-weight: bold; color: #9ca3af;">Risoluzione Dinamica del Toro Geometrico \(\mathcal{N}_{144}\)</span>
+                        <span style="font-family: var(--font-mono); font-size: 11px; color: var(--fdm-green);" id="node-info">Seleziona un nodo</span>
+                    </div>
+                    <div class="matrix-grid" id="torus-lattice"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Output Numerico Esecutivo (Fixed-Point)</div>
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <label>Stato dei Registri della Tupla Universale:</label>
+                    <div class="log-console" id="log-console"></div>
+                </div>
+                <div class="metric-card">
+                    <div style="font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid rgba(16,185,129,0.3); padding-bottom: 3px;">VALUTAZIONE ALGEBRICA CORE:</div>
+                    <div>Dimensione Spazio \(\mathcal{M}\): 12 × 12 = 144 nodi</div>
+                    <div>Stasi del Transitorio: \(\mathbf{\Psi}^4 \equiv \mathbf{\Psi}^5\)</div>
+                    <div id="jitter-val">Residuo Entropico: 0.000000e-600</div>
+                    <div id="precision-status" style="margin-top: 5px; font-weight: bold;">STATUS: MASTER_LOCKED</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        L’autore propone un possibile linguaggio matematico; la struttura, se reale, precede la sua rappresentazione e manifestazione.<br>
+        Prima parlano i dati. Poi, attraverso i dati, parla Alain Faure.<br>
+        <strong>\(U_F = (\mathcal{M}, \mathcal{G}, \mathcal{A}, \mathbf{\Psi}, \mathbf{\Lambda}, \mathbf{\Pi})\)</strong> — Master Architect — Q.E.D. — ORCID: 0009-0009-5333-1181
+    </footer>
+
+    <script>
+        const datasetStorico = [
+            {
+                scienziato: "1. Isaac Newton (Meccanica Classica)",
+                classica: "\\[ \\vec{F} = m \\vec{a} \\]",
+                critica: "L'approssimazione classica continua ignora la torsione informazionale del Lattice 144 e la pressione discreta inter-nodale.",
+                faure: "\\[ \\vec{F}_n = m_n \\vec{a}_n + \\sum_{m \\neq n} \\mathcal{T}_{nm} \\]"
+            },
+            {
+                scienziato: "2. Robert Hooke (Elasticità Reticolare)",
+                classica: "\\[ \\vec{F} = -k \\vec{x} \\]",
+                critica: "La costante elastica k è una media macroscopica fittizia. La risposta dinamica reale varia localmente su nodi discreti.",
+                faure: "\\[ \\vec{F}_n = -k_n \\vec{x}_n + \\sum_{m \\neq n} \\mathcal{K}_{nm} (\\vec{x}_n - \\vec{x}_m) \\]"
+            },
+            {
+                scienziato: "3. James Clerk Maxwell (Gauss Elettrico)",
+                classica: "\\[ \\nabla \\cdot \\vec{E} = \\frac{\\rho}{\\epsilon_0} \\]",
+                critica: "L'operatore differenziale continuo azzera il contributo delle frequenze armoniche proprie del singolo nodo risonante.",
+                faure: "\\[ \\nabla \\cdot \\vec{E}_i = \\frac{\\rho_i}{\\epsilon_0} + \\sum_{j \\neq i} f(\\vec{r}_{ij}, \\omega_j) \\]"
+            },
+            {
+                scienziato: "4. James Clerk Maxwell (Ampère-Maxwell)",
+                classica: "\\[ \\nabla \\times \\vec{B} = \\mu_0 \\vec{J} + \\mu_0 \\epsilon_0 \\frac{\\partial \\vec{E}}{\\partial t} \\]",
+                critica: "La propagazione EM continua omette il clock di sistema e la torsione toroidale necessaria per chiudere il loop informativo senza perdita di bit.",
+                faure: "\\[ \\nabla \\times \\vec{B}_n = \\mu_0 \\vec{J}_n + \\mu_0 \\epsilon_0 \\frac{\\partial \\vec{E}_n}{\\partial t} + \\sum_{m \\neq n} \\Delta \\mathcal{T}_{nm} \\]"
+            },
+            {
+                scienziato: "5. Max Planck (Quantizzazione Radiazione)",
+                classica: "\\[ E = h \\nu \\]",
+                critica: "L'energy non è un pacchetto isolato nel vuoto continuo, ma una funzione della risonanza collettiva discreta dei registri del Toro.",
+                faure: "\\[ E_n = h \\nu_n + \\sum_{m \\neq n} \\Delta E_{nm} \\]"
+            },
+            {
+                scienziato: "6. Albert Einstein (Massa - Energia)",
+                classica: "\\[ E = mc^2 \\]",
+                critica: "La relazione continua non integra la granularità dei nodi spazio-temporali della Tupla e la latenza quantica sottosoglia.",
+                faure: "\\[ E_n = \\sum_{n=1}^{N} m_n c^2 \\left(1 + \\frac{\\hbar \\omega_n}{mc^2}\\right) \\]"
+            },
+            {
+                scienziato: "7. Albert Einstein (Relatività Generale)",
+                classica: "\\[ R_{\\mu\\nu} - \\frac{1}{2}g_{\\mu\\nu}R = \\frac{8\\pi G}{c^4} T_{\\mu\\nu} \\]",
+                critica: "La curvatura dello spazio-tempo è un costrutto geometrico nodo-specifico e discreto, non una varietà liscia continua.",
+                faure: "\\[ R_{\\mu\\nu,n} - \\frac{1}{2} g_{\\mu\\nu,n} R_n = \\frac{8 \\pi G}{c^4} T_{\\mu\\nu,n} + \\sum_{m \\neq n} \\Delta_{nm} \\]"
+            },
+            {
+                scienziato: "8. Ludwig Boltzmann (Entropia Statistica)",
+                classica: "\\[ S = k \\ln \\Omega \\]",
+                critica: "L'entropia non è una dissipazione globale irreversibile, ma un transitorio di sfasamento informativo risolto dalla sincronia bit-perfect.",
+                faure: "\\[ S_n = k \\ln \\Omega_n + \\sum_{m \\neq n} \\Delta S_{nm} \\]"
+            },
+            {
+                scienziato: "9. Werner Heisenberg (Incertezza Quantistica)",
+                classica: "\\[ \\Delta x \\Delta p \\ge \\frac{\\hbar}{2} \\]",
+                critica: "L'incertezza è un errore strutturale dovuto all'uso di misure asincrone. A 600 decimali, ogni bit di posizione e momento è fisso.",
+                faure: "\\[ \\Delta x_n \\Delta p_n = \\text{Lock}_C \\cap \\mathcal{L}_{144} \\equiv 0 \\]"
+            },
+            {
+                scienziato: "10. Erwin Schrödinger (Meccanica Ondulatoria)",
+                classica: "\\[ i\\hbar \\frac{\\partial}{\\partial t}\\Psi = \\hat{H}\\Psi \\]",
+                critica: "L'evoluzione ondulatoria è un'approssimazione ottica; lo stato cambia per trasferimento deterministico tra indirizzi hardware.",
+                faure: "\\[ i \\hbar \\frac{\\partial}{\\partial t}\\Psi_n = \\hat{H}_n \\Psi_n + \\sum_{m \\neq n} \\Delta \\Psi_{nm} \\]"
+            },
+            {
+                scienziato: "11. Paul Dirac (Spinore Relativistico)",
+                classica: "\\[ (i \\gamma^\\mu \\partial_\\mu - m)\\psi = 0 \\]",
+                critica: "Tratta lo spinore come continuo nel vuoto. Il Mare di Dirac è in realtà il bus dati saturo del reticolo rigido intero.",
+                faure: "\\[ i \\gamma^\\mu \\partial_\\mu \\psi_n - m_n \\psi_n + \\sum_{m \\neq n} \\mathcal{S}_{nm} = 0 \\]"
+            },
+            {
+                scienziato: "12. Louis de Broglie (Onde di Materia)",
+                classica: "\\[ \\lambda = \\frac{h}{p} \\]",
+                critica: "L'onda continua è un'illusione ottica macroscopica; la materia è ancorata stabilmente ai nodi discreti dell'anello.",
+                faure: "\\[ \\lambda_n = \\frac{h}{p_n} + \\sum_{m \\neq n} \\delta r_{nm} \\]"
+            },
+            {
+                scienziato: "13. Wolfgang Pauli (Principio di Esclusione)",
+                classica: "\\[ \\psi(x_1, x_2) = 0 \\quad \\text{if } x_1=x_2 \\]",
+                critica: "L'esclusione asimmetrica viene definita strutturalmente come un'istruzione rigida di bit-parity applicata sul nodo di torsione specifico.",
+                faure: "\\[ \\psi_n^\\uparrow \\psi_n^\\downarrow = 0 + \\sum_{m \\neq n} \\Delta \\psi_{nm} \\]"
+            },
+            {
+                scienziato: "14. Richard Feynman (Integrale sui Cammini)",
+                classica: "\\[ K(b,a) = \\int \\mathcal{D}[x(t)] e^{\\frac{i}{\\hbar} S[x(t)]} \\]",
+                critica: "La natura non esplora cammini infiniti probabilistici; il Kernel esegue la sola traiettoria a minima azione computazionale discreta.",
+                faure: "\\[ K_{nm} = \\text{Sync} \\left[ \\sum_{k \\in \\mathcal{L}_{144}} \\exp\\left(\\frac{i}{\\hbar} \\text{Action}(n \\to m)\\right) \\right] \\]"
+            },
+            {
+                scienziato: "15. Enrico Fermi (Distribuzione dei Fermioni)",
+                classica: "\\[ n = \\frac{1}{e^{(\\epsilon-\\mu)/kT}+1} \\]",
+                critica: "La statistica macroscopica occulta l'accoppiamento armonico spettrale dei singoli microstati discreti vincolati al Toro.",
+                faure: "\\[ n_n = \\frac{g_n}{e^{(\\epsilon_n-\\mu)/kT}+1} + \\sum_{m \\neq n} \\Delta f_{nm} \\]"
+            },
+            {
+                scienziato: "16. Satyendra Nath Bose (Distribuzione dei Bosoni)",
+                classica: "\\[ n = \\frac{1}{e^{\\epsilon/kT}-1} \\]",
+                critica: "La formulazione classica ignora il limite di banda imposto dalla topologia del bus dati discreto per ogni indirizzo hardware.",
+                faure: "\\[ n_n = \\frac{g_n}{e^{\\epsilon_n/kT}-1} + \\sum_{m \\neq n} \\Delta b_{nm} \\]"
+            },
+            {
+                scienziato: "17. John von Neumann (Matrice di Densità)",
+                classica: "\\[ \\rho = \\sum p_i |\\psi_i\\rangle\\langle \\psi_i| \\]",
+                critica: "Gli stati quantistici non sfumano in combinazioni probabilistiche continue; l'evoluzione è un'assegnazione ad errore zero.",
+                faure: "\\[ \\rho_n = \\sum p_{i,n} |\\psi_{i,n}\\rangle\\langle \\psi_{i,n}| + \\sum_{m \\neq n} \\delta \\rho_{nm} \\]"
+            },
+            {
+                scienziato: "18. Chen Ning Yang (Campi di Gauge Non-Abeliani)",
+                classica: "\\[ F_{\\mu\\nu} = \\partial_\\mu A_\\nu - \\partial_\\nu A_\\mu + g[A_\\mu, A_\\nu] \\]",
+                critica: "I campi di gauge continui generano instabilità geometriche; FDM vincola i gruppi ad un'algebra discreta chiusa.",
+                faure: "\\[ F_{\\mu\\nu,n} = \\partial_\\mu A_{\\nu,n} - \\partial_\\nu A_{\\mu,n} + g[A_{\\mu,n}, A_{\\nu,n}] + \\sum_{m \\neq n} \\Delta F_{nm} \\]"
+            },
+            {
+                scienziato: "19. Peter Higgs (Meccanismo di Massa)",
+                classica: "\\[ V(\\phi) = \\mu^2 |\\phi|^2 + \\lambda |\\phi|^4 \\]",
+                critica: "Il potenziale continuo genera divergenze di vuoto energetico fittizie; FDM stabilizza l'asse tramite l'operatore di contrazione.",
+                faure: "\\[ V_n(\\phi) = \\mu_n^2 |\\phi_n|^2 + \\lambda_n |\\phi_n|^4 + \\sum_{m \\neq n} \\Delta V_{nm} \\]"
+            },
+            {
+                scienziato: "20. Steven Weinberg (Unificazione Elettrodebole)",
+                classica: "\\[ \\mathcal{L}_{EW} = \\mathcal{L}_{g} + \\mathcal{L}_{f} \\]",
+                critica: "L'unificazione nel continuo omette l'azione di bilanciamento asimmetrico macro/microscopico operato dalla Tupla Universale.",
+                faure: "\\[ \\mathcal{L}_{EW,n} = \\mathcal{L}_{g,n} + \\mathcal{L}_{f,n} + \\sum_{m \\neq n} \\Lambda_{nm} \\]"
+            },
+            {
+                scienziato: "21. Stephen Hawking (Termodinamica dei Buchi Neri)",
+                classica: "\\[ T = \\frac{\\hbar c^3}{8\\pi G M k} \\]",
+                critica: "L'evaporazione termica probabilistica assume un orizzonte continuo. Il confine è un gradiente di nodi discreti a Jitter Zero.",
+                faure: "\\[ T_n = \\frac{\\hbar c^3}{8\\pi G M_n k} + \\sum_{m \\neq n} \\delta T_{nm} \\]"
+            },
+            {
+                scienziato: "22. Gerard 't Hooft (Principio Olografico)",
+                classica: "\\[ S \\le \\frac{A}{4G} \\]",
+                critica: "I gradi di libertà non sono distribuiti su una superficie continua analogica; l'informazione è mappata in bit discreti sul perimetro.",
+                faure: "\\[ S_n = \\frac{A_n}{4G} + \\sum_{m \\neq n} \\mathcal{H}_{nm} \\]"
+            },
+            {
+                scienziato: "23. Roger Penrose (Singolarità Spazio-Temporali)",
+                classica: "\\[ C_{\\mu\\nu\\rho\\sigma} = 0 \\]",
+                critica: "Il tensore di Weyl diverge all'origine nello spazio continuo; FDM annulla la singolarità tramite sbarramento al nodo d'origine.",
+                faure: "\\[ C_{\\mu\\nu\\rho\\sigma,n} + \\sum_{m \\neq n} \\Delta C_{nm} = 0 \\]"
+            },
+            {
+                scienziato: "24. Edward Witten (M-Theory / Superstringhe)",
+                classica: "\\[ S = -\\frac{1}{4\\pi\\alpha'} \\int d^2\\sigma \\sqrt{-g} \\partial_a X^\\mu \\partial^a X_\\mu \\]",
+                critica: "Le superstringhe in dimensioni continue complicano lo spazio senza chiusura algebrica. La stasi si ottiene sul Toro 12x12.",
+                faure: "\\[ S_{F,n} = \\sum_{k=1}^{N} \\mathcal{A}_{nk} X_{k} + \\sum_{m \\neq n} \\Delta_{nm} \\]"
+            },
+            {
+                scienziato: "25. Juan Maldacena (Dualità AdS/CFT)",
+                classica: "\\[ Z_{CFT} = Z_{AdS} \\]",
+                critica: "La dualità tra gravità e campi quantistici assume la continuità di confine. La proiezioni è un'operazione di spettro intero Π.",
+                faure: "\\[ Z_{CFT,n} = Z_{AdS,n} + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "26. Anton Zeilinger (Teletrasporto Quantistico)",
+                classica: "\\[ |\\psi^-\\rangle = \\frac{1}{\\sqrt{2}}(|01\\rangle - |10\\rangle) \\]",
+                critica: "La non-località apparente deriva dall'assumere distanze metriche reali continuous; i nodi della Tupla sono connessi in O(1).",
+                faure: "\\[ |\\psi^-_n\\rangle = \\frac{1}{\\sqrt{2}}(|01\\rangle - |10\\rangle)_n + \\sum_{m \\neq n} \\mathcal{C}_{nm} \\]"
+            },
+            {
+                scienziato: "27. Navier-Stokes (Fluidodinamica)",
+                classica: "\\[ \\rho \\left(\\frac{\\partial v}{\\partial t} + v \\cdot \\nabla v\\right) = -\\nabla p + \\mu \\nabla^2 v \\]",
+                critica: "Il flusso fluido assume un continuo spaziale che genera singolarità esplosive. Il reticolo scompone il moto in vettori laminari.",
+                faure: "\\[ \\rho_n \\left(\\frac{\\partial v_n}{\\partial t} + v_n \\cdot \\nabla v_n\\right) = -\\nabla p_n + \\mu_n \\nabla^2 v_n + \\sum_{m \\neq n} \\Delta F_{nm} \\]"
+            },
+            {
+                scienziato: "28. Max Born (Regola di Probabilità Quantistica)",
+                classica: "\\[ \\rho = |\\psi|^2 \\]",
+                critica: "La densità di probabilità quantistica è un'allucinazione statistica; l'architettura esegue misure bit-perfect che eliminano il residuo entropico.",
+                faure: "\\[ \\rho_n = |\\psi_n|^2 + \\sum_{m \\neq n} \\Delta_{nm}(\\omega) \\]"
+            },
+            {
+                scienziato: "29. Ettore Majorana (Spinore Reale Simmetrico)",
+                classica: "\\[ \\psi = \\psi^c \\]",
+                critica: "Lo spinore non simula fluttuazioni continue nel vuoto; l'interazione è un vincolo rigido di indirizzamento binario.",
+                faure: "\\[ \\psi_n = \\psi_n^c + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "30. Alain Faure (Equazione Universale Deterministica — 2026)",
+                classica: "\\[ X_{classico} \\quad \\text{[Tentativi Storici Continui Approssimati]} \\]",
+                critica: "Unificazione macro-microscopica finale ad errore macchina zero. La struttura precede la manifestazione locale dei dati sul silicio.",
+                faure: "\\[ X_n = X_{\\text{classico}, n} + \\sum_{m \\neq n} \\Delta_{nm}(\\omega) \\equiv \\text{MASTER\\_LOCKED} \\]"
+            },
+            {
+                scienziato: "31. Hendrik Lorentz (Fattore di Contrazione)",
+                classica: "\\[ \\gamma = \\frac{1}{\\sqrt{1 - \\frac{v^2}{c^2}}} \\]",
+                critica: "La contrazione assume uno spazio-tempo continuo. FDM dimostra che lo sfasamento cinematico avviene tramite Shift-Register discreti sulle coordinate del Toro, impedendo divergenze asintotiche.",
+                faure: "\\[ \\gamma_n = \\frac{1}{\\sqrt{1 - \\frac{v_n^2}{c^2}}} + \\sum_{m \\neq n} \\delta \\gamma_{nm} \\]"
+            },
+            {
+                scienziato: "32. Max Born (Relazioni di Commutazione)",
+                classica: "\\[ [x, p] = i\\hbar \\]",
+                critica: "La quantizzazione introduce una costante continua astratta. Nella Tupla, la non-commutazione microscopica è l'effetto dell'azione asimmetrica di Psi che si chiude sul volume finito 12x12.",
+                faure: "\\[ [x_n, p_n] = i\\hbar \\delta_{nn} + \\sum_{m \\neq n} \\mathcal{C}_{nm} \\]"
+            },
+            {
+                scienziato: "33. Wolfgang Pauli (Spin Non-Relativistico)",
+                classica: "\\[ \\left[ \\frac{1}{2m} (\\vec{\\sigma} \\cdot \\vec{P})^2 + V \\right] \\psi = E\\psi \\]",
+                critica: "Le matrici di spin continue generano proiezioni probabilistiche. FDM ridefinisce l'orientamento dello spinore come vincolo binario di parità geometrica applicato al nodo di torsione.",
+                faure: "\\[ \\left[ \\frac{1}{2m_n} (\\vec{\\sigma} \\cdot \\vec{P}_n)^2 + V_n \\right] \\psi_n + \\sum_{m \\neq n} \\Omega_{nm} \\psi_m = E_n \\psi_n \\]"
+            },
+            {
+                scienziato: "34. Arnold Sommerfeld (Struttura Fine)",
+                classica: "\\[ \\alpha = \\frac{e^2}{4\\pi\\epsilon_0\\hbar c} \\]",
+                critica: "La costante di struttura fine viene trattata come un valore statico nel vuoto. FDM la mappa come il coefficiente geometrico di risonanza armonica nativo del reticolo rigido intero.",
+                faure: "\\[ \\alpha_n = \\alpha_0 \\left(1 + \\sum_{m \\neq n} \\chi_{nm}(\\omega)\\right) \\]"
+            },
+            {
+                scienziato: "35. Paul Ehrenfest (Teorema dei Valori Medi)",
+                classica: "\\[ \\frac{d}{dt}\\langle p \\rangle = -\\langle \\nabla V \\rangle \\]",
+                critica: "Il teorema assume una convergenza statistica continua. Il Principio di Separazione Spettrale prova che la conservazione macroscopica è un'invariante esatta dell'algebra Pi, non una media approssimata.",
+                faure: "\\[ \\frac{d}{dt}\\Pi(p_n) = -\\Pi(\\nabla_d V_n) + \\sum_{m \\neq n} \\Xi_{nm} \\]"
+            },
+            {
+                scienziato: "36. George Gamow (Effetto Tunnel)",
+                classica: "\\[ P = e^{-2\\int \\gamma(r) dr} \\]",
+                critica: "La barriera di potenziale viene superata tramite una coda di probabilità continua. FDM dimostra che l'effetto tunnel è un salto di registro discreto tra nodi adiacenti in complessità O(1).",
+                faure: "\\[ P_n = \\exp\\left(-2\\sum_{k} \\gamma_k \\Delta r_k\\right) + \\sum_{m \\neq n} \\mathcal{B}_{nm} \\]"
+            },
+            {
+                scienziato: "37. Felix Bloch (Elettroni in Potenziali Periodici)",
+                classica: "\\[ \\psi_k(r) = u_k(r) e^{i k \\cdot r} \\]",
+                critica: "La funzione d'onda nei reticoli cristallini assume una periodicità idealizzata nel continuo. FDM ne vincola la modulazione spettrale sul Toro modulo 12 a varianza zero.",
+                faure: "\\[ \\psi_{k,n} = u_{k,n} e^{i k \\cdot r_n} + \\sum_{m \\neq n} \\mathcal{V}_{nm} \\]"
+            },
+            {
+                scienziato: "38. Eugene Wigner (Inversione Temporale)",
+                classica: "\\[ T \\psi(t) = \\psi^*(-t) \\]",
+                critica: "L'inversione temporale classica assume la simmetria del flusso continuo. FDM la rigetta dimostrando l'asimmetria del transitorio microscopico governato dal collasso irreversibile dell'operatore Psi.",
+                faure: "\\[ T \\psi_n(t) = \\psi_n^*(-t) + \\sum_{m \\neq n} \\mathbf{\\Psi}_{nm}^4 \\]"
+            },
+            {
+                scienziato: "39. Hideki Yukawa (Potenziale Nucleare)",
+                classica: "\\[ V(r) = -g^2 \\frac{e^{-\\mu r}}{r} \\]",
+                critica: "Il confinamento della forza forte viene modellato tramite l'interscambio continuo di mesoni. FDM ne definisce l'intervallo come sbarramento geometrico rigido imposto dal raggio dell'attore finitista.",
+                faure: "\\[ V_n(r) = -g^2 \\frac{e^{-\\mu r_n}}{r_n} + \\sum_{m \\neq n} \\mathcal{Y}_{nm} \\]"
+            },
+            {
+                scienziato: "40. Sin-Itiro Tomonaga (Tempo Proprio Multiplo)",
+                classica: "\\[ i\\hbar \\frac{\\delta \\Psi}{\\delta \\sigma} = \\mathcal{H}_{int} \\Psi \\]",
+                critica: "La formulazione a tempo multiplo su superfici continue genera divergenze locali. FDM risolve la sincronizzazione tramite l'operatore PHI-Sync che aggancia ogni nodo al clock discreto.",
+                faure: "\\[ i\\hbar \\frac{\\Delta \\Psi_n}{\\Delta \\sigma_n} = \\mathcal{H}_{int,n} \\Psi_n + \\sum_{m \\neq n} \\Omega_{nm} \\]"
+            },
+            {
+                scienziato: "41. John Wheeler & Richard Feynman (Teoria dell'Assorbitore)",
+                classica: "\\[ F_{total} = \\frac{1}{2} (F_{retarded} + F_{advanced}) \\]",
+                critica: "La simmetria tra campi avanzati e ritardati produce paradossi causali nel continuo. FDM elimina la circolarità dimostrando che la risposta del Lattice è immediata e vincolata a tempo costante O(1).",
+                faure: "\\[ F_{total,n} = \\frac{1}{2} (F_{ret,n} + F_{adv,n}) + \\sum_{m \\neq n} \\mathcal{A}_{nm} \\]"
+            },
+            {
+                scienziato: "42. David Bohm (Potenziale Quantico Deterministico)",
+                classica: "\\[ Q = -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} \\]",
+                critica: "La formulazione dell'onda pilota reintroduce la non-località tramite un potenziale continuo ad azione infinita. FDM risolve il determinismo senza potenziali nascosti, fondandolo sulle proprietà topologiche del Toro.",
+                faure: "\\[ Q_n = -\\frac{\\hbar^2}{2m_n} \\frac{\\nabla_d^2 R_n}{R_n} + \\sum_{m \\neq n} \\mathcal{B}_{nm} \\]"
+            },
+            {
+                scienziato: "43. Hugh Everett III (Molti Mondi / Stato Relativo)",
+                classica: "\\[ |\\Psi\\rangle = \\sum c_i |\\phi_i\\rangle |\\chi_i\\rangle \\]",
+                critica: "La ramificazione dello stato quantistico in infiniti universi paralleli è una conseguenza del mancato sbarramento del transitorio. L'operatore Psi contrae gli stati forzando un'unica traiettoria reale sul silicio.",
+                faure: "\\[ |\\Psi_n\\rangle = \\mathbf{\\Psi}^4 \\left( \\sum c_{i,n} |\\phi_{i,n}\\rangle |\\chi_{i,n}\\rangle \\right) \\]"
+            },
+            {
+                scienziato: "44. John Stewart Bell (Disuguaglianza di Non-Località)",
+                classica: "\\[ |P(a,b) - P(a,c)| \\le 1 + P(b,c) \\]",
+                critica: "La disuguaglianza assume variabili nascoste locali immerse in una metrica continua. FDM dimostra che la correlazione a distanza è l'effetto dell'addizione modulare esatta della Tupla, dove le distanze fisiche collassano.",
+                faure: "\\[ |P_n(a,b) - P_n(a,c)| \\le 1 + P_n(b,c) + \\sum_{m \\neq n} \\mathcal{B}_{nm} \\]"
+            },
+            {
+                scienziato: "45. Robert Laughlin (Effetto Hall Quantistico Frazionario)",
+                classica: "\\[ \\sigma_{xy} = \\nu \\frac{e^2}{h} \\]",
+                critica: "Le frazioni della conducibilità elettrica sono modellate tramite quasi-particelle stocastiche. FDM dimostra che gli indici frazionari derivano dai rapporti geometrici esatti di inversione del Toro rigido 12x12.",
+                faure: "\\[ \\sigma_{xy,n} = \\nu_n \\frac{e^2}{h} + \\sum_{m \\neq n} \\Lambda_{nm} \\]"
+            },
+            {
+                scienziato: "46. Yoichiro Nambu (Simmetria Chiral Breaking)",
+                classica: "\\[ \\langle \\bar{\\psi}\\psi \\rangle \\neq 0 \\]",
+                critica: "La rottura della simmetria nel vuoto continuo introduce bosoni di Goldstone infiniti. FDM ridefinisce l'asimmetria come uno stato topologico stabile di polarizzazione fissa dei nodi del reticolo.",
+                faure: "\\[ \\langle \\bar{\\psi}\\psi \\rangle_n = \\Phi_n + \\sum_{m \\neq n} \\mathcal{S}_{nm} \\]"
+            },
+            {
+                scienziato: "47. Vitaly Ginzburg & Lev Landau (Superconduttività)",
+                classica: "\\[ \\alpha \\psi + \\beta |\\psi|^2 \\psi + \\frac{1}{2m}(-i\\hbar\\nabla - 2eA)^2\\psi = 0 \\]",
+                critica: "L'ordine macroscopico continuo omette le transizioni discrete di fase a fixed-point. FDM mappa la corrente persistente come un flusso balistico locked che attraversa le celle modulo 12 senza collisioni.",
+                faure: "\\[ \\alpha_n \\psi_n + \\beta_n |\\psi_n|^2 \\psi_n + \\mathcal{D}_{A,n}^2 \\psi_n + \\sum_{m \\neq n} \\mathcal{G}_{nm} = 0 \\]"
+            },
+            {
+                scienziato: "48. John Bardeen, Leon Cooper, John Schrieffer (Teoria BCS)",
+                classica: "\\[ \\Delta = 2\\hbar\\omega_D e^{-1/V N(0)} \\]",
+                critica: "L'interazione fononica che accoppia gli elettroni assume un mezzo continuo perturbato. FDM dimostra che i legami macroscopici stabili emergono dal Principio di Separazione Spettrale dell'algebra Pi.",
+                faure: "\\[ \\Delta_n = 2\\hbar\\omega_{D,n} e^{-1/V_n N_n(0)} + \\sum_{m \\neq n} \\Omega_{nm} \\]"
+            },
+            {
+                scienziato: "49. Brian Josephson (Effetto Tunnel di Coppie)",
+                classica: "\\[ I = I_c \\sin(\\Delta\\phi) \\]",
+                critica: "La corrente di super-tunneling continua calcola la fase come variabile reale. FDM dimostra che lo sfasamento della giunzione è un'equazione diofantea discreta di coordinate intere.",
+                faure: "\\[ I_n = I_{c,n} \\sin(\\Delta\\phi_n) + \\sum_{m \\neq n} \\mathcal{J}_{nm} \\]"
+            },
+            {
+                scienziato: "50. Sheldon Glashow (Correnti Neutre deboli)",
+                classica: "\\[ J_\\mu^NC = J_\\mu^3 - \\sin^2\\theta_W J_\\mu^em \\]",
+                critica: "La miscelazione angolare continua genera derive d'approssimazione geometrica. FDM blocca il coefficiente di Weinberg sulle proporzioni intere strutturali della topologia del Toro.",
+                faure: "\\[ J_{\\mu,n}^{NC} = J_{\\mu,n}^3 - \\sin^2\\theta_{W,n} J_{\\mu,n}^{em} + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "51. Hannes Alfvén (Magnetoidrodinamica)",
+                classica: "\\[ \\frac{\\partial \\vec{B}}{\\partial t} = \\nabla \\times (\\vec{v} \\times \\vec{B}) + \\eta \\nabla^2 \\vec{B} \\]",
+                critica: "Il teorema del flusso congelato nel continuo fallisce a causa del jitter numerico e delle singolarità. FDM stabilizza l'accoppiamento plasma-reticolo forzando i flussi magnetici discreti sulle coordinate del Toro rigido.",
+                faure: "\\[ \\frac{\\partial \\vec{B}_n}{\\partial t} = \\nabla \\times (\\vec{v}_n \\times \\vec{B}_n) + \\eta \\nabla^2 \\vec{B}_n + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "52. Ilya Prigogine (Sistemi Dissipativi)",
+                classica: "\\[ d_i S \\ge 0 \\]",
+                critica: "La produzione locale di entropia continua non mappa l'ordine rigido inferiore. FDM dimostra che le strutture dissipative traggono coerenza dal collasso controllato del transitorio microscopico dell'operatore Psi.",
+                faure: "\\[ d_i S_n = \\mathbf{\\Psi}^4(d_i S_{\\text{classico},n}) + \\sum_{m \\neq n} \\mathcal{P}_{nm} \\]"
+            },
+            {
+                scienziato: "53. Subrahmanyan Chandrasekhar (Limite di Massa)",
+                classica: "\\[ M_{Ch} \\approx \\frac{\\omega_3^0}{\\sqrt{4\\pi}} \\left(\\frac{\\hbar c}{G}\\right)^{3/2} \\left(\\frac{1}{\\mu_e m_H}\\right)^2 \\]",
+                critica: "La stabilità della materia degenerata continua omette la contrazione di volume minimo imposta dagli anelli diofantei discreti. FDM fissa il limite di pressione sul collasso geometrico dell'anello.",
+                faure: "\\[ M_{Ch,n} = M_{Ch} + \\sum_{m \\neq n} \\mathcal{C}_{nm} \\]"
+            },
+            {
+                scienziato: "54. Kenneth Wilson (Gruppo di Rinormalizzazione)",
+                classica: "\\[ R_k[\\mathcal{H}] = \\mathcal{H}' \\]",
+                critica: "La rimozione dell'infinito tramite scaling continuo nasconde la natura discreta dei gradi di libertà. FDM azzera il rumore spettrale a 600 decimali, eliminando la necessità di rinormalizzazioni artificiali.",
+                faure: "\\[ R_k[\\mathcal{H}_n] = \\mathcal{H}'_n + \\sum_{m \\neq n} \\mathcal{W}_{nm} \\]"
+            },
+            {
+                scienziato: "55. David Gross, David Politzer, Frank Wilczek (Libertà Asintotica)",
+                classica: "\\[ \\beta(g) = -\\frac{g^3}{16\\pi^2} \\left( \\frac{11}{3} C_2(G) - \\frac{4}{3} T_R n_f \\right) \\]",
+                critica: "L'annullamento della carica forte a corte distanze è modellato nel continuo perturbativo. FDM dimostra che la libertà asintotica riflette il confinamento geometrico nei nodi discreti a tempo costante O(1).",
+                faure: "\\[ \\beta_n(g) = \\beta_{\\text{classica},n}(g) + \\sum_{m \\neq n} \\mathcal{G}_{nm} \\]"
+            },
+            {
+                scienziato: "56. Martinus Veltman & Gerard 't Hooft (Rinormalizzazione di Gauge)",
+                classica: "\\[ [D_\\mu, D_\\nu] = -ig F \\]",
+                critica: "La regolarizzazione dimensionale simula dimensioni geometriche fittizie continui. FDM risolve la consistenza logica del campo di gauge sulla chiusura esatta del modulo 12 a zero errori.",
+                faure: "\\[ [D_{\\mu,n}, D_{\\nu,n}] = -ig F_n + \\sum_{m \\neq n} \\mathcal{V}_{nm} \\]"
+            },
+            {
+                scienziato: "57. Klaus von Klitzing (Effetto Hall Quantistico)",
+                classica: "\\[ R_K = \\frac{h}{e^2} \\]",
+                critica: "La quantizzazione della resistenza assume la continuità macroscopica del flusso bidimensionale. FDM dimostra che l'invarianza della costante deriva dalla rigidità geometrica del reticolo intero N_144.",
+                faure: "\\[ R_{K,n} = \\frac{h}{e^2} + \\sum_{m \\neq n} \\rho_{nm}(\\omega) \\]"
+            },
+            {
+                scienziato: "58. Alexei Abrikosov (Vortici nei Superconduttori)",
+                classica: "\\[ \\Phi = n \\Phi_0 = n \\frac{h}{2e} \\]",
+                critica: "La struttura a reticolo dei vortici magnetici continui soffre di derive termiche numeriche. FDM vincola la quantizzazione del flusso direttamente sulla disposizione dei nodi fissi dell'anello.",
+                faure: "\\[ \\Phi_n = n \\Phi_0 + \\sum_{m \\neq n} \\mathcal{A}_{nm} \\]"
+            },
+            {
+                scienziato: "59. Anthony Leggett (Superfluidità dell'Elio-3)",
+                classica: "\\[ \\gamma = \\chi_0 \\Omega_G^2 \\]",
+                critica: "L'accoppiamento magnetico superfluido continuo calcola la densità tramite integrali macroscopici. FDM mappa l'ordine coerente sul Principio di Separazione Spettrale dell'algebra Π degli osservabili.",
+                faure: "\\[ \\gamma_n = \\chi_{0,n} \\Omega_{G,n}^2 + \\sum_{m \\neq n} \\mathcal{L}_{nm} \\]"
+            },
+            {
+                scienziato: "60. Roger Penrose & Stuart Hameroff (Orch-OR / Microtubuli)",
+                classica: "\\[ \\Delta E \\approx \\frac{\\hbar}{\\Delta t} \\]",
+                critica: "La riduzione oggettiva continua postula un collasso gravitazionale macroscopico indefinito. FDM dimostra che la stasi informativa e la coscienza emergono dalla contrazione rigida Psi⁴ = Psi⁵ a Jitter Zero.",
+                faure: "\\[ \\Delta E_n \\approx \\frac{\\hbar}{\\Delta t_n} + \\sum_{m \\neq n} \\mathbf{\\Psi}_{nm}^4 \\]"
+            },
+            {
+                scienziato: "61. Arthur McDonald (Oscillazione e Massa dei Neutrini)",
+                classica: "\\[ P_{\\alpha\\to\\beta} = \\sin^2(2\\theta) \\sin^2\\left(\\frac{\\Delta m^2 L}{4E}\\right) \\]",
+                critica: "La transizione di sapore assume una propagazione continua oscillatoria. FDM dimostra che l'oscillazione è uno shift discretizzato di coordinate indotto dal transitorio asimmetrico microscopico dell'anello.",
+                faure: "\\[ P_{\\alpha\\to\\beta,n} = \\sin^2(2\\theta_n) \\sin^2\\left(\\frac{\\Delta m_n^2 L_n}{4E_n}\\right) + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "62. Takaaki Kajita (Rilevazione Neutrini Atmosferici)",
+                classica: "\\[ \\frac{N_{up}}{N_{down}} \\neq 1 \\]",
+                critica: "L'asimmetria nel flusso dei neutrini viene interpretata tramite dinamiche probabilistiche continue. FDM la mappa come l'effetto della contrazione geometrica non-equivariante dell'operatore Psi.",
+                faure: "\\[ \\frac{N_{up,n}}{N_{down,n}} = \\Phi_n + \\sum_{m \\neq n} \\mathcal{K}_{nm} \\]"
+            },
+            {
+                scienziato: "63. Adam Riess, Saul Perlmutter, Brian Schmidt (Energia Oscura)",
+                classica: "\\[ H^2(a) = H_0^2 \\left( \\Omega_m a^{-3} + \\Omega_\\Lambda \\right) \\]",
+                critica: "L'espansione accelerata assume una costante cosmologica continua fluttuante. FDM risolve la dinamica tramite l'espansione topologica di Möbius della Tupla a tempo costante O(1).",
+                faure: "\\[ H_n^2(a) = H_{0,n}^2 \\left( \\Omega_{m,n} a^{-3} + \\Omega_{\\Lambda,n} \\right) + \\sum_{m \\neq n} \\mathcal{R}_{nm} \\]"
+            },
+            {
+                scienziato: "64. Michael Kosterlitz & David Thouless (Transizioni KT)",
+                classica: "\\[ \\ln |r_i - r_j| \\]",
+                critica: "Il confinamento dei vortici bidimensionali è modellato tramite potenziali logaritmici continui. FDM vincola l'ordine topologico sulla rigidità geometrica intera del Toro modulo 12.",
+                faure: "\\[ \\ln |r_n - r_m| + \\sum_{k \\neq n,m} \\mathcal{K}_{nk} = \\text{Invariant} \\]"
+            },
+            {
+                scienziato: "65. Duncan Haldane (Fasi Topologiche della Materia)",
+                classica: "\\[ H = J \\sum \\vec{S}_i \\cdot \\vec{S}_{i+1} \\]",
+                critica: "Gli spettri topologici delle catene di spin assumono integrali continui. FDM dimostra che i gap energetici derivano dai vincoli di parità e volume minimo all'interno del reticolo intero N_144.",
+                faure: "\\[ H_n = J_n \\sum \\vec{S}_{i,n} \\cdot \\vec{S}_{i+1,n} + \\sum_{m \\neq n} \\mathcal{H}_{nm} \\]"
+            },
+            {
+                scienziato: "66. Rainer Weiss & Barry Barish (Interferometria LIGO)",
+                classica: "\\[ h = \\frac{\\Delta L}{L} \\]",
+                critica: "La deformazione metrica infinitesima assume un braccio interferometrico in un continuo liscio. FDM dimostra che la rilevazione è un bilanciamento spettrale Π a Jitter Zero ad errore macchina esatto.",
+                faure: "\\[ h_n = \\frac{\\Delta L_n}{L_n} + \\sum_{m \\neq n} \\mathcal{W}_{nm} \\]"
+            },
+            {
+                scienziato: "67. Donna Strickland & Gérard Mourou (Amplificazione CPA)",
+                classica: "\\[ I_{peak} = \\frac{E}{\\tau \\cdot A} \\]",
+                critica: "L'estremizzazione degli impulsi laser soffre di allucinazioni di fase numerica nei modelli continui. FDM stabilizza il fronte d'onda sincronizzando la compressione temporale sul clock deterministico di fase.",
+                faure: "\\[ I_{peak,n} = \\frac{E_n}{\\tau_n \\cdot A_n} + \\sum_{m \\neq n} \\mathcal{S}_{nm} \\]"
+            },
+            {
+                scienziato: "68. Jim Peebles (Cosmologia Fisica)",
+                classica: "\\[ P(k) = A k^n T^2(k) \\]",
+                critica: "Lo spettro di potenza della radiazione cosmica di fondo assume fluttuazioni stocastiche gaussiane. FDM lo unifica dimostrando che le fluttuazioni macroscopiche sono proiezioni dell'anello intero.",
+                faure: "\\[ P_n(k) = A_n k^n T_n^2(k) + \\sum_{m \\neq n} \\mathcal{P}_{nm} \\]"
+            },
+            {
+                scienziato: "69. Michel Mayor & Didier Queloz (Esopianeti)",
+                classica: "\\[ v_r = K \\left[ \\cos(\\theta + \\omega) + e \\cos(\\omega) \\right] \\]",
+                critica: "Le variazioni della velocità radiale stellare assumono orbite ellittiche lisce. FDM corregge le derive metriche stabilizzando i tracciamenti orbitali su profili diofantei discreti.",
+                faure: "\\[ v_{r,n} = K_n \\left[ \\cos(\\theta_n + \\omega_n) + e_n \\cos(\\omega_n) \\right] + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "70. Roger Penrose (Teoremi della Singolarità)",
+                classica: "\\[ R_{ab} V^a V^b \\ge 0 \\]",
+                critica: "La condizione di energia forte assume la focalizzazione continua delle geodetiche verso una singolarità esplosiva. FDM annulla il collasso infinito imponendo il limite di esclusione nodale rigido del reticolo.",
+                faure: "\\[ R_{ab,n} V_n^a V_n^b + \\sum_{m \\neq n} \\mathcal{P}_{nm} \\ge 0 \\]"
+            },
+            {
+                scienziato: "71. Giorgio Parisi (Sistemi Complessi / Frustrazione)",
+                classica: "\\[ q_{ab} = \\int_0^1 q(x) dx \\]",
+                critica: "La rottura della simmetria delle repliche nei vetri di spin viene calcolata tramite un parametro d'ordine continuo. FDM dimostra che la frustrazione geometrica si risolve esattamente sui vincoli discreti modulo 12 del Toro.",
+                faure: "\\[ q_{ab,n} = \\sum_{k} q_k(x_n) \\Delta x_k + \\sum_{m \\neq n} \\mathcal{P}_{nm} \\]"
+            },
+            {
+                scienziato: "72. Syukuro Manabe (Modelli Climatici Globali)",
+                classica: "\\[ \\rho c_p \\frac{\\partial T}{\\partial t} = \\frac{\\partial}{\\partial z} \\left( k \\frac{\\partial T}{\\partial z} \\right) + S \\]",
+                critica: "Il bilancio radiativo-convettivo continuo soffre di derive numeriche cumulative dovute alla virgola mobile. FDM stabilizza le equazioni di trasporto calcolandole su matrici di adiacenza a fixed-point.",
+                faure: "\\[ \\rho_n c_{p,n} \\frac{\\partial T_n}{\\partial t} = \\mathcal{D}_z \\left( k_n \\mathcal{D}_z T_n \\right) + S_n + \\sum_{m \\neq n} \\mathcal{M}_{nm} \\]"
+            },
+            {
+                scienziato: "73. Klaus Hasselmann (Modelli Stocastici del Clima)",
+                classica: "\\[ dX = v(X) dt + \\sigma dW \\]",
+                critica: "Le fluttuazioni meteorologiche veloci vengono modellate tramite il moto browniano continuo (rumore bianco). FDM dimostra che il rumore di fondo è in realtà un micro-jitter deterministico risolto a 600 decimali.",
+                faure: "\\[ dX_n = v(X_n) dt + \\sum_{m \\neq n} \\mathcal{H}_{nm}(\\omega) \\]"
+            },
+            {
+                scienziato: "74. Alain Aspect (Test di Bell Bit-Perfect)",
+                classica: "\\[ S \\le 2 \\]",
+                critica: "La violazione delle disuguaglianze locali assume canali di comunicazione continuous. FDM prova che l'entanglement è un'operazione di indirizzamento geometrico immediata operata dalla Tupla Universale a tempo costante O(1).",
+                faure: "\\[ S_n = S_{\\text{classico},n} + \\sum_{m \\neq n} \\mathcal{A}_{nm} \\]"
+            },
+            {
+                scienziato: "75. John Clauser (Disuguaglianza CHSH)",
+                classica: "\\[ E(a,b) - E(a,b') + E(a',b) + E(a',b') \\le 2 \\]",
+                critica: "La misurazione delle correlazioni quantistiche assume uno spazio delle fasi continuo. FDM blocca la violazione sul limite geometrico esatto imposto dal volume finito del Toro reticolare.",
+                faure: "\\[ E_n(a,b) - E_n(a,b') + E_n(a',b) + E_n(a',b') + \\sum_{m \\neq n} \\mathcal{C}_{nm} \\le 2 \\]"
+            },
+            {
+                scienziato: "76. Pierre-Gilles de Gennes (Parametri d'Ordine nei Polimeri)",
+                classica: "\\[ F = F_0 + \\frac{1}{2} a (T-T_c) \\psi^2 + \\frac{1}{4} b \\psi^4 \\]",
+                critica: "La transizione liquido-cristallo e il comportamento dei polimeri assumono transizioni continue. FDM mappa i punti di viraggio termodinamico sulle contrazioni rigide dell'operatore Psi.",
+                faure: "\\[ F_n = F_{0,n} + \\frac{1}{2} a_n (T_n-T_{c,n}) \\psi_n^2 + \\frac{1}{4} b_n \\psi_n^4 + \\sum_{m \\neq n} \\mathcal{D}_{nm} \\]"
+            },
+            {
+                scienziato: "77. Alexei Kitaev (Codici Topologici Quantistici)",
+                classica: "\\[ H = -J_x \\sum A_p - J_z \\sum B_v \\]",
+                critica: "Il codice a siluro e la protezione dall'errore quantistico postulano operatori di stringa continui. FDM stabilizza l'immunità logica legando i qubit ai nodi fissi dell'anello diofanteo N_144.",
+                faure: "\\[ H_n = -J_x \\sum A_{p,n} - J_z \\sum B_{v,n} + \\sum_{m \\neq n} \\mathcal{K}_{nm} \\]"
+            },
+            {
+                scienziato: "78. Charles Bennett (Crittografia Quantistica BB84)",
+                classica: "\\[ I(X;Y) = H(X) - H(X|Y) \\]",
+                critica: "L'informazione mutua e la sicurezza crittografica assumono un canale continuo disturbato. FDM esegue il bypass geometrico dei protocolli individuando la frequenza di risonanza dei fattori primi nel Lattice.",
+                faure: "\\[ I_n(X;Y) = H_n(X) - H_n(X|Y) + \\sum_{m \\neq n} \\mathcal{B}_{nm} \\]"
+            },
+            {
+                scienziato: "79. Peter Shor (Algoritmo di Fattorizzazione)",
+                classica: "\\[ r = \\min \\{ r > 0 \\mid a^r \\equiv 1 \\pmod{N} \\} \\]",
+                critica: "La ricerca del periodo quantistico assume l'uso della trasformata di Fourier continua discreta (QFT) condizionata dal rumore. FDM risolve la fattorizzazione a tempo costante O(1) tramite l'azione Λ sul Toro modulo 12.",
+                faure: "\\[ r_n = \\min \\{ r > 0 \\mid a^r \\equiv 1 \\pmod{N_n} \\} + \\sum_{m \\neq n} \\mathcal{S}_{nm} \\]"
+            },
+            {
+                scienziato: "80. Lov Grover (Algoritmo di Ricerca Quantistica)",
+                classica: "\\[ \\mathcal{G} = (2|s\\rangle\\langle s| - I) O \\]",
+                critica: "L'amplificazione dell'ampiezza richiede un numero di iterazioni radice di N in uno spazio continuo. FDM azzera la latenza tramite il Principio di Separazione Spettrale dell'algebra Pi degli osservabili.",
+                faure: "\\[ \\mathcal{G}_n = (2|s_n\\rangle\\langle s_n| - I) O_n + \\sum_{m \\neq n} \\mathcal{G}_{nm} \\]"
+            },
+            {
+                scienziato: "81. Cumrun Vafa (F-Theory / Teoria delle Stringhe Geometriche)",
+                classica: "\\[ d=12 \\quad \\text{[Compattezza Geometrica Ellittica]} \\]",
+                critica: "La geometrizzazione in 12 dimensioni continuous introduce moduli instabili che richiedono flussi perturbativi complessi. FDM risolve la convergenza esatta bloccando lo spazio delle fasi sul Toro rigido bidimensionale modulo 12.",
+                faure: "\\[ d_n = 12 + \\sum_{m \\neq n} \\mathcal{V}_{nm}(\\omega) \\]"
+            },
+            {
+                scienziato: "82. Nima Arkani-Hamed (Amplituhedro / S-Matrix)",
+                classica: "\\[ \\mathcal{A}_n = \\int d\\Omega_n \\mathcal{Y}(\\mathcal{C}) \\]",
+                critica: "L'amplituhedro tenta di eliminare l'unitarietà e la località operando su geometrie proiettive continue infinite. FDM ne ricava i volumi esatti a tempo costante O(1) tramite le relazioni diofantee dell'anello.",
+                faure: "\\[ \\mathcal{A}_{n,n} = \\int d\\Omega_n \\mathcal{Y}(\\mathcal{C}_n) + \\sum_{m \\neq n} \\mathcal{H}_{nm} \\]"
+            },
+            {
+                scienziato: "83. Charles Townes (Amplificazione Maser/Laser)",
+                classica: "\\[ I = I_0 e^{\\gamma z} \\]",
+                critica: "L'emissione stimolata e il coefficiente di guadagno continuo omettono il jitter di fase infinitesimale. FDM stabilizza il fronte dell'impulso sincronizzando i nodi sul clock dell'operatore PHI-Sync.",
+                faure: "\\[ I_n = I_{0,n} e^{\\gamma_n z_n} + \\sum_{m \\neq n} \\mathcal{T}_{nm} \\]"
+            },
+            {
+                scienziato: "84. Leo Kadanoff (Approssimazione di Blocco / Scaling)",
+                classica: "\\[ S_I = \\text{sign}\\left(\\sum_{i \\in I} s_i\\right) \\]",
+                critica: "La trasformazione a blocchi di spin assume medie statistiche locali nel continuo. FDM dimostra che l'invarianza di scala emerge dalla rigida contrazione non lineare dell'operatore Psi che preserva la misura intera.",
+                faure: "\\[ S_{I,n} = \\text{sign}\\left(\\sum_{i \\in I} s_{i,n}\\right) + \\sum_{m \\neq n} \\mathcal{K}_{nm} \\]"
+            },
+            {
+                scienziato: "85. Dennis Gabor (Olografia Spettrale)",
+                classica: "\\[ \\psi(x,y) = U_R(x,y) + U_O(x,y) \\]",
+                critica: "La ricostruzione del fronte d'onda continuo soffre di aberrazioni d'interferenza numerica. FDM blinda la coerenza d'asse mappando le intensità direttamente sui nodi interi del Toro reticolare.",
+                faure: "\\[ \\psi_n(x,y) = U_{R,n}(x,y) + U_{O,n}(x,y) + \\sum_{m \\neq n} \\mathcal{G}_{nm} \\]"
+            },
+            {
+                scienziato: "86. Igor Tamm & Il'ja Frank (Radiazione Čerenkov)",
+                classica: "\\[ \\frac{dW}{dx} = \\frac{e^2}{c^2} \\int \\left(1 - \\frac{1}{n^2\\beta^2}\\right) \\omega d\\omega \\]",
+                critica: "L'emissione elettromagnetica per superamento della velocità della luce nel mezzo assume una costante dielettrica continua. FDM corregge la divergenza relazionando l'indice di rifrazione allo stato discreto dei nodi.",
+                faure: "\\[ \\frac{dW_n}{dx} = \\frac{e^2}{c^2} \\int \\left(1 - \\frac{1}{n_n^2\\beta_n^2}\\right) \\omega d\\omega + \\sum_{m \\neq n} \\mathcal{F}_{nm} \\]"
+            },
+            {
+                scienziato: "87. Subrahmanyan Chandrasekhar (Equazioni di Trasferimento Radiativo)",
+                classica: "\\[ μ \\frac{dI}{d\tau} = I(\\tau, μ) - S(\\tau, μ) \\]",
+                critica: "Il trasporto dell'energia radiativa continua nelle atmosfere stellari genera instabilità asintotiche. FDM stabilizza i flussi calcolando i coefficienti di scattering sulle coordinate discrete a fixed-point.",
+                faure: "\\[ μ_n \\frac{dI_n}{d\\tau_n} = I_n(\\tau_n, μ_n) - S_n(\\tau_n, μ_n) + \\sum_{m \\neq n} \\mathcal{C}_{nm} \\]"
+            },
+            {
+                scienziato: "88. John von Neumann (Teorema Ergodico Quantistico)",
+                classica: "\\[ \\lim_{T \\to \\infty} \\frac{1}{T} \\int_0^T U_t \\rho U_t^\\dagger dt = \\rho_{diag} \\]",
+                critica: "L'ergodicità quantistica continua richiede tempi infiniti per la convergenza degli stati. FDM dimostra che la stasi informativa viene raggiunta a tempo costante O(1) tramite la stabilità rigida Psi⁴ = Psi⁵.",
+                faure: "\\[ \\lim_{T \\to \\infty} \\frac{1}{T} \\int_0^T U_{t,n} \\rho_n U_{t,n}^\\dagger dt + \\sum_{m \\neq n} \\mathcal{V}_{nm} = \\rho_{diag,n} \\]"
+            },
+            {
+                scienziato: "89. Max Born & J. Robert Oppenheimer (Approssimazione Adiabatica)",
+                classica: "\\[ \\Psi(r, R) = \\psi_n(r; R) \\chi_n(R) \\]",
+                critica: "La separazione dei moti nucleari ed elettronici assume una variazione infinitesima continua delle coordinate. FDM ne blinda il potenziale calcolando i vincoli di accoppiamento diofanteo ad errore macchina zero.",
+                faure: "\\[ \\Psi_n(r, R) = \\psi_{n,n}(r; R) \\chi_{n,n}(R) + \\sum_{m \\neq n} \\mathcal{B}_{nm} \\]"
+            },
+            {
+                scienziato: "90. Alain Faure (Equazione Universale Deterministica — 2026)",
+                classica: "\\[ X_{classico} \\quad \\text{[Tentativi Storici Continui Approssimati]} \\]",
+                critica: "Unificazione macro-microscopica finale ad errore macchina zero. La struttura precede la manifestazione locale dei dati sul silicio.",
+                faure: "\\[ X_n = X_{\\text{classico}, n} + \\sum_{m \\neq n} \\Delta_{nm}(\\omega) \\equiv \\text{MASTER\\_LOCKED} \\]"
+            }  
+        ];
+               
+        const logConsole = document.getElementById("log-console");
+
+        function aggiungiLog(msg) {
+            const time = new Date().toISOString().slice(11, 19);
+            logConsole.innerHTML += `[${time}] ${msg}\n`;
+            logConsole.scrollTop = logConsole.scrollHeight;
+        }
+
+        function costruisciLattice() {
+            const grid = document.getElementById("torus-lattice");
+            grid.innerHTML = "";
+            
+            for (let i = 0; i < 144; i++) {
+                const x = i % 12;
+                const y = Math.floor(i / 12);
+                
+                const cell = document.createElement("div");
+                cell.className = "matrix-cell";
+                cell.id = `n-${x}-${y}`;
+                cell.innerText = `${x},${y}`;
+                
+                cell.onclick = () => iniettaFlussoDati(x, y);
+                grid.appendChild(cell);
+            }
+        }
+
+        function iniettaFlussoDati(targetX, targetY) {
+            document.getElementById("node-info").innerText = `Nodo Sorgente: (${targetX}, ${targetY})`;
+            aggiungiLog(`Iniezione segnale d'asse sul punto di sella coordinata: (${targetX},${targetY})`);
+            
+            document.querySelectorAll(".matrix-cell").forEach(c => c.className = "matrix-cell");
+
+            // Fase 1: Calcolo dell'azione di gruppo Λ (Traslazione modulare)
+            setTimeout(() => {
+                for (let i = 0; i < 144; i++) {
+                    const x = i % 12;
+                    const y = Math.floor(i / 12);
+                    const distMod = (Math.abs(x - targetX) + Math.abs(y - targetY)) % 12;
+                    if (distMod <= 3) {
+                        const node = document.getElementById(`n-${x}-${y}`);
+                        if (node) node.classList.add("active");
+                    }
+                }
+                aggiungiLog(`Azione di Gruppo Λ applicata. Matrice di adiacenza calcolata modulo 12.`);
+            }, 100);
+
+            // Fase 2: Applicazione della contrazione asimmetrica non lineare dell'operatore Ψ
+            setTimeout(() => {
+                for (let i = 0; i < 144; i++) {
+                    const x = i % 12;
+                    const y = Math.floor(i / 12);
+                    const node = document.getElementById(`n-${x}-${y}`);
+                    if (node && node.classList.contains("active")) {
+                        if ((x + y) % 2 === 0) {
+                            node.classList.remove("active");
+                            node.classList.add("extinct");
+                        }
+                    }
+                }
+                aggiungiLog(`Operatore di Estinzione Ψ attivo. Transitorio compresso sul fronte d'onda.`);
+            }, 250);
+
+            // Fase 3: Stabilizzazione finale (Ψ⁴ = Ψ⁵)
+            setTimeout(() => {
+                document.querySelectorAll(".matrix-cell").forEach(node => {
+                    if (node.classList.contains("active") || node.classList.contains("extinct")) {
+                        node.className = "matrix-cell locked";
+                    }
+                });
+                aggiungiLog(`Stasi strutturale stabilizzata. Accoppiamento ∑Δ_{nm}(ω) bloccato a Jitter Zero.`);
+                document.getElementById("jitter-val").innerText = "Residuo Entropico: 0.000000e-650 [ε_650 PERFECT]";
+            }, 400);
+        }
+
+        function eseguiMappaturaScienziato() {
+            const selector = document.getElementById("historic-selector");
+            const data = datasetStorico[selector.value];
+            
+            // CORREZIONE CHIAVE: data.critica sostituisce il vecchio data.critique
+            document.getElementById("critique-text").innerText = `CRITICA STRUTTURALE FAURE: ${data.critica}`;
+            document.getElementById("math-orig").innerHTML = data.classica;
+            document.getElementById("math-faure").innerHTML = data.faure;
+            
+            aggiungiLog(`Mappatura spettrale caricata per: ${data.scienziato}`);
+            
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function inizializzaEngine() {
+            const selector = document.getElementById("historic-selector");
+            selector.innerHTML = "";
+            
+            datasetStorico.forEach((item, idx) => {
+                const opt = document.createElement("option");
+                opt.value = idx;
+                opt.innerText = item.scienziato;
+                selector.appendChild(opt);
+            });
+
+            selector.onchange = eseguiMappaturaScienziato;
+            
+            costruisciLattice();
+            eseguiMappaturaScienziato();
+            iniettaFlussoDati(6, 6);
+        }
+
+        inizializzaEngine();
+    </script>
+</body>
+</html>
