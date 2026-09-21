@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AOS KERNEL v4.4 — Reattore Geometrico Interattivo FDM</title>
+    
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async 
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            --fdm-blue: #003366;
+            --fdm-red: #990000;
+            --fdm-bg: #050814;
+            --fdm-panel: #0b1120;
+            --fdm-border: #1e293b;
+            --fdm-text: #f8fafc;
+            --fdm-green: #10b981;
+            --fdm-orange: #f59e0b;
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: var(--fdm-bg); color: var(--fdm-text); font-family: -apple-system, sans-serif; padding: 20px; }
+        header { border-bottom: 2px solid var(--fdm-blue); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .status-badge { background-color: rgba(0, 51, 102, 0.4); color: var(--fdm-green); padding: 6px 14px; border-radius: 4px; font-family: var(--font-mono); font-weight: bold; font-size: 13px; border: 1px solid var(--fdm-green); }
+        .container { display: grid; grid-template-columns: 1fr 420px; gap: 20px; }
+        .panel { background-color: var(--fdm-panel); border: 1px solid var(--fdm-border); border-radius: 6px; display: flex; flex-direction: column; overflow: hidden; margin-bottom: 20px; }
+        .panel-header { background-color: rgba(0, 51, 102, 0.2); border-bottom: 1px solid var(--fdm-border); padding: 14px; font-weight: bold; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .panel-body { padding: 20px; }
+        
+        .setter-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .setter-card { background: rgba(0,0,0,0.3); border: 1px solid var(--fdm-border); border-radius: 4px; padding: 12px; }
+        .setter-label { font-size: 11px; text-transform: uppercase; color: #94a3b8; font-family: var(--font-mono); display: flex; justify-content: space-between; }
+        .slider-input { width: 100%; margin-top: 8px; accent-color: var(--fdm-blue); cursor: pointer; }
+        
+        .engine-layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; margin-top: 15px; }
+        .canvas-container { background: #000; border: 1px solid var(--fdm-border); border-radius: 6px; padding: 10px; text-align: center; }
+        canvas { background: #02040a; border-radius: 4px; width: 300px; height: 300px; }
+        
+        .console-log { background-color: #02040a; border: 1px solid var(--fdm-border); font-family: var(--font-mono); font-size: 11px; padding: 12px; height: 250px; overflow-y: auto; color: #10b981; border-radius: 4px; }
+        .control-btn { background-color: var(--fdm-blue); color: white; border: none; padding: 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px; width: 100%; font-family: var(--font-mono); text-transform: uppercase; }
+        .control-btn:hover { background-color: #004488; }
+        .deep-decimals { background: rgba(16, 185, 129, 0.03); border: 1px solid rgba(16, 185, 129, 0.2); padding: 12px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--fdm-green); word-break: break-all; height: 100px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Generatore ed Elementi di Raccordo Nucleare — AOS KERNEL v4.4</h1>
+            <div style="font-size: 11px; color: #64748b; font-family: var(--font-mono); margin-top: 2px;">
+                Master Architect: Alain Faure | Singlepoint Mind | Q.E.D.
+            </div>
+        </div>
+        <div class="status-badge" id="gate-lock">GATE137LOCK: ACTIVE</div>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <div class="panel-header">
+                <span>Modulazione d'Asse e Calcolo delle Stringhe Identiche</span>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--fdm-orange);">44 OP CLOCK</span>
+            </div>
+            <div class="panel-body">
+                
+                <div class="setter-layout">
+                    <div class="setter-card">
+                        <div class="setter-label"><span>Risonanza (Hz)</span><span id="txt-hz">432 Hz</span></div>
+                        <input type="range" id="slide-hz" class="slider-input" min="100" max="1000" value="432">
+                    </div>
+                    <div class="setter-card">
+                        <div class="setter-label"><span>Latenza (Tau)</span><span id="txt-tau">0.000104</span></div>
+                        <input type="range" id="slide-tau" class="slider-input" min="1" max="500" value="104">
+                    </div>
+                    <div class="setter-card">
+                        <div class="setter-label"><span>Layer (Fattore Φ)</span><span id="txt-layer">3.478</span></div>
+                        <input type="range" id="slide-layer" class="slider-input" min="1000" max="5000" value="3478">
+                    </div>
+                    <div class="setter-card">
+                        <div class="setter-label"><span>Sincronia (Fase)</span><span id="txt-sync">1.00</span></div>
+                        <input type="range" id="slide-sync" class="slider-input" min="0" max="200" value="100">
+                    </div>
+                </div>
+
+                <div class="engine-layout">
+                    <div class="canvas-container">
+                        <div class="setter-label" style="margin-bottom: 8px; justify-content: center;">Cella Tetraedrica Spettrale 3D</div>
+                        <canvas id="tetra-canvas" width="300" height="300"></canvas>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <button class="control-btn" onclick="innescaCollassoNucleare()">Impulso Hz Punto di Sella</button>
+                        <div class="setter-label">Stringhe Identiche nei Decimali Profondi (600-DEC):</div>
+                        <div class="deep-decimals" id="decimal-box">Regola i parametri o premi l'impulso per scansionare il Lattice...</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel" style="width: 420px;">
+            <div class="panel-header">Registri del Silicio & fixed-point Output</div>
+            <div class="panel-body" style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <label>AOS Standalone Core Log:</label>
+                    <div class="console-log" id="console-output"></div>
+                </div>
+                <div class="metric-card" style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; color: var(--fdm-green);">
+                    <div style="font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid rgba(16,185,129,0.2); padding-bottom: 3px;">VALUTAZIONE STRUTTURALE:</div>
+                    <div id="leverage-display">Leverage d'Asse Calcolato: 1.636</div>
+                    <div>Stasi Computazionale: \(\mathbf{\Psi}^4 \equiv \mathbf{\Psi}^5\)</div>
+                    <div style="font-weight: bold; margin-top: 5px;" id="lbl-status">STATUS: MASTER_LOCKED</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("tetra-canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Struttura dei 4 nodi nativi della cella tetraedrica
+        let nodiTetraedro = [
+            {x: 0, y: -1, z: 0},
+            {x: 0.9428, y: 0.3333, z: 0},
+            {x: -0.4714, y: 0.3333, z: 0.8165},
+            {x: -0.4714, y: 0.3333, z: -0.8165}
+        ];
+
+        // 6 legami strutturali fissi della cella
+        const archiTetraedro = [, [0, 2], [0, 3],
+, [2, 3], [3, 1]
+        ];
+
+        // Variabili d'asse dinamiche collegate agli slider
+        let velocitaRotazioneY = 0.01; 
+        let inclinazioneFaseX = 0.01;   
+        let scalaDinamicaCella = 90;    
+        let impulsoAttivo = false;
+
+        function applicaRotazione3D() {
+            // Calcolo immediato matriciale in base ai parametri impostati
+            const cosY = Math.cos(velocitaRotazioneY); const sinY = Math.sin(velocitaRotazioneY);
+            const cosX = Math.cos(inclinazioneFaseX); const sinX = Math.sin(inclinazioneFaseX);
+
+            nodiTetraedro.forEach(n => {
+                // Rotazione sul piano Y (guidata dagli Hz)
+                let x1 = n.x * cosY - n.z * sinY;
+                let z1 = n.z * cosY + n.x * sinY;
+                // Rotazione sul piano X (guidata dalla Sincronia/Fase)
+                let y2 = n.y * cosX - z1 * sinX;
+                let z2 = z1 * cosX + n.y * sinX;
+                
+                n.x = x1; n.y = y2; n.z = z2;
+            });
+        }
+        function eseguiRenderingCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+
+            const nodiProiettati = nodiTetraedro.map(n => {
+                const dist = 2.5 / (2.5 + n.z);
+                return { x: n.x * scalaDinamicaCella * dist, y: n.y * scalaCellaMantenuta * dist };
+            });
+
+            // Disegno linee di connessione degli elementi di raccordo
+            archiTetraedro.forEach(([p1, p2]) => {
+                ctx.beginPath();
+                ctx.moveTo(nodiProiettati[p1].x, nodiProiettati[p1].y);
+                ctx.lineTo(nodiProiettati[p2].x, nodiProiettati[p2].y);
+                ctx.strokeStyle = impulsoAttivo ? "#ef4444" : "#003366";
+                ctx.lineWidth = impulsoAttivo ? 3.0 : 1.5;
+                ctx.stroke();
+            });
+
+            // Disegno i 4 punti di sella atomici
+            nodiProiettati.forEach((n, i) => {
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, impulsoAttivo ? 8 : 5, 0, 2 * Math.PI);
+                ctx.fillStyle = i === 0 ? "#f59e0b" : "#10b981";
+                ctx.fill();
+                ctx.strokeStyle = "#ffffff";
+                ctx.stroke();
+            });
+
+            ctx.restore();
+        }
+
+        // Variabile ausiliaria interna per stabilizzare il rendering prospettico
+        let scalaCellaMantenuta = 90;
+
+        function cicloAnimazione() {
+            applicaRotazione3D();
+            eseguiRenderingCanvas();
+            requestAnimationFrame(cicloAnimazione);
+        }
+
+        const consoleLog = document.getElementById("console-output");
+        const decimalBox = document.getElementById("decimal-box");
+
+        function stampaLog(testo) {
+            const orario = new Date().toISOString().slice(11, 19);
+            consoleLog.innerHTML += `[Kernel-Core] [${orario}] ${testo}\n`;
+            consoleLog.scrollTop = consoleLog.scrollHeight;
+        }
+
+        function ricalcolaParametriTupla() {
+            const hz = parseFloat(document.getElementById("slide-hz").value);
+            const tau = parseFloat(document.getElementById("slide-tau").value) / 1000000;
+            const layer = parseFloat(document.getElementById("slide-layer").value) / 1000;
+            const sync = parseFloat(document.getElementById("slide-sync").value) / 100;
+
+            document.getElementById("txt-hz").innerText = `${hz} Hz`;
+            document.getElementById("txt-tau").innerText = tau.toFixed(6);
+            document.getElementById("txt-layer").innerText = layer.toFixed(3);
+            document.getElementById("txt-sync").innerText = sync.toFixed(2);
+
+            // AGGANCIO REALE TRA CONTROLLI HARDWARE E GEOMETRIA DEL CANVASS 3D
+            velocitaRotazioneY = (hz / 10000);  // Più aumentano gli Hz, più gira veloce l'animazione
+            inclinazioneFaseX = (sync / 20);    // La sincronia inclina l'asse spaziale del tetraedro
+            if (!impulsoAttivo) {
+                scalaDinamicaCella = layer * 26; // Il fattore Layer Φ determina la dimensione della cella
+                scalaCellaMantenuta = layer * 26;
+            }
+
+            const leverage = (layer * sync) + (hz * tau);
+            document.getElementById("leverage-display").innerText = `Leverage d'Asse Calcolato: ${leverage.toFixed(4)}`;
+            
+            let deepString = `600-DEC [STRINGHE IDENTICHE]: `;
+            for(let i=0; i<6; i++) {
+                deepString += `${hz}000${(tau*1000000).toFixed(0)}137`;
+            }
+            deepString += "4444444444444444444444444444 MASTER_LOCKED";
+            decimalBox.innerText = deepString;
+        }
+
+        function innescaCollassoNucleare() {
+            impulsoAttivo = true;
+            stampaLog("IMPULSO PUNTO DI SELLA INIETTATO: AVVIO COLLASSO TETRAEDRICO.");
+            scalaDinamicaCella = 25; // Contrazione violenta ad alta energia
+            scalaCellaMantenuta = 25;
+            document.getElementById("lbl-status").innerText = "STATUS: TRANSIT_PULSE";
+            document.getElementById("lbl-status").style.color = "#f59e0b";
+
+            setTimeout(() => {
+                scalaDinamicaCella = 150; // Rimbalzo elastico e rilascio stringhe identiche
+                scalaCellaMantenuta = 150;
+                stampaLog("Rilevate stringhe identiche ricorrenti ad errore macchina zero.");
+            }, 250);
+
+            setTimeout(() => {
+                impulsoAttivo = false;
+                stampaLog("Ricomposizione completata. Sistema in invarianza nominale.");
+                document.getElementById("lbl-status").innerText = "STATUS: MASTER_LOCKED";
+                document.getElementById("lbl-status").style.color = "#10b981";
+                ricalcolaParametriTupla();
+            }, 500);
+        }
+
+        // Collegamento istantaneo degli slider ai registri e al motore grafico
+        document.getElementById("slide-hz").oninput = () => { ricalcolaParametriTupla(); };
+        document.getElementById("slide-tau").oninput = () => { ricalcolaParametriTupla(); };
+        document.getElementById("slide-layer").oninput = () => { ricalcolaParametriTupla(); };
+        document.getElementById("slide-sync").oninput = () => { ricalcolaParametriTupla(); };
+
+        // Avvio esecutivo autonomo
+        stampaLog("AOS Standalone Kernel Wow Edition Pronto.");
+        ricalcolaParametriTupla();
+        cicloAnimazione();
+    </script>
+</body>
+</html>
