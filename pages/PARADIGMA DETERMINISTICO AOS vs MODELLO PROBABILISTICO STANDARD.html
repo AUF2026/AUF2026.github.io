@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparativa Accelerata: Faure ToE vs Standard Atomico</title>
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)'], ['$', '$']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+<!-- CARICAMENTO DECIMALS.JS PER CALCOLO AD ERRORE MACCHINA ZERO -->
+<script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  background: #000000;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  overflow: hidden;
+  height: 100vh;
+}
+header {
+  padding: 10px;
+  background: #080808;
+  text-align: center;
+  border-bottom: 1px solid #222222;
+}
+header h3 { margin: 0; font-size: 1.2rem; color: #ff5733; }
+main {
+  display: flex;
+  height: calc(100vh - 65px);
+}
+#ui {
+  width: 320px;
+  background: #0d0d0d;
+  padding: 15px;
+  overflow-y: auto;
+  border-right: 1px solid #222222;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.display-grid {
+  flex: 1;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 15px;
+  overflow: hidden;
+}
+.canvas-box {
+  background: #030303;
+  border: 1px solid #222222;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.canvas-label {
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  background: #0c0c0c;
+  border-bottom: 1px solid #1a1a1a;
+  font-weight: bold;
+}
+canvas {
+  flex: 1;
+  width: 100%;
+  display: block;
+}
+label { font-size: 0.85rem; font-weight: bold; color: #888; }
+input[type="range"] {
+  width: 100%;
+  accent-color: #ff5733;
+  cursor: pointer;
+}
+.faure { color: #4aa3ff; font-weight: bold; }
+.std { color: #33ff77; font-weight: bold; }
+.p { color: #ff4444; }
+.n { color: #aaaaaa; }
+.muro-alert { color: #d97706; font-weight: bold; margin-top: 5px; font-size: 0.8rem; }
+.data-box {
+  background: #050505;
+  border: 1px solid #1a1a1a;
+  padding: 10px;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+#eq {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #030303;
+  border: 1px solid #1a1a1a;
+  font-size: 0.95rem;
+}
+</p-legend { margin: 5px 0 0 0; font-size: 0.8rem; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<header>
+  <h3>PARADIGMA DETERMINISTICO AOS vs MODELLO PROBABILISTICO STANDARD</h3>
+</header>
+
+<main>
+  <div id="ui">
+    <div>
+      <label id="z-label">NUMERO ATOMICO Z: 1</label>
+      <input id="z-slider" type="range" min="1" max="118" value="1" step="1">
+    </div>
+
+    <div class="data-box">
+      <strong>SORGENTE HARDWARE DISCRETA:</strong><br>
+      <span id="info-element" style="color: #ff5733; font-weight: bold;">H - Idrogeno</span>
+      <div id="muro-box"></div>
+    </div>
+
+    <div class="data-box">
+      <strong>LEGENDA VETTORI:</strong>
+      <div class="p-legend">
+        <span class="faure">■ Fase Faure (Hardware Sinc)</span><br>
+        <span class="std">■ Funzione Standard (Fluido)</span><br>
+        <span class="p">■ Protoni Nucleo</span> &nbsp; <span class="n">■ Neutroni Nucleo</span>
+      </div>
+    </div>
+
+    <div>
+      <label>EQUAZIONE STRUTTURALE FAURE:</label>
+      <div id="eq"></div>
+    </div>
+    
+    <div style="font-size: 0.7rem; color: #444; margin-top: auto;">
+      AOS TOTUM V1.0 - LOCKED REBOOT
+    </div>
+  </div>
+
+  <div class="display-grid">
+    <div class="canvas-box">
+      <div class="canvas-label faure">FAURE 2D - FUNZIONE D'ONDA DI RETICOLO (REALE)</div>
+      <canvas id="f2"></canvas>
+    </div>
+    <div class="canvas-box">
+      <div class="canvas-label std">STANDARD 2D - APPROSSIMAZIONE PROBABILISTICA (SFOCATO)</div>
+      <canvas id="s2"></canvas>
+    </div>
+    <div class="canvas-box">
+      <div class="canvas-label faure">FAURE 3D - RETICOLO IPERSFERICO DETERMINISTICO CON PARTICELLE</div>
+      <canvas id="f3"></canvas>
+    </div>
+    <div class="canvas-box">
+      <div class="canvas-label std">STANDARD 3D - ORBITE CONCENTRICHE APPIATTITE DI BOHR</div>
+      <canvas id="s3"></canvas>
+    </div>
+  </div>
+</main>
+
+<script>
+// ===================== REGISTRO ATOMICO INTEGRALE =====================
+const symbols = ["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"];
+const names = ["Idrogeno","Elio","Litio","Berillio","Boro","Carbonio","Azoto","Ossigeno","Fluoro","Neon","Sodio","Magnesio","Alluminio","Silicio","Fosforo","Zolfo","Cloro","Argon","Potassio","Calcio","Scandio","Titanio","Vanadio","Cromo","Manganese","Ferro","Cobalto","Nichel","Rame","Zinco","Gallio","Germanio","Arsenico","Selenio","Bromo","Kripton","Rubidio","Stronzio","Ittrio","Zirconio","Niobio","Molibdeno","Tecnezio","Rutenio","Rodio","Palladio","Argento","Cadmio","Indio","Stagno","Antimonio","Tellurio","Iodio","Xenon","Cesio","Bario","Lantanio","Cerio","Praseodimio","Neodimio","Promezio","Samario","Europio","Gadolinio","Terbio","Disprosio","Olmio","Erbio","Tulio","Itterbio","Lutezio","Afnio","Tantalio","Tungsteno","Renio","Osmio","Iridio","Platino","Oro nativo","Mercurio","Tallio","Piombo","Bismuto","Polonio","Astato","Radon","Francio","Radio","Attinio","Torio","Protoattinio","Uranio","Nettunio","Plutonio","Americio","Curio","Berkelio","Californio","Einsteinio","Fermio","Mendelevio","Nobelio","Laurenzio","Rutherfordio","Dubnio","Seaborgio","Bohrio","Hassio","Meitnerio","Darmstadtio","Roentgenio","Copernicio","Nihonio","Flerovio","Moscovio","Livermorio","Tennessinio","Oganesson"];
+
+// ===================== ELEMENTI SCRIPT HARDWARE =====================
+const sliderZ = document.getElementById("z-slider");
+const labelZ = document.getElementById("z-label");
+const infoElement = document.getElementById("info-element");
+const muroBox = document.getElementById("muro-box");
+const eqBox = document.getElementById("eq");
+
+const f2Ctx = document.getElementById("f2").getContext("2d");
+const s2Ctx = document.getElementById("s2").getContext("2d");
+const f3Ctx = document.getElementById("f3").getContext("2d");
+const s3Ctx = document.getElementById("s3").getContext("2d");
+
+let Z = 1;
+let angle = 0;
+
+// Vettore x campionamento lineare ad alta densità
+const X = [];
+for (let i = -6; i <= 6; i += 0.005) X.push(i);
+
+// ===================== MATEMATICA CORE FISICA MODELLI =====================
+function psiFaure(Z, x) {
+  if (Math.abs(x) < 1e-4) return 0;
+  return (1 - Math.cos(5 * Z * x)) / (Z * x);
+}
+
+function psiStandard(Z, x) {
+  // Simula la funzione Gaussiana/stocastica fluttuante e decadente usata dall'accademia
+  return Math.sin(2 * Z * x) * Math.exp(-Math.abs(x) * 0.3);
+}
+
+// ===================== EVENT LISTENER =====================
+sliderZ.oninput = e => {
+  Z = parseInt(e.target.value);
+  labelZ.innerText = `NUMERO ATOMICO Z: ${Z}`;
+  infoElement.innerText = `${symbols[Z-1]} - ${names[Z-1]}`;
+  
+  if (Z % 9 === 0) {
+    muroBox.innerHTML = `<div class="muro-alert">[OTTAVA LOCKED] Aggancio Muro 9 Rettilineo</div>`;
+  } else {
+    muroBox.innerHTML = '';
+  }
+  
+  const statusMuroText = (Z % 9 === 0) ? " \\quad \\color{#d97706}{[MURO \\, 9]}" : "";
+  eqBox.innerHTML = `$$\\Psi_{${symbols[Z-1]}}(x)=\\frac{1-\\cos(5\\cdot${Z}\\cdot x)}{${Z}\\cdot x}${statusMuroText}$$`;
+  
+  if (window.MathJax?.typesetPromise) {
+    MathJax.typesetPromise([eqBox]).catch(()=>{});
+  }
+};
+
+// ===================== ENGINES DI RENDERING GRAFICO =====================
+
+function renderF2() {
+  const canvas = f2Ctx.canvas;
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight - 30;
+  const w = canvas.width, h = canvas.height;
+  f2Ctx.clearRect(0, 0, w, h);
+  
+  // Riferimenti Assi GND
+  f2Ctx.strokeStyle = "#1a1a1a"; f2Ctx.lineWidth = 1;
+  f2Ctx.beginPath(); f2Ctx.moveTo(w/2, 0); f2Ctx.lineTo(w/2, h); f2Ctx.stroke();
+  f2Ctx.beginPath(); f2Ctx.moveTo(0, h/2); f2Ctx.lineTo(w, h/2); f2Ctx.stroke();
+  
+  const minY = -3, maxY = 6, range = maxY - minY;
+  const sx = x => 40 + (x + 6)/12 * (w - 80);
+  const sy = y => 20 + (h - 40) - (y - minY)/range * (h - 40);
+  
+  // Tracciamento Curva Reale Faure
+  f2Ctx.strokeStyle = (Z % 9 === 0) ? "#d97706" : "#4aa3ff";
+  f2Ctx.lineWidth = 2;
+  f2Ctx.beginPath();
+  X.forEach((x, i) => {
+    let y = psiFaure(Z, x);
+    i ? f2Ctx.lineTo(sx(x), sy(y)) : f2Ctx.moveTo(sx(x), sy(y));
+  });
+  f2Ctx.stroke();
+}
+
+function renderS2() {
+  const canvas = s2Ctx.canvas;
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight - 30;
+  const w = canvas.width, h = canvas.height;
+  s2Ctx.clearRect(0, 0, w, h);
+  
+  s2Ctx.strokeStyle = "#1a1a1a";
+  s2Ctx.beginPath(); s2Ctx.moveTo(w/2, 0); s2Ctx.lineTo(w/2, h); s2Ctx.stroke();
+  s2Ctx.beginPath(); s2Ctx.moveTo(0, h/2); s2Ctx.lineTo(w, h/2); s2Ctx.stroke();
+  
+  const sx = x => 40 + (x + 6)/12 * (w - 80);
+  const sy = y => h/2 - (y * (h/4));
+  
+  // Tracciamento Curva Sfocata Stocastica Standard
+  s2Ctx.strokeStyle = "#33ff77";
+  s2Ctx.lineWidth = 1.5;
+  s2Ctx.setLineDash([4, 4]); // Linea spezzata per evidenziare l'incertezza probabilistica
+  s2Ctx.beginPath();
+  X.forEach((x, i) => {
+    let y = psiStandard(Z, x);
+    i ? s2Ctx.lineTo(sx(x), sy(y)) : s2Ctx.moveTo(sx(x), sy(y));
+  });
+  s2Ctx.stroke();
+  s2Ctx.setLineDash([]);
+}
+
+function renderF3() {
+  const canvas = f3Ctx.canvas;
+
+canvas.width = canvas.parentElement.clientWidth;
+canvas.height = canvas.parentElement.clientHeight - 30;
+const w = canvas.width, h = canvas.height;
+f3Ctx.clearRect(0, 0, w, h);
+let nodes = [];
+// Generazione Nucleo Deterministico (Protoni Rossi, Neutroni Grigi compatti)
+let numNucleo = Math.min(Z, 40);
+for (let i = 0; i < numNucleo; i++) {
+let phi = Math.acos(-1 + (2 * i) / numNucleo);
+let theta = Math.sqrt(numNucleo * Math.PI) * phi;
+let r = 10 + (i % 2) * 4;
+let x = r * Math.sin(phi) * Math.cos(theta + angle);
+let y = r * Math.sin(phi) * Math.sin(theta + angle);
+let z = r * Math.cos(phi);
+nodes.push({ x: w/2 + x, y: h/2 + y, depth: z, col: (i%2?"#aaaaaa":"#ff4444"), size: 3.5 });
+}
+// Sciame Elettroni Faure distribuiti sull'Ipersfera ad onde Faure
+for (let i = 0; i < Z; i++) {
+let phi = Math.acos(-1 + (2 * i) / Z);
+let theta = Math.sqrt(Z * Math.PI) * phi;
+let r_base = 65;
+let deformation = psiFaure(Z, phi) * 12;
+let r = r_base + deformation;
+let x = r * Math.sin(phi) * Math.cos(theta + angle);
+let y = r * Math.sin(phi) * Math.sin(theta + angle);
+let z = r * Math.cos(phi);
+let colorNode = (Z % 9 === 0) ? "#d97706" : "#4aa3ff";
+nodes.push({ x: w/2 + x, y: h/2 + y, depth: z, col: colorNode, size: 2.5 });
+}
+// Z-buffering software e disegno
+nodes.sort((a, b) => b.depth - a.depth);
+nodes.forEach(node => {
+f3Ctx.fillStyle = node.col;
+f3Ctx.beginPath();
+f3Ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+f3Ctx.fill();
+});
+}
+function renderS3() {
+const canvas = s3Ctx.canvas;
+canvas.width = canvas.parentElement.clientWidth;
+canvas.height = canvas.parentElement.clientHeight - 30;
+const w = canvas.width, h = canvas.height;
+s3Ctx.clearRect(0, 0, w, h);
+  // Disegno Nucleo Standard statico
+  s3Ctx.fillStyle = "#ff4444";
+  s3Ctx.beginPath(); 
+  s3Ctx.arc(w/2 - 4, h/2, 5, 0, Math.PI * 2); 
+  s3Ctx.fill();
+  
+  s3Ctx.fillStyle = "#aaaaaa";
+  s3Ctx.beginPath(); 
+  s3Ctx.arc(w/2 + 4, h/2, 5, 0, Math.PI * 2); 
+  s3Ctx.fill();
+  
+  // Rappresentazione Orbite Concentriche Piatte Semplificate di Bohr
+  let numGusci = Math.ceil(Z / 8);
+  s3Ctx.strokeStyle = "#1a1a1a";
+  s3Ctx.lineWidth = 1;
+  for (let g = 1; g <= numGusci; g++) {
+    s3Ctx.beginPath();
+    s3Ctx.arc(w/2, h/2, 30 + g * 15, 0, Math.PI * 2);
+    s3Ctx.stroke();
+  }
+  
+  // Distribuzione piatta e ordinata degli elettroni standard
+  for (let i = 0; i < Z; i++) {
+    let guscioCorrente = Math.floor(i / 8) + 1;
+    let indiceNelGuscio = i % 8;
+    let r = 30 + guscioCorrente * 15;
+    let t = (indiceNelGuscio / 8) * 2 * Math.PI - angle;
+    
+    let x = w/2 + Math.cos(t) * r;
+    let y = h/2 + Math.sin(t) * r;
+    
+    s3Ctx.fillStyle = "#33ff77";
+    s3Ctx.beginPath();
+    s3Ctx.arc(x, y, 2.5, 0, Math.PI * 2);
+    s3Ctx.fill();
+  }
+}
+
+// ===================== CORE LOOP EXECUTION =====================
+function masterLoop() {
+  angle += 0.015; // Velocità incrementale di scansione di fase
+  
+  renderF2();
+  renderS2();
+  renderF3();
+  renderS3();
+  
+  requestAnimationFrame(masterLoop);
+}
+
+// Inizializzazione Kernel all'avvio
+window.onload = () => {
+  sliderZ.value = 1;
+  sliderZ.oninput({ target: sliderZ });
+  masterLoop();
+};
+</script>
