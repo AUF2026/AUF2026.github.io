@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faure-ToE Navigatore Materia Lineare</title>
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(','\\)'], ['$', '$']] },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+<style>
+:root {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --accent-color: #ff5733;
+    --grid-color: #222222;
+    --panel-bg: #111111;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+header {
+    background-color: var(--panel-bg);
+    padding: 10px 20px;
+    border-bottom: 1px solid #333;
+    text-align: center;
+}
+h1 { margin: 0; font-size: 1.4rem; color: var(--accent-color); }
+p { margin: 5px 0 0 0; font-size: 0.85rem; color: #888; }
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    gap: 15px;
+    height: calc(100vh - 120px);
+}
+#control-panel {
+    flex: 1;
+    background-color: var(--panel-bg);
+    border: 1px solid #333;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: auto;
+}
+#display-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.canvas-container {
+    flex: 1;
+    border: 1px solid #333;
+    background-color: #050505;
+    position: relative;
+}
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.canvas-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #888;
+    background: rgba(0,0,0,0.7);
+    padding: 2px 6px;
+    border: 1px solid #222;
+}
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+label { font-size: 0.9rem; font-weight: bold; }
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-color);
+    cursor: pointer;
+}
+.data-box {
+    border: 1px solid #222;
+    background-color: #080808;
+    padding: 10px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+.muro-alert {
+    color: #d97706;
+    font-weight: bold;
+    margin-top: 5px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Faure-ToE Navigatore Armonico Materia Lineare</h1>
+<p>Visualizzazione deterministica della materia lineare e risonanza fondamentale</p>
+</header>
+
+<main>
+    <div id="control-panel">
+        <h3>CONTROLLO HARDWARE</h3>
+        
+        <div class="slider-group">
+            <label id="label-z">NUMERO ATOMICO (Z): 1</label>
+            <input type="range" id="slider-z" min="1" max="118" value="1" step="1">
+        </div>
+
+        <div class="slider-group">
+            <label id="label-hz">FREQUENZA RETICOLO: 1.00 Hz</label>
+            <input type="range" id="slider-hz" min="0.1" max="5.0" value="1.0" step="0.05">
+        </div>
+
+        <div class="data-box">
+            <strong>ELEMENTO SELEZIONATO:</strong><br>
+            <span id="elem-info" style="color: var(--accent-color); font-weight: bold;">H - Idrogeno</span>
+            <div id="muro-status"></div>
+        </div>
+
+        <div class="data-box">
+            <strong>EQUAZIONE DI FASE:</strong><br>
+            <div id="formula-box">$$\Psi_{H}(x) = \frac{1 - \cos(5 \cdot 1 \cdot x)}{1 \cdot x}$$</div>
+        </div>
+
+        <div class="data-box" style="font-size: 0.8rem; color: #666;">
+            <strong>FMMC Core Status:</strong> LOCKED<br>
+            <strong>Bus Allocato:</strong> 144 Linee Hardware<br>
+            <strong>Risoluzione:</strong> Geometria Discreta 6D
+        </div>
+    </div>
+
+    <div id="display-panel">
+        <div class="canvas-container">
+            <div class="canvas-label">PROIEZIONE DI FASE 2D (Spinta S vs Contenimento C)</div>
+            <canvas id="canvas-2d"></canvas>
+        </div>
+        <div class="canvas-container">
+            <div class="canvas-label">STRUTTURA RETICOLARE 3D (Nodi di Risonanza Ipersferici)</div>
+            <canvas id="canvas-3d"></canvas>
+        </div>
+    </div>
+</main>
+
+<script>
+// --- BANCO DATI SORGENTE ---
+const simboli = ["H","He","Li","Be","B","C","N","O","F","Ne","Na","Mg","Al","Si","P","S","Cl","Ar","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Kr","Rb","Sr","Y","Zr","Nb","Mo","Tc","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Xe","Cs","Ba","La","Ce","Pr","Nd","Pm","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Po","At","Rn","Fr","Ra","Ac","Th","Pa","U","Np","Pu","Am","Cm","Bk","Cf","Es","Fm","Md","No","Lr","Rf","Db","Sg","Bh","Hs","Mt","Ds","Rg","Cn","Nh","Fl","Mc","Lv","Ts","Og"];
+const nomi = ["Idrogeno","Elio","Litio","Berillio","Boro","Carbonio","Azoto","Ossigeno","Fluoro","Neon","Sodio","Magnesio","Alluminio","Silicio","Fosforo","Zolfo","Cloro","Argon","Potassio","Calcio","Scandio","Titanio","Vanadio","Cromo","Manganese","Ferro","Cobalto","Nichel","Rame","Zinco","Gallio","Germanio","Arsenico","Selenio","Bromo","Kripton","Rubidio","Stronzio","Ittrio","Zirconio","Niobio","Molibdeno","Tecnezio","Rutenio","Rodio","Palladio","Argento","Cadmio","Indio","Stagno","Antimonio","Tellurio","Iodio","Xenon","Cesio","Bario","Lantanio","Cerio","Praseodimio","Neodimio","Promezio","Samario","Europio","Gadolinio","Terbio","Disprosio","Olmio","Erbio","Tulio","Itterbio","Lutezio","Afnio","Tantalio","Tungsteno","Renio","Osmio","Iridio","Platino","Oro nativo","Mercurio","Tallio","Piombo","Bismuto","Polonio","Astato","Radon","Francio","Radio","Attinio","Torio","Protoattinio","Uranio","Nettunio","Plutonio","Americio","Curio","Berkelio","Californio","Einsteinio","Fermio","Mendelevio","Nobelio","Laurenzio","Rutherfordio","Dubnio","Seaborgio","Bohrio","Hassio","Meitnerio","Darmstadtio","Roentgenio","Copernicio","Nihonio","Flerovio","Moscovio","Livermorio","Tennessinio","Oganesson"];
+
+// --- ELEMENTI INTERFACCIA ---
+const sliderZ = document.getElementById('slider-z');
+const sliderHz = document.getElementById('slider-hz');
+const labelZ = document.getElementById('label-z');
+const labelHz = document.getElementById('label-hz');
+const elemInfo = document.getElementById('elem-info');
+const muroStatus = document.getElementById('muro-status');
+const formulaBox = document.getElementById('formula-box');
+
+const canvas2d = document.getElementById('canvas-2d');
+const canvas3d = document.getElementById('canvas-3d');
+const ctx2d = canvas2d.getContext('2d');
+const ctx3d = canvas3d.getContext('2d'); // Usiamo rendering software 3D nativo su Canvas 2D per compatibilità totale
+
+// --- STATO DEL SISTEMA ---
+let currentZ = 1;
+let currentHz = 1.0;
+let angleX = 0.5;
+let angleY = 0.5;
+
+// --- FUNZIONI MATEMATICHE INTEGRALI ---
+function evaluateWave(Z, hz, x) {
+    if (Math.abs(x) < 0.01) return 0;
+    return (1 - Math.cos(5 * Z * x * hz)) / (Z * x);
+}
+
+function evaluateDerivative(Z, hz, x) {
+    if (Math.abs(x) < 0.01) return 5 * Z * hz;
+    return (5 * Z * hz * Math.sin(5 * Z * x * hz)) / (Z * x) - (1 - Math.cos(5 * Z * x * hz)) / (Z * x * x);
+}
+
+// --- LOGICA DI AGGIORNAMENTO ---
+function updateSystem() {
+    currentZ = parseInt(sliderZ.value);
+    currentHz = parseFloat(sliderHz.value);
+    
+    labelZ.innerText = `NUMERO ATOMICO (Z): ${currentZ}`;
+    labelHz.innerText = `FREQUENZA RETICOLO: ${currentHz.toFixed(2)} Hz`;
+    elemInfo.innerText = `${simboli[currentZ-1]} - ${nomi[currentZ-1]}`;
+    
+    if (currentZ % 9 === 0) {
+        muroStatus.innerHTML = `<div class="muro-alert">[OTTAVA CHIUSA] Rilevato Muro di Contenimento 9</div>`;
+    } else {
+        muroStatus.innerHTML = '';
+    }
+    
+    formulaBox.innerHTML = `$$\\Psi_{${simboli[currentZ-1]}}(x) = \\frac{1 - \\cos(5 \\cdot ${currentZ} \\cdot x \\cdot ${currentHz.toFixed(2)})}{${currentZ} \\cdot x}$$`;
+    if (window.MathJax && window.MathJax.typeset) {
+        window.MathJax.typeset();
+    }
+    
+    render2D();
+}
+
+// --- RENDERING PROIEZIONE 2D ---
+function render2D() {
+    canvas2d.width = canvas2d.parentElement.clientWidth;
+    canvas2d.height = canvas2d.parentElement.clientHeight;
+    
+    const w = canvas2d.width;
+    const h = canvas2d.height;
+    ctx2d.clearRect(0, 0, w, h);
+    
+    // Disegno Griglia di Fondo
+    ctx2d.strokeStyle = '#111';
+    ctx2d.lineWidth = 1;
+    for(let i = 0; i < w; i += 40) {
+        ctx2d.beginPath(); ctx2d.moveTo(i, 0); ctx2d.lineTo(i, h); ctx2d.stroke();
+    }
+    for(let j = 0; j < h; j += 40) {
+        ctx2d.beginPath(); ctx2d.moveTo(0, j); ctx2d.lineTo(w, j); ctx2d.stroke();
+    }
+    
+    // Assi Centrali (GND)
+    ctx2d.strokeStyle = '#333';
+    ctx2d.lineWidth = 2;
+    ctx2d.beginPath(); ctx2d.moveTo(w/2, 0); ctx2d.lineTo(w/2, h); ctx2d.stroke();
+    ctx2d.beginPath(); ctx2d.moveTo(0, h/2); ctx2d.lineTo(w, h/2); ctx2d.stroke();
+    
+    // Generazione delle Curve di Spinta e Contenimento
+    ctx2d.lineWidth = 2;
+    
+    // Curve 1: Spinta S (Bianco)
+    ctx2d.strokeStyle = '#ffffff';
+    ctx2d.beginPath();
+    for (let i = 0; i < w; i++) {
+        let x_map = ((i / w) * 20) - 10;
+        let y_val = evaluateWave(currentZ, currentHz, x_map);
+        let screen_y = h/2 - (y_val * (h / 4));
+        if (i === 0) ctx2d.moveTo(i, screen_y); else ctx2d.lineTo(i, screen_y);
+    }
+    ctx2d.stroke();
+    
+        // Curve 2: Contenimento C (Rosso/Arancio)
+    ctx2d.strokeStyle = '#ff5733';
+    ctx2d.beginPath();
+    for (let i = 0; i < w; i++) {
+        let x_map = ((i / w) * 20) - 10;
+        let y_val = evaluateDerivative(currentZ, currentHz, x_map);
+        let screen_y = h/2 - (y_val * (h / 4) / (currentZ * 0.5)); // Scalato per visibilità omogenea
+        if (i === 0) ctx2d.moveTo(i, screen_y); else ctx2d.lineTo(i, screen_y);
+    }
+    ctx2d.stroke();
+}
+
+function render3D() {
+    canvas3d.width = canvas3d.parentElement.clientWidth;
+    canvas3d.height = canvas3d.parentElement.clientHeight;
+
+    const w = canvas3d.width;
+    const h = canvas3d.height;
+
+    ctx3d.clearRect(0, 0, w, h);
+
+    angleX += 0.005;
+    angleY += 0.003;
+
+    let nodes = [];
+
+    // ============================
+    // STRUTTURA ATOMICA REALISTICA
+    // ============================
+
+    let nProtoni = currentZ;
+    let nNeutroni = Math.round(currentZ * 1.25);
+    let nElettroni = currentZ;
+
+    let nucleoR = 15;
+    let orbitaR = 120;
+
+    // ----------------------------
+    // PROTONI (ROSSO)
+    // ----------------------------
+    for (let i = 0; i < nProtoni; i++) {
+
+        let phi = Math.acos(-1 + (2 * i) / nProtoni);
+        let theta = Math.sqrt(nProtoni * Math.PI) * phi;
+
+        let r = nucleoR;
+
+        let x3d = r * Math.sin(phi) * Math.cos(theta);
+        let y3d = r * Math.sin(phi) * Math.sin(theta);
+        let z3d = r * Math.cos(phi);
+
+        let x1 = x3d * Math.cos(angleY) - z3d * Math.sin(angleY);
+        let z1 = x3d * Math.sin(angleY) + z3d * Math.cos(angleY);
+        let y2 = y3d * Math.cos(angleX) - z1 * Math.sin(angleX);
+        let z2 = y3d * Math.sin(angleX) + z1 * Math.cos(angleX);
+
+        const d = 400;
+        const s = d / (d + z2);
+
+        nodes.push({
+            x: w/2 + x1 * s,
+            y: h/2 + y2 * s,
+            depth: z2,
+            type: "proton"
+        });
+    }
+
+    // ----------------------------
+    // NEUTRONI (GRIGIO)
+    // ----------------------------
+    for (let i = 0; i < nNeutroni; i++) {
+
+        let phi = Math.acos(-1 + (2 * i) / nNeutroni);
+        let theta = Math.sqrt(nNeutroni * Math.PI) * phi;
+
+        let r = nucleoR + 3;
+
+        let x3d = r * Math.sin(phi) * Math.cos(theta);
+        let y3d = r * Math.sin(phi) * Math.sin(theta);
+        let z3d = r * Math.cos(phi);
+
+        let x1 = x3d * Math.cos(angleY) - z3d * Math.sin(angleY);
+        let z1 = x3d * Math.sin(angleY) + z3d * Math.cos(angleY);
+        let y2 = y3d * Math.cos(angleX) - z1 * Math.sin(angleX);
+        let z2 = y3d * Math.sin(angleX) + z1 * Math.cos(angleX);
+
+        const d = 400;
+        const s = d / (d + z2);
+
+        nodes.push({
+            x: w/2 + x1 * s,
+            y: h/2 + y2 * s,
+            depth: z2,
+            type: "neutron"
+        });
+    }
+
+    // ----------------------------
+    // ELETTRONI (BLU + funzione tua)
+    // ----------------------------
+    for (let i = 0; i < nElettroni; i++) {
+
+        let phi = Math.acos(-1 + (2 * i) / nElettroni);
+        let theta = Math.sqrt(nElettroni * Math.PI) * phi;
+
+        let deformation = evaluateWave(currentZ, currentHz, phi) * 20;
+        let r = orbitaR + deformation;
+
+        let x3d = r * Math.sin(phi) * Math.cos(theta);
+        let y3d = r * Math.sin(phi) * Math.sin(theta);
+        let z3d = r * Math.cos(phi);
+
+        let x1 = x3d * Math.cos(angleY) - z3d * Math.sin(angleY);
+        let z1 = x3d * Math.sin(angleY) + z3d * Math.cos(angleY);
+        let y2 = y3d * Math.cos(angleX) - z1 * Math.sin(angleX);
+        let z2 = y3d * Math.sin(angleX) + z1 * Math.cos(angleX);
+
+        const d = 400;
+        const s = d / (d + z2);
+
+        nodes.push({
+            x: w/2 + x1 * s,
+            y: h/2 + y2 * s,
+            depth: z2,
+            type: "electron"
+        });
+    }
+
+    // ============================
+    // SORT PER PROFONDITÀ
+    // ============================
+    nodes.sort((a,b) => b.depth - a.depth);
+
+    // ============================
+    // DRAW LINKS (FACOLTATIVO)
+    // ============================
+    ctx3d.strokeStyle = "rgba(255,255,255,0.05)";
+    ctx3d.beginPath();
+    for (let i = 0; i < nodes.length - 1; i++) {
+        ctx3d.moveTo(nodes[i].x, nodes[i].y);
+        ctx3d.lineTo(nodes[i+1].x, nodes[i+1].y);
+    }
+    ctx3d.stroke();
+
+    // ============================
+    // DRAW PARTICELLE COLORATE
+    // ============================
+    for (let i = 0; i < nodes.length; i++) {
+
+        let n = nodes[i];
+        let a = (n.depth + 200) / 400;
+        a = Math.max(0.15, Math.min(1, a));
+
+        let color;
+
+        if (n.type === "proton") {
+            color = `rgba(255,50,50,${a})`;
+        }
+        else if (n.type === "neutron") {
+            color = `rgba(180,180,180,${a})`;
+        }
+        else {
+            color = `rgba(80,160,255,${a})`;
+        }
+
+        ctx3d.fillStyle = color;
+        ctx3d.beginPath();
+        ctx3d.arc(n.x, n.y, 2.8, 0, Math.PI * 2);
+        ctx3d.fill();
+    }
+
+    requestAnimationFrame(render3D);
+}
+
+// --- EVENT LISTENERS DEL LIVE RETICOLO ---
+sliderZ.addEventListener('input', updateSystem);
+sliderHz.addEventListener('input', updateSystem);
+window.addEventListener('resize', () => { render2D(); });
+
+// --- INIZIALIZZAZIONE KERNEL ---
+updateSystem();
+render3D(); // Avvia il ciclo di rendering tridimensionale continuo
+  
+</script>
+
+</body>
+</html>
