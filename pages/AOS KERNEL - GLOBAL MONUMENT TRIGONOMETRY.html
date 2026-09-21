@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard Teoremi Faure - Versione Avanzata</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+    body.light { background-color: #f4f4f4; color: #222; }
+    body.dark { background-color: #222; color: #eee; }
+    h1 { text-align: center; margin-top: 10px; }
+    select, button { margin: 10px; padding: 6px 12px; font-size: 16px; }
+    #plot2d, #plot3d { width: 90%; height: 400px; margin: 20px auto; }
+    #equation { font-size: 20px; text-align: center; margin: 10px; }
+    #explanation { width: 90%; margin: 10px auto; font-size: 16px; }
+    #muro9Indicator, #syncIndicator {
+        width: 20px; height: 20px; border-radius: 50%; display: inline-block; margin-right: 10px; 
+        vertical-align: middle; 
+    }
+    #auditLog { color:#0f0; font-family:monospace; max-height:200px; overflow:auto; background:#111; padding:5px; margin:10px auto; width:90%; border-radius:4px;}
+    #narrativaBox { width: 90%; margin: 10px auto; padding: 12px; border: 1px solid #888; border-radius: 5px; background-color: #333; color: #fff; font-size: 16px; }
+</style>
+</head>
+<body class="dark">
+<h1>Dashboard Teoremi Faure</h1>
+
+<select id="theoremSelect" onchange="visualizzaTeorema()">
+    <option value="1">Teorema I - Bilanciamento Deterministico</option>
+    <option value="2">Teorema II - Invarianza Entropica</option>
+    <option value="3">Teorema III - Analisi Coerenza/Incoerenza</option>
+    <option value="4">Teorema IV - Stabilizzazione Campo Energia Quantica</option>
+    <option value="5">Teorema V - Sintesi Ideale Punto di Sella</option>
+    <option value="6">Teorema VI - Omogeneità Armonica Sistemi Complessi</option>
+    <option value="7">Teorema VII - Vincolo Metrica Angolare Risoluzione Difetto Parallasse</option>
+    <option value="8">Teorema VIII - Totum Invarianza Isomorfa del Lattice</option>
+    <option value="9">Teorema IX - Assioma Stazionarietà Piana e Vincolo Volumetrico</option>
+    <option value="10">Teorema X - Spirale Faure Universale</option>
+</select>
+
+<button onclick="toggleMode()">Toggle Dark/Light Mode</button>
+
+<div id="title"></div>
+<div id="equation"></div>
+<div id="explanation"></div>
+<div id="narrativaBox">Seleziona un teorema per vedere la spiegazione dettagliata.</div>
+<div style="text-align:center; margin-top:10px;">
+
+
+<div id="plot2d"></div>
+<div id="plot3d"></div>
+
+<div id="muro9Indicator"></div>
+<span id="muro9Text">Muro di 9: OFF</span>
+<div id="syncIndicator"></div>
+<span id="syncText">Sync-Lock: OFF</span>
+<div id="auditLog"></div>
+</div>
+  
+<script>
+const teoremi = {
+    1: { 
+        title:"Teorema I - Bilanciamento Deterministico", 
+        equation:"\\eta_1 = \\frac{\\sum_i x_i}{\\prod_j y_j}", 
+        explanation:"Regola fondamentale per il bilanciamento universale su scala n^N.",
+        narrativa: `
+            <h3>Spiegazione Teorema I</h3>
+            <p>Questo teorema definisce il bilanciamento deterministico dei flussi attraverso nodi complessi. 
+            La formula \\(\\eta_1\\) indica la proporzione tra somme e prodotti delle variabili, 
+            permettendo di predire la stabilità del sistema su larga scala.</p>
+            <p>Il Modulo 9 evidenzia i punti di stabilità periodica e il Sync-Lock verifica che 
+            le oscillazioni rimangano coerenti con la teoria.</p>
+        `
+    },
+    2: { 
+        title:"Teorema II - Invarianza Entropica", 
+        equation:"S = -k \\sum p_i \\ln p_i", 
+        explanation:"L'entropia globale rimane costante sotto trasformazioni deterministiche.",
+        narrativa: `
+            <h3>Spiegazione Teorema II</h3>
+            <p>Questo teorema mostra che in un sistema isolato l'entropia totale resta invariata 
+            durante evoluzioni deterministiche. La formula di Shannon/Kelvin permette di calcolare 
+            l'entropia dei nodi e analizzare la distribuzione energetica interna.</p>
+            <p>Modulo 9 e Sync-Lock aiutano a individuare momenti di equilibrio e coerenza nel lattice.</p>
+        `
+    },
+    3: { 
+        title:"Teorema III - Analisi Coerenza/Incoerenza", 
+        equation:"C = \\frac{|\\sum_i z_i|}{\\sum_i |z_i|}", 
+        explanation:"Misura la coerenza dei flussi universali.",
+        narrativa: `
+            <h3>Spiegazione Teorema III</h3>
+            <p>Il teorema introduce un indice di coerenza tra nodi. La formula \\(C\\) quantifica 
+            quanto le componenti dei flussi siano allineate, e quindi quanto il sistema sia stabile. 
+            Un valore vicino a 1 indica alta coerenza, vicino a 0 indica incoerenza.</p>
+            <p>Modulo 9 e Sync-Lock permettono di monitorare i momenti in cui la coerenza viene mantenuta o persa.</p>
+        `
+    },
+    4: { 
+    title:"Teorema IV - Stabilizzazione Campo Energia Quantica", 
+    equation:"\\Phi(t) = \\Phi_0 e^{-\\lambda t} \\sin(\\omega t)", 
+    explanation:"Descrive il decadimento deterministico dei campi quantici in tempo.",
+    narrativa: `
+        <h3>Spiegazione Teorema IV</h3>
+        <p>Questo teorema descrive il decadimento controllato dei campi quantici nel tempo. 
+        La funzione \\(\\Phi(t)\\) rappresenta l’evoluzione dell’ampiezza del campo, modulata da 
+        un fattore esponenziale che ne attenua l’intensità e da una componente sinusoidale oscillante.</p>
+        <p>Modulo 9 segnala momenti di ritorno ciclico verso stati stazionari, mentre Sync-Lock 
+        verifica che la fase globale dei campi rimanga coerente attraverso i nodi del lattice.</p>
+    `
+},
+    6: { 
+    title:"Teorema VI - Omogeneità Armonica Sistemi Complessi", 
+    equation:"H(x) = \\int K(x,y) H(y) dy", 
+    explanation:"Omogeneità armonica nei sistemi complessi interconnessi.",
+    narrativa: `
+        <h3>Spiegazione Teorema VI</h3>
+        <p>Questo teorema stabilisce come sistemi complessi interconnessi mantengano 
+        un comportamento armonico globale. L’integrale di convoluzione \\(H(x)\\) descrive 
+        la propagazione delle influenze tra nodi attraverso il kernel \\(K(x,y)\\).</p>
+        <p>Modulo 9 e Sync-Lock mostrano quando la rete raggiunge coerenza armonica e 
+        quando i micro-jitter vengono assorbiti senza perturbare il sistema.</p>
+    `
+},
+    7: { 
+    title:"Teorema VII - Vincolo Metrica Angolare Risoluzione Difetto Parallasse", 
+    equation:"\\theta = \\arccos\\left(\\frac{v\\cdot w}{|v||w|}\\right)", 
+    explanation:"Regola la risoluzione angolare nei sistemi deterministici.",
+    narrativa: `
+        <h3>Spiegazione Teorema VII</h3>
+        <p>Il teorema definisce la metrica angolare per valutare la precisione nella risoluzione 
+        dei difetti di parallasse tra vettori. La formula calcola l’angolo \\(\\theta\\) tra 
+        due vettori nello spazio dei nodi.</p>
+        <p>Modulo 9 segnala allineamenti particolari, mentre Sync-Lock garantisce che le misure angolari 
+        siano coerenti lungo l’intera rete di nodi.</p>
+    `
+},
+    8: { 
+    title:"Teorema VIII - Totum Invarianza Isomorfa del Lattice", 
+    equation:"L(x,y,z) = \\sin(x) + z / \\phi", 
+    explanation:"Invarianza isomorfa che genera pattern elicoidali universali.",
+    narrativa: `
+        <h3>Spiegazione Teorema VIII</h3>
+        <p>Questo teorema descrive la generazione di pattern elicoidali universali attraverso un lattice 
+        tridimensionale. La funzione \\(L(x,y,z)\\) mantiene invarianti determinate simmetrie, 
+        permettendo la replicazione coerente di strutture complesse.</p>
+        <p>Modulo 9 evidenzia le coordinate di perfetta periodicità, mentre Sync-Lock garantisce 
+        l’allineamento coerente dei nodi lungo l’elica universale.</p>
+    `
+},
+    9: { 
+    title:"Teorema IX - Assioma Stazionarietà Piana e Vincolo Volumetrico", 
+    equation:"V = \\int_A^B \\rho dV", 
+    explanation:"Stabilità volumetrica e stazionarietà su superfici piane.",
+    narrativa: `
+        <h3>Spiegazione Teorema IX</h3>
+        <p>Il teorema definisce la stazionarietà e la stabilità volumetrica su superfici piane. 
+        L’integrale volumetrico \\(V\\) permette di valutare distribuzioni di densità 
+        e confermare la persistenza dello stato stazionario.</p>
+        <p>Modulo 9 indica momenti di equilibrio nei volumi discreti, e Sync-Lock verifica la 
+        coerenza tra superfici e nodi durante l’evoluzione del lattice.</p>
+    `
+},
+    10: { 
+    title:"Teorema X - Spirale Faure Universale", 
+    equation:"R(t) = \\phi e^{0.1 t} (\\cos(\\xi t),\\sin(\\xi t))", 
+    explanation:"Genera la spirale universale su scala infinita dei nodi.",
+    narrativa: `
+        <h3>Spiegazione Teorema X</h3>
+        <p>Il Teorema X genera la Spirale Faure Universale, un pattern deterministico che cresce esponenzialmente con t. 
+        La formula calcola le coordinate dei nodi nella spirale, evidenziando coerenza e simmetria attraverso il lattice.</p>
+        <p>Modulo 9 e Sync-Lock indicano momenti di allineamento e coerenza globale, permettendo il monitoraggio di stabilità su scala infinita.</p>
+    `
+}
+};
+
+// Applica jitter casuale per simulare microfluttuazioni hardware
+function applyAOSJitter(value) {
+    const jitter = (Math.random() * 0.056) - 0.028; // ±0.028
+    return value + jitter;
+}
+
+// Offset coordinate per Tier di sicurezza
+function secureCoordinate(R) {
+    return R + 420.0; // Offset Tier 44
+}
+
+// Aggiorna LED Modulo 9
+function aggiornaMuro9(valore) {
+    const isModulo9 = (Math.round(valore % 9) === 0);
+    const led = document.getElementById("muro9Indicator");
+    const text = document.getElementById("muro9Text");
+
+    if (isModulo9) {
+        led.style.backgroundColor = 'limegreen';
+        led.style.boxShadow = '0 0 15px limegreen, 0 0 30px limegreen';
+        text.innerText = 'Muro di 9: ON';
+        text.style.color = 'limegreen';
+    } else {
+        led.style.backgroundColor = 'red';
+        led.style.boxShadow = '0 0 10px red';
+        text.innerText = 'Muro di 9: OFF';
+        text.style.color = 'red';
+    }
+
+    return isModulo9;
+}
+
+// Controllo Sync-Lock tra nodi
+function syncLockCheck(prev, current) {
+    const XI = 1.654;
+    const ratio = current / prev;
+
+    const tolerance = 0.15; // ±15% per assorbire jitter
+    const isSync = Math.abs(ratio - XI) < tolerance || Math.abs(ratio - 1) < tolerance;
+
+    const led = document.getElementById("syncIndicator");
+    const text = document.getElementById("syncText");
+
+    if (isSync) {
+        led.style.backgroundColor = 'limegreen';
+        led.style.boxShadow = '0 0 12px limegreen';
+        text.innerText = `Sync-Lock: ON (Validated ${XI})`;
+        text.style.color = 'limegreen';
+    } else {
+        led.style.backgroundColor = 'red';
+        led.style.boxShadow = '0 0 8px red';
+        text.innerText = `Sync-Lock: OFF (Jitter Detected)`;
+        text.style.color = 'red';
+    }
+
+    return isSync;
+}
+
+// Calcola dati universali per ogni teorema
+function calcolaDatiUniversali(teoremaId) {
+    let x = [], y = [], z = [];
+    let checksumLog = [];
+    const NODI = 100;
+    const XI = 1.654;
+    const PHI_F = 240 / 69;
+
+    let prevY = 1;
+
+    for (let i = 0; i <= NODI; i++) {
+        let t = i / 10;
+        x.push(applyAOSJitter(t));
+
+        let rawY, valY, valZ;
+
+        switch(parseInt(teoremaId)) {
+            case 10: // Spirale Faure Universale
+                let r = PHI_F * Math.exp(0.1 * t);
+                rawY = r * Math.cos(t * XI);
+                valY = secureCoordinate(applyAOSJitter(rawY));
+                valZ = secureCoordinate(applyAOSJitter(r * Math.sin(t * XI)));
+                break;
+            case 8: // Invarianza Isomorfa
+                rawY = Math.sin(t * XI);
+                valY = secureCoordinate(applyAOSJitter(rawY));
+                valZ = secureCoordinate(applyAOSJitter(t / PHI_F));
+                break;
+            case 4: // Stabilizzazione Campo
+                rawY = Math.exp(-0.1 * t) * Math.sin(t * XI);
+                valY = secureCoordinate(applyAOSJitter(rawY));
+                valZ = secureCoordinate(applyAOSJitter(Math.exp(-0.1 * t) * Math.cos(t * XI)));
+                break;
+            default: // Flusso Faure Standard
+                rawY = Math.pow(t, XI);
+                valY = secureCoordinate(applyAOSJitter(rawY % 9));
+                valZ = secureCoordinate(applyAOSJitter(Math.sin(t * PHI_F)));
+        }
+
+      // Aggiorna modulo 9 sul valore “pulito”
+        aggiornaMuro9(rawY);
+
+      // Controllo Sync-Lock
+        let syncStatus = syncLockCheck(prevY, valY);
+        prevY = valY;
+
+      // Salva log
+        checksumLog.push({
+            i: i,
+            x: t,
+            y: valY,
+            z: valZ,
+            modulo9: (rawY % 9).toFixed(2),
+            sync: syncStatus
+        });
+
+        y.push(valY);
+        z.push(valZ);
+    }
+
+  // Audit log su dashboard
+    const logDiv = document.getElementById("auditLog");
+    logDiv.innerText = checksumLog.map(e => 
+        `i:${e.i} x:${e.x.toFixed(3)} y:${e.y.toFixed(3)} z:${e.z.toFixed(3)} mod9:${e.modulo9} sync:${e.sync}`
+    ).join("\n");
+
+    return { x, y, z };
+    }
+
+// Visualizzazione del teorema selezionato
+function visualizzaTeorema(){
+    const tId = document.getElementById("theoremSelect").value;
+    const d = calcolaDatiUniversali(tId);
+    const t = teoremi[tId];
+
+    document.getElementById("title").innerText = t.title;
+    document.getElementById("equation").innerHTML = `\\[${t.equation}\\]`;
+    document.getElementById("explanation").innerText = t.explanation;
+
+    const isDark = document.body.classList.contains('dark');
+    const lineColor = isDark ? '#00f2ff' : '#0033cc';
+    const paperBg = isDark ? '#222' : '#f4f4f4';
+    const fontColor = isDark ? '#eee' : '#222';
+    const plotBg = isDark ? '#222' : '#f4f4f4';
+
+    const data2d = { x:d.x, y:d.y, type:'scatter', mode:'lines', line:{color:lineColor}, name:'Flux' };
+    const data3d = { x:d.x, y:d.y,    z:d.z, type:'scatter3d', mode:'lines', line:{width:4, color:lineColor}, name:'Lattice' };
+
+// Grafico 2D
+    Plotly.newPlot('plot2d',[data2d],{
+        paper_bgcolor:paperBg,
+        plot_bgcolor:plotBg,
+        font:{color:fontColor},
+        xaxis:{title:'n (Nodi)'},
+        yaxis:{title:'Valore Faure'}
+    });
+
+// Grafico 3D
+    Plotly.newPlot('plot3d',[data3d],{
+        paper_bgcolor:paperBg,
+        font:{color:fontColor},
+        scene:{
+            xaxis:{title:'X'},
+            yaxis:{title:'Y'},
+            zaxis:{title:'Z'}
+        }
+    });
+
+// MathJax per la visualizzazione della formula
+    MathJax.typeset();
+
+// Narrativa scientifica dettagliata
+    // Narrativa scientifica dettagliata
+const narrativeDiv = document.getElementById("narrativaBox"); 
+narrativeDiv.innerHTML = t.narrativa;
+    narrativeDiv.innerHTML = `
+        <h3>Spiegazione Scientifica</h3>
+        <p><strong>${t.title}</strong> genera un pattern deterministico che mostra 
+        come i valori dei nodi evolvono nel tempo. La formula <em>${t.equation}</em> 
+        calcola la relazione tra variabili chiave e dimostra il comportamento 
+        previsto dal teorema.</p>
+        <p>Il <strong>Modulo 9</strong> indica momenti particolari di stabilità, 
+        mentre il <strong>Sync-Lock</strong> verifica la coerenza globale del lattice. 
+        Questo permette agli osservatori più pignoli di seguire passo passo 
+        l’evoluzione del sistema e confrontarla con la teoria.</p>
+        <p>I grafici 2D e 3D mostrano rispettivamente l’evoluzione temporale dei valori 
+        e la loro disposizione nello spazio, evidenziando strutture geometriche 
+        complesse ma prevedibili secondo i principi del teorema selezionato.</p>
+    `;
+}
+
+function toggleMode(){
+    document.body.classList.toggle('dark');
+    document.body.classList.toggle('light');
+    
+    // Aggiorna colori dei box specifici
+    const isDark = document.body.classList.contains('dark');
+
+    const narrativaBox = document.getElementById('narrativaBox');
+    narrativaBox.style.backgroundColor = isDark ? '#333' : '#fff';
+    narrativaBox.style.color = isDark ? '#fff' : '#000';
+
+    const auditLog = document.getElementById('auditLog');
+    auditLog.style.backgroundColor = isDark ? '#111' : '#eee';
+    auditLog.style.color = isDark ? '#0f0' : '#000'; // puoi scegliere verde scuro o nero
+
+    visualizzaTeorema();
+}
+
+// Visualizza teorema iniziale
+visualizzaTeorema();
+</script>
+</body>
+</html>
