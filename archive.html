@@ -4298,23 +4298,771 @@ function renderHTMLPage(
     );
 
 }
+    
 /* =========================================================
    RESOURCE ROUTER
    ========================================================= */
 
-async function loadResource(
-  path,
-  filename
-) {
+async function loadResource(path, filename) {
 
-  const ext =
-    getExtension(
-      path
+  const ext = getExtension(path);
+
+  sourceElement.textContent = path;
+
+  if (
+    ext === ".html" ||
+    ext === ".htm"
+  ) {
+
+    renderHTMLPage(
+      path,
+      filename
+    );
+
+    return;
+  }
+
+
+  if (ext === ".pdf") {
+
+    renderPDF(
+      path,
+      filename
+    );
+
+    return;
+  }
+
+
+  if (
+    [
+      ".svg",
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".avif",
+      ".bmp",
+      ".ico"
+    ].includes(ext)
+  ) {
+
+    renderImage(
+      path,
+      filename
+    );
+
+    return;
+  }
+
+
+  if (
+    [
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac",
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov"
+    ].includes(ext)
+  ) {
+
+    renderMedia(
+      path,
+      filename
+    );
+
+    return;
+  }
+
+
+  if (ext === ".csv") {
+
+    try {
+
+      const response =
+        await fetch(
+          path,
+          {
+            cache: "no-cache"
+          }
+        );
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+      const text =
+        await response.text();
+
+      renderCSV(
+        text,
+        filename
+      );
+
+    } catch (error) {
+
+      renderError(error);
+
+    }
+
+    return;
+  }
+
+
+  if (
+    [
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(ext)
+  ) {
+
+    try {
+
+      const response =
+        await fetch(
+          path,
+          {
+            cache: "no-cache"
+          }
+        );
+
+      if (!response.ok) {
+
+        throw new Error(
+          "HTTP " +
+          response.status
+        );
+
+      }
+
+      const text =
+        await response.text();
+
+      renderText(
+        text,
+        filename
+      );
+
+    } catch (error) {
+
+      renderError(error);
+
+    }
+
+    return;
+  }
+
+
+  const resource =
+    document.createElement("div");
+
+  resource.className =
+    "archive-resource";
+
+
+  const note =
+    document.createElement("div");
+
+  note.className =
+    "archive-resource-note";
+
+  note.textContent =
+    "Resource: " +
+    filename;
+
+
+  const link =
+    document.createElement("a");
+
+  link.className =
+    "archive-resource-download";
+
+  link.href =
+    path;
+
+  link.target =
+    "_blank";
+
+  link.rel =
+    "noopener noreferrer";
+
+  link.textContent =
+    "Open resource";
+
+
+  resource.appendChild(note);
+  resource.appendChild(link);
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+  titleElement.textContent =
+    humanTitle(filename);
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function renderError(error) {
+
+  const message =
+    error &&
+    error.message
+      ? error.message
+      : String(error || "Unknown error");
+
+
+  documentElement.innerHTML = "";
+
+
+  const box =
+    document.createElement("div");
+
+  box.className =
+    "archive-error";
+
+
+  const strong =
+    document.createElement("strong");
+
+  strong.textContent =
+    "Unable to load resource.";
+
+
+  const paragraph =
+    document.createElement("p");
+
+  paragraph.textContent =
+    message;
+
+
+  box.appendChild(strong);
+  box.appendChild(paragraph);
+
+
+  documentElement.appendChild(box);
+}
+
+
+/* =========================================================
+   LOAD MARKDOWN DOCUMENT
+   ========================================================= */
+
+async function loadMarkdownDocument() {
+
+  if (!requestedDocument) {
+
+    renderError(
+      new Error(
+        "Document not specified."
+      )
+    );
+
+    return;
+  }
+
+
+  /*
+   * IMPORTANT:
+   *
+   * requestedDocument may be:
+   *
+   *   ARCHIVE-MAP.md
+   *
+   * or:
+   *
+   *   docs/ARCHIVE-MAP.md
+   *
+   * or any recursively discovered path:
+   *
+   *   research/foo/example.md
+   *
+   * Resolve it to the ACTUAL repository path.
+   */
+  const sourcePath =
+    resolveMarkdownPath(
+      requestedDocument
+    );
+
+
+  if (!sourcePath) {
+
+    renderError(
+      new Error(
+        "Markdown document not found: " +
+        requestedDocument
+      )
+    );
+
+    return;
+  }
+
+
+  const filename =
+    sourcePath
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  titleElement.textContent =
+    humanTitle(
+      filename
     );
 
 
   sourceElement.textContent =
-    path;
+    sourcePath;
+
+
+  try {
+
+    const response =
+      await fetch(
+        sourcePath,
+        {
+          cache: "no-cache"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Unable to load Markdown: HTTP " +
+        response.status +
+        " — " +
+        sourcePath
+      );
+
+    }
+
+
+    const markdown =
+      await response.text();
+
+
+    if (
+      typeof marked === "undefined"
+    ) {
+
+      throw new Error(
+        "Markdown parser 'marked' is not loaded."
+      );
+
+    }
+
+
+    marked.setOptions({
+
+      gfm: true,
+
+      breaks: true
+
+    });
+
+
+    documentElement.innerHTML =
+      marked.parse(
+        markdown
+      );
+
+
+    normalizeMarkdownLinks();
+
+    improveTables();
+
+
+    document.title =
+      "AUF2026 — " +
+      humanTitle(filename);
+
+
+  } catch (error) {
+
+    console.error(
+      "AUF2026 Markdown:",
+      error
+    );
+
+
+    renderError(error);
+  }
+}
+
+
+/* =========================================================
+   LOAD HTML PAGE
+   ========================================================= */
+
+function loadPage() {
+
+  if (!requestedPage) {
+
+    return;
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedPage
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid page path."
+      )
+    );
+
+    return;
+  }
+
+
+  const filename =
+    requestedPage
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (!filename) {
+
+    renderError(
+      new Error(
+        "Invalid page."
+      )
+    );
+
+    return;
+  }
+
+
+  const ext =
+    getExtension(filename);
+
+
+  if (
+    !allowedPageExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Only HTML pages are allowed."
+      )
+    );
+
+    return;
+  }
+
+
+  /*
+   * Prevent page=../../whatever.html
+   * and prevent the caller from escaping /pages/.
+   */
+  const path =
+    "pages/" +
+    requestedPage;
+
+
+  loadResource(
+    path,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(filename);
+}
+
+
+/* =========================================================
+   LOAD GENERIC RESOURCE
+   ========================================================= */
+
+function loadGenericResource() {
+
+  if (!requestedResource) {
+
+    return;
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      requestedResource
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Invalid resource path."
+      )
+    );
+
+    return;
+  }
+
+
+  const filename =
+    requestedResource
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (!filename) {
+
+    renderError(
+      new Error(
+        "Invalid resource."
+      )
+    );
+
+    return;
+  }
+
+
+  const ext =
+    getExtension(filename);
+
+
+  if (
+    !allowedResourceExtensions.includes(
+      ext
+    )
+  ) {
+
+    renderError(
+      new Error(
+        "Resource type not allowed: " +
+        ext
+      )
+    );
+
+    return;
+  }
+
+
+  loadResource(
+    requestedResource,
+    filename
+  );
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(filename);
+}
+
+
+/* =========================================================
+   EXTERNAL EMBED
+   ========================================================= */
+
+function loadExternalEmbed() {
+
+  const url =
+    params.get("embed");
+
+
+  if (!url) {
+
+    return false;
+  }
+
+
+  try {
+
+    const parsed =
+      new URL(url);
+
+
+    const allowedHosts = [
+
+      "www.youtube.com",
+      "youtube.com",
+      "youtu.be",
+      "www.youtube-nocookie.com",
+      "youtube-nocookie.com",
+      "player.vimeo.com",
+      "vimeo.com"
+
+    ];
+
+
+    const hostname =
+      parsed.hostname
+        .toLowerCase();
+
+
+    if (
+      !allowedHosts.includes(
+        hostname
+      )
+    ) {
+
+      renderError(
+        new Error(
+          "External embed host not allowed."
+        )
+      );
+
+      return true;
+    }
+
+
+    renderEmbed(
+      parsed.href,
+      "External media"
+    );
+
+
+    sourceElement.textContent =
+      parsed.href;
+
+
+    document.title =
+      "AUF2026 — External Media";
+
+
+    return true;
+
+  } catch (error) {
+
+    renderError(
+      new Error(
+        "Invalid external media URL."
+      )
+    );
+
+    return true;
+  }
+}
+
+
+/* =========================================================
+   START ARCHIVE
+   ========================================================= */
+
+async function startArchive() {
+
+  /*
+   * First discover the COMPLETE GitHub tree.
+   *
+   * This populates allowedDocuments with the real
+   * repository paths of all Markdown files.
+   */
+  await discoverMarkdownDocuments();
+
+
+  /*
+   * External media has highest priority.
+   */
+  if (
+    loadExternalEmbed()
+  ) {
+
+    return;
+  }
+
+
+  /*
+   * HTML page.
+   */
+  if (requestedPage) {
+
+    loadPage();
+
+    return;
+  }
+
+
+  /*
+   * Generic resource.
+   */
+  if (requestedResource) {
+
+    loadGenericResource();
+
+    return;
+  }
+
+
+  /*
+   * Markdown document.
+   */
+  if (requestedDocument) {
+
+    await loadMarkdownDocument();
+
+    return;
+  }
+
+
+  /*
+   * Nothing requested.
+   */
+  documentElement.innerHTML = "";
+
+
+  const error =
+    document.createElement("div");
+
+  error.className =
+    "archive-error";
+
+
+  const strong =
+    document.createElement("strong");
+
+  strong.textContent =
+    "Resource not specified.";
+
+
+  const paragraph =
+    document.createElement("p");
+
+  paragraph.textContent =
+    "Select a document, page or resource from the AUF2026 research archive.";
+
+
+  error.appendChild(strong);
+  error.appendChild(paragraph);
+
+
+  documentElement.appendChild(error);
+
+
+  sourceElement.textContent =
+    "not specified";
+
+
+  document.title =
+    "AUF2026 — Research Archive";
+}
 
 
   /* ---------------------------------------------------------
