@@ -2399,10 +2399,6 @@ html[data-theme="light"] {
 
   <script>
 
-/* =========================================================
-   AUF2026 SECTION REPOSITORY PARSER
-   ========================================================= */
-
 const GITHUB_OWNER =
   "AUF2026";
 
@@ -2412,18 +2408,6 @@ const GITHUB_REPOSITORY =
 const GITHUB_BRANCH =
   "main";
 
-/*
- * CAMBIA SOLO QUESTA RIGA
- *
- * bibliography
- * code
- * datasets
- * docs
- * papers
- * pdf
- * proofs
- * validation
- */
 const GITHUB_SECTION =
   "docs";
 
@@ -2643,10 +2627,9 @@ function discoverSectionFiles(
     )
 
     /*
-     * Il parser non deve mostrare il proprio
-     * index.html.
+     * Non mostra il parser stesso.
      *
-     * Se vuoi mostrare index.html della sezione,
+     * Se vuoi mostrare anche /docs/index.html,
      * elimina questo filter.
      */
     .filter(
@@ -2881,18 +2864,25 @@ function createFileElement(
     `;
 
 
-  article
-    .querySelector(
+  const openButton =
+    article.querySelector(
       "[data-open]"
-    )
-    .addEventListener(
+    );
+
+
+  if (
+    openButton
+  ) {
+
+    openButton.addEventListener(
       "click",
       function () {
 
         /*
-         * Usa esclusivamente il viewer.
+         * Viewer centrale AUF2026.
+         *
+         * Questa è la via principale.
          */
-
         if (
           typeof window.openRepositoryResource ===
           "function"
@@ -2908,10 +2898,9 @@ function createFileElement(
 
 
         /*
-         * Compatibilità con il viewer
-         * originale di pages/index.html.
+         * Compatibilità con eventuali
+         * versioni precedenti del viewer.
          */
-
         if (
           typeof window.openResource ===
           "function"
@@ -2927,9 +2916,9 @@ function createFileElement(
 
 
         /*
-         * Fallback diretto.
+         * Fallback:
+         * apre direttamente il file raw.
          */
-
         window.open(
           rawURL(
             item.path
@@ -2941,8 +2930,123 @@ function createFileElement(
       }
     );
 
+  }
+
 
   return article;
+
+}
+
+
+/* =========================================================
+   OPEN REPOSITORY RESOURCE
+   ========================================================= */
+
+/*
+ * Questa funzione collega direttamente le sezioni
+ * al viewer centrale.
+ *
+ * Se il viewer principale espone già
+ * window.openRepositoryResource(), questa definizione
+ * non lo sovrascrive.
+ */
+
+if (
+  typeof window.openRepositoryResource !==
+  "function"
+) {
+
+  window.openRepositoryResource =
+    function (
+      repositoryPath
+    ) {
+
+      if (
+        typeof repositoryPath !==
+        "string"
+      ) {
+
+        return;
+
+      }
+
+
+      const cleanPath =
+        repositoryPath
+          .replace(/^\/+/, "")
+          .replace(/\\/g, "/");
+
+
+      if (
+        !cleanPath ||
+        cleanPath.includes("..")
+      ) {
+
+        return;
+
+      }
+
+
+      const extension =
+        getExtension(
+          cleanPath
+        );
+
+
+      /*
+       * Markdown:
+       *
+       * archive.html?doc=docs/example.md
+       */
+      if (
+        extension === "md" ||
+        extension === "markdown"
+      ) {
+
+        window.location.href =
+          "../archive.html?doc=" +
+          encodeURIComponent(
+            cleanPath
+          );
+
+        return;
+
+      }
+
+
+      /*
+       * HTML:
+       *
+       * archive.html?page=path/to/file.html
+       */
+      if (
+        extension === "html" ||
+        extension === "htm"
+      ) {
+
+        window.location.href =
+          "../archive.html?page=" +
+          encodeURIComponent(
+            cleanPath
+          );
+
+        return;
+
+      }
+
+
+      /*
+       * Tutte le altre risorse:
+       *
+       * archive.html?file=path/to/resource
+       */
+      window.location.href =
+        "../archive.html?file=" +
+        encodeURIComponent(
+          cleanPath
+        );
+
+    };
 
 }
 
@@ -2997,8 +3101,16 @@ function getExtension(
   filename
 ) {
 
+  const clean =
+    String(
+      filename || ""
+    )
+      .split("?")[0]
+      .split("#")[0];
+
+
   const index =
-    filename.lastIndexOf(".");
+    clean.lastIndexOf(".");
 
 
   if (
@@ -3010,7 +3122,7 @@ function getExtension(
   }
 
 
-  return filename
+  return clean
     .slice(
       index + 1
     )
@@ -3031,7 +3143,9 @@ function getFileType(
     [
       "md",
       "markdown"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "MARKDOWN";
@@ -3043,7 +3157,9 @@ function getFileType(
     [
       "html",
       "htm"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "HTML";
@@ -3070,8 +3186,11 @@ function getFileType(
       "webp",
       "svg",
       "avif",
-      "bmp"
-    ].includes(extension)
+      "bmp",
+      "ico"
+    ].includes(
+      extension
+    )
   ) {
 
     return "IMAGE";
@@ -3086,8 +3205,11 @@ function getFileType(
       "ogg",
       "oga",
       "m4a",
+      "aac",
       "flac"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "AUDIO";
@@ -3102,10 +3224,40 @@ function getFileType(
       "ogv",
       "mov",
       "m4v"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "VIDEO";
+
+  }
+
+
+  if (
+    extension ===
+    "csv"
+  ) {
+
+    return "CSV";
+
+  }
+
+
+  if (
+    [
+      "txt",
+      "json",
+      "xml",
+      "yaml",
+      "yml",
+      "log"
+    ].includes(
+      extension
+    )
+  ) {
+
+    return "TEXT";
 
   }
 
@@ -3161,7 +3313,9 @@ function escapeHTML(
   value
 ) {
 
-  return String(value)
+  return String(
+    value
+  )
 
     .replace(
       /&/g,
