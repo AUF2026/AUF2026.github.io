@@ -1107,6 +1107,200 @@
 
     }
 
+    /* =========================================================
+   SECTION NAVIGATION
+   ========================================================= */
+
+.section-navigation {
+  position: relative;
+  width: 100%;
+  margin: 0 0 1.5rem;
+}
+
+
+.section-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+
+  width: 100%;
+
+  padding: 0.85rem 1rem;
+
+  border: 1px solid
+    var(--border-color, rgba(255,255,255,0.18));
+
+  border-radius: 0.5rem;
+
+  background:
+    var(--surface-color, rgba(255,255,255,0.04));
+
+  color:
+    var(--text-color, inherit);
+
+  font: inherit;
+  font-weight: 700;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+
+.section-menu-button:hover {
+  background:
+    var(
+      --surface-hover,
+      rgba(255,255,255,0.08)
+    );
+
+  border-color:
+    var(
+      --accent-color,
+      rgba(255,255,255,0.35)
+    );
+}
+
+
+.section-menu-arrow {
+  flex: 0 0 auto;
+
+  transition:
+    transform 0.2s ease;
+}
+
+
+.section-menu-button[aria-expanded="true"]
+.section-menu-arrow {
+  transform:
+    rotate(180deg);
+}
+
+
+/* =========================================================
+   DROPDOWN
+   ========================================================= */
+
+.section-menu {
+  position: absolute;
+
+  z-index: 1000;
+
+  top: calc(100% + 0.5rem);
+
+  left: 0;
+  right: 0;
+
+  max-height: 60vh;
+
+  overflow-y: auto;
+
+  padding: 0.5rem;
+
+  border: 1px solid
+    var(--border-color, rgba(255,255,255,0.18));
+
+  border-radius: 0.5rem;
+
+  background:
+    var(--background-color, #111);
+
+  box-shadow:
+    0 12px 35px
+    rgba(0,0,0,0.35);
+}
+
+
+.section-menu[hidden] {
+  display: none;
+}
+
+
+/* =========================================================
+   MENU ITEMS
+   ========================================================= */
+
+.section-menu-item {
+  display: block;
+
+  width: 100%;
+
+  padding: 0.65rem 0.75rem;
+
+  border: 0;
+
+  border-radius: 0.35rem;
+
+  background: transparent;
+
+  color:
+    var(--text-color, inherit);
+
+  font: inherit;
+
+  text-align: left;
+
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+
+.section-menu-item:hover {
+  background:
+    var(
+      --surface-hover,
+      rgba(255,255,255,0.08)
+    );
+}
+
+
+/* =========================================================
+   DIRECTORY
+   ========================================================= */
+
+.section-menu-directory {
+  padding: 0.7rem 0.75rem 0.35rem;
+
+  color:
+    var(
+      --muted-color,
+      #999
+    );
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING
+   ========================================================= */
+
+.section-menu-loading,
+.section-menu-empty {
+  padding: 0.75rem;
+
+  color:
+    var(
+      --muted-color,
+      #999
+    );
+
+  font-size: 0.9rem;
+}
+
+
   </style>
 
 </head>
@@ -1163,6 +1357,56 @@
         </span>
 
       </button>
+
+      <!-- =========================================================
+     SECTION NAVIGATION
+     ========================================================= -->
+
+<div class="section-navigation">
+
+  <button
+    id="section-menu-button"
+    class="section-menu-button"
+    type="button"
+    aria-expanded="false"
+    aria-controls="section-menu"
+  >
+
+    <span id="section-menu-title">
+      Documents
+    </span>
+
+    <span
+      class="section-menu-arrow"
+      aria-hidden="true"
+    >
+      ▾
+    </span>
+
+  </button>
+
+
+  <div
+    id="section-menu"
+    class="section-menu"
+    hidden
+  >
+
+    <div
+      id="section-menu-files"
+      class="section-menu-files"
+    >
+
+      <div class="section-menu-loading">
+        Loading files…
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 
     </div>
 
@@ -1555,14 +1799,19 @@ async function loadRepository() {
 
 
     const discovered =
-      discoverSectionFiles(
-        data.tree
-      );
+  discoverSectionFiles(
+    data.tree
+  );
 
 
-    renderFiles(
-      discovered
-    );
+initializeSectionMenu(
+  discovered
+);
+
+
+renderFiles(
+  discovered
+);
 
 
     setStatus(
@@ -1683,6 +1932,1411 @@ function discoverSectionFiles(
 
 
 /* =========================================================
+   SECTION MENU
+   ========================================================= */
+
+const sectionMenuButton =
+  document.getElementById(
+    "section-menu-button"
+  );
+
+
+const sectionMenu =
+  document.getElementById(
+    "section-menu"
+  );
+
+
+const sectionMenuTitle =
+  document.getElementById(
+    "section-menu-title"
+  );
+
+
+const sectionMenuFiles =
+  document.getElementById(
+    "section-menu-files"
+  );
+
+
+/* =========================================================
+   SECTION MENU TITLE
+   ========================================================= */
+
+if (
+  sectionMenuTitle
+) {
+
+  sectionMenuTitle.textContent =
+    SECTION_TITLE;
+
+}
+
+
+/* =========================================================
+   TOGGLE SECTION MENU
+   ========================================================= */
+
+if (
+  sectionMenuButton &&
+  sectionMenu
+) {
+
+  sectionMenuButton.addEventListener(
+    "click",
+    function () {
+
+      const isOpen =
+        sectionMenuButton.getAttribute(
+          "aria-expanded"
+        ) === "true";
+
+
+      sectionMenuButton.setAttribute(
+        "aria-expanded",
+        String(!isOpen)
+      );
+
+
+      sectionMenu.hidden =
+        isOpen;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE MENU OUTSIDE
+   ========================================================= */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    if (
+      !sectionMenuButton ||
+      !sectionMenu
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      sectionMenuButton.contains(
+        event.target
+      ) ||
+      sectionMenu.contains(
+        event.target
+      )
+    ) {
+
+      return;
+
+    }
+
+
+    sectionMenuButton.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+
+    sectionMenu.hidden =
+      true;
+
+  }
+);
+
+
+/* =========================================================
+   RENDER SECTION MENU
+   ========================================================= */
+
+function renderSectionMenu(
+  items
+) {
+
+  if (
+    !sectionMenuFiles
+  ) {
+
+    return;
+
+  }
+
+
+  sectionMenuFiles.innerHTML =
+    "";
+
+
+  if (
+    !items ||
+    items.length === 0
+  ) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "section-menu-empty";
+
+
+    empty.textContent =
+      "No files found.";
+
+
+    sectionMenuFiles.appendChild(
+      empty
+    );
+
+
+    return;
+
+  }
+
+
+  let currentDirectory =
+    null;
+
+
+  for (
+    const item of items
+  ) {
+
+    const relativePath =
+      item.path.slice(
+        GITHUB_SECTION.length + 1
+      );
+
+
+    const parts =
+      relativePath.split("/");
+
+
+    const directory =
+      parts.length > 1
+        ? parts
+            .slice(0, -1)
+            .join("/")
+        : "";
+
+
+    /*
+     * Directory heading.
+     */
+
+    if (
+      directory !==
+      currentDirectory
+    ) {
+
+      currentDirectory =
+        directory;
+
+
+      const directoryElement =
+        document.createElement(
+          "div"
+        );
+
+
+      directoryElement.className =
+        "section-menu-directory";
+
+
+      directoryElement.textContent =
+        directory
+          ? "/" +
+            GITHUB_SECTION +
+            "/" +
+            directory +
+            "/"
+          : "/" +
+            GITHUB_SECTION +
+            "/";
+
+
+      sectionMenuFiles.appendChild(
+        directoryElement
+      );
+
+    }
+
+
+    /*
+     * File entry.
+     */
+
+    const button =
+      document.createElement(
+        "button"
+      );
+
+
+    button.type =
+      "button";
+
+
+    button.className =
+      "section-menu-item";
+
+
+    const filename =
+      item.path
+        .split("/")
+        .pop();
+
+
+    button.textContent =
+      filename;
+
+
+    /*
+     * Clicking the file in the dropdown
+     * uses exactly the same viewer as VIEW.
+     */
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        sectionMenuButton.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+
+        sectionMenu.hidden =
+          true;
+
+
+        openRepositoryResource(
+          item.path
+        );
+
+      }
+    );
+
+
+    sectionMenuFiles.appendChild(
+      button
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIALIZE SECTION MENU
+   ========================================================= */
+
+function initializeSectionMenu(
+  items
+) {
+
+  renderSectionMenu(
+    items
+  );
+
+}
+
+
+/* =========================================================
+   PARTE 5 — FILE VIEWER NAVIGATION
+   ========================================================= */
+
+/*
+ * Apre una risorsa del repository nello stesso viewer.
+ *
+ * Markdown:
+ *   archive.html?doc=docs/example.md
+ *
+ * HTML:
+ *   archive.html?file=pages/example.html
+ *
+ * Altri file:
+ *   archive.html?file=pdf/example.pdf
+ *
+ * Il browser resta sulla stessa pagina del parser.
+ */
+
+function openRepositoryResource(
+  repositoryPath
+) {
+
+  if (
+    !repositoryPath ||
+    typeof repositoryPath !== "string"
+  ) {
+
+    return;
+
+  }
+
+
+  const cleanPath =
+    repositoryPath
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+
+  if (
+    cleanPath.includes("..")
+  ) {
+
+    return;
+
+  }
+
+
+  const filename =
+    cleanPath
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (!filename) {
+
+    return;
+
+  }
+
+
+  const extension =
+    getExtension(
+      filename
+    );
+
+
+  /*
+   * Markdown → parametro doc
+   */
+
+  if (
+    extension === ".md" ||
+    extension === ".markdown"
+  ) {
+
+    const url =
+      "archive.html?doc=" +
+      encodeURIComponent(
+        cleanPath
+      );
+
+
+    loadViewerURL(
+      url
+    );
+
+
+    return;
+
+  }
+
+
+  /*
+   * Tutti gli altri file → parametro file.
+   *
+   * Questo comprende:
+   *
+   * HTML
+   * PDF
+   * immagini
+   * audio
+   * video
+   * txt
+   * json
+   * xml
+   * yaml
+   * ecc.
+   */
+
+  const url =
+    "archive.html?file=" +
+    encodeURIComponent(
+      cleanPath
+    );
+
+
+  loadViewerURL(
+    url
+
+  );
+
+}
+
+/* =========================================================
+     PARTE 6 — FILE LIST + SECTION MENU
+     ========================================================= */
+
+
+
+/* =========================================================
+   FILE LIST CONTAINER
+   ========================================================= */
+
+function getRepositoryFilesContainer() {
+
+  return (
+    document.getElementById(
+      "pagesFiles"
+    ) ||
+    document.getElementById(
+      "repositoryFiles"
+    ) ||
+    document.getElementById(
+      "sectionFiles"
+    )
+  );
+
+}
+
+
+/* =========================================================
+   FILE MENU CONTAINER
+   ========================================================= */
+
+function getRepositoryMenuContainer() {
+
+  return (
+    document.querySelector(
+      "[data-file-menu-container]"
+    ) ||
+    document.getElementById(
+      "file-menu"
+    ) ||
+    document.getElementById(
+      "section-menu"
+    )
+  );
+
+}
+
+
+/* =========================================================
+   BUILD SECTION MENU
+   ========================================================= */
+
+function buildSectionMenu(
+  items
+) {
+
+  /*
+   * Cerca eventuali select già presenti.
+   */
+
+  let menus =
+    document.querySelectorAll(
+      "[data-file-menu]"
+    );
+
+
+  /*
+   * Se non esiste ancora un menu,
+   * lo crea automaticamente.
+   */
+
+  if (
+    menus.length === 0
+  ) {
+
+    const container =
+      getRepositoryMenuContainer();
+
+
+    if (
+      !container
+    ) {
+
+      return;
+
+    }
+
+
+    const select =
+      document.createElement(
+        "select"
+      );
+
+
+    select.className =
+      "repository-file-menu";
+
+
+    select.setAttribute(
+      "data-file-menu",
+      ""
+    );
+
+
+    container.appendChild(
+      select
+    );
+
+
+    menus =
+      document.querySelectorAll(
+        "[data-file-menu]"
+      );
+
+  }
+
+
+  menus.forEach(
+    menu => {
+
+      menu.innerHTML =
+        "";
+
+
+      const placeholder =
+        document.createElement(
+          "option"
+        );
+
+
+      placeholder.value =
+        "";
+
+
+      placeholder.textContent =
+        SECTION_TITLE.toUpperCase();
+
+
+      placeholder.selected =
+        true;
+
+
+      placeholder.disabled =
+        false;
+
+
+      menu.appendChild(
+        placeholder
+      );
+
+
+      /*
+       * Organizza i file per directory.
+       */
+
+      const groups =
+        new Map();
+
+
+      items.forEach(
+        item => {
+
+          const path =
+            item.path;
+
+
+          const relative =
+            path.slice(
+              GITHUB_SECTION.length + 1
+            );
+
+
+          const parts =
+            relative.split("/");
+
+
+          const directory =
+            parts.length > 1
+              ? parts
+                  .slice(0, -1)
+                  .join("/")
+              : "";
+
+
+          if (
+            !groups.has(
+              directory
+            )
+          ) {
+
+            groups.set(
+              directory,
+              []
+            );
+
+          }
+
+
+          groups
+            .get(directory)
+            .push(item);
+
+        }
+      );
+
+
+      groups.forEach(
+        (
+          groupItems,
+          directory
+        ) => {
+
+          /*
+           * Le sottocartelle diventano optgroup.
+           */
+
+          let target =
+            menu;
+
+
+          if (
+            directory
+          ) {
+
+            const optgroup =
+              document.createElement(
+                "optgroup"
+              );
+
+
+            optgroup.label =
+              "/" +
+              GITHUB_SECTION +
+              "/" +
+              directory +
+              "/";
+
+
+            menu.appendChild(
+              optgroup
+            );
+
+
+            target =
+              optgroup;
+
+          }
+
+
+          groupItems.forEach(
+            item => {
+
+              const option =
+                document.createElement(
+                  "option"
+                );
+
+
+              option.value =
+                item.path;
+
+
+              option.textContent =
+                item.path
+                  .split("/")
+                  .pop();
+
+
+              target.appendChild(
+                option
+              );
+
+            }
+          );
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   BUILD FILE LIST
+   ========================================================= */
+
+function buildSectionFileList(
+  items
+) {
+
+  const container =
+    getRepositoryFilesContainer();
+
+
+  if (
+    !container
+  ) {
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    items.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="pages-empty">
+
+          No resources were found
+          under
+          <code>/${escapeHTML(
+            GITHUB_SECTION
+          )}/</code>.
+
+        </div>
+      `;
+
+
+    return;
+
+  }
+
+
+  let currentDirectory =
+    null;
+
+
+  items.forEach(
+    item => {
+
+      const relativePath =
+        item.path.slice(
+          GITHUB_SECTION.length + 1
+        );
+
+
+      const parts =
+        relativePath.split("/");
+
+
+      const directory =
+        parts.length > 1
+          ? parts
+              .slice(0, -1)
+              .join("/")
+          : "";
+
+
+      /*
+       * Directory heading.
+       */
+
+      if (
+        directory !==
+        currentDirectory
+      ) {
+
+        currentDirectory =
+          directory;
+
+
+        const heading =
+          document.createElement(
+            "div"
+          );
+
+
+        heading.className =
+          "pages-directory";
+
+
+        heading.textContent =
+          directory
+            ? "/" +
+              GITHUB_SECTION +
+              "/" +
+              directory +
+              "/"
+            : "/" +
+              GITHUB_SECTION +
+              "/";
+
+
+        container.appendChild(
+          heading
+        );
+
+      }
+
+
+      /*
+       * File article.
+       */
+
+      const article =
+        document.createElement(
+          "article"
+        );
+
+
+      article.className =
+        "pages-file";
+
+
+      /*
+       * Full repository path.
+       */
+
+      const path =
+        item.path;
+
+
+      /*
+       * Filename.
+       */
+
+      const filename =
+        path
+          .split("/")
+          .pop();
+
+
+      /*
+       * Extension.
+       */
+
+      const extension =
+        getExtension(
+          filename
+        );
+
+
+      /*
+       * Type label.
+       */
+
+      const type =
+        getFileType(
+          extension
+        );
+
+
+      article.innerHTML =
+        `
+          <div class="pages-file-info">
+
+            <h2 class="pages-file-name">
+
+              <span class="pages-file-type">
+                ${escapeHTML(
+                  type
+                )}
+              </span>
+
+              ${escapeHTML(
+                filename
+              )}
+
+            </h2>
+
+            <div class="pages-file-path">
+
+              ${escapeHTML(
+                path
+              )}
+
+            </div>
+
+          </div>
+
+          <div class="pages-file-actions">
+
+            <button
+              class="pages-file-button"
+              type="button"
+              data-open
+              data-path="${escapeHTML(
+                path
+              )}"
+            >
+              VIEW
+            </button>
+
+            <button
+              class="pages-file-github"
+              type="button"
+              data-github-path="${escapeHTML(
+                path
+              )}"
+            >
+              GITHUB
+            </button>
+
+          </div>
+        `;
+
+
+      container.appendChild(
+        article
+      );
+
+    }
+  );
+
+
+  /*
+   * I pulsanti sono stati creati
+   * dinamicamente.
+   *
+   * Devono quindi essere inizializzati
+   * dopo il rendering.
+   */
+
+  initializeViewButtons();
+
+  initializeGitHubButtons();
+
+}
+
+
+/* =========================================================
+   RENDER COMPLETE SECTION
+   ========================================================= */
+
+function renderSection(
+  items
+) {
+
+  /*
+   * Ordine deterministico.
+   */
+
+  const sorted =
+    [...items].sort(
+      (a, b) =>
+        a.path.localeCompare(
+          b.path,
+          undefined,
+          {
+            numeric:
+              true,
+
+            sensitivity:
+              "base"
+          }
+        )
+    );
+
+
+  /*
+   * Costruisce il menu superiore.
+   */
+
+  buildSectionMenu(
+    sorted
+  );
+
+
+  /*
+   * Costruisce l'elenco completo.
+   */
+
+  buildSectionFileList(
+    sorted
+  );
+
+
+  /*
+   * Aggiorna lo stato.
+   */
+
+  if (
+    typeof setStatus ===
+    "function"
+  ) {
+
+    setStatus(
+      sorted.length +
+      " resource" +
+      (
+        sorted.length === 1
+          ? ""
+          : "s"
+      ) +
+      " found under /" +
+      GITHUB_SECTION +
+      "/",
+      "ok"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   STATUS FALLBACK
+   ========================================================= */
+
+function setStatus(
+  message,
+  state
+) {
+
+  const status =
+    document.getElementById(
+      "pagesStatus"
+    ) ||
+    document.getElementById(
+      "repositoryStatus"
+    );
+
+
+  if (
+    !status
+  ) {
+
+    return;
+
+  }
+
+
+  status.textContent =
+    message;
+
+
+  if (
+    state
+  ) {
+
+    status.dataset.state =
+      state;
+
+  } else {
+
+    delete status.dataset.state;
+
+  }
+
+}
+
+
+/* =========================================================
+   INITIAL SECTION RENDER
+   ========================================================= */
+
+function initializeSectionRenderer(
+  discovered
+) {
+
+  if (
+    !Array.isArray(
+      discovered
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  renderSection(
+    discovered
+  );
+
+}
+
+
+/* =========================================================
+   EXPORT FOR REPOSITORY SCANNER
+   ========================================================= */
+
+window.renderSection =
+  renderSection;
+
+
+window.initializeSectionRenderer =
+  initializeSectionRenderer;
+
+
+/* =========================================================
+   SAME-PAGE VIEWER
+   ========================================================= */
+
+function loadViewerURL(
+  url
+) {
+
+  /*
+   * Il parser principale può essere caricato:
+   *
+   * 1. direttamente nella pagina
+   * 2. dentro il contenitore viewer
+   * 3. tramite iframe
+   *
+   * Se esiste il viewer dedicato,
+   * usiamo quello.
+   */
+
+  if (
+    repositoryViewer
+  ) {
+
+    showViewer();
+
+
+    /*
+     * Se il viewer è un iframe,
+     * carichiamo archive.html al suo interno.
+     */
+
+    const iframe =
+      repositoryViewer.querySelector(
+        "iframe"
+      );
+
+
+    if (iframe) {
+
+      iframe.src =
+        url;
+
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+   * Se non esiste un iframe,
+   * il parser corrente può semplicemente
+   * navigare alla propria pagina archive.html.
+   */
+
+  window.location.href =
+    url;
+
+}
+
+
+/* =========================================================
+   FILE MENU CLICK
+   ========================================================= */
+
+function handleFileMenuChange(
+  event
+) {
+
+  const select =
+    event.currentTarget;
+
+
+  const value =
+    select.value;
+
+
+  if (!value) {
+
+    return;
+
+  }
+
+
+  openRepositoryResource(
+    value
+  );
+
+
+  /*
+   * Riporta il menu al titolo iniziale.
+   */
+
+  select.selectedIndex =
+    0;
+
+}
+
+
+/* =========================================================
+   INSTALL FILE MENU
+   ========================================================= */
+
+function initializeFileMenu() {
+
+  /*
+   * La Parte 4 crea automaticamente
+   * il menu con data-file-menu.
+   */
+
+  const menus =
+    document.querySelectorAll(
+      "[data-file-menu]"
+    );
+
+
+  menus.forEach(
+    menu => {
+
+      menu.addEventListener(
+        "change",
+        handleFileMenuChange
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+   ========================================================= */
+
+function openViewButton(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const path =
+    button.getAttribute(
+      "data-path"
+    );
+
+
+  if (!path) {
+
+    return;
+
+  }
+
+
+  openRepositoryResource(
+    path
+  );
+
+}
+
+
+/* =========================================================
+   INSTALL VIEW BUTTONS
+   ========================================================= */
+
+function initializeViewButtons() {
+
+  const buttons =
+    document.querySelectorAll(
+      "[data-open]"
+    );
+
+
+  buttons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        openViewButton
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   GITHUB BUTTON
+   ========================================================= */
+
+function openGitHubFile(
+  event
+) {
+
+  const button =
+    event.currentTarget;
+
+
+  const path =
+    button.getAttribute(
+      "data-github-path"
+    );
+
+
+  if (!path) {
+
+    return;
+
+  }
+
+
+  window.open(
+    githubURL(
+      path
+    ),
+    "_blank",
+    "noopener,noreferrer"
+  );
+
+}
+
+
+/* =========================================================
+   INSTALL GITHUB BUTTONS
+   ========================================================= */
+
+function initializeGitHubButtons() {
+
+  const buttons =
+    document.querySelectorAll(
+      "[data-github-path]"
+    );
+
+
+  buttons.forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        openGitHubFile
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   INITIALIZE NAVIGATION
+   ========================================================= */
+
+function initializeRepositoryNavigation() {
+
+  initializeFileMenu();
+
+  initializeViewButtons();
+
+  initializeGitHubButtons();
+
+}
+
+
+/* =========================================================
+   START NAVIGATION
+   ========================================================= */
+
+initializeRepositoryNavigation();
+
+
+/* =========================================================
    RENDER FILE LIST
    ========================================================= */
 
@@ -1786,6 +3440,111 @@ function renderFiles(
     );
 
   }
+
+}
+
+
+/* =========================================================
+   OPEN REPOSITORY RESOURCE
+   ========================================================= */
+
+function openRepositoryResource(
+  path
+) {
+
+  if (
+    !path
+  ) {
+
+    return;
+
+  }
+
+
+  const filename =
+    path
+      .split("/")
+      .filter(Boolean)
+      .pop();
+
+
+  if (
+    !filename
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * Chiude il menu della sezione.
+   */
+
+  if (
+    sectionMenu
+  ) {
+
+    sectionMenu.hidden =
+      true;
+
+  }
+
+
+  if (
+    sectionMenuButton
+  ) {
+
+    sectionMenuButton.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+
+  }
+
+
+  /*
+   * Mostra il viewer.
+   */
+
+  showViewer();
+
+
+  /*
+   * Stato di caricamento.
+   */
+
+  setViewerLoading(
+    true
+  );
+
+
+  /*
+   * Salva il percorso corrente.
+   */
+
+  currentMarkdownPath =
+    path;
+
+
+  /*
+   * Percorso visualizzato
+   * nell'intestazione del viewer.
+   */
+
+  sourceElement.textContent =
+    path;
+
+
+  /*
+   * Carica il file usando il router
+   * già presente nel parser.
+   */
+
+  loadRepositoryResource(
+    path,
+    filename
+  );
 
 }
 
@@ -3064,6 +4823,7 @@ function escapeHTML(
 
 showBrowser();
 
+
 /* =========================================================
    LOAD MARKDOWN
    ========================================================= */
@@ -3196,16 +4956,6 @@ async function loadMarkdown(
 
 
     improveTables();
-
-
-    titleElement.textContent =
-      humanTitle(
-        filename
-      );
-
-
-    sourceElement.textContent =
-      path;
 
 
     document.title =
@@ -3545,11 +5295,6 @@ function resolveRelativePath(
   }
 
 
-  /*
-   * A Markdown link must remain inside the
-   * repository section handled by this parser.
-   */
-
   const sectionPrefix =
     GITHUB_SECTION +
     "/";
@@ -3656,6 +5401,11 @@ function openRepositoryResource(
   }
 
 
+  /*
+   * Markdown viene renderizzato
+   * direttamente nel viewer.
+   */
+
   if (
     extension === ".md" ||
     extension === ".markdown"
@@ -3669,11 +5419,6 @@ function openRepositoryResource(
 
   }
 
-
-  /*
-   * Other resources are opened in the same
-   * viewer area instead of a new browser page.
-   */
 
   showViewer();
 
@@ -3702,6 +5447,10 @@ function openRepositoryResource(
   resource.className =
     "archive-resource";
 
+
+  /*
+   * HTML
+   */
 
   if (
     [
@@ -3750,7 +5499,14 @@ function openRepositoryResource(
       iframe
     );
 
-  } else if (
+  }
+
+
+  /*
+   * Immagini
+   */
+
+  else if (
     [
       ".png",
       ".jpg",
@@ -3759,7 +5515,8 @@ function openRepositoryResource(
       ".webp",
       ".avif",
       ".bmp",
-      ".svg"
+      ".svg",
+      ".ico"
     ].includes(
       extension
     )
@@ -3785,7 +5542,14 @@ function openRepositoryResource(
       image
     );
 
-  } else if (
+  }
+
+
+  /*
+   * PDF
+   */
+
+  else if (
     extension === ".pdf"
   ) {
 
@@ -3806,14 +5570,28 @@ function openRepositoryResource(
 
 
     frame.title =
-      filename;
+      humanTitle(
+        filename
+      );
+
+
+    frame.loading =
+      "eager";
 
 
     resource.appendChild(
       frame
     );
 
-  } else {
+  }
+
+
+  /*
+   * Tutte le altre risorse:
+   * collegamento diretto.
+   */
+
+  else {
 
     const link =
       document.createElement(
@@ -3851,6 +5629,13 @@ function openRepositoryResource(
   );
 
 
+  document.title =
+    "AUF2026 — " +
+    humanTitle(
+      filename
+    );
+
+
   setViewerLoading(
     false
   );
@@ -3867,7 +5652,7 @@ window.openRepositoryResource =
 
 
 /* =========================================================
-   VIEW BUTTON HANDLER
+   VIEW BUTTON
    ========================================================= */
 
 function openFile(
@@ -3882,7 +5667,7 @@ function openFile(
 
 
 /* =========================================================
-   BACK BUTTON
+   BACK TO FILE LIST
    ========================================================= */
 
 if (
@@ -3897,17 +5682,18 @@ if (
 }
 
 
-  /* =========================================================
-     INITIAL VIEW
-     ========================================================= */
+/* =========================================================
+   INITIAL VIEW
+   ========================================================= */
 
-  showBrowser();
+showBrowser();
 
 </script>
 
 </body>
 
 </html>
+
 
 
 
