@@ -2398,341 +2398,479 @@ html[data-theme="light"] {
 
 
   <script>
-(function () {
 
-  "use strict";
+/* =========================================================
+   AUF2026 SECTION REPOSITORY PARSER
+   ========================================================= */
 
-  const CONFIG = {
-    owner: "AUF2026",
-    repository: "AUF2026.github.io",
-    branch: "main",
-    section: "papers"
-  };
+const GITHUB_OWNER =
+  "AUF2026";
 
-  const API_URL =
-    "https://api.github.com/repos/" +
-    CONFIG.owner + "/" +
-    CONFIG.repository +
-    "/git/trees/" +
-    CONFIG.branch +
-    "?recursive=1";
+const GITHUB_REPOSITORY =
+  "AUF2026.github.io";
 
-  const BLOB_BASE =
-    "https://github.com/" +
-    CONFIG.owner + "/" +
-    CONFIG.repository +
-    "/blob/" +
-    CONFIG.branch + "/";
+const GITHUB_BRANCH =
+  "main";
 
-  const status =
-    document.getElementById("papersStatus");
-
-  const files =
-    document.getElementById("papersFiles");
+/*
+ * CAMBIA SOLO QUESTA RIGA
+ *
+ * bibliography
+ * code
+ * datasets
+ * docs
+ * papers
+ * pdf
+ * proofs
+ * validation
+ */
+const GITHUB_SECTION =
+  "papers";
 
 
-  function setStatus(message, state) {
-
-    if (!status) return;
-
-    status.textContent = message;
-
-    if (state) {
-      status.dataset.state = state;
-    } else {
-      delete status.dataset.state;
-    }
-  }
+const GITHUB_TREE_URL =
+  "https://api.github.com/repos/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/git/trees/" +
+  GITHUB_BRANCH +
+  "?recursive=1";
 
 
-  function escapeHTML(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-
-  function extension(filename) {
-
-    const i =
-      filename.lastIndexOf(".");
-
-    return i < 0
-      ? ""
-      : filename
-          .slice(i + 1)
-          .toLowerCase();
-  }
+const GITHUB_RAW_BASE =
+  "https://raw.githubusercontent.com/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/" +
+  GITHUB_BRANCH +
+  "/";
 
 
-  function fileType(ext) {
-
-    if (
-      ["md", "markdown"].includes(ext)
-    ) return "MARKDOWN";
-
-    if (
-      ["html", "htm"].includes(ext)
-    ) return "HTML";
-
-    if (ext === "pdf")
-      return "PDF";
-
-    if (
-      [
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "webp",
-        "svg",
-        "avif",
-        "bmp"
-      ].includes(ext)
-    ) return "IMAGE";
-
-    if (
-      [
-        "mp3",
-        "wav",
-        "ogg",
-        "oga",
-        "m4a",
-        "flac"
-      ].includes(ext)
-    ) return "AUDIO";
-
-    if (
-      [
-        "mp4",
-        "webm",
-        "ogv",
-        "mov",
-        "m4v"
-      ].includes(ext)
-    ) return "VIDEO";
-
-    return "SOURCE";
-  }
+const GITHUB_BLOB_BASE =
+  "https://github.com/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/blob/" +
+  GITHUB_BRANCH +
+  "/";
 
 
-  async function load() {
+/* =========================================================
+   DOM
+   ========================================================= */
 
-    try {
+const repositoryStatus =
+  document.getElementById(
+    "pagesStatus"
+  ) ||
+  document.getElementById(
+    "repositoryStatus"
+  );
 
-      setStatus(
-        "Scanning /papers/…"
+
+const repositoryFiles =
+  document.getElementById(
+    "pagesFiles"
+  ) ||
+  document.getElementById(
+    "repositoryFiles"
+  );
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+loadRepository();
+
+
+/* =========================================================
+   LOAD REPOSITORY TREE
+   ========================================================= */
+
+async function loadRepository() {
+
+  try {
+
+    setStatus(
+      "Scanning repository tree…"
+    );
+
+
+    const response =
+      await fetch(
+        GITHUB_TREE_URL,
+        {
+          cache:
+            "no-store",
+
+          headers: {
+            "Accept":
+              "application/vnd.github+json"
+          }
+        }
       );
 
-      const response =
-        await fetch(
-          API_URL,
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "GitHub API HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data ||
+      !Array.isArray(
+        data.tree
+      )
+    ) {
+
+      throw new Error(
+        "Invalid GitHub repository tree."
+      );
+
+    }
+
+
+    const discovered =
+      discoverSectionFiles(
+        data.tree
+      );
+
+
+    renderFiles(
+      discovered
+    );
+
+
+    setStatus(
+      discovered.length +
+      " resource" +
+      (
+        discovered.length === 1
+          ? ""
+          : "s"
+      ) +
+      " found under /" +
+      GITHUB_SECTION +
+      "/",
+      "ok"
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    console.error(
+      "AUF2026 repository parser:",
+      error
+    );
+
+
+    setStatus(
+      "Repository scan failed: " +
+      error.message,
+      "error"
+    );
+
+
+    if (
+      repositoryFiles
+    ) {
+
+      repositoryFiles.innerHTML =
+        `
+          <div class="pages-empty">
+
+            Unable to read
+            <code>/${escapeHTML(
+              GITHUB_SECTION
+            )}/</code>
+            from the AUF2026 repository.
+
+          </div>
+        `;
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   DISCOVER FILES
+   ========================================================= */
+
+function discoverSectionFiles(
+  tree
+) {
+
+  const prefix =
+    GITHUB_SECTION +
+    "/";
+
+
+  return tree
+
+    .filter(
+      item => {
+
+        return (
+          item &&
+          item.type === "blob" &&
+          typeof item.path === "string" &&
+          item.path.startsWith(
+            prefix
+          )
+        );
+
+      }
+    )
+
+    /*
+     * Il parser non deve mostrare il proprio
+     * index.html.
+     *
+     * Se vuoi mostrare index.html della sezione,
+     * elimina questo filter.
+     */
+    .filter(
+      item => {
+
+        return (
+          item.path !==
+          GITHUB_SECTION +
+          "/index.html"
+        );
+
+      }
+    )
+
+    .sort(
+      (a, b) => {
+
+        return a.path.localeCompare(
+          b.path,
+          undefined,
           {
-            cache: "no-store",
-            headers: {
-              Accept:
-                "application/vnd.github+json"
-            }
+            numeric:
+              true,
+
+            sensitivity:
+              "base"
           }
         );
 
-      if (!response.ok) {
-        throw new Error(
-          "GitHub API HTTP " +
-          response.status
-        );
       }
+    );
 
-      const data =
-        await response.json();
+}
 
-      const prefix =
-        CONFIG.section + "/";
 
-      const discovered =
-        data.tree
-          .filter(item =>
-            item &&
-            item.type === "blob" &&
-            typeof item.path === "string" &&
-            item.path.startsWith(prefix)
-          )
-          .filter(item =>
-            item.path !==
-            "papers/index.html"
-          )
-          .sort((a, b) =>
-            a.path.localeCompare(
-              b.path,
-              undefined,
-              {
-                numeric: true,
-                sensitivity: "base"
-              }
-            )
-          );
+/* =========================================================
+   RENDER FILE LIST
+   ========================================================= */
 
-      render(discovered);
+function renderFiles(
+  items
+) {
 
-      setStatus(
-        discovered.length +
-        " resource" +
-        (
-          discovered.length === 1
-            ? ""
-            : "s"
-        ) +
-        " found under /papers/",
-        "ok"
-      );
+  if (
+    !repositoryFiles
+  ) {
 
-    } catch (error) {
+    return;
 
-      console.error(
-        "AUF2026 Papers parser:",
-        error
-      );
-
-      setStatus(
-        "Repository scan failed: " +
-        error.message,
-        "error"
-      );
-
-      if (files) {
-        files.innerHTML =
-          `
-          <div class="papers-empty">
-            Unable to read
-            <code>/papers/</code>.
-          </div>
-          `;
-      }
-    }
   }
 
 
-  function render(items) {
-
-    if (!files) return;
-
-    files.innerHTML = "";
-
-    if (!items.length) {
-
-      files.innerHTML =
-        `
-        <div class="papers-empty">
-          No resources were found
-          under <code>/papers/</code>.
-        </div>
-        `;
-
-      return;
-    }
-
-    let currentDirectory = null;
-
-    for (const item of items) {
-
-      const relative =
-        item.path.slice(
-          CONFIG.section.length + 1
-        );
-
-      const parts =
-        relative.split("/");
-
-      const directory =
-        parts.length > 1
-          ? parts.slice(0, -1).join("/")
-          : "";
-
-      if (
-        directory !== currentDirectory
-      ) {
-
-        currentDirectory =
-          directory;
-
-        const heading =
-          document.createElement("div");
-
-        heading.className =
-          "papers-directory";
-
-        heading.textContent =
-          directory
-            ? "/papers/" + directory + "/"
-            : "/papers/";
-
-        files.appendChild(
-          heading
-        );
-      }
-
-      files.appendChild(
-        createFile(item)
-      );
-    }
-  }
+  repositoryFiles.innerHTML =
+    "";
 
 
-  function createFile(item) {
+  if (
+    items.length === 0
+  ) {
 
-    const article =
-      document.createElement("article");
-
-    article.className =
-      "papers-file";
-
-    const filename =
-      item.path
-        .split("/")
-        .pop();
-
-    const ext =
-      extension(filename);
-
-    article.innerHTML =
+    repositoryFiles.innerHTML =
       `
-      <div class="papers-file-info">
+        <div class="pages-empty">
 
-        <h2 class="papers-file-name">
+          No resources were found
+          under
+          <code>/${escapeHTML(
+            GITHUB_SECTION
+          )}/</code>.
 
-          <span class="papers-file-type">
-            ${escapeHTML(
-              fileType(ext)
-            )}
+        </div>
+      `;
+
+    return;
+
+  }
+
+
+  let currentDirectory =
+    null;
+
+
+  for (
+    const item of items
+  ) {
+
+    const relativePath =
+      item.path.slice(
+        GITHUB_SECTION.length + 1
+      );
+
+
+    const parts =
+      relativePath.split("/");
+
+
+    const directory =
+      parts.length > 1
+        ? parts
+            .slice(0, -1)
+            .join("/")
+        : "";
+
+
+    if (
+      directory !==
+      currentDirectory
+    ) {
+
+      currentDirectory =
+        directory;
+
+
+      const directoryElement =
+        document.createElement(
+          "div"
+        );
+
+
+      directoryElement.className =
+        "pages-directory";
+
+
+      directoryElement.textContent =
+        directory
+          ? "/" +
+            GITHUB_SECTION +
+            "/" +
+            directory +
+            "/"
+          : "/" +
+            GITHUB_SECTION +
+            "/";
+
+
+      repositoryFiles.appendChild(
+        directoryElement
+      );
+
+    }
+
+
+    repositoryFiles.appendChild(
+      createFileElement(
+        item
+      )
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CREATE FILE
+   ========================================================= */
+
+function createFileElement(
+  item
+) {
+
+  const article =
+    document.createElement(
+      "article"
+    );
+
+
+  article.className =
+    "pages-file";
+
+
+  const filename =
+    item.path
+      .split("/")
+      .pop();
+
+
+  const extension =
+    getExtension(
+      filename
+    );
+
+
+  const type =
+    getFileType(
+      extension
+    );
+
+
+  article.innerHTML =
+    `
+      <div class="pages-file-info">
+
+        <h2 class="pages-file-name">
+
+          <span class="pages-file-type">
+            ${escapeHTML(type)}
           </span>
 
           ${escapeHTML(filename)}
 
         </h2>
 
-        <div class="papers-file-path">
+        <div class="pages-file-path">
           ${escapeHTML(item.path)}
         </div>
 
       </div>
 
-      <div class="papers-file-actions">
+      <div class="pages-file-actions">
 
         <button
+          class="pages-file-button"
           type="button"
-          class="papers-file-button"
           data-open
         >
           VIEW
         </button>
 
         <a
-          class="papers-file-github"
-          href="${BLOB_BASE + encodeURI(item.path)}"
+          class="pages-file-github"
+          href="${githubURL(
+            item.path
+          )}"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -2740,43 +2878,318 @@ html[data-theme="light"] {
         </a>
 
       </div>
-      `;
+    `;
 
-    article
-      .querySelector("[data-open]")
-      .addEventListener(
-        "click",
-        function () {
 
-          if (
-            window.AUF2026ResourceViewer &&
-            typeof
-              window.AUF2026ResourceViewer.open ===
-              "function"
-          ) {
+  article
+    .querySelector(
+      "[data-open]"
+    )
+    .addEventListener(
+      "click",
+      function () {
 
-            window.AUF2026ResourceViewer.open(
-              item.path
-            );
+        /*
+         * Usa esclusivamente il viewer.
+         */
 
-          } else {
+        if (
+          typeof window.openRepositoryResource ===
+          "function"
+        ) {
 
-            window.location.href =
-              "https://auf2026.github.io/" +
-              item.path;
+          window.openRepositoryResource(
+            item.path
+          );
 
-          }
+          return;
 
         }
-      );
 
-    return article;
+
+        /*
+         * Compatibilità con il viewer
+         * originale di pages/index.html.
+         */
+
+        if (
+          typeof window.openResource ===
+          "function"
+        ) {
+
+          window.openResource(
+            item.path
+          );
+
+          return;
+
+        }
+
+
+        /*
+         * Fallback diretto.
+         */
+
+        window.open(
+          rawURL(
+            item.path
+          ),
+          "_blank",
+          "noopener"
+        );
+
+      }
+    );
+
+
+  return article;
+
+}
+
+
+/* =========================================================
+   GITHUB URL
+   ========================================================= */
+
+function githubURL(
+  path
+) {
+
+  return (
+    GITHUB_BLOB_BASE +
+    path
+      .split("/")
+      .map(
+        encodeURIComponent
+      )
+      .join("/")
+  );
+
+}
+
+
+/* =========================================================
+   RAW URL
+   ========================================================= */
+
+function rawURL(
+  path
+) {
+
+  return (
+    GITHUB_RAW_BASE +
+    path
+      .split("/")
+      .map(
+        encodeURIComponent
+      )
+      .join("/")
+  );
+
+}
+
+
+/* =========================================================
+   EXTENSION
+   ========================================================= */
+
+function getExtension(
+  filename
+) {
+
+  const index =
+    filename.lastIndexOf(".");
+
+
+  if (
+    index < 0
+  ) {
+
+    return "";
+
   }
 
 
-  load();
+  return filename
+    .slice(
+      index + 1
+    )
+    .toLowerCase();
 
-})();
+}
+
+
+/* =========================================================
+   FILE TYPE
+   ========================================================= */
+
+function getFileType(
+  extension
+) {
+
+  if (
+    [
+      "md",
+      "markdown"
+    ].includes(extension)
+  ) {
+
+    return "MARKDOWN";
+
+  }
+
+
+  if (
+    [
+      "html",
+      "htm"
+    ].includes(extension)
+  ) {
+
+    return "HTML";
+
+  }
+
+
+  if (
+    extension ===
+    "pdf"
+  ) {
+
+    return "PDF";
+
+  }
+
+
+  if (
+    [
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "webp",
+      "svg",
+      "avif",
+      "bmp"
+    ].includes(extension)
+  ) {
+
+    return "IMAGE";
+
+  }
+
+
+  if (
+    [
+      "mp3",
+      "wav",
+      "ogg",
+      "oga",
+      "m4a",
+      "flac"
+    ].includes(extension)
+  ) {
+
+    return "AUDIO";
+
+  }
+
+
+  if (
+    [
+      "mp4",
+      "webm",
+      "ogv",
+      "mov",
+      "m4v"
+    ].includes(extension)
+  ) {
+
+    return "VIDEO";
+
+  }
+
+
+  return "SOURCE";
+
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+function setStatus(
+  message,
+  state
+) {
+
+  if (
+    !repositoryStatus
+  ) {
+
+    return;
+
+  }
+
+
+  repositoryStatus.textContent =
+    message;
+
+
+  if (
+    state
+  ) {
+
+    repositoryStatus.dataset.state =
+      state;
+
+  } else {
+
+    delete repositoryStatus.dataset.state;
+
+  }
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
+   ========================================================= */
+
+function escapeHTML(
+  value
+) {
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
 </script>
 
 </body>
