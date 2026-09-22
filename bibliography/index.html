@@ -2400,29 +2400,175 @@ html[data-theme="light"] {
   <script>
 
 /* =========================================================
-   AUF2026 SECTION REPOSITORY PARSER
+   AUF2026 — BIBLIOGRAPHY SECTION LOADER
+   ========================================================= */
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+const THEME_STORAGE_KEY =
+  "auf2026-theme";
+
+
+function getCurrentTheme() {
+
+  return (
+    document.documentElement.getAttribute(
+      "data-theme"
+    ) || "dark"
+  );
+
+}
+
+
+function updateThemeControls(theme) {
+
+  const isLight =
+    theme === "light";
+
+
+  const toggle =
+    document.getElementById(
+      "theme-toggle"
+    );
+
+
+  const icon =
+    document.getElementById(
+      "theme-icon"
+    );
+
+
+  const label =
+    document.getElementById(
+      "theme-label"
+    );
+
+
+  if (toggle) {
+
+    toggle.setAttribute(
+      "aria-pressed",
+      String(!isLight)
+    );
+
+
+    toggle.setAttribute(
+      "aria-label",
+      isLight
+        ? "Switch to dark theme"
+        : "Switch to light theme"
+    );
+
+  }
+
+
+  if (icon) {
+
+    icon.textContent =
+      isLight
+        ? "☀"
+        : "☾";
+
+  }
+
+
+  if (label) {
+
+    label.textContent =
+      isLight
+        ? "Light"
+        : "Dark";
+
+  }
+
+}
+
+
+function applyTheme(theme) {
+
+  if (
+    theme !== "dark" &&
+    theme !== "light"
+  ) {
+
+    theme = "dark";
+
+  }
+
+
+  document.documentElement.setAttribute(
+    "data-theme",
+    theme
+  );
+
+
+  localStorage.setItem(
+    THEME_STORAGE_KEY,
+    theme
+  );
+
+
+  updateThemeControls(
+    theme
+  );
+
+}
+
+
+updateThemeControls(
+  getCurrentTheme()
+);
+
+
+const themeToggle =
+  document.getElementById(
+    "theme-toggle"
+  );
+
+
+if (themeToggle) {
+
+  themeToggle.addEventListener(
+    "click",
+    function () {
+
+      const current =
+        getCurrentTheme();
+
+
+      applyTheme(
+        current === "light"
+          ? "dark"
+          : "light"
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   SECTION CONFIGURATION
    ========================================================= */
 
 const GITHUB_OWNER =
   "AUF2026";
 
+
 const GITHUB_REPOSITORY =
   "AUF2026.github.io";
+
 
 const GITHUB_BRANCH =
   "main";
 
+
 /*
- * CAMBIA SOLO QUESTA RIGA
- *
- * bibliography
- * code
- * datasets
- * docs
- * papers
- * pdf
- * proofs
- * validation
+ * THIS IS THE ONLY SECTION-SPECIFIC VALUE.
  */
 const GITHUB_SECTION =
   "bibliography";
@@ -2438,75 +2584,403 @@ const GITHUB_TREE_URL =
   "?recursive=1";
 
 
-const GITHUB_RAW_BASE =
-  "https://raw.githubusercontent.com/" +
-  GITHUB_OWNER +
-  "/" +
-  GITHUB_REPOSITORY +
-  "/" +
-  GITHUB_BRANCH +
-  "/";
-
-
-const GITHUB_BLOB_BASE =
-  "https://github.com/" +
-  GITHUB_OWNER +
-  "/" +
-  GITHUB_REPOSITORY +
-  "/blob/" +
-  GITHUB_BRANCH +
-  "/";
-
-
 /* =========================================================
-   DOM
+   URL PARAMETERS
    ========================================================= */
 
-const repositoryStatus =
-  document.getElementById(
-    "pagesStatus"
-  ) ||
-  document.getElementById(
-    "repositoryStatus"
+const params =
+  new URLSearchParams(
+    window.location.search
   );
 
 
-const repositoryFiles =
+const requestedFile =
+  params.get("file");
+
+
+const requestedEmbed =
+  params.get("embed");
+
+
+/* =========================================================
+   DOM REFERENCES
+   ========================================================= */
+
+const documentElement =
   document.getElementById(
-    "pagesFiles"
-  ) ||
+    "document"
+  );
+
+
+const titleElement =
   document.getElementById(
-    "repositoryFiles"
+    "document-title"
+  );
+
+
+const sourceElement =
+  document.getElementById(
+    "document-source"
+  );
+
+
+const backButton =
+  document.getElementById(
+    "back-button"
+  );
+
+
+const backButtonBottom =
+  document.getElementById(
+    "back-button-bottom"
   );
 
 
 /* =========================================================
-   INITIALIZE
+   EXTENSIONS
    ========================================================= */
 
-loadRepository();
+const allowedResourceExtensions = [
+
+  ".md",
+
+  ".html",
+  ".htm",
+
+  ".pdf",
+
+  ".csv",
+
+  ".svg",
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".gif",
+  ".webp",
+  ".avif",
+  ".bmp",
+  ".ico",
+
+  ".mp3",
+  ".wav",
+  ".ogg",
+  ".oga",
+  ".m4a",
+  ".aac",
+  ".flac",
+
+  ".mp4",
+  ".webm",
+  ".ogv",
+  ".mov",
+
+  ".txt",
+  ".json",
+  ".xml",
+  ".yaml",
+  ".yml",
+  ".log"
+
+];
 
 
 /* =========================================================
-   LOAD REPOSITORY TREE
+   REPOSITORY FILE LIST
    ========================================================= */
 
-async function loadRepository() {
+let discoveredFiles = [];
 
-  try {
 
-    setStatus(
-      "Scanning repository tree…"
+/* =========================================================
+   HUMAN TITLE
+   ========================================================= */
+
+function humanTitle(
+  filename
+) {
+
+  return filename
+
+    .replace(
+      /\.(md|markdown|html?|pdf|csv|svg|txt|json|xml|ya?ml|log)$/i,
+      ""
+    )
+
+    .replace(
+      /[-_]+/g,
+      " "
+    )
+
+    .replace(
+      /\b\w/g,
+      character =>
+        character.toUpperCase()
     );
 
+}
+
+
+/* =========================================================
+   EXTENSION
+   ========================================================= */
+
+function getExtension(
+  path
+) {
+
+  const clean =
+    path
+      .split("?")[0]
+      .split("#")[0]
+      .toLowerCase();
+
+
+  const index =
+    clean.lastIndexOf(".");
+
+
+  if (
+    index < 0
+  ) {
+
+    return "";
+
+  }
+
+
+  return clean.slice(
+    index
+  );
+
+}
+
+
+/* =========================================================
+   SAFE LOCAL PATH
+   ========================================================= */
+
+function isSafeLocalPath(
+  path
+) {
+
+  if (!path) {
+
+    return false;
+
+  }
+
+
+  if (
+    path.includes("..")
+  ) {
+
+    return false;
+
+  }
+
+
+  if (
+    path.startsWith("/")
+  ) {
+
+    return false;
+
+  }
+
+
+  if (
+    path.includes("\\")
+  ) {
+
+    return false;
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   SECTION PATH
+   ========================================================= */
+
+function normalizeSectionPath(
+  path
+) {
+
+  if (!path) {
+
+    return null;
+
+  }
+
+
+  const clean =
+    path
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+
+  const prefix =
+    GITHUB_SECTION +
+    "/";
+
+
+  if (
+    !clean.startsWith(prefix)
+  ) {
+
+    return null;
+
+  }
+
+
+  if (
+    !isSafeLocalPath(
+      clean
+    )
+  ) {
+
+    return null;
+
+  }
+
+
+  if (
+    !allowedResourceExtensions.includes(
+      getExtension(clean)
+    )
+  ) {
+
+    return null;
+
+  }
+
+
+  if (
+    !discoveredFiles.includes(
+      clean
+    )
+  ) {
+
+    return null;
+
+  }
+
+
+  return clean;
+
+}
+
+
+/* =========================================================
+   RELATIVE FILE RESOLUTION
+   ========================================================= */
+
+function resolveSectionFile(
+  requested
+) {
+
+  if (!requested) {
+
+    return null;
+
+  }
+
+
+  let clean =
+    requested
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+
+  if (
+    clean.startsWith(
+      GITHUB_SECTION + "/"
+    )
+  ) {
+
+    return normalizeSectionPath(
+      clean
+    );
+
+  }
+
+
+  /*
+   * Historical / convenient form:
+   *
+   * ?file=example.md
+   */
+  const direct =
+    GITHUB_SECTION +
+    "/" +
+    clean;
+
+
+  if (
+    discoveredFiles.includes(
+      direct
+    )
+  ) {
+
+    return direct;
+
+  }
+
+
+  /*
+   * Allow a unique filename match
+   * anywhere inside the section.
+   */
+  const matches =
+    discoveredFiles.filter(
+      path => {
+
+        return (
+          path
+            .split("/")
+            .pop()
+            ?.toLowerCase() ===
+          clean
+            .split("/")
+            .pop()
+            ?.toLowerCase()
+        );
+
+      }
+    );
+
+
+  if (
+    matches.length === 1
+  ) {
+
+    return matches[0];
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================================================
+   GITHUB DISCOVERY
+   ========================================================= */
+
+async function discoverSectionFiles() {
+
+  try {
 
     const response =
       await fetch(
         GITHUB_TREE_URL,
         {
-          cache:
-            "no-store",
-
+          cache: "no-cache",
           headers: {
             "Accept":
               "application/vnd.github+json"
@@ -2539,73 +3013,90 @@ async function loadRepository() {
     ) {
 
       throw new Error(
-        "Invalid GitHub repository tree."
+        "Invalid GitHub API tree response."
       );
 
     }
 
 
-    const discovered =
-      discoverSectionFiles(
-        data.tree
-      );
-
-
-    renderFiles(
-      discovered
-    );
-
-
-    setStatus(
-      discovered.length +
-      " resource" +
-      (
-        discovered.length === 1
-          ? ""
-          : "s"
-      ) +
-      " found under /" +
+    const prefix =
       GITHUB_SECTION +
-      "/",
-      "ok"
-    );
+      "/";
 
+
+    discoveredFiles =
+      data.tree
+
+        .filter(
+          item => {
+
+            return (
+              item &&
+              item.type === "blob" &&
+              typeof item.path === "string" &&
+              item.path.startsWith(
+                prefix
+              )
+            );
+
+          }
+        )
+
+        .filter(
+          item => {
+
+            return (
+              item.path !==
+              GITHUB_SECTION +
+              "/index.html"
+            );
+
+          }
+        )
+
+        .map(
+          item =>
+            item.path
+              .replace(/^\/+/, "")
+              .replace(/\\/g, "/")
+        )
+
+        .filter(
+          path => {
+
+            return allowedResourceExtensions.includes(
+              getExtension(path)
+            );
+
+          }
+        )
+
+        .sort(
+          (a, b) =>
+            a.localeCompare(
+              b,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base"
+              }
+            )
+        );
+
+
+    return true;
 
   } catch (
     error
   ) {
 
-    console.error(
-      "AUF2026 repository parser:",
+    console.warn(
+      "AUF2026 bibliography discovery:",
       error
     );
 
 
-    setStatus(
-      "Repository scan failed: " +
-      error.message,
-      "error"
-    );
-
-
-    if (
-      repositoryFiles
-    ) {
-
-      repositoryFiles.innerHTML =
-        `
-          <div class="pages-empty">
-
-            Unable to read
-            <code>/${escapeHTML(
-              GITHUB_SECTION
-            )}/</code>
-            from the AUF2026 repository.
-
-          </div>
-        `;
-
-    }
+    return false;
 
   }
 
@@ -2613,336 +3104,383 @@ async function loadRepository() {
 
 
 /* =========================================================
-   DISCOVER FILES
+   DIRECTORY LISTING
    ========================================================= */
 
-function discoverSectionFiles(
-  tree
-) {
+function renderDirectoryListing() {
 
-  const prefix =
-    GITHUB_SECTION +
-    "/";
-
-
-  return tree
-
-    .filter(
-      item => {
-
-        return (
-          item &&
-          item.type === "blob" &&
-          typeof item.path === "string" &&
-          item.path.startsWith(
-            prefix
-          )
-        );
-
-      }
-    )
-
-    /*
-     * Il parser non deve mostrare il proprio
-     * index.html.
-     *
-     * Se vuoi mostrare index.html della sezione,
-     * elimina questo filter.
-     */
-    .filter(
-      item => {
-
-        return (
-          item.path !==
-          GITHUB_SECTION +
-          "/index.html"
-        );
-
-      }
-    )
-
-    .sort(
-      (a, b) => {
-
-        return a.path.localeCompare(
-          b.path,
-          undefined,
-          {
-            numeric:
-              true,
-
-            sensitivity:
-              "base"
-          }
-        );
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   RENDER FILE LIST
-   ========================================================= */
-
-function renderFiles(
-  items
-) {
-
-  if (
-    !repositoryFiles
-  ) {
+  if (!documentElement) {
 
     return;
 
   }
 
 
-  repositoryFiles.innerHTML =
+  documentElement.innerHTML =
     "";
 
 
   if (
-    items.length === 0
+    discoveredFiles.length === 0
   ) {
 
-    repositoryFiles.innerHTML =
-      `
-        <div class="pages-empty">
+    documentElement.innerHTML = `
 
-          No resources were found
+      <div class="archive-error">
+
+        <strong>
+          No resources found.
+        </strong>
+
+        <p>
+          No supported resource was found
           under
-          <code>/${escapeHTML(
-            GITHUB_SECTION
-          )}/</code>.
+          <code>/${GITHUB_SECTION}/</code>.
+        </p>
 
-        </div>
-      `;
+      </div>
+
+    `;
+
+
+    if (sourceElement) {
+
+      sourceElement.textContent =
+        GITHUB_SECTION + "/";
+
+    }
+
+
+    if (titleElement) {
+
+      titleElement.textContent =
+        humanTitle(
+          GITHUB_SECTION
+        );
+
+    }
+
 
     return;
 
   }
+
+
+  const container =
+    document.createElement(
+      "div"
+    );
+
+
+  container.className =
+    "archive-resource-list";
 
 
   let currentDirectory =
     null;
 
 
-  for (
-    const item of items
-  ) {
+  discoveredFiles.forEach(
+    path => {
 
-    const relativePath =
-      item.path.slice(
-        GITHUB_SECTION.length + 1
-      );
-
-
-    const parts =
-      relativePath.split("/");
-
-
-    const directory =
-      parts.length > 1
-        ? parts
-            .slice(0, -1)
-            .join("/")
-        : "";
-
-
-    if (
-      directory !==
-      currentDirectory
-    ) {
-
-      currentDirectory =
-        directory;
-
-
-      const directoryElement =
-        document.createElement(
-          "div"
+      const relativePath =
+        path.slice(
+          GITHUB_SECTION.length + 1
         );
 
 
-      directoryElement.className =
-        "pages-directory";
+      const parts =
+        relativePath.split("/");
 
 
-      directoryElement.textContent =
-        directory
-          ? "/" +
-            GITHUB_SECTION +
-            "/" +
-            directory +
-            "/"
-          : "/" +
-            GITHUB_SECTION +
-            "/";
+      const directory =
+        parts.length > 1
+          ? parts
+              .slice(0, -1)
+              .join("/")
+          : "";
 
 
-      repositoryFiles.appendChild(
-        directoryElement
+      if (
+        directory !==
+        currentDirectory
+      ) {
+
+        currentDirectory =
+          directory;
+
+
+        const heading =
+          document.createElement(
+            "div"
+          );
+
+
+        heading.className =
+          "pages-directory";
+
+
+        heading.textContent =
+          directory
+            ? "/" +
+              GITHUB_SECTION +
+              "/" +
+              directory +
+              "/"
+            : "/" +
+              GITHUB_SECTION +
+              "/";
+
+
+        container.appendChild(
+          heading
+        );
+
+      }
+
+
+      const article =
+        document.createElement(
+          "article"
+        );
+
+
+      article.className =
+        "pages-file";
+
+
+      const filename =
+        parts[parts.length - 1];
+
+
+      const extension =
+        getExtension(
+          filename
+        );
+
+
+      article.innerHTML = `
+
+        <div class="pages-file-info">
+
+          <h2 class="pages-file-name">
+
+            <span class="pages-file-type">
+              ${escapeHTML(
+                getFileType(
+                  extension
+                )
+              )}
+            </span>
+
+            ${escapeHTML(
+              filename
+            )}
+
+          </h2>
+
+          <div class="pages-file-path">
+            ${escapeHTML(path)}
+          </div>
+
+        </div>
+
+        <div class="pages-file-actions">
+
+          <button
+            class="pages-file-button"
+            type="button"
+            data-open
+          >
+            VIEW
+          </button>
+
+          <a
+            class="pages-file-github"
+            href="${githubURL(path)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GITHUB
+          </a>
+
+        </div>
+
+      `;
+
+
+      const openButton =
+        article.querySelector(
+          "[data-open]"
+        );
+
+
+      openButton.addEventListener(
+        "click",
+        function () {
+
+          const url =
+            window.location.pathname +
+            "?file=" +
+            encodeURIComponent(
+              path
+            );
+
+
+          window.location.href =
+            url;
+
+        }
+      );
+
+
+      container.appendChild(
+        article
       );
 
     }
+  );
 
 
-    repositoryFiles.appendChild(
-      createFileElement(
-        item
-      )
-    );
+  documentElement.appendChild(
+    container
+  );
+
+
+  if (titleElement) {
+
+    titleElement.textContent =
+      "Bibliography";
 
   }
+
+
+  if (sourceElement) {
+
+    sourceElement.textContent =
+      GITHUB_SECTION + "/";
+
+  }
+
+
+  document.title =
+    "AUF2026 — Bibliography";
 
 }
 
 
 /* =========================================================
-   CREATE FILE
+   FILE TYPE
    ========================================================= */
 
-function createFileElement(
-  item
+function getFileType(
+  extension
 ) {
 
-  const article =
-    document.createElement(
-      "article"
-    );
+  if (
+    extension === ".md"
+  ) {
+
+    return "MARKDOWN";
+
+  }
 
 
-  article.className =
-    "pages-file";
+  if (
+    extension === ".html" ||
+    extension === ".htm"
+  ) {
+
+    return "HTML";
+
+  }
 
 
-  const filename =
-    item.path
-      .split("/")
-      .pop();
+  if (
+    extension === ".pdf"
+  ) {
+
+    return "PDF";
+
+  }
 
 
-  const extension =
-    getExtension(
-      filename
-    );
+  if (
+    [
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".svg",
+      ".avif",
+      ".bmp",
+      ".ico"
+    ].includes(extension)
+  ) {
+
+    return "IMAGE";
+
+  }
 
 
-  const type =
-    getFileType(
-      extension
-    );
+  if (
+    [
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac"
+    ].includes(extension)
+  ) {
+
+    return "AUDIO";
+
+  }
 
 
-  article.innerHTML =
-    `
-      <div class="pages-file-info">
+  if (
+    [
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov"
+    ].includes(extension)
+  ) {
 
-        <h2 class="pages-file-name">
+    return "VIDEO";
 
-          <span class="pages-file-type">
-            ${escapeHTML(type)}
-          </span>
-
-          ${escapeHTML(filename)}
-
-        </h2>
-
-        <div class="pages-file-path">
-          ${escapeHTML(item.path)}
-        </div>
-
-      </div>
-
-      <div class="pages-file-actions">
-
-        <button
-          class="pages-file-button"
-          type="button"
-          data-open
-        >
-          VIEW
-        </button>
-
-        <a
-          class="pages-file-github"
-          href="${githubURL(
-            item.path
-          )}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GITHUB
-        </a>
-
-      </div>
-    `;
+  }
 
 
-  article
-    .querySelector(
-      "[data-open]"
-    )
-    .addEventListener(
-      "click",
-      function () {
+  if (
+    extension === ".csv"
+  ) {
 
-        /*
-         * Usa esclusivamente il viewer.
-         */
+    return "CSV";
 
-        if (
-          typeof window.openRepositoryResource ===
-          "function"
-        ) {
-
-          window.openRepositoryResource(
-            item.path
-          );
-
-          return;
-
-        }
+  }
 
 
-        /*
-         * Compatibilità con il viewer
-         * originale di pages/index.html.
-         */
+  if (
+    [
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(extension)
+  ) {
 
-        if (
-          typeof window.openResource ===
-          "function"
-        ) {
+    return "TEXT";
 
-          window.openResource(
-            item.path
-          );
-
-          return;
-
-        }
+  }
 
 
-        /*
-         * Fallback diretto.
-         */
-
-        window.open(
-          rawURL(
-            item.path
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
-    );
-
-
-  return article;
+  return "SOURCE";
 
 }
 
@@ -2956,7 +3494,13 @@ function githubURL(
 ) {
 
   return (
-    GITHUB_BLOB_BASE +
+    "https://github.com/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/blob/" +
+    GITHUB_BRANCH +
+    "/" +
     path
       .split("/")
       .map(
@@ -2977,7 +3521,13 @@ function rawURL(
 ) {
 
   return (
-    GITHUB_RAW_BASE +
+    "https://raw.githubusercontent.com/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/" +
+    GITHUB_BRANCH +
+    "/" +
     path
       .split("/")
       .map(
@@ -2990,208 +3540,561 @@ function rawURL(
 
 
 /* =========================================================
-   EXTENSION
+   BACK NAVIGATION
    ========================================================= */
 
-function getExtension(
-  filename
-) {
-
-  const index =
-    filename.lastIndexOf(".");
-
+function goBack() {
 
   if (
-    index < 0
+    window.history.length > 1
   ) {
 
-    return "";
-
-  }
-
-
-  return filename
-    .slice(
-      index + 1
-    )
-    .toLowerCase();
-
-}
-
-
-/* =========================================================
-   FILE TYPE
-   ========================================================= */
-
-function getFileType(
-  extension
-) {
-
-  if (
-    [
-      "md",
-      "markdown"
-    ].includes(extension)
-  ) {
-
-    return "MARKDOWN";
-
-  }
-
-
-  if (
-    [
-      "html",
-      "htm"
-    ].includes(extension)
-  ) {
-
-    return "HTML";
-
-  }
-
-
-  if (
-    extension ===
-    "pdf"
-  ) {
-
-    return "PDF";
-
-  }
-
-
-  if (
-    [
-      "png",
-      "jpg",
-      "jpeg",
-      "gif",
-      "webp",
-      "svg",
-      "avif",
-      "bmp"
-    ].includes(extension)
-  ) {
-
-    return "IMAGE";
-
-  }
-
-
-  if (
-    [
-      "mp3",
-      "wav",
-      "ogg",
-      "oga",
-      "m4a",
-      "flac"
-    ].includes(extension)
-  ) {
-
-    return "AUDIO";
-
-  }
-
-
-  if (
-    [
-      "mp4",
-      "webm",
-      "ogv",
-      "mov",
-      "m4v"
-    ].includes(extension)
-  ) {
-
-    return "VIDEO";
-
-  }
-
-
-  return "SOURCE";
-
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-function setStatus(
-  message,
-  state
-) {
-
-  if (
-    !repositoryStatus
-  ) {
+    window.history.back();
 
     return;
 
   }
 
 
-  repositoryStatus.textContent =
-    message;
+  window.location.href =
+    "../index.html";
+
+}
 
 
-  if (
-    state
-  ) {
+if (backButton) {
 
-    repositoryStatus.dataset.state =
-      state;
+  backButton.addEventListener(
+    "click",
+    goBack
+  );
 
-  } else {
+}
 
-    delete repositoryStatus.dataset.state;
 
-  }
+if (backButtonBottom) {
+
+  backButtonBottom.addEventListener(
+    "click",
+    goBack
+  );
 
 }
 
 
 /* =========================================================
-   HTML ESCAPE
+   MARKDOWN LINK NORMALIZATION
    ========================================================= */
 
-function escapeHTML(
-  value
-) {
+function normalizeMarkdownLinks() {
 
-  return String(value)
+  if (!documentElement) {
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+    return;
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+  }
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+  documentElement
+    .querySelectorAll("a")
+    .forEach(
+      link => {
 
-    .replace(
-      /'/g,
-      "&#039;"
+        const rawHref =
+          link.getAttribute(
+            "href"
+          );
+
+
+        if (!rawHref) {
+
+          return;
+
+        }
+
+
+        const href =
+          rawHref.trim();
+
+
+        if (
+
+          href.startsWith(
+            "http://"
+          ) ||
+
+          href.startsWith(
+            "https://"
+          ) ||
+
+          href.startsWith(
+            "mailto:"
+          ) ||
+
+          href.startsWith(
+            "tel:"
+          ) ||
+
+          href.startsWith(
+            "#"
+          )
+
+        ) {
+
+          return;
+
+        }
+
+
+        const hashIndex =
+          href.indexOf("#");
+
+
+        const queryIndex =
+          href.indexOf("?");
+
+
+        let splitIndex =
+          -1;
+
+
+        if (
+          hashIndex >= 0 &&
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            Math.min(
+              hashIndex,
+              queryIndex
+            );
+
+        } else if (
+          hashIndex >= 0
+        ) {
+
+          splitIndex =
+            hashIndex;
+
+        } else if (
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            queryIndex;
+
+        }
+
+
+        const path =
+          splitIndex >= 0
+            ? href.slice(
+                0,
+                splitIndex
+              )
+            : href;
+
+
+        const suffix =
+          splitIndex >= 0
+            ? href.slice(
+                splitIndex
+              )
+            : "";
+
+
+        if (
+          !path
+            .toLowerCase()
+            .endsWith(".md")
+        ) {
+
+          return;
+
+        }
+
+
+        const normalized =
+          path
+            .replace(/^\/+/, "")
+            .replace(/\\/g, "/");
+
+
+        let resolved =
+          resolveSectionFile(
+            normalized
+          );
+
+
+        /*
+         * If the Markdown link is relative to the
+         * current file's directory, try that first.
+         */
+        if (
+          !resolved &&
+          requestedFile
+        ) {
+
+          const current =
+            resolveSectionFile(
+              requestedFile
+            );
+
+
+          if (current) {
+
+            const directory =
+              current
+                .split("/")
+                .slice(0, -1)
+                .join("/");
+
+
+            const candidate =
+              directory
+                ? directory +
+                  "/" +
+                  normalized
+                : normalized;
+
+
+            resolved =
+              resolveSectionFile(
+                candidate
+              );
+
+          }
+
+        }
+
+
+        if (!resolved) {
+
+          return;
+
+        }
+
+
+        link.href =
+          window.location.pathname +
+          "?file=" +
+          encodeURIComponent(
+            resolved
+          ) +
+          suffix;
+
+      }
     );
 
 }
 
-</script>
 
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+function improveTables() {
+
+  if (!documentElement) {
+
+    return;
+
+  }
+
+
+  documentElement
+    .querySelectorAll("table")
+    .forEach(
+      table => {
+
+        if (
+          table.parentElement &&
+          table.parentElement.classList.contains(
+            "archive-table-wrap"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+
+        wrapper.className =
+          "archive-table-wrap";
+
+
+        table.parentNode.insertBefore(
+          wrapper,
+          table
+        );
+
+
+        wrapper.appendChild(
+          table
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   CSV PARSER
+   ========================================================= */
+
+function parseCSV(
+  text
+) {
+
+  const rows = [];
+
+  let row = [];
+
+  let cell = "";
+
+  let insideQuotes =
+    false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+
+    const next =
+      text[i + 1];
+
+
+    if (
+      char === '"' &&
+      insideQuotes &&
+      next === '"'
+    ) {
+
+      cell += '"';
+
+      i++;
+
+      continue;
+
+    }
+
+
+    if (
+      char === '"'
+    ) {
+
+      insideQuotes =
+        !insideQuotes;
+
+      continue;
+
+    }
+
+
+    if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(
+        cell
+      );
+
+      cell = "";
+
+      continue;
+
+    }
+
+
+    if (
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(
+        cell
+      );
+
+
+      rows.push(
+        row
+      );
+
+
+      row = [];
+
+      cell = "";
+
+      continue;
+
+    }
+
+
+    cell += char;
+
+  }
+
+
+  if (
+    cell.length ||
+    row.length
+  ) {
+
+    row.push(
+      cell
+    );
+
+
+    rows.push(
+      row
+    );
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =========================================================
+   CSV RENDERER
+   ========================================================= */
+
+function renderCSV(
+  text,
+  filename
+) {
+
+  const rows =
+    parseCSV(
+      text
+    );
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.className =
+    "archive-resource-table";
+
+
+  const table =
+    document.createElement(
+      "table"
+    );
+
+
+  rows.forEach(
+    (row, index) => {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.forEach(
+        value => {
+
+          const cell =
+            document.createElement(
+              index === 0
+                ? "th"
+                : "td"
+            );
+
+
+          cell.textContent =
+            value;
+
+
+          tr.appendChild(
+            cell
+          );
+
+        }
+      );
+
+
+      table.appendChild(
+        tr
+      );
+
+    }
+  );
+
+
+  wrapper.appendChild(
+    table
+  );
+
+
+  documentElement.replaceChildren(
+    wrapper
+  );
+
+
+  titleElement.textContent =
+    humanTitle(
+      filename
+    );
+
+}
+
+
+/* =========================================================
+   TEXT RESOURCE
+   ========================================================= */
+
+function renderText(
+  text,
+  filename
+) {
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-resource";
+
+
+  const pre =
+    document.createElement(
+      "
 </body>
 
 </html>
