@@ -100,76 +100,274 @@
     }
 
     /* =========================================================
-       HEADER
-       ========================================================= */
+   HEADER
+   ========================================================= */
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
-      background:
-        rgba(7,10,15,0.88);
+  background:
+    rgba(7,10,15,0.88);
 
-      backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
 
-      border-bottom:
-        1px solid var(--border);
-    }
+  border-bottom:
+    1px solid var(--border);
+}
 
-    .nav {
-      min-height: 72px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+.nav {
+  min-height: 72px;
 
-      gap: 30px;
-    }
+  display: flex;
 
-    .brand {
-      font-weight: 900;
-      letter-spacing: 0.14em;
-      font-size: 1.05rem;
-    }
+  align-items: center;
 
-    .brand span {
-      color: var(--green);
-    }
+  gap: 30px;
+}
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 22px;
-    }
 
-    .nav-links a {
-      color: var(--muted);
-      font-size: 0.9rem;
-      transition: color .2s ease;
-    }
+.brand {
+  flex:
+    0 0 auto;
 
-    .nav-links a:hover {
-      color: var(--text);
-    }
+  font-weight: 900;
 
-    .menu-button {
-      display: none;
+  letter-spacing:
+    0.14em;
 
-      border:
-        1px solid var(--border);
+  font-size:
+    1.05rem;
+}
 
-      background:
-        var(--panel);
 
-      color: var(--text);
+.brand span {
+  color:
+    var(--green);
+}
 
-      padding: 8px 12px;
-      border-radius: 8px;
 
-      cursor: pointer;
-    }
+/* =========================================================
+   MAIN SITE MENU
+   ========================================================= */
+
+.nav-links {
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 22px;
+
+  flex:
+    0 1 auto;
+}
+
+
+.nav-links a {
+  color:
+    var(--muted);
+
+  font-size:
+    0.9rem;
+
+  white-space:
+    nowrap;
+
+  transition:
+    color .2s ease;
+}
+
+
+.nav-links a:hover {
+  color:
+    var(--text);
+}
+
+
+/* =========================================================
+   REPOSITORY SECTIONS MENU
+   ========================================================= */
+
+.repository-sections {
+
+  display: flex;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px 18px;
+
+  margin-left: auto;
+
+  padding-left: 28px;
+
+  border-left:
+    1px solid var(--border);
+}
+
+
+.repository-section-link {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  padding:
+    7px 9px;
+
+  color:
+    var(--muted);
+
+  font-size:
+    0.85rem;
+
+  line-height:
+    1.2;
+
+  white-space:
+    nowrap;
+
+  text-decoration:
+    none;
+
+  border-radius:
+    7px;
+
+  transition:
+    color .2s ease,
+    background .2s ease;
+}
+
+
+.repository-section-link:hover {
+
+  color:
+    var(--text);
+
+  background:
+    rgba(99,230,190,.07);
+}
+
+
+/* =========================================================
+   MOBILE MENU BUTTON
+   ========================================================= */
+
+.menu-button {
+  display: none;
+
+  border:
+    1px solid var(--border);
+
+  background:
+    var(--panel);
+
+  color:
+    var(--text);
+
+  padding:
+    8px 12px;
+
+  border-radius:
+    8px;
+
+  cursor:
+    pointer;
+}
+
+
+/* =========================================================
+   RESPONSIVE HEADER
+   ========================================================= */
+
+@media (
+  max-width: 1250px
+) {
+
+  .nav {
+
+    flex-wrap:
+      wrap;
+
+    padding-top:
+      12px;
+
+    padding-bottom:
+      12px;
+  }
+
+
+  .repository-sections {
+
+    width:
+      100%;
+
+    margin-left:
+      0;
+
+    padding-left:
+      0;
+
+    padding-top:
+      12px;
+
+    border-left:
+      none;
+
+    border-top:
+      1px solid var(--border);
+  }
+
+}
+
+
+@media (
+  max-width: 800px
+) {
+
+  .nav {
+
+    min-height:
+      64px;
+  }
+
+
+  .nav-links {
+
+    display:
+      none;
+  }
+
+
+  .menu-button {
+
+    display:
+      block;
+
+    margin-left:
+      auto;
+  }
+
+
+  .repository-sections {
+
+    gap:
+      6px 12px;
+  }
+
+
+  .repository-section-link {
+
+    font-size:
+      0.82rem;
+  }
+
+}
 
     /* =========================================================
        HERO
@@ -1637,80 +1835,88 @@
 
     </nav>
 
+  </div>
 
-    <!-- =====================================================
-         REPOSITORY SECTIONS
-         ===================================================== -->
 
-    <nav
-      class="repository-sections"
-      aria-label="Repository sections"
-    >
+  <!-- =======================================================
+       REPOSITORY SECTION NAVIGATION
+       ======================================================= -->
 
-      <a
-        href="bibliography/index.html"
-        class="repository-section-link"
+  <div class="repository-navigation">
+
+    <div class="container">
+
+      <nav
+        class="repository-sections"
+        aria-label="Repository sections"
       >
-        Bibliography
-      </a>
 
-      <a
-        href="code/index.html"
-        class="repository-section-link"
-      >
-        Code
-      </a>
+        <a
+          href="bibliography/index.html"
+          class="repository-section-link"
+        >
+          Bibliography
+        </a>
 
-      <a
-        href="datasets/index.html"
-        class="repository-section-link"
-      >
-        Datasets
-      </a>
+        <a
+          href="code/index.html"
+          class="repository-section-link"
+        >
+          Code
+        </a>
 
-      <a
-        href="docs/index.html"
-        class="repository-section-link"
-      >
-        Documents
-      </a>
+        <a
+          href="datasets/index.html"
+          class="repository-section-link"
+        >
+          Datasets
+        </a>
 
-      <a
-        href="pages/index.html"
-        class="repository-section-link"
-      >
-        Pages
-      </a>
+        <a
+          href="docs/index.html"
+          class="repository-section-link"
+        >
+          Documents
+        </a>
 
-      <a
-        href="papers/index.html"
-        class="repository-section-link"
-      >
-        Papers
-      </a>
+        <a
+          href="pages/index.html"
+          class="repository-section-link"
+        >
+          Pages
+        </a>
 
-      <a
-        href="pdf/index.html"
-        class="repository-section-link"
-      >
-        PDF
-      </a>
+        <a
+          href="papers/index.html"
+          class="repository-section-link"
+        >
+          Papers
+        </a>
 
-      <a
-        href="proofs/index.html"
-        class="repository-section-link"
-      >
-        Proofs
-      </a>
+        <a
+          href="pdf/index.html"
+          class="repository-section-link"
+        >
+          PDF
+        </a>
 
-      <a
-        href="validation/index.html"
-        class="repository-section-link"
-      >
-        Validation
-      </a>
+        <a
+          href="proofs/index.html"
+          class="repository-section-link"
+        >
+          Proofs
+        </a>
 
-    </nav>
+        <a
+          href="validation/index.html"
+          class="repository-section-link"
+        >
+          Validation
+        </a>
+
+      </nav>
+
+    </div>
 
   </div>
 
@@ -1718,6 +1924,7 @@
 
 
 <main id="top">
+
 
 
 <!-- =========================================================
