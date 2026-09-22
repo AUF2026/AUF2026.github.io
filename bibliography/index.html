@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Pages</title>
+  <title>AUF2026 — Bibliography</title>
 
   <style>
 
@@ -4139,34 +4139,40 @@ html[data-theme="light"] {
   
   <script>
 
+<script>
+
 /* =========================================================
-   AUF2026 REPOSITORY NAVIGATION
+   AUF2026 — BIBLIOGRAPHY SECTION PARSER
    =========================================================
-   DIRECT GITHUB PAGES ONLY
 
-   NO GitHub API
-   NO raw.githubusercontent.com
-   NO external repository requests
+   LOCAL SECTION PARSER
 
-   Architecture:
+   This parser belongs ONLY to:
 
-   /index.html
-       |
-       +-- /bibliography/
-       +-- /code/
-       +-- /datasets/
-       +-- /docs/
-       +-- /pages/
-       +-- /papers/
-       +-- /pdf/
-       +-- /proofs/
-       +-- /validation/
+       /bibliography/
 
-   Every section is a normal GitHub Pages directory.
+   It does NOT know about:
 
-   Files are opened directly from:
+       /code/
+       /datasets/
+       /docs/
+       /pages/
+       /papers/
+       /pdf/
+       /proofs/
+       /validation/
 
-   https://auf2026.github.io/<path>
+   No GitHub API.
+   No raw.githubusercontent.com.
+   No repository-wide discovery.
+
+   The section manifest is:
+
+       /bibliography/manifest.json
+
+   Resources are resolved directly through GitHub Pages:
+
+       https://auf2026.github.io/bibliography/<file>
 
    ========================================================= */
 
@@ -4175,24 +4181,22 @@ html[data-theme="light"] {
    CONFIGURATION
    ========================================================= */
 
-const AUF2026_CONFIG = {
+const BIBLIOGRAPHY_CONFIG = {
 
   origin:
     "https://auf2026.github.io",
 
-  sections: [
-
+  section:
     "bibliography",
-    "code",
-    "datasets",
-    "docs",
-    "pages",
-    "papers",
-    "pdf",
-    "proofs",
-    "validation"
 
-  ]
+  title:
+    "AUF2026 · Bibliography",
+
+  subtitle:
+    "Bibliographic sources, literature records and prior-art material.",
+
+  manifest:
+    "/bibliography/manifest.json"
 
 };
 
@@ -4201,26 +4205,39 @@ const AUF2026_CONFIG = {
    STATE
    ========================================================= */
 
-const state = {
+const bibliographyState = {
 
-  directories: [],
+  section:
+    BIBLIOGRAPHY_CONFIG.section,
 
-  rootDirectories: [],
+  title:
+    BIBLIOGRAPHY_CONFIG.title,
 
   files: [],
 
-  initialized: false
+  initialized:
+    false,
+
+  loading:
+    false,
+
+  error:
+    null
 
 };
 
 
 /* =========================================================
-   PATH NORMALISATION
+   PATH NORMALIZATION
    ========================================================= */
 
-function normalizePath(path) {
+function bibliographyNormalizePath(
+  path
+) {
 
-  return String(path || "")
+  return String(
+    path || ""
+  )
 
     .replace(
       /\\/g,
@@ -4238,7 +4255,12 @@ function normalizePath(path) {
     )
 
     .replace(
-      /\/$/,
+      /^bibliography\//i,
+      ""
+    )
+
+    .replace(
+      /^\/+/,
       ""
     );
 
@@ -4246,98 +4268,54 @@ function normalizePath(path) {
 
 
 /* =========================================================
-   GITHUB PAGES URL
+   SECTION RESOURCE URL
    ========================================================= */
 
-function repositoryResourceURL(path) {
+function bibliographyResourceURL(
+  path
+) {
 
   const clean =
-    normalizePath(path);
+    bibliographyNormalizePath(
+      path
+    );
 
 
-  if (!clean) {
-
-    return null;
-
-  }
-
-
-  return (
-
-    AUF2026_CONFIG.origin +
-
-    "/" +
-
-    clean
-      .split("/")
-      .map(
-        encodeURIComponent
-      )
-      .join("/")
-
-  );
-
-}
-
-
-/* =========================================================
-   SECTION URL
-   ========================================================= */
-
-function repositorySectionURL(section) {
-
-  const clean =
-    normalizePath(section);
-
-
-  if (!clean) {
+  if (
+    !clean
+  ) {
 
     return (
-      AUF2026_CONFIG.origin +
-      "/"
+      BIBLIOGRAPHY_CONFIG.origin +
+      "/bibliography/"
     );
 
   }
 
 
   return (
-
-    AUF2026_CONFIG.origin +
-    "/" +
-    clean +
-    "/"
-
+    BIBLIOGRAPHY_CONFIG.origin +
+    "/bibliography/" +
+    clean
+      .split("/")
+      .map(
+        encodeURIComponent
+      )
+      .join("/")
   );
 
 }
 
 
 /* =========================================================
-   DIRECTORY NAME
+   MANIFEST URL
    ========================================================= */
 
-function directoryName(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return "Repository";
-
-  }
-
-
-  const parts =
-    clean
-      .split("/")
-      .filter(Boolean);
-
+function bibliographyManifestURL() {
 
   return (
-    parts[parts.length - 1] ||
-    clean
+    BIBLIOGRAPHY_CONFIG.origin +
+    BIBLIOGRAPHY_CONFIG.manifest
   );
 
 }
@@ -4347,25 +4325,33 @@ function directoryName(path) {
    FILE EXTENSION
    ========================================================= */
 
-function getFileExtension(path) {
+function bibliographyFileExtension(
+  path
+) {
 
   const clean =
-    normalizePath(path);
+    bibliographyNormalizePath(
+      path
+    );
 
 
   const filename =
     clean
       .split("/")
-      .filter(Boolean)
+      .filter(
+        Boolean
+      )
       .pop() || "";
 
 
   const dot =
-    filename.lastIndexOf(".");
+    filename.lastIndexOf(
+      "."
+    );
 
 
   if (
-    dot <= 0
+    dot < 0
   ) {
 
     return "";
@@ -4374,128 +4360,36 @@ function getFileExtension(path) {
 
 
   return filename
-    .slice(dot + 1)
+    .slice(
+      dot + 1
+    )
     .toLowerCase();
 
 }
 
 
 /* =========================================================
-   FILE ICON
+   FILE NAME
    ========================================================= */
 
-function fileIcon(extension) {
+function bibliographyFileName(
+  path
+) {
 
-  const icons = {
-
-    md:
-      "M",
-
-    markdown:
-      "M",
-
-    html:
-      "H",
-
-    htm:
-      "H",
-
-    pdf:
-      "P",
-
-    tex:
-      "T",
-
-    latex:
-      "T",
-
-    lean:
-      "λ",
-
-    json:
-      "{}",
-
-    csv:
-      "≡",
-
-    txt:
-      "T",
-
-    js:
-      "JS",
-
-    mjs:
-      "JS",
-
-    cjs:
-      "JS",
-
-    css:
-      "#",
-
-    xml:
-      "XML",
-
-    yaml:
-      "Y",
-
-    yml:
-      "Y",
-
-    toml:
-      "T",
-
-    png:
-      "IMG",
-
-    jpg:
-      "IMG",
-
-    jpeg:
-      "IMG",
-
-    gif:
-      "IMG",
-
-    webp:
-      "IMG",
-
-    svg:
-      "IMG",
-
-    bmp:
-      "IMG",
-
-    mp3:
-      "♫",
-
-    wav:
-      "♫",
-
-    ogg:
-      "♫",
-
-    flac:
-      "♫",
-
-    mp4:
-      "▶",
-
-    webm:
-      "▶",
-
-    mov:
-      "▶",
-
-    avi:
-      "▶"
-
-  };
+  const clean =
+    bibliographyNormalizePath(
+      path
+    );
 
 
   return (
-    icons[extension] ||
-    "·"
+    clean
+      .split("/")
+      .filter(
+        Boolean
+      )
+      .pop() ||
+    clean
   );
 
 }
@@ -4505,120 +4399,204 @@ function fileIcon(extension) {
    SORT
    ========================================================= */
 
-function naturalPathCompare(a, b) {
+function bibliographyNaturalSort(
+  a,
+  b
+) {
 
-  return String(a || "")
-    .localeCompare(
-      String(b || ""),
-      undefined,
-      {
-        numeric:
-          true,
+  return String(
+    a || ""
+  ).localeCompare(
+    String(
+      b || ""
+    ),
+    undefined,
+    {
 
-        sensitivity:
-          "base"
-      }
-    );
+      numeric:
+        true,
 
-}
+      sensitivity:
+        "base"
 
-
-/* =========================================================
-   REQUESTED RESOURCE
-   ========================================================= */
-
-function getRequestedResource() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return normalizePath(
-
-    params.get("resource") ||
-
-    params.get("file") ||
-
-    params.get("doc") ||
-
-    ""
-
+    }
   );
 
 }
 
 
 /* =========================================================
-   URL UPDATE
+   MANIFEST LOADER
    ========================================================= */
 
-function updateURL(path) {
+async function loadBibliographyManifest() {
 
-  const clean =
-    normalizePath(path);
+  const response =
+    await fetch(
+      bibliographyManifestURL(),
+      {
+
+        cache:
+          "no-store"
+
+      }
+    );
 
 
-  if (!clean) {
+  if (
+    !response.ok
+  ) {
 
-    return;
+    throw new Error(
+      "Bibliography manifest unavailable (" +
+      response.status +
+      ")."
+    );
 
   }
 
 
-  const url =
-    new URL(
-      window.location.href
+  const data =
+    await response.json();
+
+
+  if (
+    !data ||
+    typeof data !== "object"
+  ) {
+
+    throw new Error(
+      "Invalid bibliography manifest."
+    );
+
+  }
+
+
+  let files = [];
+
+
+  /*
+   * Supported manifest form:
+   *
+   * {
+   *   "files": [
+   *     "source.md",
+   *     "references.bib"
+   *   ]
+   * }
+   */
+
+  if (
+    Array.isArray(
+      data.files
+    )
+  ) {
+
+    files =
+      data.files;
+
+  }
+
+
+  /*
+   * Also accept:
+   *
+   * [
+   *   "source.md",
+   *   "references.bib"
+   * ]
+   */
+
+  else if (
+    Array.isArray(
+      data
+    )
+  ) {
+
+    files =
+      data;
+
+  }
+
+
+  bibliographyState.files =
+    Array.from(
+      new Set(
+        files
+          .map(
+            item => {
+
+              if (
+                typeof item ===
+                "string"
+              ) {
+
+                return (
+                  bibliographyNormalizePath(
+                    item
+                  )
+                );
+
+              }
+
+
+              if (
+                item &&
+                typeof item.path ===
+                "string"
+              ) {
+
+                return (
+                  bibliographyNormalizePath(
+                    item.path
+                  )
+                );
+
+              }
+
+
+              return "";
+
+            }
+          )
+          .filter(
+            Boolean
+          )
+      )
+    )
+    .sort(
+      bibliographyNaturalSort
     );
 
 
-  url.searchParams.delete(
-    "file"
-  );
-
-
-  url.searchParams.delete(
-    "doc"
-  );
-
-
-  url.searchParams.set(
-    "resource",
-    clean
-  );
-
-
-  history.replaceState(
-    null,
-    "",
-    url
+  return (
+    bibliographyState.files
   );
 
 }
 
 
 /* =========================================================
-   MENU MOUNT
+   FIND MENU MOUNT
    ========================================================= */
 
-function findMenuMount() {
+function findBibliographyMenuMount() {
 
   const selectors = [
 
     "#repository-menu",
 
+    "#bibliography-menu",
+
     "#repo-menu",
 
     "#auf-menu",
 
-    "#archive-menu",
-
     ".repository-menu",
 
-    ".auf-menu",
+    ".bibliography-menu",
 
-    ".archive-menu"
+    ".auf-menu"
 
   ];
 
@@ -4633,7 +4611,9 @@ function findMenuMount() {
       );
 
 
-    if (element) {
+    if (
+      element
+    ) {
 
       return element;
 
@@ -4642,11 +4622,9 @@ function findMenuMount() {
   }
 
 
-  const viewer =
-    document.querySelector(
-      ".resource-viewer"
-    );
-
+  /*
+   * Fallback.
+   */
 
   const mount =
     document.createElement(
@@ -4655,11 +4633,17 @@ function findMenuMount() {
 
 
   mount.id =
-    "repository-menu";
+    "bibliography-menu";
 
 
   mount.className =
     "auf-repository-menu-mount";
+
+
+  const viewer =
+    document.querySelector(
+      ".resource-viewer"
+    );
 
 
   if (
@@ -4672,7 +4656,9 @@ function findMenuMount() {
       viewer
     );
 
-  } else {
+  }
+
+  else {
 
     document.body.appendChild(
       mount
@@ -4687,103 +4673,26 @@ function findMenuMount() {
 
 
 /* =========================================================
-   DISCOVER REPOSITORY
-   =========================================================
-   IMPORTANT:
-
-   GitHub Pages has no directory listing API.
-
-   Therefore the root parser discovers the SECTIONS,
-   not arbitrary files.
-
-   Each section is responsible for its own resources.
-
-   This completely eliminates:
-
-   - GitHub API
-   - raw.githubusercontent.com
-   - HTTP 403
-   - CORS failures
+   BUILD MENU
    ========================================================= */
 
-async function discoverRepository() {
-
-  const directories =
-    new Set();
-
-
-  AUF2026_CONFIG.sections
-    .forEach(
-      section => {
-
-        const clean =
-          normalizePath(
-            section
-          );
-
-
-        if (clean) {
-
-          directories.add(
-            clean
-          );
-
-        }
-
-      }
-    );
-
-
-  state.directories =
-    Array.from(
-      directories
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  state.rootDirectories =
-    state.directories
-      .filter(
-        path =>
-          !path.includes("/")
-      );
-
-
-  /*
-   * No fake file discovery.
-   *
-   * The root parser deliberately does not invent
-   * filenames that it cannot know.
-   */
-
-  state.files = [];
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-   BUILD REPOSITORY MENU
-   ========================================================= */
-
-function buildRepositoryMenu() {
+function buildBibliographyMenu() {
 
   const mount =
-    findMenuMount();
+    findBibliographyMenuMount();
 
 
-  if (!mount) {
+  if (
+    !mount
+  ) {
 
     return;
 
   }
 
 
-  mount.innerHTML = "";
+  mount.innerHTML =
+    "";
 
 
   const navigation =
@@ -4796,228 +4705,71 @@ function buildRepositoryMenu() {
     "auf-repository-menu";
 
 
-  state.rootDirectories
-    .forEach(
-      directory => {
-
-        navigation.appendChild(
-
-          createDirectorySection(
-            directory
-          )
-
-        );
-
-      }
-    );
-
-
-  mount.appendChild(
-    navigation
+  navigation.setAttribute(
+    "aria-label",
+    "Bibliography resources"
   );
-
-}
-
-
-/* =========================================================
-   DIRECTORY SECTION
-   ========================================================= */
-
-function createDirectorySection(
-  directory
-) {
-
-  const shell =
-    createSectionShell(
-
-      directoryName(
-        directory
-      ),
-
-      directory,
-
-      "directory"
-
-    );
 
 
   /*
-   * The section itself is a real GitHub Pages
-   * directory.
-
-   * No API request is made.
+   * Section header.
    */
 
-  const openButton =
-    document.createElement(
-      "a"
-    );
-
-
-  openButton.className =
-    "auf-menu-directory-link";
-
-
-  openButton.href =
-    repositorySectionURL(
-      directory
-    );
-
-
-  openButton.textContent =
-    "Open section";
-
-
-  openButton.setAttribute(
-    "aria-label",
-    "Open " +
-    directoryName(
-      directory
-    )
-  );
-
-
-  shell.list.appendChild(
-    openButton
-  );
-
-
-  return shell.root;
-
-}
-
-
-/* =========================================================
-   SECTION SHELL
-   ========================================================= */
-
-function createSectionShell(
-  title,
-  path,
-  type
-) {
-
-  const root =
+  const section =
     document.createElement(
       "section"
     );
 
 
-  root.className =
+  section.className =
     "auf-menu-section " +
-    "auf-menu-section-" +
-    type;
+    "auf-menu-section-bibliography";
 
 
   const header =
     document.createElement(
-      "button"
+      "div"
     );
-
-
-  header.type =
-    "button";
 
 
   header.className =
-    "auf-menu-section-header";
+    "auf-menu-section-header " +
+    "auf-menu-section-static";
 
 
-  header.setAttribute(
-    "aria-expanded",
-    "false"
+  header.innerHTML =
+    `
+      <span
+        class="auf-menu-section-icon"
+        aria-hidden="true"
+      >
+        B
+      </span>
+
+      <span
+        class="auf-menu-section-title"
+      >
+        ${bibliographyEscapeHTML(
+          BIBLIOGRAPHY_CONFIG.title
+        )}
+      </span>
+
+      <span
+        class="auf-menu-section-path"
+      >
+        /bibliography/
+      </span>
+    `;
+
+
+  section.appendChild(
+    header
   );
 
 
-  const icon =
-    document.createElement(
-      "span"
-    );
-
-
-  icon.className =
-    "auf-menu-section-icon";
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  icon.textContent =
-    type === "directory"
-      ? "§"
-      : "R";
-
-
-  const titleElement =
-    document.createElement(
-      "span"
-    );
-
-
-  titleElement.className =
-    "auf-menu-section-title";
-
-
-  titleElement.textContent =
-    title;
-
-
-  const pathElement =
-    document.createElement(
-      "span"
-    );
-
-
-  pathElement.className =
-    "auf-menu-section-path";
-
-
-  pathElement.textContent =
-    path;
-
-
-  const arrow =
-    document.createElement(
-      "span"
-    );
-
-
-  arrow.className =
-    "auf-menu-section-arrow";
-
-
-  arrow.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  arrow.textContent =
-    "›";
-
-
-  header.appendChild(
-    icon
-  );
-
-
-  header.appendChild(
-    titleElement
-  );
-
-
-  header.appendChild(
-    pathElement
-  );
-
-
-  header.appendChild(
-    arrow
-  );
-
+  /*
+   * File list.
+   */
 
   const list =
     document.createElement(
@@ -5029,157 +4781,61 @@ function createSectionShell(
     "auf-menu-file-list";
 
 
-  header.addEventListener(
-    "click",
-    function () {
+  if (
+    !bibliographyState.files.length
+  ) {
 
-      const open =
-        root.classList.toggle(
-          "is-open"
-        );
-
-
-      header.setAttribute(
-        "aria-expanded",
-        String(open)
+    const empty =
+      document.createElement(
+        "div"
       );
 
-    }
-  );
+
+    empty.className =
+      "auf-menu-empty";
 
 
-  root.appendChild(
-    header
-  );
+    empty.textContent =
+      "No bibliography resources found.";
 
 
-  root.appendChild(
+    list.appendChild(
+      empty
+    );
+
+  }
+
+  else {
+
+    bibliographyState.files
+      .forEach(
+        file => {
+
+          list.appendChild(
+            createBibliographyFileItem(
+              file
+            )
+          );
+
+        }
+      );
+
+  }
+
+
+  section.appendChild(
     list
   );
 
 
-  return {
-
-    root:
-      root,
-
-    header:
-      header,
-
-    list:
-      list
-
-  };
-
-}
+  navigation.appendChild(
+    section
+  );
 
 
-/* =========================================================
-   OPEN RESOURCE
-   ========================================================= */
-
-function openResource(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  /*
-   * Prefer the parser already installed by the page.
-   */
-
-  if (
-    typeof window.loadRepositoryResource ===
-    "function"
-  ) {
-
-    window.loadRepositoryResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  if (
-    typeof window.loadResource ===
-    "function"
-  ) {
-
-    window.loadResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Absolute fallback:
-   * direct GitHub Pages resource.
-   */
-
-  const url =
-    repositoryResourceURL(
-      clean
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   OPEN SECTION
-   ========================================================= */
-
-function openSection(
-  section
-) {
-
-  const url =
-    repositorySectionURL(
-      section
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
+  mount.appendChild(
+    navigation
+  );
 
 }
 
@@ -5188,9 +4844,8 @@ function openSection(
    FILE ITEM
    ========================================================= */
 
-function createFileItem(
-  file,
-  parentDirectory
+function createBibliographyFileItem(
+  file
 ) {
 
   const button =
@@ -5211,30 +4866,15 @@ function createFileItem(
     file;
 
 
-  const filename =
-    normalizePath(file)
-      .split("/")
-      .filter(Boolean)
-      .pop() ||
-    file;
-
-
-  const relative =
-    parentDirectory
-
-      ? normalizePath(file)
-          .slice(
-            normalizePath(
-              parentDirectory
-            ).length + 1
-          )
-
-      : normalizePath(file);
-
-
   const extension =
-    getFileExtension(
-      filename
+    bibliographyFileExtension(
+      file
+    );
+
+
+  const filename =
+    bibliographyFileName(
+      file
     );
 
 
@@ -5249,15 +4889,9 @@ function createFileItem(
 
 
   icon.textContent =
-    fileIcon(
+    bibliographyFileIcon(
       extension
     );
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
 
 
   const main =
@@ -5284,18 +4918,18 @@ function createFileItem(
     filename;
 
 
-  const pathElement =
+  const path =
     document.createElement(
       "span"
     );
 
 
-  pathElement.className =
+  path.className =
     "auf-menu-file-path";
 
 
-  pathElement.textContent =
-    relative;
+  path.textContent =
+    file;
 
 
   main.appendChild(
@@ -5304,21 +4938,21 @@ function createFileItem(
 
 
   main.appendChild(
-    pathElement
+    path
   );
 
 
-  const extensionElement =
+  const type =
     document.createElement(
       "span"
     );
 
 
-  extensionElement.className =
+  type.className =
     "auf-menu-file-extension";
 
 
-  extensionElement.textContent =
+  type.textContent =
     extension
       ? "." + extension
       : "FILE";
@@ -5335,15 +4969,29 @@ function createFileItem(
 
 
   button.appendChild(
-    extensionElement
+    type
   );
 
+
+  /*
+   * Existing resource renderer.
+   */
 
   button.addEventListener(
     "click",
     function () {
 
-      openResource(
+      bibliographySetActiveFile(
+        file
+      );
+
+
+      bibliographyOpenResource(
+        file
+      );
+
+
+      bibliographyUpdateURL(
         file
       );
 
@@ -5352,8 +5000,8 @@ function createFileItem(
 
 
   if (
-    getRequestedResource() ===
-    normalizePath(file)
+    bibliographyRequestedResource() ===
+    file
   ) {
 
     button.classList.add(
@@ -5369,18 +5017,92 @@ function createFileItem(
 
 
 /* =========================================================
+   FILE ICON
+   ========================================================= */
+
+function bibliographyFileIcon(
+  extension
+) {
+
+  const icons = {
+
+    md:
+      "M",
+
+    markdown:
+      "M",
+
+    bib:
+      "B",
+
+    bibtex:
+      "B",
+
+    ris:
+      "R",
+
+    json:
+      "{}",
+
+    csv:
+      "≡",
+
+    txt:
+      "T",
+
+    pdf:
+      "P",
+
+    tex:
+      "T",
+
+    latex:
+      "T",
+
+    html:
+      "H",
+
+    htm:
+      "H",
+
+    xml:
+      "XML",
+
+    yaml:
+      "Y",
+
+    yml:
+      "Y",
+
+    xlsx:
+      "X",
+
+    xls:
+      "X",
+
+    ods:
+      "O"
+
+  };
+
+
+  return (
+    icons[
+      extension
+    ] ||
+    "·"
+  );
+
+}
+
+
+/* =========================================================
    ACTIVE FILE
    ========================================================= */
 
-function setActiveFile(
+function bibliographySetActiveFile(
   file
 ) {
-
-  const clean =
-    normalizePath(
-      file
-    );
-
 
   document
     .querySelectorAll(
@@ -5405,9 +5127,8 @@ function setActiveFile(
       item => {
 
         if (
-          normalizePath(
-            item.dataset.path
-          ) === clean
+          item.dataset.path ===
+          file
         ) {
 
           item.classList.add(
@@ -5423,44 +5144,21 @@ function setActiveFile(
 
 
 /* =========================================================
-   REGISTER SECTION FILES
-   =========================================================
-   This is the interface used by each folder parser.
-
-   Example from /pages/index.html:
-
-   window.AUF2026Repository.registerFiles(
-     "pages",
-     [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
-     ]
-   );
-
-   No external server is contacted.
+   OPEN RESOURCE
    ========================================================= */
 
-function registerSectionFiles(
-  directory,
-  files
+function bibliographyOpenResource(
+  file
 ) {
 
-  const root =
-    normalizePath(
-      directory
+  const clean =
+    bibliographyNormalizePath(
+      file
     );
 
 
-  if (!root) {
-
-    return;
-
-  }
-
-
   if (
-    !Array.isArray(files)
+    !clean
   ) {
 
     return;
@@ -5468,150 +5166,118 @@ function registerSectionFiles(
   }
 
 
-  files
-    .map(
-      normalizePath
-    )
-    .filter(Boolean)
-    .forEach(
-      file => {
+  /*
+   * Prefer the local parser/resource renderer.
+   *
+   * IMPORTANT:
+   * The path remains inside /bibliography/.
+   */
 
-        if (
-          !state.files.includes(
-            file
-          )
-        ) {
+  if (
+    typeof window.loadRepositoryResource ===
+    "function"
+  ) {
 
-          state.files.push(
-            file
-          );
+    window.loadRepositoryResource(
+      "bibliography/" + clean
+    );
 
-        }
+    return;
 
-      }
+  }
+
+
+  if (
+    typeof window.loadResource ===
+    "function"
+  ) {
+
+    window.loadResource(
+      "bibliography/" + clean
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Direct GitHub Pages fallback.
+   */
+
+  const url =
+    bibliographyResourceURL(
+      clean
     );
 
 
-  state.files =
-    Array.from(
-      new Set(
-        state.files
-      )
-    )
-    .sort(
-      naturalPathCompare
+  if (
+    url
+  ) {
+
+    window.location.href =
+      url;
+
+  }
+
+}
+
+
+/* =========================================================
+   URL
+   ========================================================= */
+
+function bibliographyUpdateURL(
+  file
+) {
+
+  const url =
+    new URL(
+      window.location.href
     );
 
 
-  rebuildSectionFiles(
-    root
+  url.searchParams.set(
+    "resource",
+    bibliographyNormalizePath(
+      file
+    )
+  );
+
+
+  history.replaceState(
+    null,
+    "",
+    url
   );
 
 }
 
 
 /* =========================================================
-   REBUILD SECTION FILES
+   REQUESTED RESOURCE
    ========================================================= */
 
-function rebuildSectionFiles(
-  directory
-) {
+function bibliographyRequestedResource() {
 
-  const root =
-    normalizePath(
-      directory
+  const params =
+    new URLSearchParams(
+      window.location.search
     );
 
 
-  const section =
-    document.querySelector(
-      ".auf-menu-section[data-path=\"" +
-      CSS.escape(root) +
-      "\"]"
-    );
-
-
-  if (!section) {
-
-    return;
-
-  }
-
-
-  const list =
-    section.querySelector(
-      ".auf-menu-file-list"
-    );
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  const files =
-    state.files
-      .filter(
-        file =>
-          file === root ||
-          file.startsWith(
-            root + "/"
-          )
-      )
-      .sort(
-        naturalPathCompare
-      );
-
-
-  files.forEach(
-    file => {
-
-      list.appendChild(
-
-        createFileItem(
-          file,
-          root
-        )
-
-      );
-
-    }
+  return bibliographyNormalizePath(
+    params.get(
+      "resource"
+    ) ||
+    params.get(
+      "file"
+    ) ||
+    params.get(
+      "doc"
+    ) ||
+    ""
   );
-
-
-  if (!files.length) {
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "auf-menu-directory-link";
-
-
-    link.href =
-      repositorySectionURL(
-        root
-      );
-
-
-    link.textContent =
-      "Open section";
-
-
-    list.appendChild(
-      link
-    );
-
-  }
 
 }
 
@@ -5620,72 +5286,88 @@ function rebuildSectionFiles(
    ERROR
    ========================================================= */
 
-function renderRepositoryError(
+function renderBibliographyError(
   error
 ) {
 
   const mount =
-    findMenuMount();
+    findBibliographyMenuMount();
 
 
-  if (!mount) {
+  if (
+    !mount
+  ) {
 
     return;
 
   }
 
 
-  mount.innerHTML = "";
-
-
-  const box =
-    document.createElement(
-      "div"
-    );
-
-
-  box.className =
-    "auf-menu-error";
-
-
-  const strong =
-    document.createElement(
-      "strong"
-    );
-
-
-  strong.textContent =
-    "Repository navigation error";
-
-
   const message =
-    document.createElement(
-      "span"
-    );
-
-
-  message.textContent =
     error &&
     error.message
-
       ? error.message
-
-      : "Unable to initialise repository navigation.";
-
-
-  box.appendChild(
-    strong
-  );
+      : "Unable to load bibliography resources.";
 
 
-  box.appendChild(
-    message
-  );
+  mount.innerHTML =
+    `
+      <div
+        class="auf-menu-error"
+      >
+
+        <strong>
+          Bibliography parser error
+        </strong>
+
+        <span>
+          ${bibliographyEscapeHTML(
+            message
+          )}
+        </span>
+
+      </div>
+    `;
+
+}
 
 
-  mount.appendChild(
-    box
-  );
+/* =========================================================
+   ESCAPE HTML
+   ========================================================= */
+
+function bibliographyEscapeHTML(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
@@ -5694,47 +5376,80 @@ function renderRepositoryError(
    INITIALISE
    ========================================================= */
 
-async function initialiseRepository() {
+async function initialiseBibliographyParser() {
+
+  if (
+    bibliographyState.loading
+  ) {
+
+    return;
+
+  }
+
+
+  bibliographyState.loading =
+    true;
+
+
+  bibliographyState.error =
+    null;
+
 
   try {
 
-    await discoverRepository();
+    await loadBibliographyManifest();
 
 
-    buildRepositoryMenu();
+    buildBibliographyMenu();
 
 
-    state.initialized =
+    bibliographyState.initialized =
       true;
 
 
     const requested =
-      getRequestedResource();
+      bibliographyRequestedResource();
 
 
     if (
-      requested
+      requested &&
+      bibliographyState.files.includes(
+        requested
+      )
     ) {
 
-      openResource(
+      bibliographyOpenResource(
         requested
       );
 
     }
 
-  } catch (
+  }
+
+  catch (
     error
   ) {
 
+    bibliographyState.error =
+      error;
+
+
     console.error(
-      "AUF2026 repository navigation:",
+      "AUF2026 bibliography parser:",
       error
     );
 
 
-    renderRepositoryError(
+    renderBibliographyError(
       error
     );
+
+  }
+
+  finally {
+
+    bibliographyState.loading =
+      false;
 
   }
 
@@ -5745,43 +5460,28 @@ async function initialiseRepository() {
    PUBLIC API
    ========================================================= */
 
-window.AUF2026Repository = {
+window.AUF2026Bibliography = {
 
   state:
-    state,
+    bibliographyState,
 
   files:
     function () {
 
       return [
-        ...state.files
-      ];
-
-    },
-
-  directories:
-    function () {
-
-      return [
-        ...state.directories
+        ...bibliographyState.files
       ];
 
     },
 
   url:
-    repositoryResourceURL,
-
-  section:
-    repositorySectionURL,
+    bibliographyResourceURL,
 
   open:
-    openResource,
-
-  registerFiles:
-    registerSectionFiles,
+    bibliographyOpenResource,
 
   refresh:
-    initialiseRepository
+    initialiseBibliographyParser
 
 };
 
@@ -5797,16 +5497,18 @@ if (
 
   document.addEventListener(
     "DOMContentLoaded",
-    initialiseRepository,
+    initialiseBibliographyParser,
     {
       once:
         true
     }
   );
 
-} else {
+}
 
-  initialiseRepository();
+else {
+
+  initialiseBibliographyParser();
 
 }
 
