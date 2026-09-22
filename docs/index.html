@@ -2549,7 +2549,7 @@ html[data-theme="light"] {
               ? ""
               : "s"
           ) +
-          " found under /pages/",
+          " found under /docs/",
           "ok"
         );
 
@@ -2559,7 +2559,7 @@ html[data-theme="light"] {
       ) {
 
         console.error(
-          "AUF2026 Pages parser:",
+          "AUF2026 Docs parser:",
           error
         );
 
@@ -2576,7 +2576,7 @@ html[data-theme="light"] {
             <div class="pages-empty">
 
               Unable to read
-              <code>/pages/</code>
+              <code>/docs/</code>
               from the AUF2026 repository.
 
             </div>
@@ -2624,7 +2624,7 @@ html[data-theme="light"] {
 
             return (
               item.path !==
-              "pages/index.html"
+              "docs/index.html"
             );
 
           }
@@ -2671,7 +2671,7 @@ html[data-theme="light"] {
             <div class="pages-empty">
 
               No resources were found
-              under <code>/pages/</code>.
+              under <code>/docs/</code>.
 
             </div>
           `;
@@ -2723,15 +2723,15 @@ html[data-theme="light"] {
 
 
           directoryElement.className =
-            "pages-directory";
+            "docs-directory";
 
 
           directoryElement.textContent =
             directory
-              ? "/pages/" +
+              ? "/docs/" +
                 directory +
                 "/"
-              : "/pages/";
+              : "/docs/";
 
 
           pagesFiles.appendChild(
@@ -2767,7 +2767,7 @@ html[data-theme="light"] {
 
 
       article.className =
-        "pages-file";
+        "docs-file";
 
 
       const filename =
@@ -4173,7 +4173,7 @@ const AUF2026_CONFIG = {
     "https://auf2026.github.io",
 
   section:
-    "pages"
+    "docs"
 
 };
 
@@ -4185,7 +4185,7 @@ const AUF2026_CONFIG = {
 const state = {
 
   directory:
-    "pages",
+    "docs",
 
   files: [],
 
@@ -4269,7 +4269,7 @@ function repositorySectionURL() {
   return (
 
     AUF2026_CONFIG.origin +
-    "/pages/"
+    "/docs/"
 
   );
 
@@ -4679,7 +4679,7 @@ function findMenuMount() {
 async function discoverRepository() {
 
   state.directory =
-    "pages";
+    "docs";
 
 
   state.files =
@@ -5373,7 +5373,7 @@ function registerSectionFiles(
 
   if (
     root !==
-    "pages"
+    "docs"
   ) {
 
     return;
@@ -5396,7 +5396,7 @@ function registerSectionFiles(
     )
     .filter(
       file =>
-        file === "pages" ||
+        file === "docs" ||
         file.startsWith(
           "pages/"
         )
@@ -5433,7 +5433,7 @@ function registerSectionFiles(
 
 
   rebuildSectionFiles(
-    "pages"
+    "docs"
   );
 
 }
@@ -5455,7 +5455,7 @@ function rebuildSectionFiles(
 
   if (
     root !==
-    "pages"
+    "docs"
   ) {
 
     return;
@@ -5664,7 +5664,7 @@ async function initialiseRepository() {
   ) {
 
     console.error(
-      "AUF2026 pages navigation:",
+      "AUF2026 docs navigation:",
       error
     );
 
@@ -5699,7 +5699,7 @@ window.AUF2026Repository = {
   directory:
     function () {
 
-      return "pages";
+      return "docs";
 
     },
 
