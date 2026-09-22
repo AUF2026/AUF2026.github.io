@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Pages</title>
+  <title>AUF2026 — Docs</title>
 
   <style>
 
@@ -4140,7 +4140,7 @@ html[data-theme="light"] {
   <script>
 
 /* =========================================================
-   AUF2026 REPOSITORY NAVIGATION
+   AUF2026 DOCS REPOSITORY NAVIGATION
    =========================================================
    DIRECT GITHUB PAGES ONLY
 
@@ -4152,21 +4152,13 @@ html[data-theme="light"] {
 
    /index.html
        |
-       +-- /bibliography/
-       +-- /code/
-       +-- /datasets/
        +-- /docs/
-       +-- /pages/
-       +-- /papers/
-       +-- /pdf/
-       +-- /proofs/
-       +-- /validation/
 
-   Every section is a normal GitHub Pages directory.
+   The docs section is a normal GitHub Pages directory.
 
    Files are opened directly from:
 
-   https://auf2026.github.io/<path>
+   https://auf2026.github.io/docs/
 
    ========================================================= */
 
@@ -4180,19 +4172,8 @@ const AUF2026_CONFIG = {
   origin:
     "https://auf2026.github.io",
 
-  sections: [
-
-    "bibliography",
-    "code",
-    "datasets",
-    "docs",
-    "pages",
-    "papers",
-    "pdf",
-    "proofs",
-    "validation"
-
-  ]
+  section:
+    "docs"
 
 };
 
@@ -4203,13 +4184,13 @@ const AUF2026_CONFIG = {
 
 const state = {
 
-  directories: [],
-
-  rootDirectories: [],
+  directory:
+    "docs",
 
   files: [],
 
-  initialized: false
+  initialized:
+    false
 
 };
 
@@ -4281,31 +4262,15 @@ function repositoryResourceURL(path) {
 
 
 /* =========================================================
-   SECTION URL
+   DOCS URL
    ========================================================= */
 
-function repositorySectionURL(section) {
-
-  const clean =
-    normalizePath(section);
-
-
-  if (!clean) {
-
-    return (
-      AUF2026_CONFIG.origin +
-      "/"
-    );
-
-  }
-
+function repositorySectionURL() {
 
   return (
 
     AUF2026_CONFIG.origin +
-    "/" +
-    clean +
-    "/"
+    "/docs/"
 
   );
 
@@ -4687,78 +4652,39 @@ function findMenuMount() {
 
 
 /* =========================================================
-   DISCOVER REPOSITORY
+   DISCOVER DOCS
    =========================================================
    IMPORTANT:
 
    GitHub Pages has no directory listing API.
 
-   Therefore the root parser discovers the SECTIONS,
-   not arbitrary files.
+   Therefore /docs/ is treated as the single repository
+   section.
 
-   Each section is responsible for its own resources.
+   No GitHub API is used.
+   No raw.githubusercontent.com is used.
+   No external repository request is made.
 
-   This completely eliminates:
+   Files are registered explicitly through:
 
-   - GitHub API
-   - raw.githubusercontent.com
-   - HTTP 403
-   - CORS failures
+   window.AUF2026Repository.registerFiles(
+     "docs",
+     [
+       "docs/index.html",
+       "docs/example.md"
+     ]
+   );
+
    ========================================================= */
 
 async function discoverRepository() {
 
-  const directories =
-    new Set();
+  state.directory =
+    "docs";
 
 
-  AUF2026_CONFIG.sections
-    .forEach(
-      section => {
-
-        const clean =
-          normalizePath(
-            section
-          );
-
-
-        if (clean) {
-
-          directories.add(
-            clean
-          );
-
-        }
-
-      }
-    );
-
-
-  state.directories =
-    Array.from(
-      directories
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  state.rootDirectories =
-    state.directories
-      .filter(
-        path =>
-          !path.includes("/")
-      );
-
-
-  /*
-   * No fake file discovery.
-   *
-   * The root parser deliberately does not invent
-   * filenames that it cannot know.
-   */
-
-  state.files = [];
+  state.files =
+    [];
 
 
   return true;
@@ -4796,20 +4722,13 @@ function buildRepositoryMenu() {
     "auf-repository-menu";
 
 
-  state.rootDirectories
-    .forEach(
-      directory => {
+  navigation.appendChild(
 
-        navigation.appendChild(
+    createDirectorySection(
+      "docs"
+    )
 
-          createDirectorySection(
-            directory
-          )
-
-        );
-
-      }
-    );
+  );
 
 
   mount.appendChild(
@@ -4841,10 +4760,16 @@ function createDirectorySection(
     );
 
 
-  /*
-   * The section itself is a real GitHub Pages
-   * directory.
+  shell.root.dataset.path =
+    normalizePath(
+      directory
+    );
 
+
+  /*
+   * The docs section itself is the real
+   * GitHub Pages directory.
+   *
    * No API request is made.
    */
 
@@ -4859,9 +4784,7 @@ function createDirectorySection(
 
 
   openButton.href =
-    repositorySectionURL(
-      directory
-    );
+    repositorySectionURL();
 
 
   openButton.textContent =
@@ -4907,6 +4830,12 @@ function createSectionShell(
     "auf-menu-section " +
     "auf-menu-section-" +
     type;
+
+
+  root.dataset.path =
+    normalizePath(
+      path
+    );
 
 
   const header =
@@ -5161,17 +5090,13 @@ function openResource(path) {
 
 
 /* =========================================================
-   OPEN SECTION
+   OPEN DOCS
    ========================================================= */
 
-function openSection(
-  section
-) {
+function openSection() {
 
   const url =
-    repositorySectionURL(
-      section
-    );
+    repositorySectionURL();
 
 
   if (url) {
@@ -5423,21 +5348,22 @@ function setActiveFile(
 
 
 /* =========================================================
-   REGISTER SECTION FILES
+   REGISTER DOCS FILES
    =========================================================
-   This is the interface used by each folder parser.
+   This is the interface used by /docs/.
 
-   Example from /pages/index.html:
+   Example:
 
    window.AUF2026Repository.registerFiles(
-     "pages",
+     "docs",
      [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
+       "docs/index.html",
+       "docs/archive.html",
+       "docs/example.md"
      ]
    );
 
+   Only files belonging to docs/ are accepted.
    No external server is contacted.
    ========================================================= */
 
@@ -5452,7 +5378,10 @@ function registerSectionFiles(
     );
 
 
-  if (!root) {
+  if (
+    root !==
+    "docs"
+  ) {
 
     return;
 
@@ -5471,6 +5400,13 @@ function registerSectionFiles(
   files
     .map(
       normalizePath
+    )
+    .filter(
+      file =>
+        file === "docs" ||
+        file.startsWith(
+          "docs/"
+        )
     )
     .filter(Boolean)
     .forEach(
@@ -5504,14 +5440,14 @@ function registerSectionFiles(
 
 
   rebuildSectionFiles(
-    root
+    "docs"
   );
 
 }
 
 
 /* =========================================================
-   REBUILD SECTION FILES
+   REBUILD DOCS FILES
    ========================================================= */
 
 function rebuildSectionFiles(
@@ -5522,6 +5458,16 @@ function rebuildSectionFiles(
     normalizePath(
       directory
     );
+
+
+  if (
+    root !==
+    "docs"
+  ) {
+
+    return;
+
+  }
 
 
   const section =
@@ -5598,9 +5544,7 @@ function rebuildSectionFiles(
 
 
     link.href =
-      repositorySectionURL(
-        root
-      );
+      repositorySectionURL();
 
 
     link.textContent =
@@ -5655,7 +5599,7 @@ function renderRepositoryError(
 
 
   strong.textContent =
-    "Repository navigation error";
+    "Docs navigation error";
 
 
   const message =
@@ -5670,7 +5614,7 @@ function renderRepositoryError(
 
       ? error.message
 
-      : "Unable to initialise repository navigation.";
+      : "Unable to initialise docs navigation.";
 
 
   box.appendChild(
@@ -5727,7 +5671,7 @@ async function initialiseRepository() {
   ) {
 
     console.error(
-      "AUF2026 repository navigation:",
+      "AUF2026 docs navigation:",
       error
     );
 
@@ -5759,12 +5703,10 @@ window.AUF2026Repository = {
 
     },
 
-  directories:
+  directory:
     function () {
 
-      return [
-        ...state.directories
-      ];
+      return "docs";
 
     },
 
