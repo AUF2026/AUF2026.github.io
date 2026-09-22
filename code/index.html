@@ -2399,10 +2399,6 @@ html[data-theme="light"] {
 
   <script>
 
-/* =========================================================
-   AUF2026 SECTION REPOSITORY PARSER
-   ========================================================= */
-
 const GITHUB_OWNER =
   "AUF2026";
 
@@ -2412,18 +2408,6 @@ const GITHUB_REPOSITORY =
 const GITHUB_BRANCH =
   "main";
 
-/*
- * CAMBIA SOLO QUESTA RIGA
- *
- * bibliography
- * code
- * datasets
- * docs
- * papers
- * pdf
- * proofs
- * validation
- */
 const GITHUB_SECTION =
   "code";
 
@@ -2458,10 +2442,6 @@ const GITHUB_BLOB_BASE =
   "/";
 
 
-/* =========================================================
-   DOM
-   ========================================================= */
-
 const repositoryStatus =
   document.getElementById(
     "pagesStatus"
@@ -2480,16 +2460,8 @@ const repositoryFiles =
   );
 
 
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
-
 loadRepository();
 
-
-/* =========================================================
-   LOAD REPOSITORY TREE
-   ========================================================= */
 
 async function loadRepository() {
 
@@ -2612,10 +2584,6 @@ async function loadRepository() {
 }
 
 
-/* =========================================================
-   DISCOVER FILES
-   ========================================================= */
-
 function discoverSectionFiles(
   tree
 ) {
@@ -2642,13 +2610,6 @@ function discoverSectionFiles(
       }
     )
 
-    /*
-     * Il parser non deve mostrare il proprio
-     * index.html.
-     *
-     * Se vuoi mostrare index.html della sezione,
-     * elimina questo filter.
-     */
     .filter(
       item => {
 
@@ -2681,10 +2642,6 @@ function discoverSectionFiles(
 
 }
 
-
-/* =========================================================
-   RENDER FILE LIST
-   ========================================================= */
 
 function renderFiles(
   items
@@ -2800,10 +2757,6 @@ function renderFiles(
 }
 
 
-/* =========================================================
-   CREATE FILE
-   ========================================================= */
-
 function createFileElement(
   item
 ) {
@@ -2889,10 +2842,6 @@ function createFileElement(
       "click",
       function () {
 
-        /*
-         * Usa esclusivamente il viewer.
-         */
-
         if (
           typeof window.openRepositoryResource ===
           "function"
@@ -2907,11 +2856,6 @@ function createFileElement(
         }
 
 
-        /*
-         * Compatibilità con il viewer
-         * originale di pages/index.html.
-         */
-
         if (
           typeof window.openResource ===
           "function"
@@ -2925,10 +2869,6 @@ function createFileElement(
 
         }
 
-
-        /*
-         * Fallback diretto.
-         */
 
         window.open(
           rawURL(
@@ -2947,10 +2887,6 @@ function createFileElement(
 }
 
 
-/* =========================================================
-   GITHUB URL
-   ========================================================= */
-
 function githubURL(
   path
 ) {
@@ -2968,10 +2904,6 @@ function githubURL(
 }
 
 
-/* =========================================================
-   RAW URL
-   ========================================================= */
-
 function rawURL(
   path
 ) {
@@ -2988,10 +2920,6 @@ function rawURL(
 
 }
 
-
-/* =========================================================
-   EXTENSION
-   ========================================================= */
 
 function getExtension(
   filename
@@ -3018,10 +2946,6 @@ function getExtension(
 
 }
 
-
-/* =========================================================
-   FILE TYPE
-   ========================================================= */
 
 function getFileType(
   extension
@@ -3115,10 +3039,6 @@ function getFileType(
 }
 
 
-/* =========================================================
-   STATUS
-   ========================================================= */
-
 function setStatus(
   message,
   state
@@ -3152,10 +3072,6 @@ function setStatus(
 
 }
 
-
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
 
 function escapeHTML(
   value
