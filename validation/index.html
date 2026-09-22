@@ -2400,35 +2400,63 @@ html[data-theme="light"] {
   <script>
 (function () {
 
-  const SECTION = "validation";
+  "use strict";
 
-  const OWNER = "AUF2026";
-  const REPOSITORY = "AUF2026.github.io";
-  const BRANCH = "main";
+  const CONFIG = {
+    owner: "AUF2026",
+    repository: "AUF2026.github.io",
+    branch: "main",
+    section: "validation"
+  };
 
-  const TREE_URL =
+  const API_URL =
     "https://api.github.com/repos/" +
-    OWNER + "/" +
-    REPOSITORY +
+    CONFIG.owner + "/" +
+    CONFIG.repository +
     "/git/trees/" +
-    BRANCH +
+    CONFIG.branch +
     "?recursive=1";
 
   const BLOB_BASE =
     "https://github.com/" +
-    OWNER + "/" +
-    REPOSITORY +
+    CONFIG.owner + "/" +
+    CONFIG.repository +
     "/blob/" +
-    BRANCH + "/";
+    CONFIG.branch + "/";
 
   const status =
-    document.getElementById("validationStatus");
+    document.getElementById(
+      "validationStatus"
+    );
 
   const files =
-    document.getElementById("validationFiles");
+    document.getElementById(
+      "validationFiles"
+    );
 
 
-  load();
+  function escapeHTML(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  function setStatus(message, state) {
+
+    if (!status) return;
+
+    status.textContent = message;
+
+    if (state)
+      status.dataset.state = state;
+    else
+      delete status.dataset.state;
+  }
 
 
   async function load() {
@@ -2436,65 +2464,54 @@ html[data-theme="light"] {
     try {
 
       setStatus(
-        "Scanning repository tree…"
+        "Scanning /validation/…"
       );
 
-
       const response =
-        await fetch(
-          TREE_URL,
-          {
-            cache: "no-store",
-            headers: {
-              "Accept":
-                "application/vnd.github+json"
-            }
+        await fetch(API_URL, {
+          cache: "no-store",
+          headers: {
+            Accept:
+              "application/vnd.github+json"
           }
-        );
-
+        });
 
       if (!response.ok) {
-
         throw new Error(
           "GitHub API HTTP " +
           response.status
         );
-
       }
-
 
       const data =
         await response.json();
 
-
       const discovered =
         data.tree
-          .filter(
-            item =>
-              item &&
-              item.type === "blob" &&
-              typeof item.path === "string" &&
-              item.path.startsWith(
-                "validation/"
-              ) &&
-              item.path !==
-                "validation/index.html"
+          .filter(item =>
+            item &&
+            item.type === "blob" &&
+            typeof item.path === "string" &&
+            item.path.startsWith(
+              "validation/"
+            )
           )
-          .sort(
-            (a, b) =>
-              a.path.localeCompare(
-                b.path,
-                undefined,
-                {
-                  numeric: true,
-                  sensitivity: "base"
-                }
-              )
+          .filter(item =>
+            item.path !==
+            "validation/index.html"
+          )
+          .sort((a, b) =>
+            a.path.localeCompare(
+              b.path,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base"
+              }
+            )
           );
 
-
       render(discovered);
-
 
       setStatus(
         discovered.length +
@@ -2508,7 +2525,6 @@ html[data-theme="light"] {
         "ok"
       );
 
-
     } catch (error) {
 
       console.error(
@@ -2516,217 +2532,150 @@ html[data-theme="light"] {
         error
       );
 
-
       setStatus(
         "Repository scan failed: " +
         error.message,
         "error"
       );
-
     }
-
   }
 
 
   function render(items) {
 
-    files.innerHTML = "";
+    if (!files) return;
 
+    files.innerHTML = "";
 
     if (!items.length) {
 
       files.innerHTML =
         `
-          <div class="validation-empty">
-            No resources were found
-            under <code>/validation/</code>.
-          </div>
+        <div class="validation-empty">
+          No resources were found
+          under <code>/validation/</code>.
+        </div>
         `;
 
       return;
-
     }
 
-
     let currentDirectory = null;
-
 
     items.forEach(item => {
 
       const relative =
         item.path.slice(
-          SECTION.length + 1
+          "validation/".length
         );
-
 
       const parts =
         relative.split("/");
-
 
       const directory =
         parts.length > 1
           ? parts.slice(0, -1).join("/")
           : "";
 
-
       if (
-        directory !==
-        currentDirectory
+        directory !== currentDirectory
       ) {
 
         currentDirectory =
           directory;
 
-
         const heading =
           document.createElement("div");
-
 
         heading.className =
           "validation-directory";
 
-
         heading.textContent =
           directory
-            ? "/validation/" + directory + "/"
+            ? "/validation/" +
+              directory +
+              "/"
             : "/validation/";
 
-
-        files.appendChild(
-          heading
-        );
-
+        files.appendChild(heading);
       }
-
-
-      const article =
-        document.createElement("article");
-
-
-      article.className =
-        "validation-file";
-
 
       const filename =
         item.path.split("/").pop();
 
+      const article =
+        document.createElement("article");
+
+      article.className =
+        "validation-file";
 
       article.innerHTML =
         `
-          <div class="validation-file-info">
+        <div class="validation-file-info">
 
-            <h2 class="validation-file-name">
-              ${escapeHTML(filename)}
-            </h2>
+          <h2 class="validation-file-name">
+            ${escapeHTML(filename)}
+          </h2>
 
-            <div class="validation-file-path">
-              ${escapeHTML(item.path)}
-            </div>
-
+          <div class="validation-file-path">
+            ${escapeHTML(item.path)}
           </div>
 
-          <div class="validation-file-actions">
+        </div>
 
-            <button
-              type="button"
-              class="validation-file-button"
-              data-open
-            >
-              VIEW
-            </button>
+        <div class="validation-file-actions">
 
-            <a
-              class="validation-file-github"
-              href="${BLOB_BASE + encodeURI(item.path)}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GITHUB
-            </a>
+          <button
+            type="button"
+            class="validation-file-button"
+            data-open
+          >
+            VIEW
+          </button>
 
-          </div>
+          <a
+            class="validation-file-github"
+            href="${BLOB_BASE + encodeURI(item.path)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GITHUB
+          </a>
+
+        </div>
         `;
-
 
       article
         .querySelector("[data-open]")
         .addEventListener(
           "click",
-          () => openResource(item.path)
+          () => {
+
+            if (
+              window.AUF2026ResourceViewer
+            ) {
+
+              window.AUF2026ResourceViewer.open(
+                item.path
+              );
+
+            } else {
+
+              window.location.href =
+                "https://auf2026.github.io/" +
+                item.path;
+
+            }
+
+          }
         );
 
-
       files.appendChild(article);
-
     });
-
   }
 
 
-  function openResource(path) {
-
-    if (
-      typeof window.openResource ===
-      "function"
-    ) {
-
-      window.openResource(path);
-
-      return;
-
-    }
-
-
-    window.location.href =
-      "https://auf2026.github.io/" +
-      path
-        .split("/")
-        .map(
-          encodeURIComponent
-        )
-        .join("/");
-
-  }
-
-
-  function setStatus(message, state) {
-
-    if (!status) return;
-
-    status.textContent =
-      message;
-
-    if (state) {
-
-      status.dataset.state =
-        state;
-
-    }
-
-  }
-
-
-  function escapeHTML(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  window.AUF2026Validation = {
-
-    section: SECTION,
-
-    refresh: load,
-
-    open: openResource
-
-  };
+  load();
 
 })();
 </script>
