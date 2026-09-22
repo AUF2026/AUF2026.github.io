@@ -1,621 +1,141 @@
 <script>
 
 /* =========================================================
-   AUF2026 — UNIVERSAL SECTION PARSER
+   AUF2026 — SECTION INDEX / UNIVERSAL RESOURCE PARSER
    ========================================================= */
 
-const SECTION_PATH =
-  window.location.pathname
-    .replace(/\/index\.html?$/i, "")
-    .replace(/^\//, "")
-    .replace(/\/+$/, "");
-
-
-/* =========================================================
-   REPOSITORY CONFIGURATION
-   ========================================================= */
-
-const OWNER =
+const GITHUB_OWNER =
   "AUF2026";
 
-const REPOSITORY =
+const GITHUB_REPOSITORY =
   "AUF2026.github.io";
 
-const BRANCH =
+const GITHUB_BRANCH =
   "main";
 
 
-const API_BASE =
-  "https://api.github.com/repos/" +
-  OWNER +
-  "/" +
-  REPOSITORY;
-
-
-const TREE_URL =
-  API_BASE +
-  "/git/trees/" +
-  BRANCH +
-  "?recursive=1";
-
-
 /* =========================================================
-   DOM
+   DETECT CURRENT SECTION
    ========================================================= */
 
-const sectionTitle =
-  document.getElementById(
-    "sectionTitle"
-  );
+function detectSection() {
 
-const sectionDescription =
-  document.getElementById(
-    "sectionDescription"
-  );
+  const pathname =
+    window.location.pathname
+      .replace(/\\/g, "/");
 
-const sectionFiles =
-  document.getElementById(
-    "sectionFiles"
-  );
-
-const sectionStatus =
-  document.getElementById(
-    "sectionStatus"
-  );
-
-
-/* =========================================================
-   FILE TYPE CLASSIFICATION
-   ========================================================= */
-
-const TEXT_EXTENSIONS = new Set([
-
-  "txt",
-  "text",
-  "log",
-  "csv",
-  "tsv",
-  "json",
-  "xml",
-  "yaml",
-  "yml",
-  "toml",
-  "ini",
-  "cfg",
-  "conf",
-
-  "tex",
-  "latex",
-  "bib",
-  "sty",
-  "cls",
-
-  "lean",
-  "h",
-  "hpp",
-  "c",
-  "cc",
-  "cpp",
-  "cxx",
-  "cs",
-  "java",
-  "kt",
-  "kts",
-  "swift",
-  "go",
-  "rs",
-  "rb",
-  "php",
-  "pl",
-  "r",
-  "m",
-  "mm",
-
-  "py",
-  "js",
-  "jsx",
-  "ts",
-  "tsx",
-  "sh",
-  "bash",
-  "zsh",
-  "fish",
-  "ps1",
-
-  "sql",
-  "graphql",
-
-  "css",
-  "scss",
-  "sass",
-  "less",
-
-  "html",
-  "htm",
-  "svg"
-
-]);
-
-
-const MARKDOWN_EXTENSIONS = new Set([
-
-  "md",
-  "markdown",
-  "mdown",
-  "mkdn"
-
-]);
-
-
-const IMAGE_EXTENSIONS = new Set([
-
-  "png",
-  "jpg",
-  "jpeg",
-  "gif",
-  "webp",
-  "avif",
-  "bmp",
-  "ico",
-  "tif",
-  "tiff"
-
-]);
-
-
-const AUDIO_EXTENSIONS = new Set([
-
-  "mp3",
-  "wav",
-  "ogg",
-  "oga",
-  "m4a",
-  "aac",
-  "flac"
-
-]);
-
-
-const VIDEO_EXTENSIONS = new Set([
-
-  "mp4",
-  "webm",
-  "ogv",
-  "mov",
-  "m4v"
-
-]);
-
-
-const PDF_EXTENSIONS = new Set([
-
-  "pdf"
-
-]);
-
-
-const ARCHIVE_EXTENSIONS = new Set([
-
-  "zip",
-  "tar",
-  "gz",
-  "tgz",
-  "bz2",
-  "xz",
-  "7z",
-  "rar"
-
-]);
-
-
-/* =========================================================
-   FILE HELPERS
-   ========================================================= */
-
-function getFilename(
-  path
-) {
-
-  return path
-    .split("/")
-    .filter(Boolean)
-    .pop() || "";
-
-}
-
-
-function getExtension(
-  filename
-) {
 
   const match =
-    filename.match(
-      /\.([^.]+)$/
-    );
-
-
-  return match
-    ? match[1].toLowerCase()
-    : "";
-
-}
-
-
-function humanizeFilename(
-  filename
-) {
-
-  return filename
-    .replace(
-      /\.[^.]+$/,
-      ""
-    )
-    .replace(
-      /[-_]+/g,
-      " "
-    )
-    .replace(
-      /\b\w/g,
-      char =>
-        char.toUpperCase()
-    );
-
-}
-
-
-function getFileType(
-  path
-) {
-
-  const extension =
-    getExtension(
-      getFilename(
-        path
-      )
+    pathname.match(
+      /\/([^/]+)\/index\.html?$/i
     );
 
 
   if (
-    MARKDOWN_EXTENSIONS.has(
-      extension
-    )
+    match &&
+    match[1]
   ) {
 
-    return "markdown";
-
-  }
-
-
-  if (
-    IMAGE_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "image";
-
-  }
-
-
-  if (
-    AUDIO_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "audio";
-
-  }
-
-
-  if (
-    VIDEO_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "video";
-
-  }
-
-
-  if (
-    PDF_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "pdf";
-
-  }
-
-
-  if (
-    ARCHIVE_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "archive";
-
-  }
-
-
-  if (
-    TEXT_EXTENSIONS.has(
-      extension
-    )
-  ) {
-
-    return "text";
-
-  }
-
-
-  return "binary";
-
-}
-
-
-/* =========================================================
-   GITHUB RAW URL
-   ========================================================= */
-
-function getRawURL(
-  path
-) {
-
-  return (
-    "https://raw.githubusercontent.com/" +
-    OWNER +
-    "/" +
-    REPOSITORY +
-    "/" +
-    BRANCH +
-    "/" +
-    path
-  );
-
-}
-
-
-/* =========================================================
-   GITHUB BLOB URL
-   ========================================================= */
-
-function getGitHubURL(
-  path
-) {
-
-  return (
-    "https://github.com/" +
-    OWNER +
-    "/" +
-    REPOSITORY +
-    "/blob/" +
-    BRANCH +
-    "/" +
-    path
-  );
-
-}
-
-
-/* =========================================================
-   LOAD REPOSITORY TREE
-   ========================================================= */
-
-async function loadRepositoryTree() {
-
-  const response =
-    await fetch(
-      TREE_URL,
-      {
-        cache:
-          "no-cache",
-
-        headers: {
-          "Accept":
-            "application/vnd.github+json"
-        }
-      }
-    );
-
-
-  if (
-    !response.ok
-  ) {
-
-    throw new Error(
-      "GitHub API HTTP " +
-      response.status
+    return decodeURIComponent(
+      match[1]
     );
 
   }
 
 
-  const data =
-    await response.json();
-
-
-  if (
-    !data ||
-    !Array.isArray(
-      data.tree
-    )
-  ) {
-
-    throw new Error(
-      "Invalid repository tree."
-    );
-
-  }
-
-
-  return data.tree;
-
-}
-
-
-/* =========================================================
-   GET FILES BELONGING TO THIS SECTION
-   ========================================================= */
-
-function getSectionFiles(
-  tree
-) {
-
-  const prefix =
-    SECTION_PATH
-      ? SECTION_PATH + "/"
-      : "";
-
-
-  return tree
-    .filter(
-      item => {
-
-        if (
-          item.type !== "blob"
-        ) {
-
-          return false;
-
-        }
-
-
-        if (
-          !item.path.startsWith(
-            prefix
-          )
-        ) {
-
-          return false;
-
-        }
-
-
-        return true;
-
-      }
-    )
-    .sort(
-      (a, b) =>
-        a.path.localeCompare(
-          b.path,
-          undefined,
-          {
-            numeric:
-              true,
-            sensitivity:
-              "base"
-          }
-        )
-    );
-
-}
-
-
-/* =========================================================
-   GET RELATIVE PATH
-   ========================================================= */
-
-function getRelativePath(
-  fullPath
-) {
-
-  const prefix =
-    SECTION_PATH
-      ? SECTION_PATH + "/"
-      : "";
-
-
-  return fullPath.startsWith(
-    prefix
-  )
-    ? fullPath.slice(
-        prefix.length
-      )
-    : fullPath;
-
-}
-
-
-/* =========================================================
-   DIRECTORY FROM PATH
-   ========================================================= */
-
-function getDirectory(
-  relativePath
-) {
+  /*
+   * Fallback for GitHub Pages paths.
+   */
 
   const parts =
-    relativePath
+    pathname
       .split("/")
       .filter(Boolean);
 
 
   if (
-    parts.length <= 1
+    parts.length >= 2 &&
+    /\.html?$/i.test(
+      parts[parts.length - 1]
+    )
   ) {
 
-    return "";
+    return parts[
+      parts.length - 2
+    ];
 
   }
 
 
-  return parts
-    .slice(
-      0,
-      -1
-    )
-    .join("/");
+  return "";
 
 }
 
 
+const SECTION =
+  detectSection();
+
+
 /* =========================================================
-   FETCH RAW TEXT
+   API
    ========================================================= */
 
-async function fetchText(
+const TREE_URL =
+  "https://api.github.com/repos/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/git/trees/" +
+  GITHUB_BRANCH +
+  "?recursive=1";
+
+
+/* =========================================================
+   RAW FILE
+   ========================================================= */
+
+function rawURL(
   path
 ) {
 
-  const response =
-    await fetch(
-      getRawURL(
-        path
-      ),
-      {
-        cache:
-          "no-cache"
-      }
-    );
-
-
-  if (
-    !response.ok
-  ) {
-
-    throw new Error(
-      "Unable to load " +
-      path +
-      " (" +
-      response.status +
-      ")"
-    );
-
-  }
-
-
-  return response.text();
+  return (
+    "https://raw.githubusercontent.com/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/" +
+    GITHUB_BRANCH +
+    "/" +
+    path
+  );
 
 }
 
 
 /* =========================================================
-   ESCAPE HTML
+   GITHUB FILE
+   ========================================================= */
+
+function githubURL(
+  path
+) {
+
+  return (
+    "https://github.com/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY +
+    "/blob/" +
+    GITHUB_BRANCH +
+    "/" +
+    path
+  );
+
+}
+
+
+/* =========================================================
+   HTML ESCAPE
    ========================================================= */
 
 function escapeHTML(
@@ -650,52 +170,961 @@ function escapeHTML(
 
 
 /* =========================================================
-   SIMPLE MARKDOWN RENDERER
+   FILE NAME
    ========================================================= */
 
-function renderMarkdown(
-  source
+function fileName(
+  path
 ) {
 
-  let html =
-    escapeHTML(
-      source
+  return path
+    .split("/")
+    .filter(Boolean)
+    .pop() || "";
+
+}
+
+
+/* =========================================================
+   FILE EXTENSION
+   ========================================================= */
+
+function extension(
+  path
+) {
+
+  const name =
+    fileName(
+      path
     );
 
 
-  /*
-   * Fenced code blocks.
-   */
+  const index =
+    name.lastIndexOf(
+      "."
+    );
 
-  html =
-    html.replace(
-      /```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g,
-      (
-        match,
-        language,
-        code
-      ) => {
 
-        return (
-          '<pre class="code-block">' +
-            '<code class="language-' +
-              escapeHTML(
-                language ||
-                ""
-              ) +
-            '">' +
-              code.trim() +
-            "</code>" +
-          "</pre>"
-        );
+  if (
+    index < 0
+  ) {
 
+    return "";
+
+  }
+
+
+  return name
+    .slice(
+      index + 1
+    )
+    .toLowerCase();
+
+}
+
+
+/* =========================================================
+   RELATIVE PATH
+   ========================================================= */
+
+function relativePath(
+  path
+) {
+
+  const prefix =
+    SECTION +
+    "/";
+
+
+  if (
+    path.startsWith(
+      prefix
+    )
+  ) {
+
+    return path.slice(
+      prefix.length
+    );
+
+  }
+
+
+  return path;
+
+}
+
+
+/* =========================================================
+   HUMAN TITLE
+   ========================================================= */
+
+function humanTitle(
+  value
+) {
+
+  return value
+    .replace(
+      /\.[^.]+$/,
+      ""
+    )
+    .replace(
+      /[-_]+/g,
+      " "
+    )
+    .replace(
+      /\b\w/g,
+      char =>
+        char.toUpperCase()
+    );
+
+}
+
+
+/* =========================================================
+   TYPE
+   ========================================================= */
+
+function resourceType(
+  path
+) {
+
+  const ext =
+    extension(
+      path
+    );
+
+
+  if (
+    [
+      "md",
+      "markdown",
+      "mdown",
+      "mkd"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "markdown";
+
+  }
+
+
+  if (
+    [
+      "html",
+      "htm"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "html";
+
+  }
+
+
+  if (
+    [
+      "pdf"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "pdf";
+
+  }
+
+
+  if (
+    [
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "webp",
+      "svg",
+      "bmp",
+      "ico",
+      "avif"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "image";
+
+  }
+
+
+  if (
+    [
+      "mp3",
+      "wav",
+      "ogg",
+      "oga",
+      "m4a",
+      "flac"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "audio";
+
+  }
+
+
+  if (
+    [
+      "mp4",
+      "webm",
+      "ogv",
+      "mov",
+      "m4v"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "video";
+
+  }
+
+
+  if (
+    [
+      "tex",
+      "latex",
+      "lean",
+      "txt",
+      "json",
+      "xml",
+      "csv",
+      "tsv",
+      "yaml",
+      "yml",
+      "bib",
+      "py",
+      "js",
+      "ts",
+      "jsx",
+      "tsx",
+      "c",
+      "h",
+      "cpp",
+      "hpp",
+      "java",
+      "rs",
+      "go",
+      "r",
+      "sh",
+      "bash",
+      "sql",
+      "css",
+      "scss"
+    ].includes(
+      ext
+    )
+  ) {
+
+    return "source";
+
+  }
+
+
+  return "resource";
+
+}
+
+
+/* =========================================================
+   GET REPOSITORY TREE
+   ========================================================= */
+
+async function getRepositoryTree() {
+
+  const response =
+    await fetch(
+      TREE_URL,
+      {
+        cache:
+          "no-cache",
+
+        headers: {
+          Accept:
+            "application/vnd.github+json"
+        }
       }
     );
 
 
+  if (
+    !response.ok
+  ) {
+
+    throw new Error(
+      "GitHub API HTTP " +
+      response.status
+    );
+
+  }
+
+
+  const data =
+    await response.json();
+
+
+  if (
+    !data ||
+    !Array.isArray(
+      data.tree
+    )
+  ) {
+
+    throw new Error(
+      "GitHub repository tree is invalid."
+    );
+
+  }
+
+
+  return data.tree;
+
+}
+
+
+/* =========================================================
+   FIND ALL FILES IN THIS SECTION
+   ========================================================= */
+
+function findSectionFiles(
+  tree
+) {
+
+  const prefix =
+    SECTION +
+    "/";
+
+
+  return tree
+    .filter(
+      item => {
+
+        if (
+          item.type !== "blob"
+        ) {
+
+          return false;
+
+        }
+
+
+        if (
+          !item.path
+        ) {
+
+          return false;
+
+        }
+
+
+        /*
+         * THIS IS THE IMPORTANT PART:
+         *
+         * Every file below the section is accepted.
+         *
+         * No extension filtering.
+         *
+         * No depth limitation.
+         */
+
+        return item.path.startsWith(
+          prefix
+        );
+
+      }
+    )
+    .sort(
+      (a, b) =>
+        a.path.localeCompare(
+          b.path,
+          undefined,
+          {
+            numeric:
+              true,
+            sensitivity:
+              "base"
+          }
+        )
+    );
+
+}
+
+
+/* =========================================================
+   BUILD FILE LIST
+   ========================================================= */
+
+function renderFiles(
+  files
+) {
+
+  const container =
+    document.getElementById(
+      "repositoryFiles"
+    );
+
+
+  if (
+    !container
+  ) {
+
+    console.error(
+      "Missing #repositoryFiles"
+    );
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    !files.length
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="parser-empty">
+
+          <strong>
+            No resources found
+          </strong>
+
+          <p>
+            Section:
+            /${escapeHTML(
+              SECTION
+            )}/
+          </p>
+
+        </div>
+      `;
+
+    return;
+
+  }
+
+
   /*
-   * Headings.
+   * Group files by directory.
    */
+
+  let currentDirectory =
+    null;
+
+
+  files.forEach(
+    file => {
+
+      const relative =
+        relativePath(
+          file.path
+        );
+
+
+      const parts =
+        relative
+          .split("/")
+          .filter(Boolean);
+
+
+      const directory =
+        parts.length > 1
+          ? parts
+              .slice(
+                0,
+                -1
+              )
+              .join("/")
+          : "";
+
+
+      if (
+        directory !==
+        currentDirectory
+      ) {
+
+        currentDirectory =
+          directory;
+
+
+        const directoryElement =
+          document.createElement(
+            "div"
+          );
+
+
+        directoryElement.className =
+          "parser-directory";
+
+
+        directoryElement.textContent =
+          directory
+            ? "/" +
+              directory
+            : "/";
+
+
+        container.appendChild(
+          directoryElement
+        );
+
+      }
+
+
+      container.appendChild(
+        createFileElement(
+          file
+        )
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FILE ELEMENT
+   ========================================================= */
+
+function createFileElement(
+  file
+) {
+
+  const relative =
+    relativePath(
+      file.path
+    );
+
+
+  const name =
+    fileName(
+      file.path
+    );
+
+
+  const type =
+    resourceType(
+      file.path
+    );
+
+
+  const element =
+    document.createElement(
+      "article"
+    );
+
+
+  element.className =
+    "repository-file";
+
+
+  element.dataset.type =
+    type;
+
+
+  element.innerHTML =
+    `
+      <div class="repository-file-main">
+
+        <div class="repository-file-type">
+          ${escapeHTML(
+            type
+              .toUpperCase()
+          )}
+        </div>
+
+        <div>
+
+          <h3 class="repository-file-name">
+            ${escapeHTML(
+              humanTitle(
+                name
+              )
+            )}
+          </h3>
+
+          <div class="repository-file-path">
+            ${escapeHTML(
+              relative
+            )}
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="repository-file-actions">
+
+        <button
+          type="button"
+          class="repository-open"
+        >
+          VIEW
+        </button>
+
+        <a
+          href="${escapeHTML(
+            githubURL(
+              file.path
+            )
+          )}"
+          target="_blank"
+          rel="noopener"
+        >
+          GITHUB
+        </a>
+
+      </div>
+    `;
+
+
+  const button =
+    element.querySelector(
+      ".repository-open"
+    );
+
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      openResource(
+        file
+      );
+
+    }
+  );
+
+
+  return element;
+
+}
+
+
+/* =========================================================
+   RESOURCE VIEWER
+   ========================================================= */
+
+async function openResource(
+  file
+) {
+
+  const viewer =
+    document.getElementById(
+      "resourceViewer"
+    );
+
+
+  if (
+    !viewer
+  ) {
+
+    return;
+
+  }
+
+
+  viewer.hidden =
+    false;
+
+
+  viewer.innerHTML =
+    `
+      <div class="resource-loading">
+        Loading
+        ${escapeHTML(
+          fileName(
+            file.path
+          )
+        )}
+        …
+      </div>
+    `;
+
+
+  viewer.scrollIntoView({
+    behavior:
+      "smooth",
+    block:
+      "start"
+  });
+
+
+  const type =
+    resourceType(
+      file.path
+    );
+
+
+  try {
+
+    if (
+      type === "markdown"
+    ) {
+
+      await openMarkdown(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "source"
+    ) {
+
+      await openSource(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "html"
+    ) {
+
+      openHTML(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "pdf"
+    ) {
+
+      openPDF(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "image"
+    ) {
+
+      openImage(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "audio"
+    ) {
+
+      openAudio(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    if (
+      type === "video"
+    ) {
+
+      openVideo(
+        file,
+        viewer
+      );
+
+      return;
+
+    }
+
+
+    openUnknown(
+      file,
+      viewer
+    );
+
+  } catch (
+    error
+  ) {
+
+    viewer.innerHTML =
+      `
+        <div class="parser-error">
+
+          <strong>
+            Resource error
+          </strong>
+
+          <p>
+            ${escapeHTML(
+              error.message
+            )}
+          </p>
+
+          <a
+            href="${escapeHTML(
+              githubURL(
+                file.path
+              )
+            )}"
+            target="_blank"
+            rel="noopener"
+          >
+            OPEN ON GITHUB
+          </a>
+
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================================================
+   MARKDOWN
+   ========================================================= */
+
+async function openMarkdown(
+  file,
+  viewer
+) {
+
+  const response =
+    await fetch(
+      rawURL(
+        file.path
+      ),
+      {
+        cache:
+          "no-cache"
+      }
+    );
+
+
+  if (
+    !response.ok
+  ) {
+
+    throw new Error(
+      "Unable to retrieve Markdown."
+    );
+
+  }
+
+
+  const markdown =
+    await response.text();
+
+
+  /*
+   * If marked.js is present in the page,
+   * use the real Markdown parser.
+   */
+
+  let html;
+
+
+  if (
+    window.marked &&
+    typeof window.marked.parse ===
+      "function"
+  ) {
+
+    html =
+      window.marked.parse(
+        markdown
+      );
+
+  } else {
+
+    html =
+      basicMarkdown(
+        markdown
+      );
+
+  }
+
+
+  viewer.innerHTML =
+    `
+      <article class="resource-document">
+
+        <header class="resource-header">
+
+          <span>
+            MARKDOWN
+          </span>
+
+          <strong>
+            ${escapeHTML(
+              fileName(
+                file.path
+              )
+            )}
+          </strong>
+
+        </header>
+
+        <div class="markdown-rendered">
+          ${html}
+        </div>
+
+      </article>
+    `;
+
+}
+
+
+/* =========================================================
+   BASIC MARKDOWN FALLBACK
+   ========================================================= */
+
+function basicMarkdown(
+  text
+) {
+
+  let html =
+    escapeHTML(
+      text
+    );
+
 
   html =
     html.replace(
@@ -734,26 +1163,12 @@ function renderMarkdown(
     );
 
 
-  /*
-   * Horizontal rules.
-   */
-
-  html =
-    html.replace(
-      /^---$/gm,
-      "<hr>"
-    );
-
-
-  /*
-   * Bold / italic / inline code.
-   */
-
   html =
     html.replace(
       /\*\*(.+?)\*\*/g,
       "<strong>$1</strong>"
     );
+
 
   html =
     html.replace(
@@ -761,872 +1176,204 @@ function renderMarkdown(
       "<em>$1</em>"
     );
 
+
   html =
     html.replace(
-      /`([^`\n]+)`/g,
+      /`([^`]+)`/g,
       "<code>$1</code>"
     );
 
 
-  /*
-   * Links.
-   */
-
   html =
     html.replace(
-      /\[([^\]]+)\]\(([^)\s]+)\)/g,
-      (
-        match,
-        label,
-        url
-      ) => {
-
-        return (
-          '<a href="' +
-          escapeHTML(
-            url
-          ) +
-          '" target="_blank" rel="noopener">' +
-          label +
-          "</a>"
-        );
-
-      }
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2">$1</a>'
     );
 
 
-  /*
-   * Blockquotes.
-   */
-
-  html =
-    html.replace(
-      /^&gt; (.+)$/gm,
-      "<blockquote>$1</blockquote>"
-    );
-
-
-  /*
-   * Unordered lists.
-   */
-
-  html =
-    html.replace(
-      /^(?:-|\*) (.+)$/gm,
-      "<li>$1</li>"
-    );
-
-
-  html =
-    html.replace(
-      /(<li>[\s\S]*?<\/li>)/g,
-      match =>
-        "<ul>" +
-        match +
-        "</ul>"
-    );
-
-
-  /*
-   * Paragraphs.
-   */
-
-  const lines =
-    html.split(
+  return html
+    .split(
       /\n{2,}/
-    );
+    )
+    .map(
+      block => {
+
+        const value =
+          block.trim();
 
 
-  html =
-    lines
-      .map(
-        block => {
+        if (
+          !value
+        ) {
 
-          const trimmed =
-            block.trim();
-
-
-          if (
-            !trimmed
-          ) {
-
-            return "";
-
-          }
-
-
-          if (
-            /^<(h[1-6]|ul|pre|blockquote|hr)/i
-              .test(
-                trimmed
-              )
-          ) {
-
-            return trimmed;
-
-          }
-
-
-          return (
-            "<p>" +
-            trimmed.replace(
-              /\n/g,
-              "<br>"
-            ) +
-            "</p>"
-          );
+          return "";
 
         }
-      )
-      .join(
-        "\n"
-      );
 
 
-  return html;
+        if (
+          /^<(h[1-6]|ul|ol|pre|blockquote|hr)/i
+            .test(
+              value
+            )
+        ) {
 
-}
+          return value;
 
+        }
 
-/* =========================================================
-   CREATE FILE CARD
-   ========================================================= */
 
-function createFileCard(
-  item
-) {
-
-  const relativePath =
-    getRelativePath(
-      item.path
-    );
-
-
-  const filename =
-    getFilename(
-      item.path
-    );
-
-
-  const type =
-    getFileType(
-      item.path
-    );
-
-
-  const card =
-    document.createElement(
-      "article"
-    );
-
-
-  card.className =
-    "file-card";
-
-
-  card.dataset.type =
-    type;
-
-
-  const header =
-    document.createElement(
-      "div"
-    );
-
-
-  header.className =
-    "file-card-header";
-
-
-  const name =
-    document.createElement(
-      "h3"
-    );
-
-
-  name.className =
-    "file-name";
-
-
-  name.textContent =
-    filename;
-
-
-  const typeLabel =
-    document.createElement(
-      "span"
-    );
-
-
-  typeLabel.className =
-    "file-type";
-
-
-  typeLabel.textContent =
-    type.toUpperCase();
-
-
-  header.appendChild(
-    name
-  );
-
-
-  header.appendChild(
-    typeLabel
-  );
-
-
-  const path =
-    document.createElement(
-      "div"
-    );
-
-
-  path.className =
-    "file-path";
-
-
-  path.textContent =
-    relativePath;
-
-
-  const actions =
-    document.createElement(
-      "div"
-    );
-
-
-  actions.className =
-    "file-actions";
-
-
-  const open =
-    document.createElement(
-      "button"
-    );
-
-
-  open.type =
-    "button";
-
-
-  open.className =
-    "file-open";
-
-
-  open.textContent =
-    "OPEN";
-
-
-  open.addEventListener(
-    "click",
-    () => {
-
-      openFile(
-        item
-      );
-
-    }
-  );
-
-
-  const github =
-    document.createElement(
-      "a"
-    );
-
-
-  github.className =
-    "file-github";
-
-
-  github.href =
-    getGitHubURL(
-      item.path
-    );
-
-
-  github.target =
-    "_blank";
-
-
-  github.rel =
-    "noopener";
-
-
-  github.textContent =
-    "GITHUB";
-
-
-  actions.appendChild(
-    open
-  );
-
-
-  actions.appendChild(
-    github
-  );
-
-
-  card.appendChild(
-    header
-  );
-
-
-  card.appendChild(
-    path
-  );
-
-
-  card.appendChild(
-    actions
-  );
-
-
-  return card;
-
-}
-
-
-/* =========================================================
-   RENDER FILE LIST
-   ========================================================= */
-
-function renderFileList(
-  files
-) {
-
-  sectionFiles.innerHTML =
-    "";
-
-
-  if (
-    !files.length
-  ) {
-
-    sectionFiles.innerHTML =
-      `
-        <div class="parser-empty">
-          No files found in this section.
-        </div>
-      `;
-
-    return;
-
-  }
-
-
-  let currentDirectory =
-    null;
-
-
-  files.forEach(
-    item => {
-
-      const relativePath =
-        getRelativePath(
-          item.path
-        );
-
-
-      const directory =
-        getDirectory(
-          relativePath
-        );
-
-
-      if (
-        directory !==
-        currentDirectory
-      ) {
-
-        currentDirectory =
-          directory;
-
-
-        const heading =
-          document.createElement(
-            "div"
-          );
-
-
-        heading.className =
-          "parser-directory";
-
-
-        heading.textContent =
-          directory
-            ? "/" +
-              directory
-            : "/";
-
-
-        sectionFiles.appendChild(
-          heading
+        return (
+          "<p>" +
+          value.replace(
+            /\n/g,
+            "<br>"
+          ) +
+          "</p>"
         );
 
       }
-
-
-      sectionFiles.appendChild(
-        createFileCard(
-          item
-        )
-      );
-
-    }
-  );
+    )
+    .join(
+      "\n"
+    );
 
 }
 
 
 /* =========================================================
-   FILE VIEWER
+   SOURCE
    ========================================================= */
 
-async function openFile(
-  item
+async function openSource(
+  file,
+  viewer
 ) {
 
-  const type =
-    getFileType(
-      item.path
-    );
-
-
-  const viewer =
-    document.getElementById(
-      "fileViewer"
+  const response =
+    await fetch(
+      rawURL(
+        file.path
+      ),
+      {
+        cache:
+          "no-cache"
+      }
     );
 
 
   if (
-    !viewer
+    !response.ok
   ) {
 
-    return;
+    throw new Error(
+      "Unable to retrieve source."
+    );
 
   }
 
 
-  viewer.hidden =
-    false;
-
-
-  viewer.innerHTML =
-    `
-      <div class="viewer-loading">
-        Loading ${escapeHTML(
-          getFilename(
-            item.path
-          )
-        )}…
-      </div>
-    `;
-
-
-  viewer.scrollIntoView({
-    behavior:
-      "smooth",
-    block:
-      "start"
-  });
-
-
-  try {
-
-    if (
-      type === "markdown"
-    ) {
-
-      await renderMarkdownFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    if (
-      type === "text"
-    ) {
-
-      await renderTextFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    if (
-      type === "image"
-    ) {
-
-      renderImageFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    if (
-      type === "audio"
-    ) {
-
-      renderAudioFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    if (
-      type === "video"
-    ) {
-
-      renderVideoFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    if (
-      type === "pdf"
-    ) {
-
-      renderPDFFile(
-        item,
-        viewer
-      );
-
-      return;
-
-    }
-
-
-    renderBinaryFile(
-      item,
-      viewer
-    );
-
-  } catch (
-    error
-  ) {
-
-    viewer.innerHTML =
-      `
-        <div class="viewer-error">
-
-          <strong>
-            Unable to render resource
-          </strong>
-
-          <p>
-            ${escapeHTML(
-              error.message
-            )}
-          </p>
-
-          <a
-            href="${escapeHTML(
-              getGitHubURL(
-                item.path
-              )
-            )}"
-            target="_blank"
-            rel="noopener"
-          >
-            OPEN ON GITHUB
-          </a>
-
-        </div>
-      `;
-
-  }
-
-}
-
-
-/* =========================================================
-   MARKDOWN VIEWER
-   ========================================================= */
-
-async function renderMarkdownFile(
-  item,
-  viewer
-) {
-
   const source =
-    await fetchText(
-      item.path
-    );
+    await response.text();
 
 
   viewer.innerHTML =
     `
-      <div class="viewer-document markdown-document">
+      <article class="resource-document">
 
-        <div class="viewer-header">
+        <header class="resource-header">
 
           <span>
-            MARKDOWN
+            ${escapeHTML(
+              extension(
+                file.path
+              ).toUpperCase()
+            )}
           </span>
 
           <strong>
             ${escapeHTML(
-              getFilename(
-                item.path
+              fileName(
+                file.path
               )
             )}
           </strong>
 
-        </div>
+        </header>
 
-        <div class="markdown-content">
-          ${renderMarkdown(
-            source
-          )}
-        </div>
-
-      </div>
-    `;
-
-}
-
-
-/* =========================================================
-   TEXT / SOURCE VIEWER
-   ========================================================= */
-
-async function renderTextFile(
-  item,
-  viewer
-) {
-
-  const source =
-    await fetchText(
-      item.path
-    );
-
-
-  viewer.innerHTML =
-    `
-      <div class="viewer-document">
-
-        <div class="viewer-header">
-
-          <span>
-            SOURCE
-          </span>
-
-          <strong>
-            ${escapeHTML(
-              getFilename(
-                item.path
-              )
-            )}
-          </strong>
-
-        </div>
-
-        <pre class="source-view"><code>${escapeHTML(
+        <pre class="resource-code"><code>${escapeHTML(
           source
         )}</code></pre>
 
-      </div>
+      </article>
     `;
 
 }
 
 
 /* =========================================================
-   IMAGE VIEWER
+   HTML
    ========================================================= */
 
-function renderImageFile(
-  item,
+function openHTML(
+  file,
   viewer
 ) {
 
-  const url =
-    getRawURL(
-      item.path
-    );
-
-
   viewer.innerHTML =
     `
-      <div class="viewer-document">
+      <article class="resource-document">
 
-        <div class="viewer-header">
+        <header class="resource-header">
 
           <span>
-            IMAGE
+            HTML
           </span>
 
           <strong>
             ${escapeHTML(
-              getFilename(
-                item.path
+              fileName(
+                file.path
               )
             )}
           </strong>
 
-        </div>
+        </header>
 
-        <img
-          class="viewer-image"
+        <iframe
+          class="resource-frame"
           src="${escapeHTML(
-            url
-          )}"
-          alt="${escapeHTML(
-            getFilename(
-              item.path
+            rawURL(
+              file.path
             )
           )}"
-        >
-
-      </div>
-    `;
-
-}
-
-
-/* =========================================================
-   AUDIO VIEWER
-   ========================================================= */
-
-function renderAudioFile(
-  item,
-  viewer
-) {
-
-  const url =
-    getRawURL(
-      item.path
-    );
-
-
-  viewer.innerHTML =
-    `
-      <div class="viewer-document">
-
-        <div class="viewer-header">
-
-          <span>
-            AUDIO
-          </span>
-
-          <strong>
-            ${escapeHTML(
-              getFilename(
-                item.path
-              )
-            )}
-          </strong>
-
-        </div>
-
-        <audio
-          class="viewer-audio"
-          controls
-          preload="metadata"
-          src="${escapeHTML(
-            url
+          title="${escapeHTML(
+            fileName(
+              file.path
+            )
           )}"
-        ></audio>
+        ></iframe>
 
-      </div>
+      </article>
     `;
 
 }
 
 
 /* =========================================================
-   VIDEO VIEWER
+   PDF
    ========================================================= */
 
-function renderVideoFile(
-  item,
+function openPDF(
+  file,
   viewer
 ) {
 
-  const url =
-    getRawURL(
-      item.path
-    );
-
-
   viewer.innerHTML =
     `
-      <div class="viewer-document">
+      <article class="resource-document">
 
-        <div class="viewer-header">
-
-          <span>
-            VIDEO
-          </span>
-
-          <strong>
-            ${escapeHTML(
-              getFilename(
-                item.path
-              )
-            )}
-          </strong>
-
-        </div>
-
-        <video
-          class="viewer-video"
-          controls
-          preload="metadata"
-          src="${escapeHTML(
-            url
-          )}"
-        ></video>
-
-      </div>
-    `;
-
-}
-
-
-/* =========================================================
-   PDF VIEWER
-   ========================================================= */
-
-function renderPDFFile(
-  item,
-  viewer
-) {
-
-  const url =
-    getRawURL(
-      item.path
-    );
-
-
-  viewer.innerHTML =
-    `
-      <div class="viewer-document">
-
-        <div class="viewer-header">
+        <header class="resource-header">
 
           <span>
             PDF
@@ -1634,58 +1381,184 @@ function renderPDFFile(
 
           <strong>
             ${escapeHTML(
-              getFilename(
-                item.path
+              fileName(
+                file.path
               )
             )}
           </strong>
 
-        </div>
+        </header>
 
         <iframe
-          class="viewer-pdf"
+          class="resource-frame pdf-frame"
           src="${escapeHTML(
-            url
-          )}"
-          title="${escapeHTML(
-            getFilename(
-              item.path
+            rawURL(
+              file.path
             )
           )}"
         ></iframe>
 
-      </div>
+      </article>
     `;
 
 }
 
 
 /* =========================================================
-   BINARY / UNKNOWN RESOURCE
+   IMAGE
    ========================================================= */
 
-function renderBinaryFile(
-  item,
+function openImage(
+  file,
   viewer
 ) {
 
-  const filename =
-    getFilename(
-      item.path
-    );
+  viewer.innerHTML =
+    `
+      <article class="resource-document">
+
+        <header class="resource-header">
+
+          <span>
+            IMAGE
+          </span>
+
+          <strong>
+            ${escapeHTML(
+              fileName(
+                file.path
+              )
+            )}
+          </strong>
+
+        </header>
+
+        <img
+          class="resource-image"
+          src="${escapeHTML(
+            rawURL(
+              file.path
+            )
+          )}"
+          alt="${escapeHTML(
+            fileName(
+              file.path
+            )
+          )}"
+        >
+
+      </article>
+    `;
+
+}
 
 
-  const raw =
-    getRawURL(
-      item.path
-    );
+/* =========================================================
+   AUDIO
+   ========================================================= */
 
+function openAudio(
+  file,
+  viewer
+) {
 
   viewer.innerHTML =
     `
-      <div class="viewer-document viewer-binary">
+      <article class="resource-document">
 
-        <div class="viewer-header">
+        <header class="resource-header">
+
+          <span>
+            AUDIO
+          </span>
+
+          <strong>
+            ${escapeHTML(
+              fileName(
+                file.path
+              )
+            )}
+          </strong>
+
+        </header>
+
+        <audio
+          controls
+          preload="metadata"
+          class="resource-audio"
+          src="${escapeHTML(
+            rawURL(
+              file.path
+            )
+          )}"
+        ></audio>
+
+      </article>
+    `;
+
+}
+
+
+/* =========================================================
+   VIDEO
+   ========================================================= */
+
+function openVideo(
+  file,
+  viewer
+) {
+
+  viewer.innerHTML =
+    `
+      <article class="resource-document">
+
+        <header class="resource-header">
+
+          <span>
+            VIDEO
+          </span>
+
+          <strong>
+            ${escapeHTML(
+              fileName(
+                file.path
+              )
+            )}
+          </strong>
+
+        </header>
+
+        <video
+          controls
+          preload="metadata"
+          class="resource-video"
+          src="${escapeHTML(
+            rawURL(
+              file.path
+            )
+          )}"
+        ></video>
+
+      </article>
+    `;
+
+}
+
+
+/* =========================================================
+   UNKNOWN RESOURCE
+   ========================================================= */
+
+function openUnknown(
+  file,
+  viewer
+) {
+
+  viewer.innerHTML =
+    `
+      <article class="resource-document">
+
+        <header class="resource-header">
 
           <span>
             RESOURCE
@@ -1693,23 +1566,26 @@ function renderBinaryFile(
 
           <strong>
             ${escapeHTML(
-              filename
+              fileName(
+                file.path
+              )
             )}
           </strong>
 
-        </div>
+        </header>
 
         <p>
-          This file cannot be rendered directly by the
-          browser. The original repository resource remains
-          available.
+          This resource is present in the repository but
+          cannot be natively rendered by the browser.
         </p>
 
-        <div class="viewer-actions">
+        <div class="resource-actions">
 
           <a
             href="${escapeHTML(
-              raw
+              rawURL(
+                file.path
+              )
             )}"
             target="_blank"
             rel="noopener"
@@ -1719,8 +1595,8 @@ function renderBinaryFile(
 
           <a
             href="${escapeHTML(
-              getGitHubURL(
-                item.path
+              githubURL(
+                file.path
               )
             )}"
             target="_blank"
@@ -1731,187 +1607,8 @@ function renderBinaryFile(
 
         </div>
 
-      </div>
+      </article>
     `;
-
-}
-
-
-/* =========================================================
-   SECTION INFORMATION
-   ========================================================= */
-
-function initializeSectionHeader(
-  files
-) {
-
-  const name =
-    SECTION_PATH
-      .split("/")
-      .filter(Boolean)
-      .pop() ||
-    "AUF2026";
-
-
-  const title =
-    humanizeFilename(
-      name
-    );
-
-
-  document.title =
-    "AUF2026 — " +
-    title;
-
-
-  if (
-    sectionTitle
-  ) {
-
-    sectionTitle.textContent =
-      title;
-
-  }
-
-
-  if (
-    sectionDescription
-  ) {
-
-    sectionDescription.textContent =
-      "Research section /" +
-      SECTION_PATH +
-      " · " +
-      files.length +
-      " repository file" +
-      (
-        files.length === 1
-          ? ""
-          : "s"
-      ) +
-      " discovered recursively.";
-
-  }
-
-}
-
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-function setStatus(
-  message
-) {
-
-  if (
-    sectionStatus
-  ) {
-
-    sectionStatus.textContent =
-      message;
-
-  }
-
-}
-
-
-/* =========================================================
-   INITIALIZATION
-   ========================================================= */
-
-async function initializeParser() {
-
-  if (
-    !SECTION_PATH
-  ) {
-
-    setStatus(
-      "Invalid section path."
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    setStatus(
-      "Scanning repository…"
-    );
-
-
-    const tree =
-      await loadRepositoryTree();
-
-
-    const files =
-      getSectionFiles(
-        tree
-      );
-
-
-    initializeSectionHeader(
-      files
-    );
-
-
-    renderFileList(
-      files
-    );
-
-
-    setStatus(
-      files.length +
-      " file" +
-      (
-        files.length === 1
-          ? ""
-          : "s"
-      ) +
-      " discovered."
-    );
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "AUF2026 section parser:",
-      error
-    );
-
-
-    setStatus(
-      "Repository scan failed."
-    );
-
-
-    if (
-      sectionFiles
-    ) {
-
-      sectionFiles.innerHTML =
-        `
-          <div class="parser-error">
-
-            <strong>
-              Repository unavailable
-            </strong>
-
-            <p>
-              ${escapeHTML(
-                error.message
-              )}
-            </p>
-
-          </div>
-        `;
-
-    }
-
-  }
 
 }
 
@@ -1922,7 +1619,144 @@ async function initializeParser() {
 
 document.addEventListener(
   "DOMContentLoaded",
-  initializeParser
+  async () => {
+
+    const title =
+      document.getElementById(
+        "sectionTitle"
+      );
+
+
+    const description =
+      document.getElementById(
+        "sectionDescription"
+      );
+
+
+    const status =
+      document.getElementById(
+        "sectionStatus"
+      );
+
+
+    if (
+      title
+    ) {
+
+      title.textContent =
+        humanTitle(
+          SECTION
+        );
+
+    }
+
+
+    if (
+      description
+    ) {
+
+      description.textContent =
+        "AUF2026 / " +
+        SECTION +
+        " — repository resources";
+
+    }
+
+
+    try {
+
+      if (
+        status
+      ) {
+
+        status.textContent =
+          "Scanning repository…";
+
+      }
+
+
+      const tree =
+        await getRepositoryTree();
+
+
+      const files =
+        findSectionFiles(
+          tree
+        );
+
+
+      renderFiles(
+        files
+      );
+
+
+      if (
+        status
+      ) {
+
+        status.textContent =
+          files.length +
+          " resource" +
+          (
+            files.length === 1
+              ? ""
+              : "s"
+          ) +
+          " found";
+
+      }
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        error
+      );
+
+
+      if (
+        status
+      ) {
+
+        status.textContent =
+          "Repository scan failed";
+
+      }
+
+
+      const container =
+        document.getElementById(
+          "repositoryFiles"
+        );
+
+
+      if (
+        container
+      ) {
+
+        container.innerHTML =
+          `
+            <div class="parser-error">
+
+              <strong>
+                GitHub repository could not be read.
+              </strong>
+
+              <p>
+                ${escapeHTML(
+                  error.message
+                )}
+              </p>
+
+            </div>
+          `;
+
+      }
+
+    }
+
+  }
 );
 
 </script>
