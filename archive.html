@@ -2525,8 +2525,8 @@
 
 
   /* =========================================================
-     MARKDOWN PATH RESOLUTION
-     ========================================================= */
+   MARKDOWN PATH RESOLUTION
+   ========================================================= */
 
   function resolveMarkdownPath(
     requestedDocument
@@ -2548,18 +2548,18 @@
 
 
     /*
-     * If the URL already contains a repository path,
+     * If the URL already contains a complete repository path,
      * use it directly.
      *
-     * Example:
+     * Examples:
      *
      * archive.html?doc=docs/FAURE-THEOREM-NO-GOD.md
-     *
-     * This also works for every other repository directory:
-     *
      * archive.html?doc=papers/example.md
      * archive.html?doc=proofs/example.md
      * archive.html?doc=validation/example.md
+     * archive.html?doc=bibliography/example.md
+     *
+     * No directory is hardcoded.
      */
     if (
       cleanPath.includes("/")
@@ -2582,39 +2582,11 @@
 
 
     /*
-     * Historical compatibility:
+     * If the requested document is already a valid
+     * repository-relative Markdown path, use it directly.
      *
-     * Existing navigation uses:
-     *
-     * archive.html?doc=ARCHIVE-MAP.md
-     *
-     * These documents live in /docs/.
-     *
-     * Keep this behaviour unchanged.
-     */
-    const docsPath =
-      "docs/" +
-      cleanPath;
-
-
-    if (
-      allowedDocuments.includes(
-        docsPath
-      )
-    ) {
-
-      return docsPath;
-
-    }
-
-
-    /*
-     * Static / repository compatibility.
-     *
-     * If the requested document itself is already a valid
-     * repository path, use it directly.
-     *
-     * This allows documents outside /docs/ to resolve too.
+     * This keeps compatibility with documents discovered
+     * automatically by the GitHub repository tree.
      */
     if (
       allowedDocuments.includes(
@@ -2628,38 +2600,32 @@
 
 
     /*
-     * Finally, look for a discovered repository path
-     * whose filename matches the requested short name.
+     * Historical compatibility:
      *
-     * This allows:
+     * Existing navigation may still use:
      *
-     * archive.html?doc=FAURE-THEOREM-NO-GOD.md
+     * archive.html?doc=ARCHIVE-MAP.md
      *
-     * to resolve automatically regardless of which
-     * repository directory contains the document.
+     * Instead of assuming that the document lives in /docs/,
+     * search the complete discovered repository tree.
      *
-     * Examples:
-     *
-     *   bibliography/FILE.md
-     *   code/FILE.md
-     *   datasets/FILE.md
-     *   docs/FILE.md
-     *   pages/FILE.md
-     *   papers/FILE.md
-     *   pdf/FILE.md
-     *   proofs/FILE.md
-     *   validation/FILE.md
+     * This also allows short filenames for documents located
+     * in any root directory or nested subdirectory.
      */
     const matches =
       allowedDocuments.filter(
         path => {
 
-          return (
+          const filename =
             path
               .split("/")
               .filter(Boolean)
-              .pop()
-              ?.toLowerCase() ===
+              .pop();
+
+
+          return (
+            filename &&
+            filename.toLowerCase() ===
             cleanPath.toLowerCase()
           );
 
@@ -2667,6 +2633,13 @@
       );
 
 
+    /*
+     * A short filename is accepted only when it identifies
+     * exactly one discovered document.
+     *
+     * This prevents an ambiguous filename from opening
+     * the wrong document.
+     */
     if (
       matches.length === 1
     ) {
@@ -2676,9 +2649,13 @@
     }
 
 
+    /*
+     * No valid document found.
+     */
     return null;
 
   }
+
 
   /* =========================================================
      PAGE / RESOURCE VALIDATION
@@ -4149,8 +4126,8 @@
 
 
   /* =========================================================
-     LOAD /pages/*.html
-     ========================================================= */
+   LOAD REPOSITORY *.html
+   ========================================================= */
 
   function loadPage() {
 
@@ -4216,7 +4193,7 @@
 
       renderError(
         new Error(
-          "Only HTML pages are allowed in /pages/."
+          "Only HTML pages are allowed."
         )
       );
 
@@ -4226,8 +4203,9 @@
 
 
     const path =
-      "pages/" +
-      requestedPage;
+      requestedPage
+        .replace(/^\/+/, "")
+        .replace(/\\/g, "/");
 
 
     loadResource(
@@ -4243,7 +4221,6 @@
       );
 
   }
-
 
   /* =========================================================
      LOAD GENERIC RESOURCE
@@ -4424,6 +4401,462 @@
 
   }
 
+
+    /* =========================================================
+   BUILD REPOSITORY DIRECTORY NAVIGATION
+   ========================================================= */
+
+  function buildPagesNavigation(
+    root
+  ) {
+
+    if (
+      !pagesNav
+    ) {
+
+      return;
+
+    }
+
+
+    pagesNav.innerHTML =
+      "";
+
+
+    /*
+     * Create one menu button for every directory
+     * in the repository root.
+     */
+    root.children.forEach(
+      child => {
+
+        if (
+          !child ||
+          child.error
+        ) {
+
+          return;
+
+        }
+
+
+        const dropdown =
+          document.createElement(
+            "div"
+          );
+
+
+        dropdown.className =
+          "pages-dropdown";
+
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+
+        button.type =
+          "button";
+
+
+        button.className =
+          "pages-dropdown-button";
+
+
+        button.textContent =
+          child.entry.name;
+
+
+        button.setAttribute(
+          "aria-expanded",
+          "false"
+        );
+
+
+        button.setAttribute(
+          "aria-haspopup",
+          "true"
+        );
+
+
+        const menu =
+          document.createElement(
+            "div"
+          );
+
+
+        menu.className =
+          "pages-dropdown-menu";
+
+
+        menu.setAttribute(
+          "role",
+          "menu"
+        );
+
+
+        /*
+         * Files directly inside the directory.
+         */
+        child.files.forEach(
+          file => {
+
+            const link =
+              document.createElement(
+                "a"
+              );
+
+
+            link.href =
+              createFileUrl(
+                file
+              );
+
+
+            link.textContent =
+              file.name;
+
+
+            link.setAttribute(
+              "role",
+              "menuitem"
+            );
+
+
+            const extension =
+              extensionOf(
+                file.name
+              );
+
+
+            applyFileTarget(
+              link,
+              extension
+            );
+
+
+            menu.appendChild(
+              link
+            );
+
+          }
+        );
+
+
+        /*
+         * Direct subdirectories.
+         *
+         * Their complete contents are rendered
+         * recursively in the repository index.
+         */
+        child.children.forEach(
+          nested => {
+
+            if (
+              !nested ||
+              nested.error
+            ) {
+
+              return;
+
+            }
+
+
+            const link =
+              document.createElement(
+                "a"
+              );
+
+
+            link.href =
+              "#" +
+              folderAnchor(
+                nested.entry.path
+              );
+
+
+            link.textContent =
+              nested.entry.name;
+
+
+            link.setAttribute(
+              "role",
+              "menuitem"
+            );
+
+
+            menu.appendChild(
+              link
+            );
+
+          }
+        );
+
+
+        /*
+         * Empty directory.
+         */
+        if (
+          child.files.length === 0 &&
+          child.children.length === 0
+        ) {
+
+          const empty =
+            document.createElement(
+              "span"
+            );
+
+
+          empty.className =
+            "nav-loading";
+
+
+          empty.textContent =
+            "No files";
+
+
+          menu.appendChild(
+            empty
+          );
+
+        }
+
+
+        dropdown.appendChild(
+          button
+        );
+
+
+        dropdown.appendChild(
+          menu
+        );
+
+
+        pagesNav.appendChild(
+          dropdown
+        );
+
+
+        /*
+         * Toggle menu.
+         */
+        button.addEventListener(
+          "click",
+          event => {
+
+            event.stopPropagation();
+
+
+            const isOpen =
+              dropdown.classList.contains(
+                "is-open"
+              );
+
+
+            document
+              .querySelectorAll(
+                ".pages-dropdown.is-open"
+              )
+              .forEach(
+                other => {
+
+                  if (
+                    other ===
+                    dropdown
+                  ) {
+
+                    return;
+
+                  }
+
+
+                  other.classList.remove(
+                    "is-open"
+                  );
+
+
+                  const otherButton =
+                    other.querySelector(
+                      ".pages-dropdown-button"
+                    );
+
+
+                  if (
+                    otherButton
+                  ) {
+
+                    otherButton.setAttribute(
+                      "aria-expanded",
+                      "false"
+                    );
+
+                  }
+
+                }
+              );
+
+
+            dropdown.classList.toggle(
+              "is-open",
+              !isOpen
+            );
+
+
+            button.setAttribute(
+              "aria-expanded",
+              String(
+                !isOpen
+              )
+            );
+
+          }
+        );
+
+
+        /*
+         * Close after selecting an item.
+         */
+        menu.addEventListener(
+          "click",
+          event => {
+
+            const link =
+              event.target.closest(
+                "a"
+              );
+
+
+            if (
+              !link
+            ) {
+
+              return;
+
+            }
+
+
+            dropdown.classList.remove(
+              "is-open"
+            );
+
+
+            button.setAttribute(
+              "aria-expanded",
+              "false"
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+    /*
+     * Close all menus when clicking outside.
+     */
+    document.addEventListener(
+      "click",
+      event => {
+
+        if (
+          !event.target.closest(
+            ".pages-dropdown"
+          )
+        ) {
+
+          document
+            .querySelectorAll(
+              ".pages-dropdown.is-open"
+            )
+            .forEach(
+              dropdown => {
+
+                dropdown.classList.remove(
+                  "is-open"
+                );
+
+
+                const button =
+                  dropdown.querySelector(
+                    ".pages-dropdown-button"
+                  );
+
+
+                if (
+                  button
+                ) {
+
+                  button.setAttribute(
+                    "aria-expanded",
+                    "false"
+                  );
+
+                }
+
+              }
+            );
+
+        }
+
+      }
+    );
+
+
+    /*
+     * Close all menus with Escape.
+     */
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key !==
+          "Escape"
+        ) {
+
+          return;
+
+        }
+
+
+        document
+          .querySelectorAll(
+            ".pages-dropdown.is-open"
+          )
+          .forEach(
+            dropdown => {
+
+              dropdown.classList.remove(
+                "is-open"
+              );
+
+
+              const button =
+                dropdown.querySelector(
+                  ".pages-dropdown-button"
+                );
+
+
+              if (
+                button
+              ) {
+
+                button.setAttribute(
+                  "aria-expanded",
+                  "false"
+                );
+
+              }
+
+            }
+          );
+
+      }
+    );
+
+  }
 
   /* =========================================================
      START
