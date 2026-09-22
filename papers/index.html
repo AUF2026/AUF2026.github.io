@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Pages</title>
+  <title>AUF2026 — Papers</title>
 
   <style>
 
@@ -2398,131 +2398,185 @@ html[data-theme="light"] {
 
 
   <script>
-/* =========================================================
-   AUF2026 PAPERS REPOSITORY PARSER
-   ========================================================= */
-
 (function () {
 
-  const GITHUB_OWNER =
-    "AUF2026";
+  "use strict";
 
-  const GITHUB_REPOSITORY =
-    "AUF2026.github.io";
+  const CONFIG = {
+    owner: "AUF2026",
+    repository: "AUF2026.github.io",
+    branch: "main",
+    section: "papers"
+  };
 
-  const GITHUB_BRANCH =
-    "main";
-
-  const GITHUB_SECTION =
-    "papers";
-
-
-  const GITHUB_TREE_URL =
+  const API_URL =
     "https://api.github.com/repos/" +
-    GITHUB_OWNER +
-    "/" +
-    GITHUB_REPOSITORY +
+    CONFIG.owner + "/" +
+    CONFIG.repository +
     "/git/trees/" +
-    GITHUB_BRANCH +
+    CONFIG.branch +
     "?recursive=1";
 
-
-  const GITHUB_BLOB_BASE =
+  const BLOB_BASE =
     "https://github.com/" +
-    GITHUB_OWNER +
-    "/" +
-    GITHUB_REPOSITORY +
+    CONFIG.owner + "/" +
+    CONFIG.repository +
     "/blob/" +
-    GITHUB_BRANCH +
-    "/";
-
-
-  /* =======================================================
-     DOM
-     ======================================================= */
+    CONFIG.branch + "/";
 
   const status =
-    document.getElementById(
-      "papersStatus"
-    );
+    document.getElementById("papersStatus");
 
   const files =
-    document.getElementById(
-      "papersFiles"
-    );
+    document.getElementById("papersFiles");
 
 
-  /* =======================================================
-     INITIALIZE
-     ======================================================= */
+  function setStatus(message, state) {
 
-  loadRepository();
+    if (!status) return;
+
+    status.textContent = message;
+
+    if (state) {
+      status.dataset.state = state;
+    } else {
+      delete status.dataset.state;
+    }
+  }
 
 
-  /* =======================================================
-     LOAD REPOSITORY TREE
-     ======================================================= */
+  function escapeHTML(value) {
 
-  async function loadRepository() {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  function extension(filename) {
+
+    const i =
+      filename.lastIndexOf(".");
+
+    return i < 0
+      ? ""
+      : filename
+          .slice(i + 1)
+          .toLowerCase();
+  }
+
+
+  function fileType(ext) {
+
+    if (
+      ["md", "markdown"].includes(ext)
+    ) return "MARKDOWN";
+
+    if (
+      ["html", "htm"].includes(ext)
+    ) return "HTML";
+
+    if (ext === "pdf")
+      return "PDF";
+
+    if (
+      [
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "webp",
+        "svg",
+        "avif",
+        "bmp"
+      ].includes(ext)
+    ) return "IMAGE";
+
+    if (
+      [
+        "mp3",
+        "wav",
+        "ogg",
+        "oga",
+        "m4a",
+        "flac"
+      ].includes(ext)
+    ) return "AUDIO";
+
+    if (
+      [
+        "mp4",
+        "webm",
+        "ogv",
+        "mov",
+        "m4v"
+      ].includes(ext)
+    ) return "VIDEO";
+
+    return "SOURCE";
+  }
+
+
+  async function load() {
 
     try {
 
       setStatus(
-        "Scanning repository tree…"
+        "Scanning /papers/…"
       );
-
 
       const response =
         await fetch(
-          GITHUB_TREE_URL,
+          API_URL,
           {
-            cache:
-              "no-store",
-
+            cache: "no-store",
             headers: {
-              "Accept":
+              Accept:
                 "application/vnd.github+json"
             }
           }
         );
 
-
       if (!response.ok) {
-
         throw new Error(
           "GitHub API HTTP " +
           response.status
         );
-
       }
-
 
       const data =
         await response.json();
 
-
-      if (
-        !data ||
-        !Array.isArray(data.tree)
-      ) {
-
-        throw new Error(
-          "Invalid GitHub repository tree."
-        );
-
-      }
-
+      const prefix =
+        CONFIG.section + "/";
 
       const discovered =
-        discoverFiles(
-          data.tree
-        );
+        data.tree
+          .filter(item =>
+            item &&
+            item.type === "blob" &&
+            typeof item.path === "string" &&
+            item.path.startsWith(prefix)
+          )
+          .filter(item =>
+            item.path !==
+            "papers/index.html"
+          )
+          .sort((a, b) =>
+            a.path.localeCompare(
+              b.path,
+              undefined,
+              {
+                numeric: true,
+                sensitivity: "base"
+              }
+            )
+          );
 
-
-      renderFiles(
-        discovered
-      );
-
+      render(discovered);
 
       setStatus(
         discovered.length +
@@ -2536,7 +2590,6 @@ html[data-theme="light"] {
         "ok"
       );
 
-
     } catch (error) {
 
       console.error(
@@ -2544,252 +2597,150 @@ html[data-theme="light"] {
         error
       );
 
-
       setStatus(
         "Repository scan failed: " +
         error.message,
         "error"
       );
 
-
       if (files) {
-
         files.innerHTML =
           `
-            <div class="papers-empty">
-              Unable to read
-              <code>/papers/</code>
-              from the AUF2026 repository.
-            </div>
+          <div class="papers-empty">
+            Unable to read
+            <code>/papers/</code>.
+          </div>
           `;
-
       }
-
     }
-
   }
 
 
-  /* =======================================================
-     DISCOVER FILES
-     ======================================================= */
+  function render(items) {
 
-  function discoverFiles(tree) {
+    if (!files) return;
 
-    const prefix =
-      GITHUB_SECTION +
-      "/";
-
-
-    return tree
-
-      .filter(
-        item => {
-
-          return (
-            item &&
-            item.type === "blob" &&
-            typeof item.path === "string" &&
-            item.path.startsWith(prefix)
-          );
-
-        }
-      )
-
-      .filter(
-        item => {
-
-          return (
-            item.path !==
-            "papers/index.html"
-          );
-
-        }
-      )
-
-      .sort(
-        (a, b) => {
-
-          return a.path.localeCompare(
-            b.path,
-            undefined,
-            {
-              numeric:
-                true,
-
-              sensitivity:
-                "base"
-            }
-          );
-
-        }
-      );
-
-  }
-
-
-  /* =======================================================
-     RENDER FILE LIST
-     ======================================================= */
-
-  function renderFiles(items) {
-
-    files.innerHTML =
-      "";
-
+    files.innerHTML = "";
 
     if (!items.length) {
 
       files.innerHTML =
         `
-          <div class="papers-empty">
-            No resources were found
-            under <code>/papers/</code>.
-          </div>
+        <div class="papers-empty">
+          No resources were found
+          under <code>/papers/</code>.
+        </div>
         `;
 
       return;
-
     }
 
-
-    let currentDirectory =
-      null;
-
+    let currentDirectory = null;
 
     for (const item of items) {
 
-      const relativePath =
+      const relative =
         item.path.slice(
-          GITHUB_SECTION.length + 1
+          CONFIG.section.length + 1
         );
 
-
       const parts =
-        relativePath.split("/");
-
+        relative.split("/");
 
       const directory =
         parts.length > 1
           ? parts.slice(0, -1).join("/")
           : "";
 
-
       if (
-        directory !==
-        currentDirectory
+        directory !== currentDirectory
       ) {
 
         currentDirectory =
           directory;
 
+        const heading =
+          document.createElement("div");
 
-        const directoryElement =
-          document.createElement(
-            "div"
-          );
-
-
-        directoryElement.className =
+        heading.className =
           "papers-directory";
 
-
-        directoryElement.textContent =
+        heading.textContent =
           directory
-            ? "/papers/" +
-              directory +
-              "/"
+            ? "/papers/" + directory + "/"
             : "/papers/";
 
-
         files.appendChild(
-          directoryElement
+          heading
         );
-
       }
 
-
       files.appendChild(
-        createFileElement(item)
+        createFile(item)
       );
-
     }
-
   }
 
 
-  /* =======================================================
-     CREATE FILE
-     ======================================================= */
-
-  function createFileElement(item) {
+  function createFile(item) {
 
     const article =
-      document.createElement(
-        "article"
-      );
-
+      document.createElement("article");
 
     article.className =
       "papers-file";
-
 
     const filename =
       item.path
         .split("/")
         .pop();
 
-
-    const extension =
-      getExtension(filename);
-
-
-    const type =
-      getFileType(extension);
-
+    const ext =
+      extension(filename);
 
     article.innerHTML =
       `
-        <div class="papers-file-info">
+      <div class="papers-file-info">
 
-          <h2 class="papers-file-name">
+        <h2 class="papers-file-name">
 
-            <span class="papers-file-type">
-              ${escapeHTML(type)}
-            </span>
+          <span class="papers-file-type">
+            ${escapeHTML(
+              fileType(ext)
+            )}
+          </span>
 
-            ${escapeHTML(filename)}
+          ${escapeHTML(filename)}
 
-          </h2>
+        </h2>
 
-          <div class="papers-file-path">
-            ${escapeHTML(item.path)}
-          </div>
-
+        <div class="papers-file-path">
+          ${escapeHTML(item.path)}
         </div>
 
-        <div class="papers-file-actions">
+      </div>
 
-          <button
-            class="papers-file-button"
-            type="button"
-            data-open
-          >
-            VIEW
-          </button>
+      <div class="papers-file-actions">
 
-          <a
-            class="papers-file-github"
-            href="${GITHUB_BLOB_BASE + encodeURI(item.path)}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GITHUB
-          </a>
+        <button
+          type="button"
+          class="papers-file-button"
+          data-open
+        >
+          VIEW
+        </button>
 
-        </div>
+        <a
+          class="papers-file-github"
+          href="${BLOB_BASE + encodeURI(item.path)}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GITHUB
+        </a>
+
+      </div>
       `;
-
 
     article
       .querySelector("[data-open]")
@@ -2797,248 +2748,33 @@ html[data-theme="light"] {
         "click",
         function () {
 
-          openResource(
-            item.path
-          );
+          if (
+            window.AUF2026ResourceViewer &&
+            typeof
+              window.AUF2026ResourceViewer.open ===
+              "function"
+          ) {
+
+            window.AUF2026ResourceViewer.open(
+              item.path
+            );
+
+          } else {
+
+            window.location.href =
+              "https://auf2026.github.io/" +
+              item.path;
+
+          }
 
         }
       );
 
-
     return article;
-
   }
 
 
-  /* =======================================================
-     OPEN RESOURCE
-     ======================================================= */
-
-  function openResource(path) {
-
-    const clean =
-      String(path || "")
-        .replace(/^\/+/, "")
-        .replace(/\\/g, "/");
-
-
-    if (!clean) {
-
-      return;
-
-    }
-
-
-    /*
-     * Use the global viewer only.
-     *
-     * The path itself contains /papers/,
-     * therefore the viewer knows exactly what
-     * resource must be opened.
-     */
-
-    if (
-      typeof window.openResource ===
-      "function"
-    ) {
-
-      window.openResource(
-        clean
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * Fallback: direct Pages URL.
-     */
-
-    window.location.href =
-      "https://auf2026.github.io/" +
-      clean
-        .split("/")
-        .map(
-          encodeURIComponent
-        )
-        .join("/");
-
-  }
-
-
-  /* =======================================================
-     EXTENSION
-     ======================================================= */
-
-  function getExtension(filename) {
-
-    const index =
-      filename.lastIndexOf(".");
-
-
-    if (index < 0) {
-
-      return "";
-
-    }
-
-
-    return filename
-      .slice(index + 1)
-      .toLowerCase();
-
-  }
-
-
-  /* =======================================================
-     FILE TYPE
-     ======================================================= */
-
-  function getFileType(extension) {
-
-    if (
-      ["md", "markdown"].includes(extension)
-    ) {
-
-      return "MARKDOWN";
-
-    }
-
-
-    if (
-      ["html", "htm"].includes(extension)
-    ) {
-
-      return "HTML";
-
-    }
-
-
-    if (extension === "pdf") {
-
-      return "PDF";
-
-    }
-
-
-    if (
-      [
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "webp",
-        "svg",
-        "avif",
-        "bmp"
-      ].includes(extension)
-    ) {
-
-      return "IMAGE";
-
-    }
-
-
-    if (
-      [
-        "mp3",
-        "wav",
-        "ogg",
-        "oga",
-        "m4a",
-        "flac"
-      ].includes(extension)
-    ) {
-
-      return "AUDIO";
-
-    }
-
-
-    if (
-      [
-        "mp4",
-        "webm",
-        "ogv",
-        "mov",
-        "m4v"
-      ].includes(extension)
-    ) {
-
-      return "VIDEO";
-
-    }
-
-
-    return "SOURCE";
-
-  }
-
-
-  /* =======================================================
-     STATUS
-     ======================================================= */
-
-  function setStatus(message, state) {
-
-    if (!status) {
-
-      return;
-
-    }
-
-
-    status.textContent =
-      message;
-
-
-    if (state) {
-
-      status.dataset.state =
-        state;
-
-    } else {
-
-      delete status.dataset.state;
-
-    }
-
-  }
-
-
-  /* =======================================================
-     HTML ESCAPE
-     ======================================================= */
-
-  function escapeHTML(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  /* =======================================================
-     PUBLIC API
-     ======================================================= */
-
-  window.AUF2026Papers = {
-
-    section:
-      "papers",
-
-    refresh:
-      loadRepository,
-
-    open:
-      openResource
-
-  };
+  load();
 
 })();
 </script>
