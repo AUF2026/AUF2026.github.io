@@ -10,53 +10,48 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Bibliography</title>
+  <title>
+    AUF2026 — Bibliography
+  </title>
+
 
   <style>
 
     :root {
 
       --bg:
-        #070a0f;
+        #0b0f14;
 
       --panel:
-        #0e141d;
+        #111821;
 
       --panel-2:
-        #131c27;
+        #151e28;
+
+      --border:
+        #263241;
 
       --text:
-        #eef3f8;
+        #e8edf3;
 
       --muted:
         #8d9aaa;
 
-      --auf:
-        #63e6be;
+      --accent:
+        #7dd3fc;
 
-      --blue:
-        #6ea8ff;
+      --accent-strong:
+        #38bdf8;
 
-      --gold:
-        #e6c76a;
-
-      --red:
-        #ff7373;
-
-      --border:
-        rgba(255,255,255,.10);
-
-      --shadow:
-        0 24px 70px rgba(0,0,0,.38);
+      --danger:
+        #f87171;
 
     }
 
 
     * {
-
       box-sizing:
         border-box;
-
     }
 
 
@@ -64,6 +59,9 @@
     body {
 
       margin:
+        0;
+
+      padding:
         0;
 
       min-height:
@@ -75,363 +73,162 @@
       color:
         var(--text);
 
-    }
-
-
-    body {
-
-      min-height:
-        100vh;
-
       font-family:
-        Inter,
-        ui-sans-serif,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
 
-      background:
+    }
 
-        radial-gradient(
-          circle at 80% 0%,
-          rgba(110,168,255,.10),
-          transparent 32%
-        ),
 
-        radial-gradient(
-          circle at 0% 30%,
-          rgba(99,230,190,.07),
-          transparent 30%
-        ),
+    body {
 
-        var(--bg);
+      padding:
+        32px 20px 60px;
 
     }
 
 
-    button,
-    input {
-
-      font:
-        inherit;
-
-    }
-
-
-    a {
-
-      color:
-        inherit;
-
-    }
-
-
-    /* =========================================================
-       PAGE
-       ========================================================= */
-
-    .pages-page {
+    main {
 
       width:
-        min(
-          1100px,
-          calc(100% - 32px)
-        );
+        min(1100px, 100%);
 
       margin:
         0 auto;
 
-      padding:
-        32px 0 90px;
-
     }
 
 
-    /* =========================================================
-       TOP BAR
-       ========================================================= */
-
-    .pages-topbar {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        16px;
+    .archive-header {
 
       margin-bottom:
-        42px;
+        28px;
 
     }
 
 
-    .pages-back {
+    .archive-kicker {
 
-      display:
-        inline-flex;
+      color:
+        var(--accent);
 
-      align-items:
-        center;
+      font-size:
+        12px;
 
-      gap:
+      font-weight:
+        700;
+
+      letter-spacing:
+        .14em;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
         8px;
 
-      padding:
-        9px 14px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(255,255,255,.03);
-
-      color:
-        var(--text);
-
-      text-decoration:
-        none;
-
-      font-size:
-        .72rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        .08em;
-
-      text-transform:
-        uppercase;
-
-      transition:
-        .2s ease;
-
     }
 
 
-    .pages-back:hover {
-
-      border-color:
-        var(--auf);
-
-      color:
-        var(--auf);
-
-      transform:
-        translateX(-2px);
-
-    }
-
-
-    .pages-brand {
-
-      color:
-        var(--muted);
-
-      font-size:
-        .7rem;
-
-      letter-spacing:
-        .15em;
-
-      text-transform:
-        uppercase;
-
-    }
-
-
-    /* =========================================================
-       HEADER
-       ========================================================= */
-
-    .pages-kicker {
-
-      margin-bottom:
-        10px;
-
-      color:
-        var(--auf);
-
-      font-size:
-        .72rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        .18em;
-
-      text-transform:
-        uppercase;
-
-    }
-
-
-    .pages-header h1 {
-
-      margin:
-        0 0 13px;
-
-      color:
-        var(--text);
-
-      font-size:
-        clamp(
-          2rem,
-          5vw,
-          3.6rem
-        );
-
-      line-height:
-        1.05;
-
-      letter-spacing:
-        -.04em;
-
-    }
-
-
-    .pages-subtitle {
-
-      max-width:
-        780px;
+    h1 {
 
       margin:
         0;
 
-      color:
-        var(--muted);
-
       font-size:
-        .95rem;
+        clamp(28px, 5vw, 44px);
 
       line-height:
-        1.75;
+        1.05;
 
     }
 
 
-    /* =========================================================
-       STATUS
-       ========================================================= */
+    .archive-description {
 
-    .pages-status {
-
-      margin:
-        28px 0 20px;
-
-      padding:
-        11px 14px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(255,255,255,.025);
-
-      color:
-        var(--muted);
-
-      font-size:
-        .73rem;
-
-    }
-
-
-    .pages-status[data-state="ok"] {
-
-      border-color:
-        rgba(99,230,190,.24);
-
-    }
-
-
-    .pages-status[data-state="error"] {
-
-      border-color:
-        rgba(255,115,115,.30);
-
-      color:
-        var(--red);
-
-    }
-
-
-    /* =========================================================
-       DIRECTORY
-       ========================================================= */
-
-    .pages-directory {
-
-      margin:
-        30px 0 10px;
-
-      color:
-        var(--gold);
-
-      font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Consolas,
-        monospace;
-
-      font-size:
-        .72rem;
-
-      letter-spacing:
-        .08em;
-
-    }
-
-
-    /* =========================================================
-       FILE LIST
-       ========================================================= */
-
-    .pages-files {
-
-      display:
-        grid;
-
-      gap:
-        8px;
-
-    }
-
-
-    .pages-empty {
-
-      padding:
-        30px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
+      margin-top:
         12px;
 
       color:
         var(--muted);
 
+      line-height:
+        1.6;
+
+      max-width:
+        780px;
+
+    }
+
+
+    .archive-status {
+
+      margin:
+        20px 0;
+
+      padding:
+        12px 14px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        8px;
+
       background:
         var(--panel);
+
+      color:
+        var(--muted);
+
+      font-size:
+        14px;
+
+    }
+
+
+    .archive-status[data-state="ok"] {
+
+      color:
+        var(--accent);
+
+    }
+
+
+    .archive-status[data-state="error"] {
+
+      color:
+        var(--danger);
+
+    }
+
+
+    .pages-directory {
+
+      margin:
+        28px 0 10px;
+
+      padding:
+        8px 0;
+
+      color:
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+
+      font-size:
+        13px;
+
+      font-weight:
+        700;
 
     }
 
@@ -448,43 +245,22 @@
         space-between;
 
       gap:
-        18px;
+        20px;
 
       padding:
-        15px 17px;
+        18px;
+
+      margin:
+        8px 0;
+
+      background:
+        var(--panel);
 
       border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
       border-radius:
-        11px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.015)
-        );
-
-      transition:
-        border-color .18s ease,
-        transform .18s ease,
-        background .18s ease;
-
-    }
-
-
-    .pages-file:hover {
-
-      transform:
-        translateY(-1px);
-
-      border-color:
-        rgba(99,230,190,.30);
-
-      background:
-        rgba(99,230,190,.035);
+        10px;
 
     }
 
@@ -500,19 +276,16 @@
     .pages-file-name {
 
       margin:
-        0 0 5px;
-
-      color:
-        var(--text);
+        0;
 
       font-size:
-        .92rem;
+        17px;
 
-      font-weight:
-        650;
+      line-height:
+        1.4;
 
-      overflow-wrap:
-        anywhere;
+      word-break:
+        break-word;
 
     }
 
@@ -526,21 +299,31 @@
         8px;
 
       color:
-        var(--auf);
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
 
       font-size:
-        .62rem;
+        11px;
 
       font-weight:
-        750;
+        700;
 
       letter-spacing:
-        .08em;
+        .06em;
 
     }
 
 
     .pages-file-path {
+
+      margin-top:
+        6px;
 
       color:
         var(--muted);
@@ -548,14 +331,15 @@
       font-family:
         ui-monospace,
         SFMono-Regular,
+        Menlo,
         Consolas,
         monospace;
 
       font-size:
-        .7rem;
+        12px;
 
-      overflow-wrap:
-        anywhere;
+      word-break:
+        break-all;
 
     }
 
@@ -565,11 +349,14 @@
       display:
         flex;
 
-      flex-shrink:
-        0;
+      align-items:
+        center;
 
       gap:
-        7px;
+        8px;
+
+      flex-shrink:
+        0;
 
     }
 
@@ -587,14 +374,13 @@
         center;
 
       min-height:
-        34px;
+        36px;
 
       padding:
-        7px 11px;
+        0 13px;
 
       border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
       border-radius:
         7px;
@@ -606,13 +392,10 @@
         var(--text);
 
       font-size:
-        .64rem;
+        12px;
 
       font-weight:
         700;
-
-      letter-spacing:
-        .07em;
 
       text-decoration:
         none;
@@ -620,52 +403,59 @@
       cursor:
         pointer;
 
-      transition:
-        .18s ease;
-
     }
 
 
-    .pages-file-button:hover {
-
-      border-color:
-        var(--auf);
-
-      color:
-        var(--auf);
-
-    }
-
-
+    .pages-file-button:hover,
     .pages-file-github:hover {
 
       border-color:
-        var(--blue);
+        var(--accent-strong);
 
       color:
-        var(--blue);
+        var(--accent);
 
     }
 
 
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
+    .pages-empty {
+
+      padding:
+        30px;
+
+      border:
+        1px dashed var(--border);
+
+      border-radius:
+        10px;
+
+      color:
+        var(--muted);
+
+      text-align:
+        center;
+
+    }
+
+
+    code {
+
+      color:
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+
+    }
+
 
     @media (
       max-width: 700px
     ) {
-
-      .pages-page {
-
-        width:
-          calc(100% - 20px);
-
-        padding-top:
-          20px;
-
-      }
-
 
       .pages-file {
 
@@ -696,1645 +486,6 @@
 
     }
 
-    .resource-viewer {
-
-  margin-top:
-    42px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    15px;
-
-  overflow:
-    hidden;
-
-  background:
-    var(--panel);
-
-  box-shadow:
-    var(--shadow);
-
-}
-
-
-.resource-viewer[hidden] {
-
-  display:
-    none;
-
-}
-
-
-.resource-viewer-header {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  gap:
-    15px;
-
-  padding:
-    13px 17px;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
-  background:
-    var(--panel-2);
-
-}
-
-
-.resource-viewer-title {
-
-  min-width:
-    0;
-
-  color:
-    var(--text);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .72rem;
-
-  overflow-wrap:
-    anywhere;
-
-}
-
-
-.resource-viewer-close {
-
-  flex-shrink:
-    0;
-
-  appearance:
-    none;
-
-  padding:
-    7px 10px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    7px;
-
-  background:
-    transparent;
-
-  color:
-    var(--muted);
-
-  font-size:
-    .64rem;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    .08em;
-
-  cursor:
-    pointer;
-
-}
-
-
-.resource-viewer-close:hover {
-
-  border-color:
-    var(--red);
-
-  color:
-    var(--red);
-
-}
-
-
-.resource-viewer-body {
-
-  min-height:
-    300px;
-
-  padding:
-    30px;
-
-  overflow:
-    auto;
-
-}
-
-
-.resource-loading {
-
-  padding:
-    40px 0;
-
-  text-align:
-    center;
-
-  color:
-    var(--muted);
-
-}
-
-
-.resource-note {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    10px;
-
-  margin-bottom:
-    18px;
-
-  padding:
-    10px 13px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    8px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  color:
-    var(--muted);
-
-  font-size:
-    .72rem;
-
-}
-
-
-.resource-note strong {
-
-  color:
-    var(--auf);
-
-  letter-spacing:
-    .08em;
-
-}
-
-
-.resource-markdown {
-
-  max-width:
-    860px;
-
-  margin:
-    0 auto;
-
-  color:
-    var(--text);
-
-  line-height:
-    1.78;
-
-}
-
-
-.resource-markdown h1,
-.resource-markdown h2,
-.resource-markdown h3,
-.resource-markdown h4,
-.resource-markdown h5,
-.resource-markdown h6 {
-
-  color:
-    var(--text);
-
-  line-height:
-    1.25;
-
-}
-
-
-.resource-markdown h1 {
-
-  font-size:
-    2rem;
-
-}
-
-
-.resource-markdown h2 {
-
-  margin-top:
-    2.5em;
-
-  padding-bottom:
-    .55em;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
-}
-
-
-.resource-markdown h3 {
-
-  margin-top:
-    2em;
-
-}
-
-
-.resource-markdown a {
-
-  color:
-    var(--auf);
-
-}
-
-
-.resource-markdown code {
-
-  color:
-    var(--auf);
-
-  background:
-    rgba(99,230,190,.06);
-
-  border-radius:
-    4px;
-
-  padding:
-    .15em .35em;
-
-}
-
-
-.resource-markdown pre {
-
-  overflow:
-    auto;
-
-  padding:
-    18px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    9px;
-
-  background:
-    #05070a;
-
-}
-
-
-.resource-markdown pre code {
-
-  padding:
-    0;
-
-  background:
-    transparent;
-
-}
-
-
-.resource-markdown img {
-
-  display:
-    block;
-
-  max-width:
-    100%;
-
-  height:
-    auto;
-
-  margin:
-    20px auto;
-
-}
-
-
-.resource-markdown table {
-
-  width:
-    100%;
-
-  border-collapse:
-    collapse;
-
-  overflow:
-    auto;
-
-}
-
-
-.resource-markdown th,
-.resource-markdown td {
-
-  padding:
-    8px 10px;
-
-  border:
-    1px solid
-    var(--border);
-
-  text-align:
-    left;
-
-}
-
-
-.resource-markdown th {
-
-  background:
-    var(--panel-2);
-
-}
-
-
-.resource-html-frame,
-.resource-pdf {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-  min-height:
-    700px;
-
-  height:
-    80vh;
-
-  border:
-    0;
-
-  background:
-    white;
-
-}
-
-
-.resource-pdf {
-
-  border-radius:
-    8px;
-
-}
-
-
-.resource-image-wrap {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  min-height:
-    300px;
-
-}
-
-
-.resource-image {
-
-  display:
-    block;
-
-  max-width:
-    100%;
-
-  max-height:
-    80vh;
-
-  object-fit:
-    contain;
-
-}
-
-
-.resource-audio {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-}
-
-
-.resource-video {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-  max-height:
-    80vh;
-
-  background:
-    #000;
-
-  border-radius:
-    8px;
-
-}
-
-
-.resource-source {
-
-  margin:
-    0;
-
-  padding:
-    20px;
-
-  overflow:
-    auto;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    9px;
-
-  background:
-    #05070a;
-
-  color:
-    #dce7f2;
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .82rem;
-
-  line-height:
-    1.65;
-
-  white-space:
-    pre-wrap;
-
-  overflow-wrap:
-    anywhere;
-
-}
-
-
-.resource-source code {
-
-  font:
-    inherit;
-
-}
-
-
-.resource-error {
-
-  padding:
-    24px;
-
-  border:
-    1px solid
-    rgba(255,115,115,.30);
-
-  border-radius:
-    10px;
-
-  background:
-    rgba(255,115,115,.04);
-
-  color:
-    var(--muted);
-
-  line-height:
-    1.7;
-
-}
-
-
-.resource-error strong {
-
-  color:
-    var(--red);
-
-}
-
-
-.resource-error a {
-
-  color:
-    var(--auf);
-
-}
-
-
-@media (
-  max-width: 700px
-) {
-
-  .resource-viewer-body {
-
-    padding:
-      18px;
-
-  }
-
-
-  .resource-html-frame,
-  .resource-pdf {
-
-    min-height:
-      600px;
-
-    height:
-      75vh;
-
-  }
-
-}
-
-    /* =========================================================
-   AUF2026 REPOSITORY PARSER
-   SCIENTIFIC / RESEARCH INTERFACE
-   ========================================================= */
-
-:root {
-
-  --auf:
-    #63e6be;
-
-  --auf-blue:
-    #6ea8ff;
-
-  --auf-gold:
-    #e6c76a;
-
-  --auf-red:
-    #ff7b7b;
-
-  --text:
-    #f2f6fb;
-
-  --muted:
-    #9ba8b7;
-
-  --panel:
-    #121923;
-
-  --panel-2:
-    #18212d;
-
-  --border:
-    rgba(255,255,255,.10);
-
-  --shadow:
-    0 24px 70px
-    rgba(0,0,0,.35);
-
-}
-
-
-html[data-theme="light"] {
-
-  --auf:
-    #087f65;
-
-  --auf-blue:
-    #2868c7;
-
-  --auf-gold:
-    #9a7610;
-
-  --auf-red:
-    #c43f3f;
-
-  --text:
-    #111820;
-
-  --muted:
-    #5f6b78;
-
-  --panel:
-    #ffffff;
-
-  --panel-2:
-    #f1f4f7;
-
-  --border:
-    rgba(17,24,32,.12);
-
-  --shadow:
-    0 24px 70px
-    rgba(15,23,42,.10);
-
-}
-
-
-/* =========================================================
-   MENU MOUNT
-   ========================================================= */
-
-.auf-repository-menu-mount {
-
-  width:
-    100%;
-
-  margin:
-    0 0 34px;
-
-}
-
-
-/* =========================================================
-   MENU
-   ========================================================= */
-
-.auf-repository-menu {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(
-        280px,
-        1fr
-      )
-    );
-
-  gap:
-    12px;
-
-  width:
-    100%;
-
-}
-
-
-/* =========================================================
-   SECTION
-   ========================================================= */
-
-.auf-menu-section {
-
-  position:
-    relative;
-
-  min-width:
-    0;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    13px;
-
-  overflow:
-    hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      var(--panel),
-      var(--panel-2)
-    );
-
-  box-shadow:
-    0 10px 35px
-    rgba(0,0,0,.12);
-
-  transition:
-    border-color .25s ease,
-    box-shadow .25s ease,
-    transform .25s ease;
-
-}
-
-
-.auf-menu-section:hover {
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 24%,
-      var(--border)
-    );
-
-  box-shadow:
-    0 15px 45px
-    rgba(0,0,0,.20);
-
-}
-
-
-.auf-menu-section.is-open {
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 38%,
-      var(--border)
-    );
-
-}
-
-
-/* =========================================================
-   SECTION HEADER
-   ========================================================= */
-
-.auf-menu-section-header {
-
-  position:
-    relative;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    30px
-    minmax(0,1fr)
-    auto
-    20px;
-
-  align-items:
-    center;
-
-  width:
-    100%;
-
-  min-height:
-    66px;
-
-  padding:
-    11px 13px;
-
-  appearance:
-    none;
-
-  border:
-    0;
-
-  background:
-    transparent;
-
-  color:
-    var(--text);
-
-  font:
-    inherit;
-
-  text-align:
-    left;
-
-  cursor:
-    pointer;
-
-}
-
-
-/* =========================================================
-   SECTION ACCENT LINE
-   ========================================================= */
-
-.auf-menu-section-header::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    0;
-
-  top:
-    0;
-
-  bottom:
-    0;
-
-  width:
-    2px;
-
-  background:
-    var(--auf);
-
-  opacity:
-    .30;
-
-  transition:
-    opacity .25s ease,
-    width .25s ease;
-
-}
-
-
-.auf-menu-section:hover
-.auf-menu-section-header::before {
-
-  opacity:
-    .70;
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-section-header::before {
-
-  width:
-    3px;
-
-  opacity:
-    1;
-
-}
-
-
-/* =========================================================
-   SECTION ICON
-   ========================================================= */
-
-.auf-menu-section-icon {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  width:
-    25px;
-
-  height:
-    25px;
-
-  border:
-    1px solid
-    color-mix(
-      in srgb,
-      var(--auf) 35%,
-      var(--border)
-    );
-
-  border-radius:
-    7px;
-
-  color:
-    var(--auf);
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 7%,
-      transparent
-    );
-
-  font-family:
-    ui-monospace,
-    monospace;
-
-  font-size:
-    .82rem;
-
-  font-weight:
-    700;
-
-}
-
-
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
-
-.auf-menu-section-title {
-
-  min-width:
-    0;
-
-  overflow:
-    hidden;
-
-  color:
-    var(--text);
-
-  font-size:
-    .86rem;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    .04em;
-
-  text-transform:
-    uppercase;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-}
-
-
-/* =========================================================
-   SECTION PATH
-   ========================================================= */
-
-.auf-menu-section-path {
-
-  max-width:
-    150px;
-
-  overflow:
-    hidden;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .62rem;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-  opacity:
-    .55;
-
-}
-
-
-/* =========================================================
-   SECTION ARROW
-   ========================================================= */
-
-.auf-menu-section-arrow {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  color:
-    var(--muted);
-
-  font-size:
-    1.1rem;
-
-  transition:
-    transform .25s ease,
-    color .25s ease;
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-section-arrow {
-
-  color:
-    var(--auf);
-
-  transform:
-    rotate(90deg);
-
-}
-
-
-/* =========================================================
-   FILE LIST
-   ========================================================= */
-
-.auf-menu-file-list {
-
-  display:
-    none;
-
-  padding:
-    0 8px 9px;
-
-  border-top:
-    1px solid
-    var(--border);
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-file-list {
-
-  display:
-    block;
-
-}
-
-
-/* =========================================================
-   FILE BUTTON
-   ========================================================= */
-
-.auf-menu-file {
-
-  position:
-    relative;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    32px
-    minmax(0,1fr)
-    auto;
-
-  align-items:
-    center;
-
-  width:
-    100%;
-
-  min-height:
-    52px;
-
-  margin:
-    4px 0;
-
-  padding:
-    7px 9px;
-
-  appearance:
-    none;
-
-  border:
-    1px solid
-    transparent;
-
-  border-radius:
-    8px;
-
-  background:
-    transparent;
-
-  color:
-    var(--text);
-
-  font:
-    inherit;
-
-  text-align:
-    left;
-
-  cursor:
-    pointer;
-
-  transition:
-    background .18s ease,
-    border-color .18s ease,
-    transform .18s ease;
-
-}
-
-
-.auf-menu-file:hover {
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 5%,
-      transparent
-    );
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 18%,
-      transparent
-    );
-
-  transform:
-    translateX(2px);
-
-}
-
-
-.auf-menu-file.is-active {
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 9%,
-      transparent
-    );
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 32%,
-      var(--border)
-    );
-
-}
-
-
-.auf-menu-file.is-active::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    -1px;
-
-  top:
-    8px;
-
-  bottom:
-    8px;
-
-  width:
-    2px;
-
-  border-radius:
-    2px;
-
-  background:
-    var(--auf);
-
-}
-
-
-/* =========================================================
-   FILE ICON
-   ========================================================= */
-
-.auf-menu-file-icon {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  width:
-    26px;
-
-  height:
-    26px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    6px;
-
-  background:
-    var(--panel-2);
-
-  color:
-    var(--auf);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .58rem;
-
-  font-weight:
-    800;
-
-}
-
-
-/* =========================================================
-   FILE MAIN
-   ========================================================= */
-
-.auf-menu-file-main {
-
-  min-width:
-    0;
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    2px;
-
-}
-
-
-.auf-menu-file-name {
-
-  overflow:
-    hidden;
-
-  color:
-    var(--text);
-
-  font-size:
-    .76rem;
-
-  font-weight:
-    600;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-}
-
-
-.auf-menu-file-path {
-
-  overflow:
-    hidden;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .57rem;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-  opacity:
-    .65;
-
-}
-
-
-/* =========================================================
-   EXTENSION
-   ========================================================= */
-
-.auf-menu-file-extension {
-
-  margin-left:
-    8px;
-
-  padding:
-    3px 5px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    4px;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    monospace;
-
-  font-size:
-    .52rem;
-
-  letter-spacing:
-    .04em;
-
-  opacity:
-    .65;
-
-}
-
-
-/* =========================================================
-   ROOT FILES
-   ========================================================= */
-
-.auf-menu-section-root-files {
-
-  grid-column:
-    1 / -1;
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-.auf-menu-error {
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    6px;
-
-  padding:
-    16px;
-
-  border:
-    1px solid
-    color-mix(
-      in srgb,
-      var(--auf-red) 35%,
-      var(--border)
-    );
-
-  border-radius:
-    10px;
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf-red) 5%,
-      var(--panel)
-    );
-
-  color:
-    var(--muted);
-
-  font-size:
-    .76rem;
-
-}
-
-
-.auf-menu-error strong {
-
-  color:
-    var(--auf-red);
-
-}
-
-
-/* =========================================================
-   RESOURCE VIEWER — SAME VISUAL LANGUAGE
-   ========================================================= */
-
-.resource-viewer {
-
-  position:
-    relative;
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 20%,
-      var(--border)
-    );
-
-}
-
-
-.resource-viewer::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    0;
-
-  right:
-    0;
-
-  top:
-    0;
-
-  height:
-    1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--auf),
-      var(--auf-blue),
-      transparent
-    );
-
-  opacity:
-    .65;
-
-}
-
-
-.resource-viewer-header {
-
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(
-        in srgb,
-        var(--auf) 5%,
-        var(--panel-2)
-      ),
-      var(--panel-2)
-    );
-
-}
-
-
-.resource-viewer-title {
-
-  color:
-    var(--auf);
-
-}
-
-
-.resource-viewer-body {
-
-  background:
-    radial-gradient(
-      circle at 85% 10%,
-      color-mix(
-        in srgb,
-        var(--auf-blue) 4%,
-        transparent
-      ),
-      transparent 30%
-    );
-
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (
-  max-width: 760px
-) {
-
-  .auf-repository-menu {
-
-    grid-template-columns:
-      1fr;
-
-    gap:
-      9px;
-
-  }
-
-
-  .auf-menu-section-path {
-
-    display:
-      none;
-
-  }
-
-
-  .auf-menu-section-header {
-
-    grid-template-columns:
-      30px
-      minmax(0,1fr)
-      20px;
-
-  }
-
-
-  .auf-menu-section-arrow {
-
-    grid-column:
-      3;
-
-  }
-
-
-  .auf-menu-file {
-
-    grid-template-columns:
-      30px
-      minmax(0,1fr)
-      auto;
-
-  }
-
-
-  .auf-menu-file-extension {
-
-    display:
-      none;
-
-  }
-
-
-  .resource-viewer-body {
-
-    padding:
-      18px;
-
-  }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (
-  prefers-reduced-motion: reduce
-) {
-
-  .auf-menu-section,
-  .auf-menu-file,
-  .auf-menu-section-arrow {
-
-    transition:
-      none;
-
-  }
-
-}
-
   </style>
 
 </head>
@@ -2342,95 +493,77 @@ html[data-theme="light"] {
 
 <body>
 
-  <main class="pages-page">
+<main>
 
+  <header class="archive-header">
 
-    <nav class="pages-topbar">
-
-      <a
-        class="pages-back"
-        href="../index.html"
-      >
-        ← Back
-      </a>
-
-      <div class="pages-brand">
-        AUF2026
-      </div>
-
-    </nav>
-
-
-    <header class="pages-header">
-
-      <div class="pages-kicker">
-        AUF2026 · Repository Section
-      </div>
-
-      <h1>
-        Pages
-      </h1>
-
-      <p class="pages-subtitle">
-        Repository resources contained in
-        <code>/bibliography/</code>, including
-        nested directories.
-      </p>
-
-    </header>
-
-
-    <div
-      id="pagesStatus"
-      class="pages-status"
-    >
-      Connecting to AUF2026 repository…
+    <div class="archive-kicker">
+      AUF2026 RESEARCH ARCHIVE
     </div>
 
+    <h1>
+      Documentation
+    </h1>
 
-    <section
-      id="pagesFiles"
-      class="pages-files"
-    ></section>
+    <div class="archive-description">
+      Repository resources discovered automatically
+      under <code>/docs/</code>.
+      Markdown documents are opened through the
+      central <code>archive.html</code> viewer.
+    </div>
+
+  </header>
 
 
-  </main>
+  <div
+    id="pagesStatus"
+    class="archive-status"
+  >
+    Scanning repository tree…
+  </div>
 
 
-  <script>
+  <section
+    id="pagesFiles"
+    aria-live="polite"
+  ></section>
+
+</main>
+
+
+<script>
 
 /* =========================================================
-   AUF2026 INDEPENDENT SECTION VIEWER
+   AUF2026 SECTION REPOSITORY PARSER
    ========================================================= */
 
 const GITHUB_OWNER =
   "AUF2026";
 
+
 const GITHUB_REPOSITORY =
   "AUF2026.github.io";
+
 
 const GITHUB_BRANCH =
   "main";
 
+
 /*
- * =========================================================
- * SECTION
- * =========================================================
+ * THIS IS THE ONLY SECTION-SPECIFIC VALUE.
  *
- * docs
- * papers
- * pdf
- * proofs
- * validation
+ * For this file:
+ *
+ *   /docs/index.html
+ *
+ * therefore:
+ *
+ *   docs
  */
 
 const GITHUB_SECTION =
   "bibliography";
 
-
-/* =========================================================
-   GITHUB
-   ========================================================= */
 
 const GITHUB_TREE_URL =
   "https://api.github.com/repos/" +
@@ -2442,16 +575,6 @@ const GITHUB_TREE_URL =
   "?recursive=1";
 
 
-const GITHUB_RAW_BASE =
-  "https://raw.githubusercontent.com/" +
-  GITHUB_OWNER +
-  "/" +
-  GITHUB_REPOSITORY +
-  "/" +
-  GITHUB_BRANCH +
-  "/";
-
-
 const GITHUB_BLOB_BASE =
   "https://github.com/" +
   GITHUB_OWNER +
@@ -2460,20 +583,6 @@ const GITHUB_BLOB_BASE =
   "/blob/" +
   GITHUB_BRANCH +
   "/";
-
-
-/* =========================================================
-   URL PARAMETERS
-   ========================================================= */
-
-const params =
-  new URLSearchParams(
-    window.location.search
-  );
-
-
-const requestedFile =
-  params.get("file");
 
 
 /* =========================================================
@@ -2498,52 +607,18 @@ const repositoryFiles =
   );
 
 
-const documentElement =
-  document.getElementById(
-    "document"
-  ) ||
-  document.getElementById(
-    "repositoryDocument"
-  );
-
-
-const titleElement =
-  document.getElementById(
-    "document-title"
-  ) ||
-  document.getElementById(
-    "repositoryTitle"
-  );
-
-
-const sourceElement =
-  document.getElementById(
-    "document-source"
-  ) ||
-  document.getElementById(
-    "repositorySource"
-  );
-
-
-/* =========================================================
-   DISCOVERED FILES
-   ========================================================= */
-
-let discoveredFiles = [];
-
-
 /* =========================================================
    INITIALIZE
    ========================================================= */
 
-startSectionViewer();
+loadRepository();
 
 
 /* =========================================================
-   START
+   LOAD REPOSITORY TREE
    ========================================================= */
 
-async function startSectionViewer() {
+async function loadRepository() {
 
   try {
 
@@ -2597,40 +672,22 @@ async function startSectionViewer() {
     }
 
 
-    discoveredFiles =
+    const discovered =
       discoverSectionFiles(
         data.tree
       );
 
 
-    /*
-     * If a file was requested,
-     * this index becomes the viewer.
-     */
-    if (
-      requestedFile
-    ) {
-
-      await loadRequestedFile();
-
-      return;
-
-    }
-
-
-    /*
-     * Otherwise show the repository index.
-     */
     renderFiles(
-      discoveredFiles
+      discovered
     );
 
 
     setStatus(
-      discoveredFiles.length +
+      discovered.length +
       " resource" +
       (
-        discoveredFiles.length === 1
+        discovered.length === 1
           ? ""
           : "s"
       ) +
@@ -2646,7 +703,7 @@ async function startSectionViewer() {
   ) {
 
     console.error(
-      "AUF2026 section viewer:",
+      "AUF2026 repository parser:",
       error
     );
 
@@ -2658,9 +715,24 @@ async function startSectionViewer() {
     );
 
 
-    renderError(
-      error
-    );
+    if (
+      repositoryFiles
+    ) {
+
+      repositoryFiles.innerHTML =
+        `
+          <div class="pages-empty">
+
+            Unable to read
+            <code>/${escapeHTML(
+              GITHUB_SECTION
+            )}/</code>
+            from the AUF2026 repository.
+
+          </div>
+        `;
+
+    }
 
   }
 
@@ -2668,7 +740,7 @@ async function startSectionViewer() {
 
 
 /* =========================================================
-   DISCOVER SECTION FILES
+   DISCOVER FILES
    ========================================================= */
 
 function discoverSectionFiles(
@@ -2696,6 +768,13 @@ function discoverSectionFiles(
 
       }
     )
+
+    /*
+     * IMPORTANT:
+     *
+     * The section parser must not display
+     * its own index.html.
+     */
 
     .filter(
       item => {
@@ -2849,7 +928,7 @@ function renderFiles(
 
 
 /* =========================================================
-   CREATE FILE ENTRY
+   CREATE FILE
    ========================================================= */
 
 function createFileElement(
@@ -2906,14 +985,13 @@ function createFileElement(
 
       <div class="pages-file-actions">
 
-        <a
+        <button
           class="pages-file-button"
-          href="${sectionViewerURL(
-            item.path
-          )}"
+          type="button"
+          data-open
         >
           VIEW
-        </a>
+        </button>
 
         <a
           class="pages-file-github"
@@ -2930,261 +1008,93 @@ function createFileElement(
     `;
 
 
+  article
+    .querySelector(
+      "[data-open]"
+    )
+    .addEventListener(
+      "click",
+      function () {
+
+        /*
+         * IMPORTANT:
+         *
+         * Do NOT create another viewer here.
+         *
+         * Everything is delegated to the
+         * central /archive.html parser.
+         */
+
+        openInArchive(
+          item.path
+        );
+
+      }
+    );
+
+
   return article;
 
 }
 
 
 /* =========================================================
-   SECTION VIEWER URL
+   OPEN RESOURCE THROUGH CENTRAL ARCHIVE
    ========================================================= */
 
-function sectionViewerURL(
-  repositoryPath
+function openInArchive(
+  path
 ) {
 
-  const relativePath =
-    getSectionRelativePath(
-      repositoryPath
-    );
-
-
-  return (
-    "index.html?file=" +
-    encodeURIComponent(
-      relativePath
-    )
-  );
-
-}
-
-
-/* =========================================================
-   RESOLVE REQUESTED FILE
-   ========================================================= */
-
-function resolveRequestedFile(
-  requested
-) {
-
-  if (
-    !requested
-  ) {
-
-    return null;
-
-  }
-
-
-  let cleanPath;
-
-
-  try {
-
-    cleanPath =
-      decodeURIComponent(
-        requested
-      );
-
-  } catch {
-
-    cleanPath =
-      requested;
-
-  }
-
-
-  cleanPath =
-    cleanPath
-      .replace(/^\/+/, "")
-      .replace(/\\/g, "/");
-
-
-  /*
-   * Security.
-   */
-  if (
-    !cleanPath ||
-    cleanPath.includes("..") ||
-    cleanPath.startsWith("/")
-  ) {
-
-    return null;
-
-  }
-
-
-  /*
-   * Do not allow the section to escape.
-   */
-  if (
-    cleanPath ===
-    "index.html"
-  ) {
-
-    return null;
-
-  }
-
-
-  const expectedPrefix =
-    GITHUB_SECTION +
-    "/";
-
-
-  /*
-   * Accept:
-   *
-   * ?file=test.md
-   *
-   * and:
-   *
-   * ?file=docs/test.md
-   */
-  if (
-    cleanPath.startsWith(
-      expectedPrefix
-    )
-  ) {
-
-    cleanPath =
-      cleanPath.slice(
-        expectedPrefix.length
-      );
-
-  }
-
-
-  if (
-    !cleanPath
-  ) {
-
-    return null;
-
-  }
-
-
-  const repositoryPath =
-    GITHUB_SECTION +
-    "/" +
-    cleanPath;
-
-
-  const found =
-    discoveredFiles.find(
-      item =>
-        item.path ===
-        repositoryPath
-    );
-
-
-  if (
-    !found
-  ) {
-
-    return null;
-
-  }
-
-
-  return found;
-
-}
-
-
-/* =========================================================
-   LOAD REQUESTED FILE
-   ========================================================= */
-
-async function loadRequestedFile() {
-
-  const item =
-    resolveRequestedFile(
-      requestedFile
-    );
-
-
-  if (
-    !item
-  ) {
-
-    renderError(
-      new Error(
-        "Resource not found under /" +
-        GITHUB_SECTION +
-        "/: " +
-        requestedFile
-      )
-    );
-
-    return;
-
-  }
-
-
-  const filename =
-    item.path
-      .split("/")
-      .pop();
+  const url =
+    "../archive.html?";
 
 
   const extension =
     getExtension(
-      filename
+      path
     );
 
 
-  const relativePath =
-    getSectionRelativePath(
-      item.path
-    );
-
-
-  const localPath =
-    item.path;
-
+  /*
+   * Markdown files are opened through:
+   *
+   * archive.html?doc=docs/file.md
+   */
 
   if (
-    sourceElement
+    extension === ".md"
   ) {
 
-    sourceElement.textContent =
-      localPath;
-
-  }
-
-
-  if (
-    titleElement
-  ) {
-
-    titleElement.textContent =
-      humanTitle(
-        filename
+    window.location.href =
+      url +
+      "doc=" +
+      encodeURIComponent(
+        path
       );
 
+    return;
+
   }
 
 
-  document.title =
-    "AUF2026 — " +
-    humanTitle(
-      filename
-    );
-
-
   /*
-   * Markdown
+   * HTML pages are opened through:
+   *
+   * archive.html?page=docs/file.html
    */
+
   if (
-    extension === "md" ||
-    extension === "markdown"
+    extension === ".html" ||
+    extension === ".htm"
   ) {
 
-    await loadMarkdown(
-      item.path,
-      filename
-    );
+    window.location.href =
+      url +
+      "page=" +
+      encodeURIComponent(
+        path
+      );
 
     return;
 
@@ -3192,177 +1102,16 @@ async function loadRequestedFile() {
 
 
   /*
-   * HTML
+   * Everything else uses the generic
+   * archive resource router.
    */
-  if (
-    extension === "html" ||
-    extension === "htm"
-  ) {
 
-    renderHTMLPage(
-      localPath,
-      filename
+  window.location.href =
+    url +
+    "file=" +
+    encodeURIComponent(
+      path
     );
-
-    return;
-
-  }
-
-
-  /*
-   * PDF
-   */
-  if (
-    extension === "pdf"
-  ) {
-
-    renderPDF(
-      localPath,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Image
-   */
-  if (
-    [
-      "svg",
-      "png",
-      "jpg",
-      "jpeg",
-      "gif",
-      "webp",
-      "avif",
-      "bmp",
-      "ico"
-    ].includes(
-      extension
-    )
-  ) {
-
-    renderImage(
-      localPath,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Audio / video
-   */
-  if (
-    [
-      "mp3",
-      "wav",
-      "ogg",
-      "oga",
-      "m4a",
-      "aac",
-      "flac",
-      "mp4",
-      "webm",
-      "ogv",
-      "mov",
-      "m4v"
-    ].includes(
-      extension
-    )
-  ) {
-
-    renderMedia(
-      localPath,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * CSV
-   */
-  if (
-    extension === "csv"
-  ) {
-
-    await loadCSV(
-      localPath,
-      filename
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Text/source.
-   */
-  await loadText(
-    localPath,
-    filename
-  );
-
-}
-
-
-/* =========================================================
-   SECTION RELATIVE PATH
-   ========================================================= */
-
-function getSectionRelativePath(
-  repositoryPath
-) {
-
-  const prefix =
-    GITHUB_SECTION +
-    "/";
-
-
-  if (
-    repositoryPath.startsWith(
-      prefix
-    )
-  ) {
-
-    return repositoryPath.slice(
-      prefix.length
-    );
-
-  }
-
-
-  return repositoryPath;
-
-}
-
-
-/* =========================================================
-   RAW PATH
-   ========================================================= */
-
-function rawURL(
-  repositoryPath
-) {
-
-  return (
-    GITHUB_RAW_BASE +
-    repositoryPath
-      .split("/")
-      .map(
-        encodeURIComponent
-      )
-      .join("/")
-  );
 
 }
 
@@ -3372,1277 +1121,18 @@ function rawURL(
    ========================================================= */
 
 function githubURL(
-  repositoryPath
+  path
 ) {
 
   return (
     GITHUB_BLOB_BASE +
-    repositoryPath
+    path
       .split("/")
       .map(
         encodeURIComponent
       )
       .join("/")
   );
-
-}
-
-
-/* =========================================================
-   MARKDOWN
-   ========================================================= */
-
-async function loadMarkdown(
-  repositoryPath,
-  filename
-) {
-
-  try {
-
-    const response =
-      await fetch(
-        rawURL(
-          repositoryPath
-        ),
-        {
-          cache:
-            "no-cache"
-        }
-      );
-
-
-    if (
-      !response.ok
-    ) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const markdown =
-      await response.text();
-
-
-    if (
-      typeof marked ===
-      "undefined"
-    ) {
-
-      throw new Error(
-        "Markdown renderer 'marked' is not available."
-      );
-
-    }
-
-
-    marked.setOptions({
-
-      gfm:
-        true,
-
-      breaks:
-        true
-
-    });
-
-
-    if (
-      !documentElement
-    ) {
-
-      return;
-
-    }
-
-
-    documentElement.innerHTML =
-      marked.parse(
-        markdown
-      );
-
-
-    normalizeMarkdownLinks(
-      repositoryPath
-    );
-
-
-    improveTables();
-
-
-  } catch (
-    error
-  ) {
-
-    renderError(
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   MARKDOWN LINKS
-   ========================================================= */
-
-function normalizeMarkdownLinks(
-  currentRepositoryPath
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  documentElement
-    .querySelectorAll("a")
-    .forEach(
-      link => {
-
-        const rawHref =
-          link.getAttribute(
-            "href"
-          );
-
-
-        if (
-          !rawHref
-        ) {
-
-          return;
-
-        }
-
-
-        const href =
-          rawHref.trim();
-
-
-        if (
-          href.startsWith(
-            "http://"
-          ) ||
-          href.startsWith(
-            "https://"
-          ) ||
-          href.startsWith(
-            "mailto:"
-          ) ||
-          href.startsWith(
-            "tel:"
-          ) ||
-          href.startsWith(
-            "#"
-          )
-        ) {
-
-          return;
-
-        }
-
-
-        const hashIndex =
-          href.indexOf("#");
-
-
-        const queryIndex =
-          href.indexOf("?");
-
-
-        let splitIndex =
-          -1;
-
-
-        if (
-          hashIndex >= 0 &&
-          queryIndex >= 0
-        ) {
-
-          splitIndex =
-            Math.min(
-              hashIndex,
-              queryIndex
-            );
-
-        } else if (
-          hashIndex >= 0
-        ) {
-
-          splitIndex =
-            hashIndex;
-
-        } else if (
-          queryIndex >= 0
-        ) {
-
-          splitIndex =
-            queryIndex;
-
-        }
-
-
-        const path =
-          splitIndex >= 0
-            ? href.slice(
-                0,
-                splitIndex
-              )
-            : href;
-
-
-        const suffix =
-          splitIndex >= 0
-            ? href.slice(
-                splitIndex
-              )
-            : "";
-
-
-        if (
-          !path
-        ) {
-
-          return;
-
-        }
-
-
-        /*
-         * Only repository Markdown links.
-         */
-        const extension =
-          getExtension(
-            path
-          );
-
-
-        if (
-          extension !== "md" &&
-          extension !== "markdown"
-        ) {
-
-          return;
-
-        }
-
-
-        const resolved =
-          resolveRelativeRepositoryPath(
-            currentRepositoryPath,
-            path
-          );
-
-
-        if (
-          !resolved
-        ) {
-
-          return;
-
-        }
-
-
-        const found =
-          discoveredFiles.find(
-            item =>
-              item.path ===
-              resolved
-          );
-
-
-        if (
-          !found
-        ) {
-
-          return;
-
-        }
-
-
-        link.href =
-          sectionViewerURL(
-            resolved
-          ) +
-          suffix;
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   RELATIVE REPOSITORY PATH
-   ========================================================= */
-
-function resolveRelativeRepositoryPath(
-  currentRepositoryPath,
-  linkPath
-) {
-
-  let clean =
-    linkPath
-      .replace(
-        /^\/+/,
-        ""
-      )
-      .replace(
-        /\\/g,
-        "/"
-      );
-
-
-  /*
-   * Absolute repository path:
-   *
-   * /docs/file.md
-   */
-  if (
-    clean.startsWith(
-      GITHUB_SECTION +
-      "/"
-    )
-  ) {
-
-    return normalizePath(
-      clean
-    );
-
-  }
-
-
-  const currentDirectory =
-    currentRepositoryPath
-      .split("/")
-      .slice(
-        0,
-        -1
-      )
-      .join("/");
-
-
-  const combined =
-    currentDirectory
-      ? currentDirectory +
-        "/" +
-        clean
-      : clean;
-
-
-  const repositoryPath =
-    GITHUB_SECTION +
-    "/" +
-    combined;
-
-
-  return normalizePath(
-    repositoryPath
-  );
-
-}
-
-
-/* =========================================================
-   NORMALIZE PATH
-   ========================================================= */
-
-function normalizePath(
-  path
-) {
-
-  const parts =
-    path
-      .split("/")
-      .filter(
-        part =>
-          part &&
-          part !== "."
-      );
-
-
-  const result = [];
-
-
-  for (
-    const part of parts
-  ) {
-
-    if (
-      part === ".."
-    ) {
-
-      if (
-        result.length
-      ) {
-
-        result.pop();
-
-      }
-
-      continue;
-
-    }
-
-
-    result.push(
-      part
-    );
-
-  }
-
-
-  return result.join("/");
-
-}
-
-
-/* =========================================================
-   TABLES
-   ========================================================= */
-
-function improveTables() {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  documentElement
-    .querySelectorAll(
-      "table"
-    )
-    .forEach(
-      table => {
-
-        if (
-          table.parentElement &&
-          table.parentElement.classList.contains(
-            "archive-table-wrap"
-          )
-        ) {
-
-          return;
-
-        }
-
-
-        const wrapper =
-          document.createElement(
-            "div"
-          );
-
-
-        wrapper.className =
-          "archive-table-wrap";
-
-
-        table.parentNode.insertBefore(
-          wrapper,
-          table
-        );
-
-
-        wrapper.appendChild(
-          table
-        );
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   HTML PAGE
-   ========================================================= */
-
-function renderHTMLPage(
-  repositoryPath,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const resource =
-    document.createElement(
-      "div"
-    );
-
-
-  resource.className =
-    "archive-page-viewer";
-
-
-  const frame =
-    document.createElement(
-      "iframe"
-    );
-
-
-  frame.className =
-    "archive-page-frame";
-
-
-  frame.src =
-    rawURL(
-      repositoryPath
-    );
-
-
-  frame.title =
-    humanTitle(
-      filename
-    );
-
-
-  frame.loading =
-    "eager";
-
-
-  frame.allow =
-    "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
-
-
-  frame.allowFullscreen =
-    true;
-
-
-  resource.appendChild(
-    frame
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-}
-
-
-/* =========================================================
-   PDF
-   ========================================================= */
-
-function renderPDF(
-  repositoryPath,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const resource =
-    document.createElement(
-      "div"
-    );
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const object =
-    document.createElement(
-      "object"
-    );
-
-
-  object.data =
-    rawURL(
-      repositoryPath
-    );
-
-
-  object.type =
-    "application/pdf";
-
-
-  const fallback =
-    document.createElement(
-      "p"
-    );
-
-
-  fallback.textContent =
-    "Your browser cannot display this PDF directly.";
-
-
-  const link =
-    document.createElement(
-      "a"
-    );
-
-
-  link.href =
-    rawURL(
-      repositoryPath
-    );
-
-
-  link.target =
-    "_blank";
-
-
-  link.rel =
-    "noopener noreferrer";
-
-
-  link.textContent =
-    "Open PDF";
-
-
-  fallback.appendChild(
-    document.createTextNode(
-      " "
-    )
-  );
-
-
-  fallback.appendChild(
-    link
-  );
-
-
-  object.appendChild(
-    fallback
-  );
-
-
-  resource.appendChild(
-    object
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-}
-
-
-/* =========================================================
-   IMAGE
-   ========================================================= */
-
-function renderImage(
-  repositoryPath,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const resource =
-    document.createElement(
-      "div"
-    );
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const image =
-    document.createElement(
-      "img"
-    );
-
-
-  image.src =
-    rawURL(
-      repositoryPath
-    );
-
-
-  image.alt =
-    filename;
-
-
-  resource.appendChild(
-    image
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-}
-
-
-/* =========================================================
-   MEDIA
-   ========================================================= */
-
-function renderMedia(
-  repositoryPath,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const extension =
-    getExtension(
-      filename
-    );
-
-
-  const resource =
-    document.createElement(
-      "div"
-    );
-
-
-  resource.className =
-    "archive-resource";
-
-
-  let element;
-
-
-  if (
-    [
-      "mp3",
-      "wav",
-      "ogg",
-      "oga",
-      "m4a",
-      "aac",
-      "flac"
-    ].includes(
-      extension
-    )
-  ) {
-
-    element =
-      document.createElement(
-        "audio"
-      );
-
-    element.controls =
-      true;
-
-  }
-
-
-  if (
-    [
-      "mp4",
-      "webm",
-      "ogv",
-      "mov",
-      "m4v"
-    ].includes(
-      extension
-    )
-  ) {
-
-    element =
-      document.createElement(
-        "video"
-      );
-
-    element.controls =
-      true;
-
-    element.playsInline =
-      true;
-
-  }
-
-
-  if (
-    !element
-  ) {
-
-    return;
-
-  }
-
-
-  element.src =
-    rawURL(
-      repositoryPath
-    );
-
-
-  element.preload =
-    "metadata";
-
-
-  resource.appendChild(
-    element
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-}
-
-
-/* =========================================================
-   CSV
-   ========================================================= */
-
-async function loadCSV(
-  repositoryPath,
-  filename
-) {
-
-  try {
-
-    const response =
-      await fetch(
-        rawURL(
-          repositoryPath
-        ),
-        {
-          cache:
-            "no-cache"
-        }
-      );
-
-
-    if (
-      !response.ok
-    ) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const text =
-      await response.text();
-
-
-    renderCSV(
-      text,
-      filename
-    );
-
-
-  } catch (
-    error
-  ) {
-
-    renderError(
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   CSV PARSER
-   ========================================================= */
-
-function parseCSV(
-  text
-) {
-
-  const rows = [];
-
-  let row = [];
-
-  let cell = "";
-
-  let insideQuotes =
-    false;
-
-
-  for (
-    let i = 0;
-    i < text.length;
-    i++
-  ) {
-
-    const char =
-      text[i];
-
-
-    const next =
-      text[i + 1];
-
-
-    if (
-      char === '"' &&
-      insideQuotes &&
-      next === '"'
-    ) {
-
-      cell += '"';
-
-      i++;
-
-      continue;
-
-    }
-
-
-    if (
-      char === '"'
-    ) {
-
-      insideQuotes =
-        !insideQuotes;
-
-      continue;
-
-    }
-
-
-    if (
-      char === "," &&
-      !insideQuotes
-    ) {
-
-      row.push(
-        cell
-      );
-
-      cell =
-        "";
-
-      continue;
-
-    }
-
-
-    if (
-      (
-        char === "\n" ||
-        char === "\r"
-      ) &&
-      !insideQuotes
-    ) {
-
-      if (
-        char === "\r" &&
-        next === "\n"
-      ) {
-
-        i++;
-
-      }
-
-
-      row.push(
-        cell
-      );
-
-      rows.push(
-        row
-      );
-
-      row = [];
-
-      cell =
-        "";
-
-      continue;
-
-    }
-
-
-    cell += char;
-
-  }
-
-
-  if (
-    cell.length ||
-    row.length
-  ) {
-
-    row.push(
-      cell
-    );
-
-    rows.push(
-      row
-    );
-
-  }
-
-
-  return rows;
-
-}
-
-
-/* =========================================================
-   RENDER CSV
-   ========================================================= */
-
-function renderCSV(
-  text,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const rows =
-    parseCSV(
-      text
-    );
-
-
-  const wrapper =
-    document.createElement(
-      "div"
-    );
-
-
-  wrapper.className =
-    "archive-resource-table";
-
-
-  const table =
-    document.createElement(
-      "table"
-    );
-
-
-  rows.forEach(
-    (
-      row,
-      index
-    ) => {
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-
-      row.forEach(
-        value => {
-
-          const cell =
-            document.createElement(
-              index === 0
-                ? "th"
-                : "td"
-            );
-
-
-          cell.textContent =
-            value;
-
-
-          tr.appendChild(
-            cell
-          );
-
-        }
-      );
-
-
-      table.appendChild(
-        tr
-      );
-
-    }
-  );
-
-
-  wrapper.appendChild(
-    table
-  );
-
-
-  documentElement.replaceChildren(
-    wrapper
-  );
-
-}
-
-
-/* =========================================================
-   TEXT RESOURCE
-   ========================================================= */
-
-async function loadText(
-  repositoryPath,
-  filename
-) {
-
-  try {
-
-    const response =
-      await fetch(
-        rawURL(
-          repositoryPath
-        ),
-        {
-          cache:
-            "no-cache"
-        }
-      );
-
-
-    if (
-      !response.ok
-    ) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const text =
-      await response.text();
-
-
-    renderText(
-      text,
-      filename
-    );
-
-
-  } catch (
-    error
-  ) {
-
-    renderError(
-      error
-    );
-
-  }
-
-}
-
-
-function renderText(
-  text,
-  filename
-) {
-
-  if (
-    !documentElement
-  ) {
-
-    return;
-
-  }
-
-
-  const resource =
-    document.createElement(
-      "div"
-    );
-
-
-  resource.className =
-    "archive-resource";
-
-
-  const pre =
-    document.createElement(
-      "pre"
-    );
-
-
-  pre.textContent =
-    text;
-
-
-  resource.appendChild(
-    pre
-  );
-
-
-  documentElement.replaceChildren(
-    resource
-  );
-
-}
-
-
-/* =========================================================
-   HUMAN TITLE
-   ========================================================= */
-
-function humanTitle(
-  filename
-) {
-
-  return String(
-    filename || ""
-  )
-
-    .replace(
-      /\.(md|markdown|html?|pdf|csv|svg|txt|json|xml|ya?ml|log)$/i,
-      ""
-    )
-
-    .replace(
-      /[-_]+/g,
-      " "
-    )
-
-    .replace(
-      /\b\w/g,
-      character =>
-        character.toUpperCase()
-    );
 
 }
 
@@ -4655,16 +1145,8 @@ function getExtension(
   filename
 ) {
 
-  const clean =
-    String(
-      filename || ""
-    )
-      .split("?")[0]
-      .split("#")[0];
-
-
   const index =
-    clean.lastIndexOf(".");
+    filename.lastIndexOf(".");
 
 
   if (
@@ -4676,9 +1158,9 @@ function getExtension(
   }
 
 
-  return clean
+  return filename
     .slice(
-      index + 1
+      index
     )
     .toLowerCase();
 
@@ -4695,11 +1177,9 @@ function getFileType(
 
   if (
     [
-      "md",
-      "markdown"
-    ].includes(
-      extension
-    )
+      ".md",
+      ".markdown"
+    ].includes(extension)
   ) {
 
     return "MARKDOWN";
@@ -4709,11 +1189,9 @@ function getFileType(
 
   if (
     [
-      "html",
-      "htm"
-    ].includes(
-      extension
-    )
+      ".html",
+      ".htm"
+    ].includes(extension)
   ) {
 
     return "HTML";
@@ -4723,7 +1201,7 @@ function getFileType(
 
   if (
     extension ===
-    "pdf"
+    ".pdf"
   ) {
 
     return "PDF";
@@ -4733,18 +1211,16 @@ function getFileType(
 
   if (
     [
-      "png",
-      "jpg",
-      "jpeg",
-      "gif",
-      "webp",
-      "svg",
-      "avif",
-      "bmp",
-      "ico"
-    ].includes(
-      extension
-    )
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".svg",
+      ".avif",
+      ".bmp",
+      ".ico"
+    ].includes(extension)
   ) {
 
     return "IMAGE";
@@ -4754,16 +1230,14 @@ function getFileType(
 
   if (
     [
-      "mp3",
-      "wav",
-      "ogg",
-      "oga",
-      "m4a",
-      "aac",
-      "flac"
-    ].includes(
-      extension
-    )
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac"
+    ].includes(extension)
   ) {
 
     return "AUDIO";
@@ -4773,14 +1247,12 @@ function getFileType(
 
   if (
     [
-      "mp4",
-      "webm",
-      "ogv",
-      "mov",
-      "m4v"
-    ].includes(
-      extension
-    )
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov",
+      ".m4v"
+    ].includes(extension)
   ) {
 
     return "VIDEO";
@@ -4790,7 +1262,7 @@ function getFileType(
 
   if (
     extension ===
-    "csv"
+    ".csv"
   ) {
 
     return "CSV";
@@ -4800,15 +1272,13 @@ function getFileType(
 
   if (
     [
-      "txt",
-      "json",
-      "xml",
-      "yaml",
-      "yml",
-      "log"
-    ].includes(
-      extension
-    )
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(extension)
   ) {
 
     return "TEXT";
@@ -4867,9 +1337,7 @@ function escapeHTML(
   value
 ) {
 
-  return String(
-    value
-  )
+  return String(value)
 
     .replace(
       /&/g,
@@ -4899,6 +1367,6 @@ function escapeHTML(
 }
 
 </script>
-</body>
 
+</body>
 </html>
