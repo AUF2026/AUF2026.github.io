@@ -2,7 +2,7 @@
 
 > **Technical · Mathematical · Formal · Computational · Bibliographic · Archival**
 
-The `/docs/` directory is the control layer of the AUF2026 research corpus.
+The directories are the control layer of the AUF2026 research corpus.
 
 It connects mathematical claims and research objects to their source files, formal artifacts, computational evidence, validation records and bibliographic context.
 
