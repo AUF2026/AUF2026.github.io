@@ -4140,7 +4140,7 @@ html[data-theme="light"] {
   <script>
 
 /* =========================================================
-   AUF2026 REPOSITORY NAVIGATION
+   AUF2026 PROOFS REPOSITORY NAVIGATION
    =========================================================
    DIRECT GITHUB PAGES ONLY
 
@@ -4152,21 +4152,13 @@ html[data-theme="light"] {
 
    /index.html
        |
-       +-- /bibliography/
-       +-- /code/
-       +-- /datasets/
-       +-- /docs/
-       +-- /pages/
-       +-- /papers/
-       +-- /pdf/
        +-- /proofs/
-       +-- /validation/
 
-   Every section is a normal GitHub Pages directory.
+   The proofs section is a normal GitHub Pages directory.
 
    Files are opened directly from:
 
-   https://auf2026.github.io/<path>
+   https://auf2026.github.io/proofs/
 
    ========================================================= */
 
@@ -4180,19 +4172,8 @@ const AUF2026_CONFIG = {
   origin:
     "https://auf2026.github.io",
 
-  sections: [
-
-    "bibliography",
-    "code",
-    "datasets",
-    "docs",
-    "pages",
-    "papers",
-    "pdf",
-    "proofs",
-    "validation"
-
-  ]
+  section:
+    "proofs"
 
 };
 
@@ -4203,9 +4184,8 @@ const AUF2026_CONFIG = {
 
 const state = {
 
-  directories: [],
-
-  rootDirectories: [],
+  directory:
+    "proofs",
 
   files: [],
 
@@ -4284,28 +4264,12 @@ function repositoryResourceURL(path) {
    SECTION URL
    ========================================================= */
 
-function repositorySectionURL(section) {
-
-  const clean =
-    normalizePath(section);
-
-
-  if (!clean) {
-
-    return (
-      AUF2026_CONFIG.origin +
-      "/"
-    );
-
-  }
-
+function repositorySectionURL() {
 
   return (
 
     AUF2026_CONFIG.origin +
-    "/" +
-    clean +
-    "/"
+    "/proofs/"
 
   );
 
@@ -4687,78 +4651,39 @@ function findMenuMount() {
 
 
 /* =========================================================
-   DISCOVER REPOSITORY
+   DISCOVER PROOFS
    =========================================================
    IMPORTANT:
 
    GitHub Pages has no directory listing API.
 
-   Therefore the root parser discovers the SECTIONS,
-   not arbitrary files.
+   Therefore /proofs/ is treated as the single
+   repository section.
 
-   Each section is responsible for its own resources.
+   No GitHub API is used.
+   No raw.githubusercontent.com is used.
+   No external repository request is made.
 
-   This completely eliminates:
+   Files are registered explicitly through:
 
-   - GitHub API
-   - raw.githubusercontent.com
-   - HTTP 403
-   - CORS failures
+   window.AUF2026Repository.registerFiles(
+     "proofs",
+     [
+       "proofs/index.html",
+       "proofs/example.pdf"
+     ]
+   );
+
    ========================================================= */
 
 async function discoverRepository() {
 
-  const directories =
-    new Set();
+  state.directory =
+    "proofs";
 
 
-  AUF2026_CONFIG.sections
-    .forEach(
-      section => {
-
-        const clean =
-          normalizePath(
-            section
-          );
-
-
-        if (clean) {
-
-          directories.add(
-            clean
-          );
-
-        }
-
-      }
-    );
-
-
-  state.directories =
-    Array.from(
-      directories
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  state.rootDirectories =
-    state.directories
-      .filter(
-        path =>
-          !path.includes("/")
-      );
-
-
-  /*
-   * No fake file discovery.
-   *
-   * The root parser deliberately does not invent
-   * filenames that it cannot know.
-   */
-
-  state.files = [];
+  state.files =
+    [];
 
 
   return true;
@@ -4796,20 +4721,13 @@ function buildRepositoryMenu() {
     "auf-repository-menu";
 
 
-  state.rootDirectories
-    .forEach(
-      directory => {
+  navigation.appendChild(
 
-        navigation.appendChild(
+    createDirectorySection(
+      "proofs"
+    )
 
-          createDirectorySection(
-            directory
-          )
-
-        );
-
-      }
-    );
+  );
 
 
   mount.appendChild(
@@ -4842,9 +4760,9 @@ function createDirectorySection(
 
 
   /*
-   * The section itself is a real GitHub Pages
-   * directory.
-
+   * The proofs section itself is the real
+   * GitHub Pages directory.
+   *
    * No API request is made.
    */
 
@@ -4859,9 +4777,7 @@ function createDirectorySection(
 
 
   openButton.href =
-    repositorySectionURL(
-      directory
-    );
+    repositorySectionURL();
 
 
   openButton.textContent =
@@ -4907,6 +4823,12 @@ function createSectionShell(
     "auf-menu-section " +
     "auf-menu-section-" +
     type;
+
+
+  root.dataset.path =
+    normalizePath(
+      path
+    );
 
 
   const header =
@@ -5164,14 +5086,10 @@ function openResource(path) {
    OPEN SECTION
    ========================================================= */
 
-function openSection(
-  section
-) {
+function openSection() {
 
   const url =
-    repositorySectionURL(
-      section
-    );
+    repositorySectionURL();
 
 
   if (url) {
@@ -5423,21 +5341,22 @@ function setActiveFile(
 
 
 /* =========================================================
-   REGISTER SECTION FILES
+   REGISTER PROOFS FILES
    =========================================================
-   This is the interface used by each folder parser.
+   This is the interface used by /proofs/.
 
-   Example from /pages/index.html:
+   Example:
 
    window.AUF2026Repository.registerFiles(
-     "pages",
+     "proofs",
      [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
+       "proofs/index.html",
+       "proofs/example.pdf",
+       "proofs/theorem-01.lean"
      ]
    );
 
+   Only files belonging to proofs/ are accepted.
    No external server is contacted.
    ========================================================= */
 
@@ -5452,7 +5371,10 @@ function registerSectionFiles(
     );
 
 
-  if (!root) {
+  if (
+    root !==
+    "proofs"
+  ) {
 
     return;
 
@@ -5471,6 +5393,13 @@ function registerSectionFiles(
   files
     .map(
       normalizePath
+    )
+    .filter(
+      file =>
+        file === "proofs" ||
+        file.startsWith(
+          "proofs/"
+        )
     )
     .filter(Boolean)
     .forEach(
@@ -5504,14 +5433,14 @@ function registerSectionFiles(
 
 
   rebuildSectionFiles(
-    root
+    "proofs"
   );
 
 }
 
 
 /* =========================================================
-   REBUILD SECTION FILES
+   REBUILD PROOFS FILES
    ========================================================= */
 
 function rebuildSectionFiles(
@@ -5522,6 +5451,16 @@ function rebuildSectionFiles(
     normalizePath(
       directory
     );
+
+
+  if (
+    root !==
+    "proofs"
+  ) {
+
+    return;
+
+  }
 
 
   const section =
@@ -5598,9 +5537,7 @@ function rebuildSectionFiles(
 
 
     link.href =
-      repositorySectionURL(
-        root
-      );
+      repositorySectionURL();
 
 
     link.textContent =
@@ -5655,7 +5592,7 @@ function renderRepositoryError(
 
 
   strong.textContent =
-    "Repository navigation error";
+    "Proofs navigation error";
 
 
   const message =
@@ -5670,7 +5607,7 @@ function renderRepositoryError(
 
       ? error.message
 
-      : "Unable to initialise repository navigation.";
+      : "Unable to initialise proofs navigation.";
 
 
   box.appendChild(
@@ -5727,7 +5664,7 @@ async function initialiseRepository() {
   ) {
 
     console.error(
-      "AUF2026 repository navigation:",
+      "AUF2026 proofs navigation:",
       error
     );
 
@@ -5759,12 +5696,10 @@ window.AUF2026Repository = {
 
     },
 
-  directories:
+  directory:
     function () {
 
-      return [
-        ...state.directories
-      ];
+      return "proofs";
 
     },
 
