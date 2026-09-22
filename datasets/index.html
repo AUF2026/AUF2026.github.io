@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Pages</title>
+  <title>AUF2026 — Dataset</title>
 
   <style>
 
@@ -4140,33 +4140,26 @@ html[data-theme="light"] {
   <script>
 
 /* =========================================================
-   AUF2026 REPOSITORY NAVIGATION
+   AUF2026 · DATASETS SECTION NAVIGATION
    =========================================================
    DIRECT GITHUB PAGES ONLY
+
+   SECTION:
+     /datasets/
+
+   THIS INDEX BELONGS EXCLUSIVELY TO:
+     /datasets/
 
    NO GitHub API
    NO raw.githubusercontent.com
    NO external repository requests
+   NO cross-section discovery
+   NO root repository discovery
 
-   Architecture:
+   Every resource opened by this parser is resolved
+   through GitHub Pages:
 
-   /index.html
-       |
-       +-- /bibliography/
-       +-- /code/
-       +-- /datasets/
-       +-- /docs/
-       +-- /pages/
-       +-- /papers/
-       +-- /pdf/
-       +-- /proofs/
-       +-- /validation/
-
-   Every section is a normal GitHub Pages directory.
-
-   Files are opened directly from:
-
-   https://auf2026.github.io/<path>
+     https://auf2026.github.io/datasets/<resource>
 
    ========================================================= */
 
@@ -4180,19 +4173,8 @@ const AUF2026_CONFIG = {
   origin:
     "https://auf2026.github.io",
 
-  sections: [
-
-    "bibliography",
-    "code",
-    "datasets",
-    "docs",
-    "pages",
-    "papers",
-    "pdf",
-    "proofs",
-    "validation"
-
-  ]
+  section:
+    "datasets"
 
 };
 
@@ -4203,9 +4185,8 @@ const AUF2026_CONFIG = {
 
 const state = {
 
-  directories: [],
-
-  rootDirectories: [],
+  section:
+    AUF2026_CONFIG.section,
 
   files: [],
 
@@ -4246,7 +4227,64 @@ function normalizePath(path) {
 
 
 /* =========================================================
-   GITHUB PAGES URL
+   SECTION ROOT
+   ========================================================= */
+
+function sectionRoot() {
+
+  return normalizePath(
+    AUF2026_CONFIG.section
+  );
+
+}
+
+
+/* =========================================================
+   SECTION URL
+   ========================================================= */
+
+function repositorySectionURL() {
+
+  return (
+
+    AUF2026_CONFIG.origin +
+
+    "/" +
+
+    sectionRoot() +
+
+    "/"
+
+  );
+
+}
+
+
+/* =========================================================
+   RESOURCE URL
+   =========================================================
+   IMPORTANT:
+
+   Every resource is forced inside /datasets/.
+
+   A resource such as:
+
+     datasets/example.csv
+
+   is valid.
+
+   A resource such as:
+
+     code/example.js
+
+   is rejected.
+
+   A resource such as:
+
+     ../code/example.js
+
+   is rejected.
+
    ========================================================= */
 
 function repositoryResourceURL(path) {
@@ -4262,82 +4300,98 @@ function repositoryResourceURL(path) {
   }
 
 
+  const root =
+    sectionRoot();
+
+
+  /*
+   * Accept either:
+
+       example.csv
+
+   * or:
+
+       datasets/example.csv
+   */
+
+  let resource =
+    clean;
+
+
+  if (
+    resource === root
+  ) {
+
+    return repositorySectionURL();
+
+  }
+
+
+  if (
+    resource.startsWith(
+      root + "/"
+    )
+  ) {
+
+    resource =
+      resource.slice(
+        root.length + 1
+      );
+
+  }
+
+
+  /*
+   * Reject cross-section resources.
+   */
+
+  if (
+    !resource ||
+    resource.includes("..") ||
+    resource.startsWith("/")
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+   * Prevent accidental traversal after
+   * normalisation.
+   */
+
+  const segments =
+    resource
+      .split("/")
+      .filter(Boolean);
+
+
+  if (
+    segments.includes("..")
+  ) {
+
+    return null;
+
+  }
+
+
   return (
 
     AUF2026_CONFIG.origin +
 
     "/" +
 
-    clean
-      .split("/")
+    root +
+
+    "/" +
+
+    segments
       .map(
         encodeURIComponent
       )
       .join("/")
 
-  );
-
-}
-
-
-/* =========================================================
-   SECTION URL
-   ========================================================= */
-
-function repositorySectionURL(section) {
-
-  const clean =
-    normalizePath(section);
-
-
-  if (!clean) {
-
-    return (
-      AUF2026_CONFIG.origin +
-      "/"
-    );
-
-  }
-
-
-  return (
-
-    AUF2026_CONFIG.origin +
-    "/" +
-    clean +
-    "/"
-
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY NAME
-   ========================================================= */
-
-function directoryName(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return "Repository";
-
-  }
-
-
-  const parts =
-    clean
-      .split("/")
-      .filter(Boolean);
-
-
-  return (
-    parts[parts.length - 1] ||
-    clean
   );
 
 }
@@ -4388,53 +4442,35 @@ function fileIcon(extension) {
 
   const icons = {
 
+    csv:
+      "≡",
+
+    tsv:
+      "≡",
+
+    json:
+      "{}",
+
+    jsonl:
+      "{}",
+
+    xml:
+      "XML",
+
+    txt:
+      "T",
+
     md:
       "M",
 
     markdown:
       "M",
 
-    html:
-      "H",
-
-    htm:
-      "H",
-
     pdf:
       "P",
 
     tex:
       "T",
-
-    latex:
-      "T",
-
-    lean:
-      "λ",
-
-    json:
-      "{}",
-
-    csv:
-      "≡",
-
-    txt:
-      "T",
-
-    js:
-      "JS",
-
-    mjs:
-      "JS",
-
-    cjs:
-      "JS",
-
-    css:
-      "#",
-
-    xml:
-      "XML",
 
     yaml:
       "Y",
@@ -4445,6 +4481,27 @@ function fileIcon(extension) {
     toml:
       "T",
 
+    parquet:
+      "▦",
+
+    feather:
+      "▦",
+
+    sqlite:
+      "DB",
+
+    db:
+      "DB",
+
+    zip:
+      "ZIP",
+
+    gz:
+      "GZ",
+
+    tar:
+      "TAR",
+
     png:
       "IMG",
 
@@ -4454,41 +4511,11 @@ function fileIcon(extension) {
     jpeg:
       "IMG",
 
-    gif:
-      "IMG",
-
     webp:
       "IMG",
 
     svg:
-      "IMG",
-
-    bmp:
-      "IMG",
-
-    mp3:
-      "♫",
-
-    wav:
-      "♫",
-
-    ogg:
-      "♫",
-
-    flac:
-      "♫",
-
-    mp4:
-      "▶",
-
-    webm:
-      "▶",
-
-    mov:
-      "▶",
-
-    avi:
-      "▶"
+      "IMG"
 
   };
 
@@ -4524,6 +4551,76 @@ function naturalPathCompare(a, b) {
 
 
 /* =========================================================
+   RESOURCE NORMALISATION
+   ========================================================= */
+
+function normalizeSectionResource(path) {
+
+  const clean =
+    normalizePath(path);
+
+
+  if (!clean) {
+
+    return null;
+
+  }
+
+
+  const root =
+    sectionRoot();
+
+
+  /*
+   * Already section-qualified.
+   */
+
+  if (
+    clean === root
+  ) {
+
+    return root;
+
+  }
+
+
+  if (
+    clean.startsWith(
+      root + "/"
+    )
+  ) {
+
+    return clean;
+
+  }
+
+
+  /*
+   * Section-local resource.
+
+   * example.csv
+   * data/example.csv
+   */
+
+  if (
+    clean.includes("..")
+  ) {
+
+    return null;
+
+  }
+
+
+  return (
+    root +
+    "/" +
+    clean
+  );
+
+}
+
+
+/* =========================================================
    REQUESTED RESOURCE
    ========================================================= */
 
@@ -4535,17 +4632,47 @@ function getRequestedResource() {
     );
 
 
-  return normalizePath(
-
+  const requested =
     params.get("resource") ||
 
     params.get("file") ||
 
     params.get("doc") ||
 
-    ""
+    "";
 
-  );
+
+  const clean =
+    normalizeSectionResource(
+      requested
+    );
+
+
+  if (!clean) {
+
+    return "";
+
+  }
+
+
+  /*
+   * Never accept a resource belonging
+   * to another repository section.
+   */
+
+  if (
+    clean !== sectionRoot() &&
+    !clean.startsWith(
+      sectionRoot() + "/"
+    )
+  ) {
+
+    return "";
+
+  }
+
+
+  return clean;
 
 }
 
@@ -4557,7 +4684,9 @@ function getRequestedResource() {
 function updateURL(path) {
 
   const clean =
-    normalizePath(path);
+    normalizeSectionResource(
+      path
+    );
 
 
   if (!clean) {
@@ -4687,87 +4816,70 @@ function findMenuMount() {
 
 
 /* =========================================================
-   DISCOVER REPOSITORY
+   SECTION FILE REGISTRATION
    =========================================================
-   IMPORTANT:
+   This parser NEVER discovers files remotely.
 
-   GitHub Pages has no directory listing API.
+   The /datasets/index.html page itself declares
+   the resources belonging to this section.
 
-   Therefore the root parser discovers the SECTIONS,
-   not arbitrary files.
+   Example:
 
-   Each section is responsible for its own resources.
+     registerFiles([
+       "datasets/example.csv",
+       "datasets/README.md"
+     ]);
 
-   This completely eliminates:
-
-   - GitHub API
-   - raw.githubusercontent.com
-   - HTTP 403
-   - CORS failures
    ========================================================= */
 
-async function discoverRepository() {
+function registerFiles(files) {
 
-  const directories =
-    new Set();
+  if (
+    !Array.isArray(files)
+  ) {
 
+    return;
 
-  AUF2026_CONFIG.sections
-    .forEach(
-      section => {
-
-        const clean =
-          normalizePath(
-            section
-          );
+  }
 
 
-        if (clean) {
+  state.files = files
 
-          directories.add(
-            clean
-          );
-
-        }
-
-      }
-    );
-
-
-  state.directories =
-    Array.from(
-      directories
+    .map(
+      normalizeSectionResource
     )
+
+    .filter(Boolean)
+
+    .filter(
+      file =>
+        file === sectionRoot() ||
+        file.startsWith(
+          sectionRoot() + "/"
+        )
+    )
+
+    .filter(
+      (
+        file,
+        index,
+        array
+      ) =>
+        array.indexOf(file) === index
+    )
+
     .sort(
       naturalPathCompare
     );
 
 
-  state.rootDirectories =
-    state.directories
-      .filter(
-        path =>
-          !path.includes("/")
-      );
-
-
-  /*
-   * No fake file discovery.
-   *
-   * The root parser deliberately does not invent
-   * filenames that it cannot know.
-   */
-
-  state.files = [];
-
-
-  return true;
+  rebuildFileList();
 
 }
 
 
 /* =========================================================
-   BUILD REPOSITORY MENU
+   BUILD SECTION MENU
    ========================================================= */
 
 function buildRepositoryMenu() {
@@ -4796,93 +4908,21 @@ function buildRepositoryMenu() {
     "auf-repository-menu";
 
 
-  state.rootDirectories
-    .forEach(
-      directory => {
+  const section =
+    createSectionShell();
 
-        navigation.appendChild(
 
-          createDirectorySection(
-            directory
-          )
-
-        );
-
-      }
-    );
+  navigation.appendChild(
+    section
+  );
 
 
   mount.appendChild(
     navigation
   );
 
-}
 
-
-/* =========================================================
-   DIRECTORY SECTION
-   ========================================================= */
-
-function createDirectorySection(
-  directory
-) {
-
-  const shell =
-    createSectionShell(
-
-      directoryName(
-        directory
-      ),
-
-      directory,
-
-      "directory"
-
-    );
-
-
-  /*
-   * The section itself is a real GitHub Pages
-   * directory.
-
-   * No API request is made.
-   */
-
-  const openButton =
-    document.createElement(
-      "a"
-    );
-
-
-  openButton.className =
-    "auf-menu-directory-link";
-
-
-  openButton.href =
-    repositorySectionURL(
-      directory
-    );
-
-
-  openButton.textContent =
-    "Open section";
-
-
-  openButton.setAttribute(
-    "aria-label",
-    "Open " +
-    directoryName(
-      directory
-    )
-  );
-
-
-  shell.list.appendChild(
-    openButton
-  );
-
-
-  return shell.root;
+  rebuildFileList();
 
 }
 
@@ -4891,11 +4931,7 @@ function createDirectorySection(
    SECTION SHELL
    ========================================================= */
 
-function createSectionShell(
-  title,
-  path,
-  type
-) {
+function createSectionShell() {
 
   const root =
     document.createElement(
@@ -4905,8 +4941,11 @@ function createSectionShell(
 
   root.className =
     "auf-menu-section " +
-    "auf-menu-section-" +
-    type;
+    "auf-menu-section-directory";
+
+
+  root.dataset.path =
+    sectionRoot();
 
 
   const header =
@@ -4925,7 +4964,7 @@ function createSectionShell(
 
   header.setAttribute(
     "aria-expanded",
-    "false"
+    "true"
   );
 
 
@@ -4946,9 +4985,7 @@ function createSectionShell(
 
 
   icon.textContent =
-    type === "directory"
-      ? "§"
-      : "R";
+    "§";
 
 
   const titleElement =
@@ -4962,7 +4999,7 @@ function createSectionShell(
 
 
   titleElement.textContent =
-    title;
+    "Datasets";
 
 
   const pathElement =
@@ -4976,7 +5013,7 @@ function createSectionShell(
 
 
   pathElement.textContent =
-    path;
+    sectionRoot();
 
 
   const arrow =
@@ -5058,139 +5095,17 @@ function createSectionShell(
   );
 
 
-  return {
-
-    root:
-      root,
-
-    header:
-      header,
-
-    list:
-      list
-
-  };
+  return root;
 
 }
 
 
 /* =========================================================
-   OPEN RESOURCE
-   ========================================================= */
-
-function openResource(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  /*
-   * Prefer the parser already installed by the page.
-   */
-
-  if (
-    typeof window.loadRepositoryResource ===
-    "function"
-  ) {
-
-    window.loadRepositoryResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  if (
-    typeof window.loadResource ===
-    "function"
-  ) {
-
-    window.loadResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Absolute fallback:
-   * direct GitHub Pages resource.
-   */
-
-  const url =
-    repositoryResourceURL(
-      clean
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   OPEN SECTION
-   ========================================================= */
-
-function openSection(
-  section
-) {
-
-  const url =
-    repositorySectionURL(
-      section
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   FILE ITEM
+   CREATE FILE ITEM
    ========================================================= */
 
 function createFileItem(
-  file,
-  parentDirectory
+  file
 ) {
 
   const button =
@@ -5219,17 +5134,20 @@ function createFileItem(
     file;
 
 
+  const root =
+    sectionRoot();
+
+
   const relative =
-    parentDirectory
+    file.startsWith(
+      root + "/"
+    )
 
-      ? normalizePath(file)
-          .slice(
-            normalizePath(
-              parentDirectory
-            ).length + 1
-          )
+      ? file.slice(
+          root.length + 1
+        )
 
-      : normalizePath(file);
+      : filename;
 
 
   const extension =
@@ -5369,6 +5287,213 @@ function createFileItem(
 
 
 /* =========================================================
+   REBUILD FILE LIST
+   ========================================================= */
+
+function rebuildFileList() {
+
+  const root =
+    sectionRoot();
+
+
+  const section =
+    document.querySelector(
+      ".auf-menu-section[data-path=\"" +
+      CSS.escape(root) +
+      "\"]"
+    );
+
+
+  if (!section) {
+
+    return;
+
+  }
+
+
+  const list =
+    section.querySelector(
+      ".auf-menu-file-list"
+    );
+
+
+  if (!list) {
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  state.files
+    .forEach(
+      file => {
+
+        list.appendChild(
+          createFileItem(
+            file
+          )
+        );
+
+      }
+    );
+
+
+  if (!state.files.length) {
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.className =
+      "auf-menu-directory-link";
+
+
+    link.href =
+      repositorySectionURL();
+
+
+    link.textContent =
+      "Open datasets section";
+
+
+    list.appendChild(
+      link
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   OPEN RESOURCE
+   ========================================================= */
+
+function openResource(path) {
+
+  const clean =
+    normalizeSectionResource(
+      path
+    );
+
+
+  if (!clean) {
+
+    return;
+
+  }
+
+
+  /*
+   * Absolute section boundary.
+
+   * The resource MUST belong to /datasets/.
+   */
+
+  if (
+    clean !== sectionRoot() &&
+    !clean.startsWith(
+      sectionRoot() + "/"
+    )
+  ) {
+
+    console.warn(
+      "AUF2026: rejected cross-section resource:",
+      path
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Prefer the viewer/parser already
+   * installed by datasets/index.html.
+   */
+
+  if (
+    typeof window.loadRepositoryResource ===
+    "function"
+  ) {
+
+    window.loadRepositoryResource(
+      clean
+    );
+
+    updateURL(
+      clean
+    );
+
+    setActiveFile(
+      clean
+    );
+
+    return;
+
+  }
+
+
+  if (
+    typeof window.loadResource ===
+    "function"
+  ) {
+
+    window.loadResource(
+      clean
+    );
+
+    updateURL(
+      clean
+    );
+
+    setActiveFile(
+      clean
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Direct GitHub Pages fallback.
+   */
+
+  const url =
+    repositoryResourceURL(
+      clean
+    );
+
+
+  if (url) {
+
+    window.location.href =
+      url;
+
+  }
+
+}
+
+
+/* =========================================================
+   OPEN SECTION
+   ========================================================= */
+
+function openSection() {
+
+  window.location.href =
+    repositorySectionURL();
+
+}
+
+
+/* =========================================================
    ACTIVE FILE
    ========================================================= */
 
@@ -5377,9 +5502,16 @@ function setActiveFile(
 ) {
 
   const clean =
-    normalizePath(
+    normalizeSectionResource(
       file
     );
+
+
+  if (!clean) {
+
+    return;
+
+  }
 
 
   document
@@ -5423,200 +5555,6 @@ function setActiveFile(
 
 
 /* =========================================================
-   REGISTER SECTION FILES
-   =========================================================
-   This is the interface used by each folder parser.
-
-   Example from /pages/index.html:
-
-   window.AUF2026Repository.registerFiles(
-     "pages",
-     [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
-     ]
-   );
-
-   No external server is contacted.
-   ========================================================= */
-
-function registerSectionFiles(
-  directory,
-  files
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  if (!root) {
-
-    return;
-
-  }
-
-
-  if (
-    !Array.isArray(files)
-  ) {
-
-    return;
-
-  }
-
-
-  files
-    .map(
-      normalizePath
-    )
-    .filter(Boolean)
-    .forEach(
-      file => {
-
-        if (
-          !state.files.includes(
-            file
-          )
-        ) {
-
-          state.files.push(
-            file
-          );
-
-        }
-
-      }
-    );
-
-
-  state.files =
-    Array.from(
-      new Set(
-        state.files
-      )
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  rebuildSectionFiles(
-    root
-  );
-
-}
-
-
-/* =========================================================
-   REBUILD SECTION FILES
-   ========================================================= */
-
-function rebuildSectionFiles(
-  directory
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  const section =
-    document.querySelector(
-      ".auf-menu-section[data-path=\"" +
-      CSS.escape(root) +
-      "\"]"
-    );
-
-
-  if (!section) {
-
-    return;
-
-  }
-
-
-  const list =
-    section.querySelector(
-      ".auf-menu-file-list"
-    );
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  const files =
-    state.files
-      .filter(
-        file =>
-          file === root ||
-          file.startsWith(
-            root + "/"
-          )
-      )
-      .sort(
-        naturalPathCompare
-      );
-
-
-  files.forEach(
-    file => {
-
-      list.appendChild(
-
-        createFileItem(
-          file,
-          root
-        )
-
-      );
-
-    }
-  );
-
-
-  if (!files.length) {
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "auf-menu-directory-link";
-
-
-    link.href =
-      repositorySectionURL(
-        root
-      );
-
-
-    link.textContent =
-      "Open section";
-
-
-    list.appendChild(
-      link
-    );
-
-  }
-
-}
-
-
-/* =========================================================
    ERROR
    ========================================================= */
 
@@ -5655,7 +5593,7 @@ function renderRepositoryError(
 
 
   strong.textContent =
-    "Repository navigation error";
+    "Datasets navigation error";
 
 
   const message =
@@ -5670,7 +5608,7 @@ function renderRepositoryError(
 
       ? error.message
 
-      : "Unable to initialise repository navigation.";
+      : "Unable to initialise datasets navigation.";
 
 
   box.appendChild(
@@ -5698,9 +5636,6 @@ async function initialiseRepository() {
 
   try {
 
-    await discoverRepository();
-
-
     buildRepositoryMenu();
 
 
@@ -5727,7 +5662,7 @@ async function initialiseRepository() {
   ) {
 
     console.error(
-      "AUF2026 repository navigation:",
+      "AUF2026 datasets navigation:",
       error
     );
 
@@ -5759,26 +5694,21 @@ window.AUF2026Repository = {
 
     },
 
-  directories:
+  section:
     function () {
 
-      return [
-        ...state.directories
-      ];
+      return repositorySectionURL();
 
     },
 
   url:
     repositoryResourceURL,
 
-  section:
-    repositorySectionURL,
-
   open:
     openResource,
 
   registerFiles:
-    registerSectionFiles,
+    registerFiles,
 
   refresh:
     initialiseRepository
