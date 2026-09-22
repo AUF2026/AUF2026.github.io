@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Pages</title>
+  <title>AUF2026 — Pdf</title>
 
   <style>
 
@@ -2398,1613 +2398,348 @@ html[data-theme="light"] {
 
 
   <script>
-
-/* =========================================================
-   AUF2026 PDF REPOSITORY NAVIGATION
-   =========================================================
-   DIRECT GITHUB PAGES ONLY
-
-   NO GitHub API
-   NO raw.githubusercontent.com
-   NO external repository requests
-
-   Architecture:
-
-   /index.html
-       |
-       +-- /pdf/
-
-   The pdf section is a normal GitHub Pages directory.
-
-   Files are opened directly from:
-
-   https://auf2026.github.io/pdf/
-
-   ========================================================= */
-
-
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
-
-const AUF2026_CONFIG = {
-
-  origin:
-    "https://auf2026.github.io",
-
-  section:
-    "pdf"
-
-};
-
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-const state = {
-
-  directory:
-    "pdf",
-
-  files: [],
-
-  initialized: false
-
-};
-
-
-/* =========================================================
-   PATH NORMALISATION
-   ========================================================= */
-
-function normalizePath(path) {
-
-  return String(path || "")
-
-    .replace(
-      /\\/g,
-      "/"
-    )
-
-    .replace(
-      /^\/+/,
-      ""
-    )
-
-    .replace(
-      /\/+/g,
-      "/"
-    )
-
-    .replace(
-      /\/$/,
-      ""
-    );
-
-}
-
-
-/* =========================================================
-   GITHUB PAGES URL
-   ========================================================= */
-
-function repositoryResourceURL(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return null;
-
-  }
-
-
-  return (
-
-    AUF2026_CONFIG.origin +
-
-    "/" +
-
-    clean
-      .split("/")
-      .map(
-        encodeURIComponent
-      )
-      .join("/")
-
-  );
-
-}
-
-
-/* =========================================================
-   SECTION URL
-   ========================================================= */
-
-function repositorySectionURL() {
-
-  return (
-
-    AUF2026_CONFIG.origin +
-    "/pdf/"
-
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY NAME
-   ========================================================= */
-
-function directoryName(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return "Repository";
-
-  }
-
-
-  const parts =
-    clean
-      .split("/")
-      .filter(Boolean);
-
-
-  return (
-    parts[parts.length - 1] ||
-    clean
-  );
-
-}
-
-
-/* =========================================================
-   FILE EXTENSION
-   ========================================================= */
-
-function getFileExtension(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  const filename =
-    clean
-      .split("/")
-      .filter(Boolean)
-      .pop() || "";
-
-
-  const dot =
-    filename.lastIndexOf(".");
-
-
-  if (
-    dot <= 0
-  ) {
-
-    return "";
-
-  }
-
-
-  return filename
-    .slice(dot + 1)
-    .toLowerCase();
-
-}
-
-
-/* =========================================================
-   FILE ICON
-   ========================================================= */
-
-function fileIcon(extension) {
-
-  const icons = {
-
-    md:
-      "M",
-
-    markdown:
-      "M",
-
-    html:
-      "H",
-
-    htm:
-      "H",
-
-    pdf:
-      "P",
-
-    tex:
-      "T",
-
-    latex:
-      "T",
-
-    lean:
-      "λ",
-
-    json:
-      "{}",
-
-    csv:
-      "≡",
-
-    txt:
-      "T",
-
-    js:
-      "JS",
-
-    mjs:
-      "JS",
-
-    cjs:
-      "JS",
-
-    css:
-      "#",
-
-    xml:
-      "XML",
-
-    yaml:
-      "Y",
-
-    yml:
-      "Y",
-
-    toml:
-      "T",
-
-    png:
-      "IMG",
-
-    jpg:
-      "IMG",
-
-    jpeg:
-      "IMG",
-
-    gif:
-      "IMG",
-
-    webp:
-      "IMG",
-
-    svg:
-      "IMG",
-
-    bmp:
-      "IMG",
-
-    mp3:
-      "♫",
-
-    wav:
-      "♫",
-
-    ogg:
-      "♫",
-
-    flac:
-      "♫",
-
-    mp4:
-      "▶",
-
-    webm:
-      "▶",
-
-    mov:
-      "▶",
-
-    avi:
-      "▶"
-
-  };
-
-
-  return (
-    icons[extension] ||
-    "·"
-  );
-
-}
-
-
-/* =========================================================
-   SORT
-   ========================================================= */
-
-function naturalPathCompare(a, b) {
-
-  return String(a || "")
-    .localeCompare(
-      String(b || ""),
-      undefined,
-      {
-        numeric:
-          true,
-
-        sensitivity:
-          "base"
-      }
-    );
-
-}
-
-
-/* =========================================================
-   REQUESTED RESOURCE
-   ========================================================= */
-
-function getRequestedResource() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return normalizePath(
-
-    params.get("resource") ||
-
-    params.get("file") ||
-
-    params.get("doc") ||
-
-    ""
-
-  );
-
-}
-
-
-/* =========================================================
-   URL UPDATE
-   ========================================================= */
-
-function updateURL(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  const url =
-    new URL(
-      window.location.href
-    );
-
-
-  url.searchParams.delete(
-    "file"
-  );
-
-
-  url.searchParams.delete(
-    "doc"
-  );
-
-
-  url.searchParams.set(
-    "resource",
-    clean
-  );
-
-
-  history.replaceState(
-    null,
-    "",
-    url
-  );
-
-}
-
-
-/* =========================================================
-   MENU MOUNT
-   ========================================================= */
-
-function findMenuMount() {
-
-  const selectors = [
-
-    "#repository-menu",
-
-    "#repo-menu",
-
-    "#auf-menu",
-
-    "#archive-menu",
-
-    ".repository-menu",
-
-    ".auf-menu",
-
-    ".archive-menu"
-
-  ];
-
-
-  for (
-    const selector of selectors
-  ) {
-
-    const element =
-      document.querySelector(
-        selector
-      );
-
-
-    if (element) {
-
-      return element;
-
-    }
-
-  }
-
-
-  const viewer =
-    document.querySelector(
-      ".resource-viewer"
-    );
-
-
-  const mount =
-    document.createElement(
-      "div"
-    );
-
-
-  mount.id =
-    "repository-menu";
-
-
-  mount.className =
-    "auf-repository-menu-mount";
-
-
-  if (
-    viewer &&
-    viewer.parentNode
-  ) {
-
-    viewer.parentNode.insertBefore(
-      mount,
-      viewer
-    );
-
-  } else {
-
-    document.body.appendChild(
-      mount
-    );
-
-  }
-
-
-  return mount;
-
-}
-
-
-/* =========================================================
-   DISCOVER PDF
-   =========================================================
-   IMPORTANT:
-
-   GitHub Pages has no directory listing API.
-
-   Therefore /pdf/ is treated as the single
-   repository section.
-
-   No GitHub API is used.
-   No raw.githubusercontent.com is used.
-   No external repository request is made.
-
-   Files are registered explicitly through:
-
-   window.AUF2026Repository.registerFiles(
-     "pdf",
-     [
-       "pdf/index.html",
-       "pdf/example.pdf"
-     ]
-   );
-
-   ========================================================= */
-
-async function discoverRepository() {
-
-  state.directory =
-    "pdf";
-
-
-  state.files =
-    [];
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-   BUILD REPOSITORY MENU
-   ========================================================= */
-
-function buildRepositoryMenu() {
-
-  const mount =
-    findMenuMount();
-
-
-  if (!mount) {
-
-    return;
-
-  }
-
-
-  mount.innerHTML = "";
-
-
-  const navigation =
-    document.createElement(
-      "nav"
-    );
-
-
-  navigation.className =
-    "auf-repository-menu";
-
-
-  navigation.appendChild(
-
-    createDirectorySection(
-      "pdf"
-    )
-
-  );
-
-
-  mount.appendChild(
-    navigation
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY SECTION
-   ========================================================= */
-
-function createDirectorySection(
-  directory
-) {
-
-  const shell =
-    createSectionShell(
-
-      directoryName(
-        directory
-      ),
-
-      directory,
-
-      "directory"
-
-    );
-
-
-  /*
-   * The pdf section itself is the real
-   * GitHub Pages directory.
-   *
-   * No API request is made.
-   */
-
-  const openButton =
-    document.createElement(
-      "a"
-    );
-
-
-  openButton.className =
-    "auf-menu-directory-link";
-
-
-  openButton.href =
-    repositorySectionURL();
-
-
-  openButton.textContent =
-    "Open section";
-
-
-  openButton.setAttribute(
-    "aria-label",
-    "Open " +
-    directoryName(
-      directory
-    )
-  );
-
-
-  shell.list.appendChild(
-    openButton
-  );
-
-
-  return shell.root;
-
-}
-
-
-/* =========================================================
-   SECTION SHELL
-   ========================================================= */
-
-function createSectionShell(
-  title,
-  path,
-  type
-) {
-
-  const root =
-    document.createElement(
-      "section"
-    );
-
-
-  root.className =
-    "auf-menu-section " +
-    "auf-menu-section-" +
-    type;
-
-
-  root.dataset.path =
-    normalizePath(
-      path
-    );
-
-
-  const header =
-    document.createElement(
-      "button"
-    );
-
-
-  header.type =
-    "button";
-
-
-  header.className =
-    "auf-menu-section-header";
-
-
-  header.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-
-  const icon =
-    document.createElement(
-      "span"
-    );
-
-
-  icon.className =
-    "auf-menu-section-icon";
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  icon.textContent =
-    type === "directory"
-      ? "§"
-      : "R";
-
-
-  const titleElement =
-    document.createElement(
-      "span"
-    );
-
-
-  titleElement.className =
-    "auf-menu-section-title";
-
-
-  titleElement.textContent =
-    title;
-
-
-  const pathElement =
-    document.createElement(
-      "span"
-    );
-
-
-  pathElement.className =
-    "auf-menu-section-path";
-
-
-  pathElement.textContent =
-    path;
-
-
-  const arrow =
-    document.createElement(
-      "span"
-    );
-
-
-  arrow.className =
-    "auf-menu-section-arrow";
-
-
-  arrow.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  arrow.textContent =
-    "›";
-
-
-  header.appendChild(
-    icon
-  );
-
-
-  header.appendChild(
-    titleElement
-  );
-
-
-  header.appendChild(
-    pathElement
-  );
-
-
-  header.appendChild(
-    arrow
-  );
-
-
-  const list =
-    document.createElement(
-      "div"
-    );
-
-
-  list.className =
-    "auf-menu-file-list";
-
-
-  header.addEventListener(
-    "click",
-    function () {
-
-      const open =
-        root.classList.toggle(
-          "is-open"
-        );
-
-
-      header.setAttribute(
-        "aria-expanded",
-        String(open)
-      );
-
-    }
-  );
-
-
-  root.appendChild(
-    header
-  );
-
-
-  root.appendChild(
-    list
-  );
-
-
-  return {
-
-    root:
-      root,
-
-    header:
-      header,
-
-    list:
-      list
-
-  };
-
-}
-
-
-/* =========================================================
-   OPEN RESOURCE
-   ========================================================= */
-
-function openResource(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  /*
-   * Prefer the parser already installed by the page.
-   */
-
-  if (
-    typeof window.loadRepositoryResource ===
-    "function"
-  ) {
-
-    window.loadRepositoryResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  if (
-    typeof window.loadResource ===
-    "function"
-  ) {
-
-    window.loadResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Absolute fallback:
-   * direct GitHub Pages resource.
-   */
-
-  const url =
-    repositoryResourceURL(
-      clean
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   OPEN SECTION
-   ========================================================= */
-
-function openSection() {
-
-  const url =
-    repositorySectionURL();
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   FILE ITEM
-   ========================================================= */
-
-function createFileItem(
-  file,
-  parentDirectory
-) {
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.type =
-    "button";
-
-
-  button.className =
-    "auf-menu-file";
-
-
-  button.dataset.path =
-    file;
-
-
-  const filename =
-    normalizePath(file)
-      .split("/")
-      .filter(Boolean)
-      .pop() ||
-    file;
-
-
-  const relative =
-    parentDirectory
-
-      ? normalizePath(file)
-          .slice(
-            normalizePath(
-              parentDirectory
-            ).length + 1
-          )
-
-      : normalizePath(file);
-
-
-  const extension =
-    getFileExtension(
-      filename
-    );
-
-
-  const icon =
-    document.createElement(
-      "span"
-    );
-
-
-  icon.className =
-    "auf-menu-file-icon";
-
-
-  icon.textContent =
-    fileIcon(
-      extension
-    );
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  const main =
-    document.createElement(
-      "span"
-    );
-
-
-  main.className =
-    "auf-menu-file-main";
-
-
-  const name =
-    document.createElement(
-      "span"
-    );
-
-
-  name.className =
-    "auf-menu-file-name";
-
-
-  name.textContent =
-    filename;
-
-
-  const pathElement =
-    document.createElement(
-      "span"
-    );
-
-
-  pathElement.className =
-    "auf-menu-file-path";
-
-
-  pathElement.textContent =
-    relative;
-
-
-  main.appendChild(
-    name
-  );
-
-
-  main.appendChild(
-    pathElement
-  );
-
-
-  const extensionElement =
-    document.createElement(
-      "span"
-    );
-
-
-  extensionElement.className =
-    "auf-menu-file-extension";
-
-
-  extensionElement.textContent =
-    extension
-      ? "." + extension
-      : "FILE";
-
-
-  button.appendChild(
-    icon
-  );
-
-
-  button.appendChild(
-    main
-  );
-
-
-  button.appendChild(
-    extensionElement
-  );
-
-
-  button.addEventListener(
-    "click",
-    function () {
-
-      openResource(
-        file
-      );
-
-    }
-  );
-
-
-  if (
-    getRequestedResource() ===
-    normalizePath(file)
-  ) {
-
-    button.classList.add(
-      "is-active"
-    );
-
-  }
-
-
-  return button;
-
-}
-
-
-/* =========================================================
-   ACTIVE FILE
-   ========================================================= */
-
-function setActiveFile(
-  file
-) {
-
-  const clean =
-    normalizePath(
-      file
-    );
-
-
-  document
-    .querySelectorAll(
-      ".auf-menu-file.is-active"
-    )
-    .forEach(
-      item => {
-
-        item.classList.remove(
-          "is-active"
-        );
-
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".auf-menu-file"
-    )
-    .forEach(
-      item => {
-
-        if (
-          normalizePath(
-            item.dataset.path
-          ) === clean
-        ) {
-
-          item.classList.add(
-            "is-active"
-          );
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   REGISTER PDF FILES
-   =========================================================
-   This is the interface used by /pdf/.
-
-   Example:
-
-   window.AUF2026Repository.registerFiles(
-     "pdf",
-     [
-       "pdf/index.html",
-       "pdf/paper-01.pdf",
-       "pdf/paper-02.pdf"
-     ]
-   );
-
-   Only files belonging to pdf/ are accepted.
-   No external server is contacted.
-   ========================================================= */
-
-function registerSectionFiles(
-  directory,
-  files
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  if (
-    root !==
-    "pdf"
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !Array.isArray(files)
-  ) {
-
-    return;
-
-  }
-
-
-  files
-    .map(
-      normalizePath
-    )
-    .filter(
-      file =>
-        file === "pdf" ||
-        file.startsWith(
-          "pdf/"
-        )
-    )
-    .filter(Boolean)
-    .forEach(
-      file => {
-
-        if (
-          !state.files.includes(
-            file
-          )
-        ) {
-
-          state.files.push(
-            file
-          );
-
-        }
-
-      }
-    );
-
-
-  state.files =
-    Array.from(
-      new Set(
-        state.files
-      )
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  rebuildSectionFiles(
-    "pdf"
-  );
-
-}
-
-
-/* =========================================================
-   REBUILD PDF FILES
-   ========================================================= */
-
-function rebuildSectionFiles(
-  directory
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  if (
-    root !==
-    "pdf"
-  ) {
-
-    return;
-
-  }
-
-
-  const section =
-    document.querySelector(
-      ".auf-menu-section[data-path=\"" +
-      CSS.escape(root) +
-      "\"]"
-    );
-
-
-  if (!section) {
-
-    return;
-
-  }
-
-
-  const list =
-    section.querySelector(
-      ".auf-menu-file-list"
-    );
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
+(function () {
+
+  const SECTION = "pdf";
+
+  const OWNER = "AUF2026";
+  const REPOSITORY = "AUF2026.github.io";
+  const BRANCH = "main";
+
+  const TREE_URL =
+    "https://api.github.com/repos/" +
+    OWNER + "/" +
+    REPOSITORY +
+    "/git/trees/" +
+    BRANCH +
+    "?recursive=1";
+
+  const BLOB_BASE =
+    "https://github.com/" +
+    OWNER + "/" +
+    REPOSITORY +
+    "/blob/" +
+    BRANCH + "/";
+
+  const status =
+    document.getElementById("pdfStatus");
 
   const files =
-    state.files
-      .filter(
-        file =>
-          file === root ||
-          file.startsWith(
-            root + "/"
+    document.getElementById("pdfFiles");
+
+
+  load();
+
+
+  async function load() {
+
+    try {
+
+      setStatus("Scanning repository tree…");
+
+
+      const response =
+        await fetch(
+          TREE_URL,
+          {
+            cache: "no-store",
+            headers: {
+              "Accept":
+                "application/vnd.github+json"
+            }
+          }
+        );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          "GitHub API HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const data =
+        await response.json();
+
+
+      const discovered =
+        data.tree
+          .filter(
+            item =>
+              item &&
+              item.type === "blob" &&
+              typeof item.path === "string" &&
+              item.path.startsWith(
+                SECTION + "/"
+              ) &&
+              item.path !==
+                SECTION + "/index.html"
           )
-      )
-      .sort(
-        naturalPathCompare
+          .sort(
+            (a, b) =>
+              a.path.localeCompare(
+                b.path,
+                undefined,
+                {
+                  numeric: true,
+                  sensitivity: "base"
+                }
+              )
+          );
+
+
+      render(discovered);
+
+
+      setStatus(
+        discovered.length +
+        " resource" +
+        (
+          discovered.length === 1
+            ? ""
+            : "s"
+        ) +
+        " found under /pdf/",
+        "ok"
       );
 
 
-  files.forEach(
-    file => {
+    } catch (error) {
 
-      list.appendChild(
-
-        createFileItem(
-          file,
-          root
-        )
-
+      console.error(
+        "AUF2026 PDF parser:",
+        error
       );
+
+
+      setStatus(
+        "Repository scan failed: " +
+        error.message,
+        "error"
+      );
+
+
+      if (files) {
+
+        files.innerHTML =
+          `
+            <div class="pdf-empty">
+              Unable to read
+              <code>/pdf/</code>.
+            </div>
+          `;
+
+      }
 
     }
-  );
-
-
-  if (!files.length) {
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "auf-menu-directory-link";
-
-
-    link.href =
-      repositorySectionURL();
-
-
-    link.textContent =
-      "Open section";
-
-
-    list.appendChild(
-      link
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function renderRepositoryError(
-  error
-) {
-
-  const mount =
-    findMenuMount();
-
-
-  if (!mount) {
-
-    return;
 
   }
 
 
-  mount.innerHTML = "";
+  function render(items) {
+
+    files.innerHTML = "";
 
 
-  const box =
-    document.createElement(
-      "div"
-    );
+    if (!items.length) {
+
+      files.innerHTML =
+        `
+          <div class="pdf-empty">
+            No resources were found
+            under <code>/pdf/</code>.
+          </div>
+        `;
+
+      return;
+
+    }
 
 
-  box.className =
-    "auf-menu-error";
+    let currentDirectory = null;
 
 
-  const strong =
-    document.createElement(
-      "strong"
-    );
+    items.forEach(item => {
+
+      const relative =
+        item.path.slice(
+          SECTION.length + 1
+        );
 
 
-  strong.textContent =
-    "PDF navigation error";
+      const parts =
+        relative.split("/");
 
 
-  const message =
-    document.createElement(
-      "span"
-    );
+      const directory =
+        parts.length > 1
+          ? parts.slice(0, -1).join("/")
+          : "";
 
 
-  message.textContent =
-    error &&
-    error.message
+      if (
+        directory !==
+        currentDirectory
+      ) {
 
-      ? error.message
-
-      : "Unable to initialise pdf navigation.";
-
-
-  box.appendChild(
-    strong
-  );
+        currentDirectory =
+          directory;
 
 
-  box.appendChild(
-    message
-  );
+        const heading =
+          document.createElement("div");
 
 
-  mount.appendChild(
-    box
-  );
-
-}
+        heading.className =
+          "pdf-directory";
 
 
-/* =========================================================
-   INITIALISE
-   ========================================================= */
-
-async function initialiseRepository() {
-
-  try {
-
-    await discoverRepository();
+        heading.textContent =
+          directory
+            ? "/pdf/" + directory + "/"
+            : "/pdf/";
 
 
-    buildRepositoryMenu();
+        files.appendChild(
+          heading
+        );
+
+      }
 
 
-    state.initialized =
-      true;
+      const article =
+        document.createElement("article");
 
 
-    const requested =
-      getRequestedResource();
+      article.className =
+        "pdf-file";
 
+
+      const filename =
+        item.path.split("/").pop();
+
+
+      article.innerHTML =
+        `
+          <div class="pdf-file-info">
+
+            <h2 class="pdf-file-name">
+              ${escapeHTML(filename)}
+            </h2>
+
+            <div class="pdf-file-path">
+              ${escapeHTML(item.path)}
+            </div>
+
+          </div>
+
+          <div class="pdf-file-actions">
+
+            <button
+              type="button"
+              class="pdf-file-button"
+              data-open
+            >
+              VIEW
+            </button>
+
+            <a
+              class="pdf-file-github"
+              href="${BLOB_BASE + encodeURI(item.path)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GITHUB
+            </a>
+
+          </div>
+        `;
+
+
+      article
+        .querySelector("[data-open]")
+        .addEventListener(
+          "click",
+          () => openResource(item.path)
+        );
+
+
+      files.appendChild(article);
+
+    });
+
+  }
+
+
+  function openResource(path) {
 
     if (
-      requested
+      typeof window.openResource ===
+      "function"
     ) {
 
-      openResource(
-        requested
-      );
+      window.openResource(path);
+
+      return;
 
     }
 
-  } catch (
-    error
-  ) {
 
-    console.error(
-      "AUF2026 pdf navigation:",
-      error
-    );
-
-
-    renderRepositoryError(
-      error
-    );
+    window.location.href =
+      "https://auf2026.github.io/" +
+      path
+        .split("/")
+        .map(
+          encodeURIComponent
+        )
+        .join("/");
 
   }
 
-}
 
+  function setStatus(message, state) {
 
-/* =========================================================
-   PUBLIC API
-   ========================================================= */
+    if (!status) return;
 
-window.AUF2026Repository = {
+    status.textContent =
+      message;
 
-  state:
-    state,
+    if (state) {
 
-  files:
-    function () {
+      status.dataset.state =
+        state;
 
-      return [
-        ...state.files
-      ];
-
-    },
-
-  directory:
-    function () {
-
-      return "pdf";
-
-    },
-
-  url:
-    repositoryResourceURL,
-
-  section:
-    repositorySectionURL,
-
-  open:
-    openResource,
-
-  registerFiles:
-    registerSectionFiles,
-
-  refresh:
-    initialiseRepository
-
-};
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-if (
-  document.readyState ===
-  "loading"
-) {
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialiseRepository,
-    {
-      once:
-        true
     }
-  );
 
-} else {
+  }
 
-  initialiseRepository();
 
-}
+  function escapeHTML(value) {
 
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  window.AUF2026Pdf = {
+
+    section: SECTION,
+
+    refresh: load,
+
+    open: openResource
+
+  };
+
+})();
 </script>
 
 </body>
