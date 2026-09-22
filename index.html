@@ -5,220 +5,242 @@
 <title>AUF2026 · Faure Structural Architecture</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Scientific Typography -->
+<!-- Typography -->
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-  :root {
-    --bg: #0b0f14;
-    --panel: #11161f;
-    --fg: #e6eef6;
-    --fg-soft: #9aa6b2;
-    --border: #222a35;
-    --accent: #3fb5c7;
-    --accent-soft: #4fc0d2;
-    --mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
-    --serif: "Crimson Pro", "STIX Two Text", serif;
-  }
+/* ============================================================
+   AUF2026 — SCIENTIFIC FRAMEWORK + DARK/LIGHT MODE
+   ============================================================ */
 
-  body {
-    margin: 0;
-    padding: 40px;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--serif);
-    line-height: 1.55;
-  }
+:root {
+  --bg: #0b0f14;
+  --panel: #11161f;
+  --fg: #e6eef6;
+  --fg-soft: #9aa6b2;
+  --border: #222a35;
+  --accent: #3fb5c7;
+  --accent-soft: #4fc0d2;
+  --serif: "Crimson Pro", "STIX Two Text", serif;
+  --mono: "JetBrains Mono", Menlo, monospace;
+}
 
-  .layout {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    max-width: 1400px;
-    margin: 0 auto;
-    min-height: 100vh;
-    gap: 40px;
-  }
+/* LIGHT MODE */
+:root.light {
+  --bg: #66666657;
+  --panel: #ffffff2e;
+  --fg: #111;
+  --fg-soft: #555;
+  --border: #d0d0d0;
+  --accent-soft: #006688;
+}
 
-  /* Sidebar */
-  .sidebar {
-    border-right: 1px solid rgba(255,255,255,0.08);
-    padding: 32px 24px;
-  }
+/* GLOBAL */
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  .title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    display: flex;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  padding: 40px;
+  transition: background .3s, color .3s;
+}
 
-  #titleAUF {
-    color: var(--accent);
-    transition: color 0.2s linear;
-  }
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 40px;
+}
 
-  #title2026 {
-    color: #ffffff;
-  }
+/* SIDEBAR */
+.sidebar {
+  padding: 32px 24px;
+  border-right: 1px solid var(--border);
+}
 
-  .subtitle {
-    font-size: 0.9rem;
-    color: var(--fg-soft);
-    margin-bottom: 24px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+}
 
-  .section-list {
-    margin-top: 24px;
-    padding: 0;
-    list-style: none;
-    font-size: 0.95rem;
-  }
+#titleAUF { color: var(--accent); transition: color .2s; }
+#title2026 { color: #fff; }
 
-  .section-item {
-    padding: 8px 4px;
-    cursor: pointer;
-    border-bottom: 1px solid var(--border);
-    color: var(--fg-soft);
-  }
+.subtitle {
+  font-size: .9rem;
+  color: var(--fg-soft);
+  margin-top: 6px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
 
-  .section-item:hover {
-    color: var(--fg);
-    background: #151b24;
-  }
+/* TOGGLE */
+.toggle {
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: .9rem;
+  color: var(--accent);
+  padding: 6px 0;
+}
 
-  .section-item.active {
-    background: #151b24;
-    font-weight: 600;
-    color: var(--accent);
-  }
+/* SECTIONS LIST */
+.section-list {
+  margin-top: 32px;
+  list-style: none;
+}
 
-  /* Main */
-  .main {
-    padding: 32px;
-  }
+.section-item {
+  padding: 8px 4px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-soft);
+  transition: .15s;
+}
 
-  .section-header {
-    margin-bottom: 24px;
-  }
+.section-item:hover {
+  background: var(--panel);
+  color: var(--fg);
+}
 
-  .section-header h2 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin: 0;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: flex;
-    gap: 8px;
-  }
+.section-item.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
 
-  #heroAUF {
-    color: var(--accent);
-    transition: color 0.2s linear;
-  }
+/* MAIN */
+.main {
+  padding: 32px;
+}
 
-  #hero2026 {
-    color: #ffffff;
-  }
+/* SECTION HEADER */
+.section-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+}
 
-  .section-header p {
-    margin: 6px 0 0;
-    color: var(--fg-soft);
-    font-size: 0.9rem;
-  }
+#heroAUF { color: var(--accent); transition: color .2s; }
+#hero2026 { color: #fff; }
 
-  /* File list */
-  .file-list {
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
-    margin-bottom: 32px;
-  }
+.section-header p {
+  margin-top: 6px;
+  color: var(--fg-soft);
+}
 
-  .file-item {
-    padding: 6px 4px;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-    font-size: 0.92rem;
-    color: var(--fg-soft);
-  }
+/* SECTION DESCRIPTION */
+.section-description {
+  margin: 20px 0;
+  padding: 16px;
+  background: var(--panel);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: .95rem;
+  line-height: 1.6;
+}
 
-  .file-item:hover {
-    background: #151b24;
-    color: var(--fg);
-  }
+/* FILE LIST */
+.file-list {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-bottom: 32px;
+}
 
-  .file-item.active {
-    background: #151b24;
-    font-weight: 600;
-    color: var(--accent);
-  }
+.file-item {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--fg-soft);
+}
 
-  /* Viewer */
-  .viewer {
-    border-top: 1px solid var(--border);
-    padding-top: 24px;
-  }
+.file-item:hover {
+  background: var(--panel);
+  color: var(--fg);
+}
 
-  .viewer-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--accent);
-  }
+.file-item.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
 
-  .viewer-body {
-    border: 1px solid var(--border);
-    padding: 16px;
-    background: var(--panel);
-    border-radius: 8px;
-    min-height: 300px;
-    max-height: 600px;
-    overflow: auto;
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
+/* VIEWER */
+.viewer-body {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 300px;
+  max-height: 600px;
+  overflow: auto;
+}
 
-  pre, code {
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    background: #000;
-    color: #e6eef6;
-    padding: 12px;
-    border-radius: 6px;
-  }
+pre {
+  background: #000;
+  color: #e6eef6;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: .85rem;
+}
 
-  iframe {
-    width: 100%;
-    height: 600px;
-    border: none;
-    border-radius: 8px;
-    background: #000;
-  }
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 8px;
+  background: #000;
+}
 
-  a {
-    color: var(--accent);
-    text-decoration: none;
-  }
+/* LANDING PAGE */
+#landing {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 9999;
+  transition: opacity .4s;
+}
 
-  a:hover {
-    text-decoration: underline;
-  }
+#landing h1 {
+  font-size: 3rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 12px;
+}
 
-  @media (max-width: 900px) {
-    body { padding: 20px; }
-    .layout {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .sidebar {
-      border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-  }
+#landingAUF { color: var(--accent); }
+#landing2026 { color: #fff; }
+
+#enterBtn {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  letter-spacing: .05em;
+  transition: .2s;
+}
+
+#enterBtn:hover {
+  background: var(--accent-soft);
+}
 </style>
 
 <!-- Markdown -->
@@ -235,7 +257,19 @@ window.MathJax = {
 </head>
 <body>
 
-<div class="layout">
+<!-- LANDING PAGE -->
+<div id="landing">
+  <h1>
+    <span id="landingAUF">AUF</span>
+    <span id="landing2026">2026</span>
+  </h1>
+  <div style="color:var(--fg-soft);font-size:1.1rem;">
+    Faure Structural Architecture — Archivio Fondazionale
+  </div>
+  <div id="enterBtn">Entra nell’Archivio</div>
+</div>
+
+<div class="layout" style="opacity:0;transition:opacity .4s;" id="app">
 
   <!-- Sidebar -->
   <aside class="sidebar">
@@ -244,6 +278,8 @@ window.MathJax = {
       <span id="title2026">2026</span>
     </div>
     <div class="subtitle">Faure Structural Architecture</div>
+
+    <div class="toggle" id="toggleMode">Toggle Light/Dark</div>
 
     <ul class="section-list" id="sectionList"></ul>
   </aside>
@@ -255,7 +291,12 @@ window.MathJax = {
         <span id="heroAUF">AUF</span>
         <span id="hero2026">2026</span>
       </h2>
-      <p id="sectionDesc">Select a section to explore its scientific artifacts.</p>
+      <p id="sectionDesc">Seleziona una sezione.</p>
+    </div>
+
+    <div class="section-description" id="sectionDescription">
+      Benvenuto nell’Archivio AUF2026.  
+      Seleziona una sezione a sinistra per visualizzare contenuti, documenti, prove, papers e dataset.
     </div>
 
     <div class="file-list" id="fileList"></div>
@@ -263,7 +304,7 @@ window.MathJax = {
     <div class="viewer">
       <div class="viewer-title" id="viewerTitle">Viewer</div>
       <div class="viewer-body" id="viewerBody">
-        Select a file to render.
+        Seleziona un file.
       </div>
     </div>
   </main>
@@ -271,19 +312,42 @@ window.MathJax = {
 </div>
 
 <script>
+/* ============================================================
+   LANDING PAGE
+   ============================================================ */
+document.getElementById("enterBtn").onclick = () => {
+  document.getElementById("landing").style.opacity = 0;
+  setTimeout(() => {
+    document.getElementById("landing").style.display = "none";
+    const app = document.getElementById("app");
+    app.style.opacity = 1;
+  }, 400);
+};
+
+/* ============================================================
+   DARK/LIGHT MODE
+   ============================================================ */
+document.getElementById("toggleMode").onclick = () => {
+  document.documentElement.classList.toggle("light");
+};
+
+/* ============================================================
+   REPO LOGIC
+   ============================================================ */
+
 const REPO = "AUF2026/AUF2026.github.io";
 const API = "https://api.github.com/repos/" + REPO + "/contents";
 
 const SECTIONS = [
-  { name: "papers", label: "Papers" },
-  { name: "proofs", label: "Proofs" },
-  { name: "docs", label: "Documentation" },
-  { name: "pages", label: "Pages" },
-  { name: "pdf", label: "PDF Manuscripts" },
-  { name: "datasets", label: "Datasets" },
-  { name: "code", label: "Code" },
-  { name: "validation", label: "Validation" },
-  { name: "bibliography", label: "Bibliography" }
+  { name: "papers", label: "Papers", desc: "Articoli scientifici fondazionali, dimostrazioni, operatori, strutture." },
+  { name: "proofs", label: "Proofs", desc: "Dimostrazioni formali, Lean4, verifiche meccaniche." },
+  { name: "docs", label: "Documentation", desc: "Documentazione tecnica, specifiche, architettura." },
+  { name: "pages", label: "Pages", desc: "Pagine HTML, contenuti strutturali, presentazioni." },
+  { name: "pdf", label: "PDF Manuscripts", desc: "Manoscritti PDF, papers completi, versioni Annals." },
+  { name: "datasets", label: "Datasets", desc: "Dataset strutturali, matrici, operatori, geometrie." },
+  { name: "code", label: "Code", desc: "Codice sorgente, Lean, Python, operatori." },
+  { name: "validation", label: "Validation", desc: "Validazioni, test, verifiche." },
+  { name: "bibliography", label: "Bibliography", desc: "Riferimenti, citazioni, bibliografia AUF2026." }
 ];
 
 const sectionList = document.getElementById("sectionList");
@@ -291,16 +355,9 @@ const fileList = document.getElementById("fileList");
 const viewerBody = document.getElementById("viewerBody");
 const viewerTitle = document.getElementById("viewerTitle");
 const sectionDesc = document.getElementById("sectionDesc");
+const sectionDescription = document.getElementById("sectionDescription");
 const titleAUF = document.getElementById("titleAUF");
 const heroAUF = document.getElementById("heroAUF");
-
-SECTIONS.forEach(sec => {
-  const li = document.createElement("li");
-  li.className = "section-item";
-  li.textContent = sec.label;
-  li.onclick = (e) => loadSection(sec, e.currentTarget);
-  sectionList.appendChild(li);
-});
 
 function colorFor(name){
   let h=0;
@@ -313,7 +370,16 @@ function setAccent(name){
   document.documentElement.style.setProperty("--accent", c);
   titleAUF.style.color = c;
   heroAUF.style.color = c;
+  document.getElementById("landingAUF").style.color = c;
 }
+
+SECTIONS.forEach(sec => {
+  const li = document.createElement("li");
+  li.className = "section-item";
+  li.textContent = sec.label;
+  li.onclick = (e) => loadSection(sec, e.currentTarget);
+  sectionList.appendChild(li);
+});
 
 async function loadSection(sec, el) {
   document.querySelectorAll(".section-item").forEach(x => x.classList.remove("active"));
@@ -321,13 +387,14 @@ async function loadSection(sec, el) {
 
   setAccent(sec.label);
 
-  sectionDesc.textContent = "Scientific artifacts in " + sec.label + ".";
+  sectionDesc.textContent = sec.label;
+  sectionDescription.textContent = sec.desc;
 
   const res = await fetch(API + "/" + sec.name);
   const data = await res.json();
 
   fileList.innerHTML = "";
-  viewerBody.innerHTML = "Select a file to render.";
+  viewerBody.innerHTML = "Seleziona un file.";
   viewerTitle.textContent = "Viewer";
 
   data.forEach(file => {
@@ -368,9 +435,7 @@ async function loadFile(file, el) {
   }
 
   if (ext === "html") {
-    viewerBody.innerHTML = `
-      <iframe sandbox="allow-scripts allow-same-origin"></iframe>
-    `;
+    viewerBody.innerHTML = `<iframe sandbox="allow-scripts allow-same-origin"></iframe>`;
     const iframe = viewerBody.querySelector("iframe");
     const doc = iframe.contentDocument;
     doc.open();
@@ -384,12 +449,6 @@ async function loadFile(file, el) {
 
 function escapeHtml(s) {
   return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-}
-
-// optional: auto-load first section
-if (SECTIONS.length) {
-  const firstLi = sectionList.querySelector(".section-item");
-  if (firstLi) loadSection(SECTIONS[0], firstLi);
 }
 </script>
 
