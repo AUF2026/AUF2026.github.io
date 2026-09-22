@@ -1,455 +1,4493 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>AUF2026 · Faure Structural Architecture</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Typography -->
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
 
-<style>
-/* ============================================================
-   AUF2026 — SCIENTIFIC FRAMEWORK + DARK/LIGHT MODE
-   ============================================================ */
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-:root {
-  --bg: #0b0f14;
-  --panel: #11161f;
-  --fg: #e6eef6;
-  --fg-soft: #9aa6b2;
-  --border: #222a35;
-  --accent: #3fb5c7;
-  --accent-soft: #4fc0d2;
-  --serif: "Crimson Pro", "STIX Two Text", serif;
-  --mono: "JetBrains Mono", Menlo, monospace;
-}
+  <title>AUF2026 — Faure Framework</title>
 
-/* LIGHT MODE */
-:root.light {
-  --bg: #66666657;
-  --panel: #ffffff2e;
-  --fg: #111;
-  --fg-soft: #555;
-  --border: #d0d0d0;
-  --accent-soft: #006688;
-}
+  <meta
+    name="description"
+    content="AUF2026 — Faure Framework, mathematical structures, deterministic computation, formal verification and reproducible scientific analysis."
+  >
 
-/* GLOBAL */
-* { margin:0; padding:0; box-sizing:border-box; }
+  <meta
+    name="author"
+    content="Alain Faure"
+  >
 
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--serif);
-  padding: 40px;
-  transition: background .3s, color .3s;
-}
 
-/* LAYOUT */
-.layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  max-width: 1400px;
-  margin: 0 auto;
-  gap: 40px;
-}
+  <style>
 
-/* SIDEBAR */
-.sidebar {
-  padding: 32px 24px;
-  border-right: 1px solid var(--border);
-}
+    /* =========================================================
+       AUF2026
+       SINGLE-FILE RESEARCH INTERFACE
+       ========================================================= */
 
-.title {
-  font-size: 2rem;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  display: flex;
-  gap: 8px;
-}
+    :root {
 
-#titleAUF { color: var(--accent); transition: color .2s; }
-#title2026 { color: #fff; }
+      --bg:
+        #050608;
 
-.subtitle {
-  font-size: .9rem;
-  color: var(--fg-soft);
-  margin-top: 6px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
+      --bg-2:
+        #080b10;
 
-/* TOGGLE */
-.toggle {
-  margin-top: 20px;
-  cursor: pointer;
-  font-size: .9rem;
-  color: var(--accent);
-  padding: 6px 0;
-}
+      --surface:
+        #0b0f15;
 
-/* SECTIONS LIST */
-.section-list {
-  margin-top: 32px;
-  list-style: none;
-}
+      --surface-2:
+        #101620;
 
-.section-item {
-  padding: 8px 4px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border);
-  color: var(--fg-soft);
-  transition: .15s;
-}
+      --surface-3:
+        #141b24;
 
-.section-item:hover {
-  background: var(--panel);
-  color: var(--fg);
-}
+      --text:
+        #f2f6fa;
 
-.section-item.active {
-  background: var(--panel);
-  color: var(--accent);
-  font-weight: 600;
-}
+      --text-soft:
+        #b8c3ce;
 
-/* MAIN */
-.main {
-  padding: 32px;
-}
+      --muted:
+        #7e8b98;
 
-/* SECTION HEADER */
-.section-header h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  display: flex;
-  gap: 8px;
-}
+      --dim:
+        #4d5965;
 
-#heroAUF { color: var(--accent); transition: color .2s; }
-#hero2026 { color: #fff; }
 
-.section-header p {
-  margin-top: 6px;
-  color: var(--fg-soft);
-}
+      /* =====================================================
+         AUF IDENTITY
+         ===================================================== */
 
-/* SECTION DESCRIPTION */
-.section-description {
-  margin: 20px 0;
-  padding: 16px;
-  background: var(--panel);
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  font-size: .95rem;
-  line-height: 1.6;
-}
+      --auf-cyan:
+        #55dfff;
 
-/* FILE LIST */
-.file-list {
-  border-top: 1px solid var(--border);
-  padding-top: 16px;
-  margin-bottom: 32px;
-}
+      --auf-violet:
+        #8b7cff;
 
-.file-item {
-  padding: 6px 4px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  color: var(--fg-soft);
-}
+      --auf-magenta:
+        #ff4fd8;
 
-.file-item:hover {
-  background: var(--panel);
-  color: var(--fg);
-}
 
-.file-item.active {
-  background: var(--panel);
-  color: var(--accent);
-  font-weight: 600;
-}
+      /* =====================================================
+         SCIENTIFIC COLORS
+         ===================================================== */
 
-/* VIEWER */
-.viewer-body {
-  border: 1px solid var(--border);
-  background: var(--panel);
-  border-radius: 8px;
-  padding: 16px;
-  min-height: 300px;
-  max-height: 600px;
-  overflow: auto;
-}
+      --green:
+        #63e6be;
 
-pre {
-  background: #000;
-  color: #e6eef6;
-  padding: 16px;
-  border-radius: 8px;
-  font-family: var(--mono);
-  font-size: .85rem;
-}
+      --blue:
+        #6ea8ff;
 
-iframe {
-  width: 100%;
-  height: 600px;
-  border: none;
-  border-radius: 8px;
-  background: #000;
-}
+      --gold:
+        #e6c76a;
 
-/* LANDING PAGE */
-#landing {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 9999;
-  transition: opacity .4s;
-}
+      --red:
+        #ff7070;
 
-#landing h1 {
-  font-size: 3rem;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  display: flex;
-  gap: 12px;
-}
 
-#landingAUF { color: var(--accent); }
-#landing2026 { color: #fff; }
+      /* =====================================================
+         LINES
+         ===================================================== */
 
-#enterBtn {
-  padding: 12px 24px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  letter-spacing: .05em;
-  transition: .2s;
-}
+      --line:
+        rgba(
+          255,
+          255,
+          255,
+          .095
+        );
 
-#enterBtn:hover {
-  background: var(--accent-soft);
-}
-</style>
+      --line-soft:
+        rgba(
+          255,
+          255,
+          255,
+          .055
+        );
 
-<!-- Markdown -->
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-<!-- MathJax -->
-<script>
-window.MathJax = {
-  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+      /* =====================================================
+         DIMENSIONS
+         ===================================================== */
+
+      --max-width:
+        1240px;
+
+      --content-width:
+        1080px;
+
+
+      /* =====================================================
+         SHADOW
+         ===================================================== */
+
+      --shadow:
+        0 25px 80px
+        rgba(
+          0,
+          0,
+          0,
+          .42
+        );
+
+    }
+
+
+    /* =========================================================
+       RESET
+       ========================================================= */
+
+    *,
+    *::before,
+    *::after {
+
+      box-sizing:
+        border-box;
+
+      margin:
+        0;
+
+      padding:
+        0;
+
+    }
+
+
+    html {
+
+      scroll-behavior:
+        smooth;
+
+      background:
+        var(--bg);
+
+      color:
+        var(--text);
+
+    }
+
+
+    body {
+
+      min-height:
+        100vh;
+
+      overflow-x:
+        hidden;
+
+      background:
+
+        radial-gradient(
+          circle at 82% 4%,
+          rgba(
+            85,
+            223,
+            255,
+            .075
+          ),
+          transparent 31%
+        ),
+
+        radial-gradient(
+          circle at 12% 32%,
+          rgba(
+            139,
+            124,
+            255,
+            .045
+          ),
+          transparent 34%
+        ),
+
+        linear-gradient(
+          180deg,
+          var(--bg-2),
+          var(--bg)
+        );
+
+      color:
+        var(--text);
+
+      font-family:
+
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      line-height:
+        1.65;
+
+    }
+
+
+    body::before {
+
+      content:
+        "";
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      z-index:
+        -10;
+
+      pointer-events:
+        none;
+
+      background-image:
+
+        linear-gradient(
+          rgba(
+            255,
+            255,
+            255,
+            .018
+          ) 1px,
+          transparent 1px
+        ),
+
+        linear-gradient(
+          90deg,
+          rgba(
+            255,
+            255,
+            255,
+            .018
+          ) 1px,
+          transparent 1px
+        );
+
+      background-size:
+        64px 64px;
+
+      mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 82%
+        );
+
+      -webkit-mask-image:
+        linear-gradient(
+          to bottom,
+          black,
+          transparent 82%
+        );
+
+    }
+
+
+    body::after {
+
+      content:
+        "";
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      z-index:
+        -11;
+
+      pointer-events:
+        none;
+
+      opacity:
+        .35;
+
+      background:
+
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(
+            255,
+            255,
+            255,
+            .025
+          ),
+          transparent 50%
+        );
+
+    }
+
+
+    a {
+
+      color:
+        inherit;
+
+      text-decoration:
+        none;
+
+    }
+
+
+    button {
+
+      font:
+        inherit;
+
+    }
+
+
+    img {
+
+      max-width:
+        100%;
+
+      display:
+        block;
+
+    }
+
+
+    /* =========================================================
+       CONTAINER
+       ========================================================= */
+
+    .container {
+
+      width:
+        min(
+          var(--max-width),
+          calc(
+            100% - 48px
+          )
+        );
+
+      margin:
+        0 auto;
+
+    }
+
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+
+      position:
+        sticky;
+
+      top:
+        0;
+
+      z-index:
+        1000;
+
+      background:
+        rgba(
+          5,
+          6,
+          8,
+          .88
+        );
+
+      backdrop-filter:
+        blur(
+          18px
+        );
+
+      -webkit-backdrop-filter:
+        blur(
+          18px
+        );
+
+      border-bottom:
+        1px solid
+        var(--line-soft);
+
+    }
+
+
+    .site-nav {
+
+      width:
+        min(
+          var(--max-width),
+          calc(
+            100% - 48px
+          )
+        );
+
+      min-height:
+        68px;
+
+      margin:
+        0 auto;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        20px;
+
+    }
+
+
+    /* =========================================================
+       BRAND
+       ========================================================= */
+
+    .brand {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        0;
+
+      font-size:
+        15px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        -.025em;
+
+    }
+
+
+    .brand-auf {
+
+      background:
+
+        linear-gradient(
+          90deg,
+          var(--auf-cyan),
+          var(--auf-violet),
+          var(--auf-magenta)
+        );
+
+      -webkit-background-clip:
+        text;
+
+      background-clip:
+        text;
+
+      color:
+        transparent;
+
+    }
+
+
+    .brand-year {
+
+      color:
+        #fff;
+
+    }
+
+
+    /* =========================================================
+       MENU BUTTON
+       ========================================================= */
+
+    .menu-button {
+
+      appearance:
+        none;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      min-width:
+        78px;
+
+      min-height:
+        34px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        3px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          .018
+        );
+
+      color:
+        var(--text-soft);
+
+      padding:
+        9px 14px;
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .15em;
+
+      cursor:
+        pointer;
+
+      transition:
+
+        border-color .25s ease,
+
+        color .25s ease,
+
+        background .25s ease,
+
+        transform .25s ease;
+
+    }
+
+
+    .menu-button:hover {
+
+      color:
+        #fff;
+
+      border-color:
+        rgba(
+          85,
+          223,
+          255,
+          .45
+        );
+
+      background:
+        rgba(
+          85,
+          223,
+          255,
+          .035
+        );
+
+      transform:
+        translateY(
+          -1px
+        );
+
+    }
+
+
+    .menu-button[aria-expanded="true"] {
+
+      color:
+        #fff;
+
+      border-color:
+        rgba(
+          85,
+          223,
+          255,
+          .55
+        );
+
+      background:
+        rgba(
+          85,
+          223,
+          255,
+          .06
+        );
+
+    }
+
+
+    /* =========================================================
+       DYNAMIC MENU CONTAINER
+       ========================================================= */
+
+    #siteMenu {
+
+      width:
+        min(
+          var(--max-width),
+          calc(
+            100% - 48px
+          )
+        );
+
+      margin:
+        0 auto;
+
+      padding:
+        0 0 20px;
+
+    }
+
+
+    #siteMenu[hidden] {
+
+      display:
+        none;
+
+    }
+
+
+    .site-menu-panel {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          3,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        1px;
+
+      border:
+        1px solid
+        var(--line);
+
+      background:
+        var(--line);
+
+    }
+
+
+    .site-menu-item {
+
+      position:
+        relative;
+
+      display:
+        block;
+
+      min-height:
+        100px;
+
+      padding:
+        20px;
+
+      overflow:
+        hidden;
+
+      background:
+        var(--surface);
+
+      transition:
+
+        background .25s ease,
+
+        transform .25s ease;
+
+    }
+
+
+    .site-menu-item::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      top:
+        0;
+
+      width:
+        2px;
+
+      height:
+        100%;
+
+      background:
+        var(
+          --menu-color,
+          var(--auf-cyan)
+        );
+
+      opacity:
+        .7;
+
+    }
+
+
+    .site-menu-item:hover {
+
+      background:
+        var(--surface-2);
+
+    }
+
+
+    .site-menu-id {
+
+      display:
+        block;
+
+      margin-bottom:
+        8px;
+
+      color:
+        var(
+          --menu-color,
+          var(--auf-cyan)
+        );
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .13em;
+
+    }
+
+
+    .site-menu-name {
+
+      display:
+        block;
+
+      color:
+        var(--text);
+
+      font-size:
+        15px;
+
+      font-weight:
+        700;
+
+      line-height:
+        1.2;
+
+    }
+
+
+    .site-menu-description {
+
+      display:
+        block;
+
+      margin-top:
+        6px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+      line-height:
+        1.55;
+
+    }
+
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .hero {
+
+      position:
+        relative;
+
+      padding:
+        112px 0 92px;
+
+    }
+
+
+    .hero::after {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      bottom:
+        0;
+
+      width:
+        100%;
+
+      height:
+        1px;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          var(--auf-cyan),
+          var(--auf-violet),
+          var(--auf-magenta),
+          transparent 85%
+        );
+
+      opacity:
+        .5;
+
+    }
+
+
+    .eyebrow {
+
+      color:
+        var(--dim);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .19em;
+
+    }
+
+
+    .hero-title {
+
+      margin:
+        17px 0 25px;
+
+      font-size:
+
+        clamp(
+          64px,
+          10vw,
+          132px
+        );
+
+      line-height:
+        .82;
+
+      letter-spacing:
+        -.075em;
+
+      font-weight:
+        800;
+
+    }
+
+
+    .auf {
+
+      background:
+
+        linear-gradient(
+          90deg,
+          var(--auf-cyan),
+          var(--auf-violet),
+          var(--auf-magenta)
+        );
+
+      -webkit-background-clip:
+        text;
+
+      background-clip:
+        text;
+
+      color:
+        transparent;
+
+    }
+
+
+    .year {
+
+      color:
+        #fff;
+
+    }
+
+
+    .hero-description {
+
+      max-width:
+        760px;
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        15px;
+
+      line-height:
+        1.8;
+
+    }
+
+
+    .hero-links {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
+      margin-top:
+        30px;
+
+    }
+
+
+    .hero-link {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      padding:
+        9px 13px;
+
+      border:
+        1px solid
+        var(--line);
+
+      color:
+        #b8c0c9;
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      letter-spacing:
+        .04em;
+
+      transition:
+        all .25s ease;
+
+    }
+
+
+    .hero-link:hover {
+
+      color:
+        #fff;
+
+      border-color:
+        rgba(
+          85,
+          223,
+          255,
+          .42
+        );
+
+      background:
+        rgba(
+          85,
+          223,
+          255,
+          .035
+        );
+
+    }
+
+
+    /* =========================================================
+       SECTION SYSTEM
+       ========================================================= */
+
+    .section {
+
+      position:
+        relative;
+
+      padding:
+        86px 0;
+
+      border-bottom:
+        1px solid
+        var(--line-soft);
+
+    }
+
+
+    .section-header {
+
+      margin-bottom:
+        40px;
+
+    }
+
+
+    .section-number {
+
+      margin-bottom:
+        13px;
+
+      color:
+        var(
+          --section-color,
+          var(--auf-cyan)
+        );
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .15em;
+
+    }
+
+
+    .section-title {
+
+      margin:
+        0;
+
+      font-size:
+
+        clamp(
+          28px,
+          4vw,
+          43px
+        );
+
+      line-height:
+        1.04;
+
+      letter-spacing:
+        -.04em;
+
+    }
+
+
+    .section-intro {
+
+      max-width:
+        790px;
+
+      margin-top:
+        16px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        14px;
+
+      line-height:
+        1.8;
+
+    }
+
+
+    /* =========================================================
+       RESEARCH CARDS
+       ========================================================= */
+
+    .cards {
+
+      display:
+        grid;
+
+      grid-template-columns:
+
+        repeat(
+          3,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        1px;
+
+      background:
+        var(--line);
+
+      border:
+        1px solid
+        var(--line);
+
+    }
+
+
+    .card {
+
+      --card-color:
+        var(--auf-cyan);
+
+      position:
+        relative;
+
+      min-height:
+        245px;
+
+      padding:
+        29px;
+
+      background:
+        var(--surface);
+
+      overflow:
+        hidden;
+
+      transition:
+        background .3s ease;
+
+    }
+
+
+    .card:hover {
+
+      background:
+        var(--surface-2);
+
+    }
+
+
+    .card::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      top:
+        0;
+
+      left:
+        0;
+
+      width:
+        2px;
+
+      height:
+        100%;
+
+      background:
+        var(--card-color);
+
+      opacity:
+        .75;
+
+    }
+
+
+    .card::after {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      width:
+        230px;
+
+      height:
+        230px;
+
+      left:
+        var(
+          --card-x,
+          50%
+        );
+
+      top:
+        var(
+          --card-y,
+          50%
+        );
+
+      transform:
+        translate(
+          -50%,
+          -50%
+        );
+
+      background:
+
+        radial-gradient(
+          circle,
+          color-mix(
+            in srgb,
+            var(--card-color) 10%,
+            transparent
+          ),
+          transparent 68%
+        );
+
+      opacity:
+        0;
+
+      transition:
+        opacity .3s ease;
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .card:hover::after {
+
+      opacity:
+        1;
+
+    }
+
+
+    .card-id {
+
+      color:
+        var(--card-color);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        10px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .12em;
+
+    }
+
+
+    .card-title {
+
+      margin:
+        13px 0 10px;
+
+      font-size:
+        20px;
+
+      line-height:
+        1.15;
+
+      letter-spacing:
+        -.025em;
+
+    }
+
+
+    .card-text {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+      line-height:
+        1.72;
+
+    }
+
+
+    .card-link {
+
+      position:
+        absolute;
+
+      left:
+        29px;
+
+      bottom:
+        25px;
+
+      color:
+        var(--card-color);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .08em;
+
+    }
+
+
+    /* =========================================================
+       FORMULA
+       ========================================================= */
+
+    .formula {
+
+      margin-top:
+        30px;
+
+      padding:
+        28px;
+
+      overflow-x:
+        auto;
+
+      background:
+        #05070a;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        8px;
+
+      color:
+        var(--green);
+
+      font-family:
+
+        "Times New Roman",
+        Georgia,
+        serif;
+
+      font-size:
+
+        clamp(
+          1.2rem,
+          3vw,
+          2rem
+        );
+
+    }
+
+
+    /* =========================================================
+       STATUS GRID
+       ========================================================= */
+
+    .status-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+
+        repeat(
+          4,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        1px;
+
+      margin-top:
+        45px;
+
+      background:
+        var(--line);
+
+      border:
+        1px solid
+        var(--line);
+
+    }
+
+
+    .status {
+
+      padding:
+        22px;
+
+      background:
+        var(--surface);
+
+    }
+
+
+    .status strong {
+
+      display:
+        block;
+
+      color:
+        var(--green);
+
+      font-size:
+        9px;
+
+      letter-spacing:
+        .12em;
+
+    }
+
+
+    .status span {
+
+      display:
+        block;
+
+      margin-top:
+        8px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        .9rem;
+
+    }
+
+
+    /* =========================================================
+       DOCUMENT CARDS
+       ========================================================= */
+
+    .documents {
+
+      display:
+        grid;
+
+      grid-template-columns:
+
+        repeat(
+          2,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        1px;
+
+      background:
+        var(--line);
+
+      border:
+        1px solid
+        var(--line);
+
+    }
+
+
+    .document {
+
+      padding:
+        28px;
+
+      background:
+        var(--surface);
+
+    }
+
+
+    .document h3 {
+
+      margin-bottom:
+        10px;
+
+    }
+
+
+    .document p {
+
+      color:
+        var(--muted);
+
+    }
+
+
+    .document code {
+
+      display:
+        block;
+
+      margin-top:
+        18px;
+
+      padding:
+        12px;
+
+      overflow-x:
+        auto;
+
+      background:
+        #070a0f;
+
+      border-radius:
+        5px;
+
+      color:
+        var(--green);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        .8rem;
+
+    }
+
+
+    /* =========================================================
+       VALIDATION
+       ========================================================= */
+
+    .validation-box {
+
+      padding:
+        35px;
+
+      border:
+        1px solid
+        rgba(
+          230,
+          199,
+          106,
+          .25
+        );
+
+      border-radius:
+        10px;
+
+      background:
+
+        linear-gradient(
+          145deg,
+          rgba(
+            230,
+            199,
+            106,
+            .06
+          ),
+          rgba(
+            255,
+            255,
+            255,
+            .015
+          )
+        );
+
+    }
+
+
+    .validation-box h3 {
+
+      color:
+        var(--gold);
+
+    }
+
+
+    .validation-box p {
+
+      margin-top:
+        15px;
+
+      color:
+        var(--muted);
+
+    }
+
+
+    /* =========================================================
+       ARCHIVE
+       ========================================================= */
+
+    .archive-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+
+        repeat(
+          3,
+          minmax(
+            0,
+            1fr
+          )
+        );
+
+      gap:
+        1px;
+
+      margin-top:
+        25px;
+
+      background:
+        var(--line);
+
+      border:
+        1px solid
+        var(--line);
+
+    }
+
+
+    .archive-link {
+
+      position:
+        relative;
+
+      display:
+        block;
+
+      min-height:
+        130px;
+
+      padding:
+        22px;
+
+      background:
+        var(--surface);
+
+      overflow:
+        hidden;
+
+      transition:
+        background .2s ease;
+
+    }
+
+
+    .archive-link:hover {
+
+      background:
+        var(--surface-2);
+
+    }
+
+
+    .archive-link strong {
+
+      display:
+        block;
+
+      color:
+        var(--text);
+
+      font-size:
+        1rem;
+
+    }
+
+
+    .archive-link span {
+
+      display:
+        block;
+
+      margin-top:
+        7px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        .85rem;
+
+    }
+
+
+    /* =========================================================
+       SUPPORT / DONATE
+       ========================================================= */
+
+    .support-box {
+
+      position:
+        relative;
+
+      padding:
+        42px;
+
+      border:
+        1px solid
+        rgba(
+          99,
+          230,
+          190,
+          .22
+        );
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(
+            99,
+            230,
+            190,
+            .055
+          ),
+          rgba(
+            85,
+            223,
+            255,
+            .025
+          ),
+          rgba(
+            255,
+            255,
+            255,
+            .012
+          )
+        );
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .support-box::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      top:
+        0;
+
+      left:
+        0;
+
+      width:
+        100%;
+
+      height:
+        1px;
+
+      background:
+
+        linear-gradient(
+          90deg,
+          var(--auf-cyan),
+          var(--auf-violet),
+          var(--auf-magenta),
+          transparent
+        );
+
+    }
+
+
+    .support-label {
+
+      color:
+        var(--green);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .16em;
+
+    }
+
+
+    .support-box h3 {
+
+      margin-top:
+        12px;
+
+      font-size:
+        clamp(
+          25px,
+          4vw,
+          40px
+        );
+
+      line-height:
+        1.05;
+
+    }
+
+
+    .support-box p {
+
+      max-width:
+        720px;
+
+      margin-top:
+        15px;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.8;
+
+    }
+
+
+    .support-actions {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
+      margin-top:
+        25px;
+
+    }
+
+
+    .support-button {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      min-height:
+        38px;
+
+      padding:
+        9px 15px;
+
+      border:
+        1px solid
+        var(--line);
+
+      color:
+        var(--text);
+
+      font-family:
+
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        monospace;
+
+      font-size:
+        9px;
+
+      font-weight:
+        700;
+
+      letter-spacing:
+        .08em;
+
+      transition:
+        all .2s ease;
+
+    }
+
+
+    .support-button:hover {
+
+      border-color:
+        rgba(
+          99,
+          230,
+          190,
+          .45
+        );
+
+      background:
+        rgba(
+          99,
+          230,
+          190,
+          .05
+        );
+
+      color:
+        #fff;
+
+    }
+
+
+    /* =========================================================
+       AUTHOR
+       ========================================================= */
+
+    .author-section {
+
+      width:
+        100%;
+
+      max-width:
+        900px;
+
+      margin:
+        70px auto 0;
+
+    }
+
+
+    .author-panel {
+
+      position:
+        relative;
+
+      padding:
+        32px;
+
+      border:
+        1px solid
+        rgba(
+          99,
+          230,
+          190,
+          .22
+        );
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(
+            99,
+            230,
+            190,
+            .055
+          ),
+          rgba(
+            255,
+            255,
+            255,
+            .018
+          )
+        );
+
+    }
+
+
+    .author-panel h3 {
+
+      font-size:
+        1.25rem;
+
+    }
+
+
+    .author-panel p {
+
+      margin-top:
+        12px;
+
+      color:
+        var(--muted);
+
+    }
+
+
+    .author-links {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
+      margin-top:
+        22px;
+
+    }
+
+
+    .author-link {
+
+      padding:
+        9px 13px;
+
+      border:
+        1px solid
+        var(--line);
+
+      color:
+        var(--text-soft);
+
+      font-size:
+        .75rem;
+
+      transition:
+        .2s ease;
+
+    }
+
+
+    .author-link:hover {
+
+      border-color:
+        rgba(
+          85,
+          223,
+          255,
+          .35
+        );
+
+      color:
+        #fff;
+
+    }
+
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    footer {
+
+      padding:
+        55px 0;
+
+      border-top:
+        1px solid
+        var(--line);
+
+      color:
+        var(--muted);
+
+      font-size:
+        .75rem;
+
+    }
+
+
+    .footer-row {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        20px;
+
+      flex-wrap:
+        wrap;
+
+    }
+
+
+    /* =========================================================
+       REVEAL
+       ========================================================= */
+
+    .reveal {
+
+      opacity:
+        0;
+
+      transform:
+        translateY(
+          20px
+        );
+
+      transition:
+
+        opacity .7s
+        cubic-bezier(
+          .22,
+          1,
+          .36,
+          1
+        ),
+
+        transform .7s
+        cubic-bezier(
+          .22,
+          1,
+          .36,
+          1
+        );
+
+    }
+
+
+    .reveal.visible {
+
+      opacity:
+        1;
+
+      transform:
+        translateY(
+          0
+        );
+
+    }
+
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media (max-width: 900px) {
+
+      .cards {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+
+      }
+
+
+      .status-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+
+      }
+
+
+      .archive-grid {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+
+      }
+
+
+      .site-menu-panel {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(
+              0,
+              1fr
+            )
+          );
+
+      }
+
+    }
+
+
+    @media (max-width: 680px) {
+
+      .container,
+      .site-nav,
+      #siteMenu {
+
+        width:
+          calc(
+            100% - 28px
+          );
+
+      }
+
+
+      .hero {
+
+        padding:
+          75px 0 65px;
+
+      }
+
+
+      .hero-title {
+
+        font-size:
+
+          clamp(
+            58px,
+            20vw,
+            100px
+          );
+
+      }
+
+
+      .section {
+
+        padding:
+          62px 0;
+
+      }
+
+
+      .cards,
+      .documents,
+      .archive-grid,
+      .status-grid,
+      .site-menu-panel {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .card {
+
+        min-height:
+          220px;
+
+      }
+
+
+      .support-box {
+
+        padding:
+          28px;
+
+      }
+
+
+      .site-menu-item {
+
+        min-height:
+          90px;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (
+      prefers-reduced-motion: reduce
+    ) {
+
+      html {
+
+        scroll-behavior:
+          auto;
+
+      }
+
+
+      *,
+      *::before,
+      *::after {
+
+        animation-duration:
+          .01ms !important;
+
+        animation-iteration-count:
+          1 !important;
+
+        transition-duration:
+          .01ms !important;
+
+      }
+
+    }
+
+  </style>
 
 </head>
+
+
 <body>
+  <!-- =======================================================
+       SITE HEADER
+       ======================================================= -->
 
-<!-- LANDING PAGE -->
-<div id="landing">
-  <h1>
-    <span id="landingAUF">AUF</span>
-    <span id="landing2026">2026</span>
-  </h1>
-  <div style="color:var(--fg-soft);font-size:1.1rem;">
-    Faure Structural Architecture — Archivio Fondazionale
-  </div>
-  <div id="enterBtn">Entra nell’Archivio</div>
-</div>
+  <header class="site-header">
 
-<div class="layout" style="opacity:0;transition:opacity .4s;" id="app">
+    <nav class="site-nav">
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="title">
-      <span id="titleAUF">AUF</span>
-      <span id="title2026">2026</span>
-    </div>
-    <div class="subtitle">Faure Structural Architecture</div>
+      <a
+        class="brand"
+        href="#top"
+        aria-label="AUF2026 home"
+      >
+        <span class="brand-auf">AUF</span><span class="brand-year">2026</span>
+      </a>
 
-    <div class="toggle" id="toggleMode">Toggle Light/Dark</div>
 
-    <ul class="section-list" id="sectionList"></ul>
-  </aside>
+      <button
+        id="menuButton"
+        class="menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="siteMenu"
+      >
+        MENU
+      </button>
 
-  <!-- Main -->
-  <main class="main">
-    <div class="section-header">
-      <h2>
-        <span id="heroAUF">AUF</span>
-        <span id="hero2026">2026</span>
-      </h2>
-      <p id="sectionDesc">Seleziona una sezione.</p>
-    </div>
+    </nav>
 
-    <div class="section-description" id="sectionDescription">
-      Benvenuto nell’Archivio AUF2026.  
-      Seleziona una sezione a sinistra per visualizzare contenuti, documenti, prove, papers e dataset.
-    </div>
 
-    <div class="file-list" id="fileList"></div>
+    <!-- =====================================================
+         DYNAMIC REPOSITORY MENU
+         Populated by JavaScript from GitHub.
+         ===================================================== -->
 
-    <div class="viewer">
-      <div class="viewer-title" id="viewerTitle">Viewer</div>
-      <div class="viewer-body" id="viewerBody">
-        Seleziona un file.
+    <div
+      id="siteMenu"
+      hidden
+    ></div>
+
+  </header>
+
+
+
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
+
+  <main id="top">
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section
+      class="hero"
+      aria-labelledby="hero-title"
+    >
+
+      <div class="container">
+
+        <div class="eyebrow">
+          UNIVERSAL MATHEMATICAL FRAMEWORK
+        </div>
+
+
+        <h1
+          id="hero-title"
+          class="hero-title"
+        >
+          <span class="auf">AUF</span><span class="year">2026</span>
+        </h1>
+
+
+        <p class="hero-description">
+
+          A structured research environment for mathematical
+          theory, formal verification, computational models,
+          datasets, proofs, papers and reproducible scientific
+          documentation.
+
+        </p>
+
+
+        <div class="hero-links">
+
+          <a
+            class="hero-link"
+            href="#framework"
+          >
+            FRAMEWORK
+          </a>
+
+          <a
+            class="hero-link"
+            href="#research"
+          >
+            RESEARCH
+          </a>
+
+          <a
+            class="hero-link"
+            href="#validation"
+          >
+            VALIDATION
+          </a>
+
+          <a
+            class="hero-link"
+            href="#archive"
+          >
+            ARCHIVE
+          </a>
+
+          <a
+            class="hero-link"
+            href="#donate"
+          >
+            SUPPORT
+          </a>
+
+        </div>
+
       </div>
-    </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FRAMEWORK
+         ===================================================== -->
+
+    <section
+      id="framework"
+      class="section"
+      style="--section-color: var(--auf-cyan);"
+    >
+
+      <div class="container">
+
+        <header class="section-header reveal">
+
+          <div class="section-number">
+            01 / FRAMEWORK
+          </div>
+
+          <h2 class="section-title">
+            Universal structure
+          </h2>
+
+          <p class="section-intro">
+
+            AUF2026 is organized as a layered research
+            framework. Mathematical definitions, formal
+            statements, computational material and validation
+            records remain separated while being accessible
+            through a single interface.
+
+          </p>
+
+        </header>
+
+
+        <div class="cards">
+
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-cyan);"
+          >
+
+            <span class="card-id">
+              THEORY
+            </span>
+
+            <h3 class="card-title">
+              Mathematical foundations
+            </h3>
+
+            <p class="card-text">
+
+              Definitions, constructions, propositions,
+              mathematical structures and theoretical
+              documentation.
+
+            </p>
+
+            <a
+              class="card-link"
+              href="docs/index.html"
+            >
+              OPEN DOCUMENTATION →
+            </a>
+
+          </article>
+
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-violet);"
+          >
+
+            <span class="card-id">
+              FORMAL
+            </span>
+
+            <h3 class="card-title">
+              Proof and verification
+            </h3>
+
+            <p class="card-text">
+
+              Formal proof material, Lean sources and
+              verification records associated with the
+              mathematical framework.
+
+            </p>
+
+            <a
+              class="card-link"
+              href="proofs/index.html"
+            >
+              OPEN PROOFS →
+            </a>
+
+          </article>
+
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-magenta);"
+          >
+
+            <span class="card-id">
+              COMPUTATION
+            </span>
+
+            <h3 class="card-title">
+              Reproducible computation
+            </h3>
+
+            <p class="card-text">
+
+              Source code, datasets, computational experiments
+              and machine-readable research material.
+
+            </p>
+
+            <a
+              class="card-link"
+              href="code/index.html"
+            >
+              OPEN CODE →
+            </a>
+
+          </article>
+
+
+        </div>
+
+
+        <div class="formula reveal">
+
+          AUF : mathematical structure → formal system → computation → validation
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         RESEARCH
+         ===================================================== -->
+
+    <section
+      id="research"
+      class="section"
+      style="--section-color: var(--auf-violet);"
+    >
+
+      <div class="container">
+
+        <header class="section-header reveal">
+
+          <div class="section-number">
+            02 / RESEARCH
+          </div>
+
+          <h2 class="section-title">
+            Research corpus
+          </h2>
+
+          <p class="section-intro">
+
+            The repository is divided into dedicated research
+            domains. Each directory can contain arbitrary
+            subdirectories and files and is exposed through its
+            own parser or viewer.
+
+          </p>
+
+        </header>
+
+
+        <div class="documents">
+
+
+          <article class="document reveal">
+
+            <h3>
+              Bibliography
+            </h3>
+
+            <p>
+              References, bibliographic records and source
+              material used throughout the research corpus.
+            </p>
+
+            <code>
+              /bibliography/
+            </code>
+
+          </article>
+
+
+          <article class="document reveal">
+
+            <h3>
+              Papers
+            </h3>
+
+            <p>
+              Research papers, theoretical documents and
+              long-form scientific publications.
+            </p>
+
+            <code>
+              /papers/
+            </code>
+
+          </article>
+
+
+          <article class="document reveal">
+
+            <h3>
+              Datasets
+            </h3>
+
+            <p>
+              Data resources and machine-readable material
+              associated with the research.
+            </p>
+
+            <code>
+              /datasets/
+            </code>
+
+          </article>
+
+
+          <article class="document reveal">
+
+            <h3>
+              Code
+            </h3>
+
+            <p>
+              Computational implementations and supporting
+              research software.
+            </p>
+
+            <code>
+              /code/
+            </code>
+
+          </article>
+
+
+          <article class="document reveal">
+
+            <h3>
+              Proofs
+            </h3>
+
+            <p>
+              Formal and mathematical proof resources,
+              including verification-oriented material.
+            </p>
+
+            <code>
+              /proofs/
+            </code>
+
+          </article>
+
+
+          <article class="document reveal">
+
+            <h3>
+              Validation
+            </h3>
+
+            <p>
+              Validation records, tests, computational checks
+              and reproducibility material.
+            </p>
+
+            <code>
+              /validation/
+            </code>
+
+          </article>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         FORMAL VALIDATION
+         ===================================================== -->
+
+    <section
+      id="validation"
+      class="section"
+      style="--section-color: var(--gold);"
+    >
+
+      <div class="container">
+
+        <header class="section-header reveal">
+
+          <div class="section-number">
+            03 / VALIDATION
+          </div>
+
+          <h2 class="section-title">
+            Formal verification
+          </h2>
+
+          <p class="section-intro">
+
+            The validation layer keeps theoretical claims,
+            computational evidence and formal verification
+            material explicitly distinguishable.
+
+          </p>
+
+        </header>
+
+
+        <div class="validation-box reveal">
+
+          <h3>
+            Reproducibility layer
+          </h3>
+
+          <p>
+
+            Mathematical statements can be accompanied by
+            formal proof files, computational implementations,
+            datasets and validation records. The repository
+            structure therefore acts as a traceable research
+            record rather than as a simple document collection.
+
+          </p>
+
+        </div>
+
+
+        <div class="status-grid">
+
+
+          <div class="status reveal">
+
+            <strong>
+              THEORY
+            </strong>
+
+            <span>
+              Mathematical definitions
+            </span>
+
+          </div>
+
+
+          <div class="status reveal">
+
+            <strong>
+              PROOF
+            </strong>
+
+            <span>
+              Formal verification
+            </span>
+
+          </div>
+
+
+          <div class="status reveal">
+
+            <strong>
+              CODE
+            </strong>
+
+            <span>
+              Computational implementation
+            </span>
+
+          </div>
+
+
+          <div class="status reveal">
+
+            <strong>
+              DATA
+            </strong>
+
+            <span>
+              Reproducible evidence
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         ARCHIVE
+         ===================================================== -->
+
+    <section
+      id="archive"
+      class="section"
+      style="--section-color: var(--auf-cyan);"
+    >
+
+      <div class="container">
+
+        <header class="section-header reveal">
+
+          <div class="section-number">
+            04 / ARCHIVE
+          </div>
+
+          <h2 class="section-title">
+            Research archive
+          </h2>
+
+          <p class="section-intro">
+
+            The archive interface is generated from the actual
+            repository tree. Markdown documents are rendered as
+            scientific HTML while other resources are presented
+            according to their file type.
+
+          </p>
+
+        </header>
+
+
+        <!--
+
+          This container is intentionally empty.
+
+          JavaScript will populate it automatically from:
+
+          /bibliography/
+/code/
+/datasets/
+/docs/
+/pages/
+/papers/
+/pdf/
+/proofs/
+/validation/
+
+          and any future root directory added to the repository.
+
+        -->
+
+        <div
+          id="repositoryArchive"
+          class="archive-grid"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         DONATE / SUPPORT
+         ===================================================== -->
+
+    <section
+      id="donate"
+      class="section"
+      style="--section-color: var(--green);"
+    >
+
+      <div class="container">
+
+        <header class="section-header reveal">
+
+          <div class="section-number">
+            05 / SUPPORT
+          </div>
+
+          <h2 class="section-title">
+            Support the research
+          </h2>
+
+          <p class="section-intro">
+
+            The project is maintained as an open research
+            archive. Support can be provided through the
+            channels associated with the project.
+
+          </p>
+
+        </header>
+
+
+        <div class="support-box reveal">
+
+          <div class="support-label">
+            AUF2026 / DONATE
+          </div>
+
+
+          <h3>
+            Support independent research.
+          </h3>
+
+
+          <p>
+
+            Contributions help maintain the research archive,
+            computational infrastructure, documentation,
+            formal verification resources and publication
+            material.
+
+          </p>
+
+
+          <div class="support-actions">
+
+            <!--
+
+              Replace the href values below with the actual
+              donation addresses / services used by AUF2026.
+
+            -->
+
+            <a
+              class="support-button"
+              href="#"
+              data-donation="primary"
+            >
+              DONATE
+            </a>
+
+
+            <a
+              class="support-button"
+              href="#"
+              data-donation="secondary"
+            >
+              SUPPORT PROJECT
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =====================================================
+         AUTHOR
+         ===================================================== -->
+
+    <section
+      class="author-section"
+    >
+
+      <div class="author-panel reveal">
+
+        <h3>
+          AUF2026
+        </h3>
+
+        <p>
+
+          Mathematical research, formal structures,
+          computational verification and reproducible
+          scientific documentation.
+
+        </p>
+
+
+        <div class="author-links">
+
+          <a
+            class="author-link"
+            href="https://github.com/AUF2026/AUF2026.github.io"
+            target="_blank"
+            rel="noopener"
+          >
+            GITHUB
+          </a>
+
+
+          <a
+            class="author-link"
+            href="index.html#top"
+          >
+            TOP
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
   </main>
 
-</div>
 
+
+  <!-- =======================================================
+       FOOTER
+       ======================================================= -->
+
+  <footer>
+
+    <div class="container">
+
+      <div class="footer-row">
+
+        <span>
+          AUF2026
+        </span>
+
+        <span>
+          Research archive · Formal verification ·
+          Reproducible computation
+        </span>
+
+      </div>
+
+    </div>
+
+  </footer>
 <script>
-/* ============================================================
-   LANDING PAGE
-   ============================================================ */
-document.getElementById("enterBtn").onclick = () => {
-  document.getElementById("landing").style.opacity = 0;
-  setTimeout(() => {
-    document.getElementById("landing").style.display = "none";
-    const app = document.getElementById("app");
-    app.style.opacity = 1;
-  }, 400);
-};
 
-/* ============================================================
-   DARK/LIGHT MODE
-   ============================================================ */
-document.getElementById("toggleMode").onclick = () => {
-  document.documentElement.classList.toggle("light");
-};
+  /* =========================================================
+     AUF2026 — REPOSITORY CONFIGURATION
+     ========================================================= */
 
-/* ============================================================
-   REPO LOGIC
-   ============================================================ */
+  const GITHUB_OWNER =
+    "AUF2026";
 
-const REPO = "AUF2026/AUF2026.github.io";
-const API = "https://api.github.com/repos/" + REPO + "/contents";
+  const GITHUB_REPOSITORY =
+    "AUF2026.github.io";
 
-const SECTIONS = [
-  { name: "papers", label: "Papers", desc: "Articoli scientifici fondazionali, dimostrazioni, operatori, strutture." },
-  { name: "proofs", label: "Proofs", desc: "Dimostrazioni formali, Lean4, verifiche meccaniche." },
-  { name: "docs", label: "Documentation", desc: "Documentazione tecnica, specifiche, architettura." },
-  { name: "pages", label: "Pages", desc: "Pagine HTML, contenuti strutturali, presentazioni." },
-  { name: "pdf", label: "PDF Manuscripts", desc: "Manoscritti PDF, papers completi, versioni Annals." },
-  { name: "datasets", label: "Datasets", desc: "Dataset strutturali, matrici, operatori, geometrie." },
-  { name: "code", label: "Code", desc: "Codice sorgente, Lean, Python, operatori." },
-  { name: "validation", label: "Validation", desc: "Validazioni, test, verifiche." },
-  { name: "bibliography", label: "Bibliography", desc: "Riferimenti, citazioni, bibliografia AUF2026." }
-];
+  const GITHUB_BRANCH =
+    "main";
 
-const sectionList = document.getElementById("sectionList");
-const fileList = document.getElementById("fileList");
-const viewerBody = document.getElementById("viewerBody");
-const viewerTitle = document.getElementById("viewerTitle");
-const sectionDesc = document.getElementById("sectionDesc");
-const sectionDescription = document.getElementById("sectionDescription");
-const titleAUF = document.getElementById("titleAUF");
-const heroAUF = document.getElementById("heroAUF");
 
-function colorFor(name){
-  let h=0;
-  for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0;
-  return `hsl(${h%360} 60% 55%)`;
-}
+  const GITHUB_API_ROOT =
+    "https://api.github.com/repos/" +
+    GITHUB_OWNER +
+    "/" +
+    GITHUB_REPOSITORY;
 
-function setAccent(name){
-  const c = colorFor(name);
-  document.documentElement.style.setProperty("--accent", c);
-  titleAUF.style.color = c;
-  heroAUF.style.color = c;
-  document.getElementById("landingAUF").style.color = c;
-}
 
-SECTIONS.forEach(sec => {
-  const li = document.createElement("li");
-  li.className = "section-item";
-  li.textContent = sec.label;
-  li.onclick = (e) => loadSection(sec, e.currentTarget);
-  sectionList.appendChild(li);
-});
+  const GITHUB_TREE_API =
+    GITHUB_API_ROOT +
+    "/git/trees/" +
+    GITHUB_BRANCH +
+    "?recursive=1";
 
-async function loadSection(sec, el) {
-  document.querySelectorAll(".section-item").forEach(x => x.classList.remove("active"));
-  el.classList.add("active");
 
-  setAccent(sec.label);
+  /* =========================================================
+     ROOT DIRECTORIES
+     ========================================================= */
 
-  sectionDesc.textContent = sec.label;
-  sectionDescription.textContent = sec.desc;
+  const ROOT_DIRECTORIES = [
 
-  const res = await fetch(API + "/" + sec.name);
-  const data = await res.json();
+    "bibliography",
+    "code",
+    "datasets",
+    "docs",
+    "pages",
+    "papers",
+    "pdf",
+    "proofs",
+    "validation"
 
-  fileList.innerHTML = "";
-  viewerBody.innerHTML = "Seleziona un file.";
-  viewerTitle.textContent = "Viewer";
+  ];
 
-  data.forEach(file => {
-    if (file.type !== "file") return;
 
-    const item = document.createElement("div");
-    item.className = "file-item";
-    item.textContent = file.name;
-    item.onclick = (e) => loadFile(file, e.currentTarget);
-    fileList.appendChild(item);
-  });
-}
+  /*
+   * These are the principal research sections.
+   *
+   * They are not file extensions.
+   *
+   * Every section can contain:
+   *
+   *   files
+   *   subdirectories
+   *   nested files
+   *   arbitrary extensions
+   *
+   */
 
-async function loadFile(file, el) {
-  document.querySelectorAll(".file-item").forEach(x => x.classList.remove("active"));
-  el.classList.add("active");
 
-  viewerTitle.textContent = file.name;
+  const SECTION_META = {
 
-  const ext = file.name.split(".").pop().toLowerCase();
+    bibliography: {
+      label: "Bibliography",
+      description:
+        "Bibliographic records and references.",
+      color:
+        "#55dfff"
+    },
 
-  if (ext === "pdf") {
-    viewerBody.innerHTML = `
-      <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(file.download_url)}"></iframe>
-    `;
-    return;
-  }
+    code: {
+      label: "Code",
+      description:
+        "Computational source and implementations.",
+      color:
+        "#8b7cff"
+    },
 
-  const res = await fetch(file.download_url);
-  const text = await res.text();
+    datasets: {
+      label: "Datasets",
+      description:
+        "Research data and machine-readable resources.",
+      color:
+        "#63e6be"
+    },
 
-  if (ext === "md") {
-    viewerBody.innerHTML = marked.parse(text);
-    if (window.MathJax && MathJax.typesetPromise) {
-      MathJax.typesetPromise([viewerBody]);
+    docs: {
+      label: "Documentation",
+      description:
+        "Scientific documentation and Markdown material.",
+      color:
+        "#6ea8ff"
+    },
+
+    pages: {
+      label: "Pages",
+      description:
+        "HTML research pages and internal interfaces.",
+      color:
+        "#ff4fd8"
+    },
+
+    papers: {
+      label: "Papers",
+      description:
+        "Research papers and scientific publications.",
+      color:
+        "#e6c76a"
+    },
+
+    pdf: {
+      label: "PDF",
+      description:
+        "PDF documents and publication material.",
+      color:
+        "#ff7070"
+    },
+
+    proofs: {
+      label: "Proofs",
+      description:
+        "Formal proofs and verification resources.",
+      color:
+        "#63e6be"
+    },
+
+    validation: {
+      label: "Validation",
+      description:
+        "Validation records and reproducibility material.",
+      color:
+        "#6ea8ff"
     }
-    return;
+
+  };
+
+
+  /* =========================================================
+     STATE
+     ========================================================= */
+
+  let repositoryTree = [];
+
+  let repositoryDirectories = [];
+
+  let repositoryFiles = [];
+
+
+  /* =========================================================
+     DOM
+     ========================================================= */
+
+  const menuButton =
+    document.getElementById(
+      "menuButton"
+    );
+
+
+  const siteMenu =
+    document.getElementById(
+      "siteMenu"
+    );
+
+
+  const repositoryArchive =
+    document.getElementById(
+      "repositoryArchive"
+    );
+
+
+  /* =========================================================
+     MENU TOGGLE
+     ========================================================= */
+
+  function setMenuState(
+    open
+  ) {
+
+    if (
+      !menuButton ||
+      !siteMenu
+    ) {
+
+      return;
+
+    }
+
+
+    menuButton.setAttribute(
+      "aria-expanded",
+      String(open)
+    );
+
+
+    siteMenu.hidden =
+      !open;
+
+
+    menuButton.textContent =
+      open
+        ? "CLOSE"
+        : "MENU";
+
   }
 
-  if (ext === "html") {
-    viewerBody.innerHTML = `<iframe sandbox="allow-scripts allow-same-origin"></iframe>`;
-    const iframe = viewerBody.querySelector("iframe");
-    const doc = iframe.contentDocument;
-    doc.open();
-    doc.write(text);
-    doc.close();
-    return;
+
+  function toggleMenu() {
+
+    if (
+      !menuButton ||
+      !siteMenu
+    ) {
+
+      return;
+
+    }
+
+
+    const isOpen =
+      menuButton.getAttribute(
+        "aria-expanded"
+      ) === "true";
+
+
+    setMenuState(
+      !isOpen
+    );
+
   }
 
-  viewerBody.innerHTML = `<pre>${escapeHtml(text)}</pre>`;
-}
 
-function escapeHtml(s) {
-  return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-}
+  if (
+    menuButton
+  ) {
+
+    menuButton.addEventListener(
+      "click",
+      toggleMenu
+    );
+
+  }
+
+
+  /* =========================================================
+     GITHUB TREE REQUEST
+     ========================================================= */
+
+  async function fetchRepositoryTree() {
+
+    const response =
+      await fetch(
+        GITHUB_TREE_API,
+        {
+          method: "GET",
+          cache: "no-cache",
+          headers: {
+            "Accept":
+              "application/vnd.github+json"
+          }
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "GitHub API returned HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !data ||
+      !Array.isArray(
+        data.tree
+      )
+    ) {
+
+      throw new Error(
+        "Invalid GitHub repository tree."
+      );
+
+    }
+
+
+    return data.tree;
+
+  }
+
+
+  /* =========================================================
+     TREE NORMALIZATION
+     ========================================================= */
+
+  function normalizeRepositoryTree(
+    tree
+  ) {
+
+    repositoryTree =
+      tree
+        .filter(
+          item => {
+
+            return (
+              item &&
+              typeof item.path === "string" &&
+              (
+                item.type === "blob" ||
+                item.type === "tree"
+              )
+            );
+
+          }
+        )
+        .map(
+          item => {
+
+            const path =
+              item.path
+                .replace(
+                  /^\/+/,
+                  ""
+                )
+                .replace(
+                  /\\/g,
+                  "/"
+                );
+
+
+            return {
+              type:
+                item.type,
+
+              path:
+                path,
+
+              sha:
+                item.sha || null,
+
+              size:
+                item.size || 0,
+
+              url:
+                item.url || null
+            };
+
+          }
+        );
+
+
+    repositoryDirectories =
+      repositoryTree
+        .filter(
+          item =>
+            item.type === "tree"
+        );
+
+
+    repositoryFiles =
+      repositoryTree
+        .filter(
+          item =>
+            item.type === "blob"
+        );
+
+  }
+
+
+  /* =========================================================
+     ROOT DIRECTORY DETECTION
+     ========================================================= */
+
+  function getRootDirectories() {
+
+    const discovered =
+      new Set();
+
+
+    repositoryTree.forEach(
+      item => {
+
+        const parts =
+          item.path
+            .split("/")
+            .filter(Boolean);
+
+
+        if (
+          parts.length < 2
+        ) {
+
+          return;
+
+        }
+
+
+        discovered.add(
+          parts[0]
+        );
+
+      }
+    );
+
+
+    /*
+     * Explicitly preserve known sections
+     * even if a GitHub tree response changes.
+     */
+
+    ROOT_DIRECTORIES.forEach(
+      directory => {
+
+        if (
+          repositoryTree.some(
+            item =>
+              item.path ===
+              directory ||
+              item.path.startsWith(
+                directory + "/"
+              )
+          )
+        ) {
+
+          discovered.add(
+            directory
+          );
+
+        }
+
+      }
+    );
+
+
+    return Array.from(
+      discovered
+    ).sort(
+      (a, b) =>
+        a.localeCompare(
+          b,
+          undefined,
+          {
+            sensitivity:
+              "base"
+          }
+        )
+    );
+
+  }
+
+
+  /* =========================================================
+     SECTION METADATA
+     ========================================================= */
+
+  function getSectionMeta(
+    directory
+  ) {
+
+    if (
+      SECTION_META[
+        directory
+      ]
+    ) {
+
+      return SECTION_META[
+        directory
+      ];
+
+    }
+
+
+    return {
+
+      label:
+        directory
+          .replace(
+            /[-_]+/g,
+            " "
+          )
+          .replace(
+            /\b\w/g,
+            char =>
+              char.toUpperCase()
+          ),
+
+      description:
+        "Repository research section.",
+
+      color:
+        "#55dfff"
+
+    };
+
+  }
+
+
+  /* =========================================================
+     FILE COUNT
+     ========================================================= */
+
+  function countFilesInDirectory(
+    directory
+  ) {
+
+    const prefix =
+      directory +
+      "/";
+
+
+    return repositoryFiles.filter(
+      file =>
+        file.path.startsWith(
+          prefix
+        )
+    ).length;
+
+  }
+
+
+  /* =========================================================
+     SUBDIRECTORY COUNT
+     ========================================================= */
+
+  function countDirectoriesInDirectory(
+    directory
+  ) {
+
+    const prefix =
+      directory +
+      "/";
+
+
+    const children =
+      new Set();
+
+
+    repositoryTree.forEach(
+      item => {
+
+        if (
+          !item.path.startsWith(
+            prefix
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        const remainder =
+          item.path.slice(
+            prefix.length
+          );
+
+
+        const parts =
+          remainder
+            .split("/")
+            .filter(Boolean);
+
+
+        if (
+          parts.length > 1
+        ) {
+
+          children.add(
+            parts[0]
+          );
+
+        }
+
+      }
+    );
+
+
+    return children.size;
+
+  }
+
+
+  /* =========================================================
+     DIRECTORY URL
+     ========================================================= */
+
+  function getDirectoryURL(
+    directory
+  ) {
+
+    /*
+     * Each section owns its own parser.
+     *
+     * The root index therefore does not try to render
+     * every possible extension itself.
+     */
+
+    return (
+      directory +
+      "/index.html"
+    );
+
+  }
+
+
+  /* =========================================================
+     CREATE MENU ITEM
+     ========================================================= */
+
+  function createMenuItem(
+    directory
+  ) {
+
+    const meta =
+      getSectionMeta(
+        directory
+      );
+
+
+    const fileCount =
+      countFilesInDirectory(
+        directory
+      );
+
+
+    const directoryCount =
+      countDirectoriesInDirectory(
+        directory
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.className =
+      "site-menu-item";
+
+
+    link.href =
+      getDirectoryURL(
+        directory
+      );
+
+
+    link.style.setProperty(
+      "--menu-color",
+      meta.color
+    );
+
+
+    const id =
+      document.createElement(
+        "span"
+      );
+
+
+    id.className =
+      "site-menu-id";
+
+
+    id.textContent =
+      directory
+        .toUpperCase();
+
+
+    const name =
+      document.createElement(
+        "span"
+      );
+
+
+    name.className =
+      "site-menu-name";
+
+
+    name.textContent =
+      meta.label;
+
+
+    const description =
+      document.createElement(
+        "span"
+      );
+
+
+    description.className =
+      "site-menu-description";
+
+
+    description.textContent =
+      meta.description +
+      " " +
+      fileCount +
+      " file" +
+      (
+        fileCount === 1
+          ? ""
+          : "s"
+      ) +
+      " · " +
+      directoryCount +
+      " subdirector" +
+      (
+        directoryCount === 1
+          ? "y"
+          : "ies"
+      ) +
+      ".";
+
+
+    link.appendChild(
+      id
+    );
+
+
+    link.appendChild(
+      name
+    );
+
+
+    link.appendChild(
+      description
+    );
+
+
+    return link;
+
+  }
+
+
+  /* =========================================================
+     BUILD MAIN MENU
+     ========================================================= */
+
+  function renderRepositoryMenu() {
+
+    if (
+      !siteMenu
+    ) {
+
+      return;
+
+    }
+
+
+    siteMenu.innerHTML =
+      "";
+
+
+    const panel =
+      document.createElement(
+        "div"
+      );
+
+
+    panel.className =
+      "site-menu-panel";
+
+
+    const directories =
+      getRootDirectories();
+
+
+    directories.forEach(
+      directory => {
+
+        panel.appendChild(
+          createMenuItem(
+            directory
+          )
+        );
+
+      }
+    );
+
+
+    if (
+      directories.length === 0
+    ) {
+
+      const empty =
+        document.createElement(
+          "div"
+        );
+
+
+      empty.className =
+        "site-menu-item";
+
+
+      empty.textContent =
+        "No repository directories found.";
+
+
+      panel.appendChild(
+        empty
+      );
+
+    }
+
+
+    siteMenu.appendChild(
+      panel
+    );
+
+  }
+
+
+  /* =========================================================
+     ARCHIVE ITEM
+     ========================================================= */
+
+  function createArchiveItem(
+    directory
+  ) {
+
+    const meta =
+      getSectionMeta(
+        directory
+      );
+
+
+    const files =
+      repositoryFiles.filter(
+        file =>
+          file.path.startsWith(
+            directory + "/"
+          )
+      );
+
+
+    const link =
+      document.createElement(
+        "a"
+      );
+
+
+    link.className =
+      "archive-link";
+
+
+    link.href =
+      getDirectoryURL(
+        directory
+      );
+
+
+    link.style.setProperty(
+      "--archive-color",
+      meta.color
+    );
+
+
+    const title =
+      document.createElement(
+        "strong"
+      );
+
+
+    title.textContent =
+      meta.label;
+
+
+    const description =
+      document.createElement(
+        "span"
+      );
+
+
+    description.textContent =
+      files.length +
+      " repository file" +
+      (
+        files.length === 1
+          ? ""
+          : "s"
+      ) +
+      " · Open section parser";
+
+
+    link.appendChild(
+      title
+    );
+
+
+    link.appendChild(
+      description
+    );
+
+
+    return link;
+
+  }
+
+
+  /* =========================================================
+     RENDER ARCHIVE SECTIONS
+     ========================================================= */
+
+  function renderRepositoryArchive() {
+
+    if (
+      !repositoryArchive
+    ) {
+
+      return;
+
+    }
+
+
+    repositoryArchive.innerHTML =
+      "";
+
+
+    getRootDirectories()
+      .forEach(
+        directory => {
+
+          repositoryArchive.appendChild(
+            createArchiveItem(
+              directory
+            )
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =========================================================
+     INITIALIZE REPOSITORY
+     ========================================================= */
+
+  async function initializeRepository() {
+
+    try {
+
+      const tree =
+        await fetchRepositoryTree();
+
+
+      normalizeRepositoryTree(
+        tree
+      );
+
+
+      renderRepositoryMenu();
+
+      renderRepositoryArchive();
+
+
+      document.documentElement
+        .setAttribute(
+          "data-repository",
+          "ready"
+        );
+
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        "AUF2026 repository discovery:",
+        error
+      );
+
+
+      if (
+        siteMenu
+      ) {
+
+        siteMenu.innerHTML = `
+          <div class="site-menu-panel">
+            <div
+              class="site-menu-item"
+              style="--menu-color:#ff7070;"
+            >
+              <span class="site-menu-id">
+                REPOSITORY ERROR
+              </span>
+              <span class="site-menu-name">
+                GitHub API unavailable
+              </span>
+              <span class="site-menu-description">
+                The static interface remains available.
+              </span>
+            </div>
+          </div>
+        `;
+
+      }
+
+    }
+
+  }
+
+
+  /* =========================================================
+     REVEAL ANIMATION
+     ========================================================= */
+
+  function initializeReveal() {
+
+    const elements =
+      document.querySelectorAll(
+        ".reveal"
+      );
+
+
+    if (
+      !elements.length
+    ) {
+
+      return;
+
+    }
+
+
+    if (
+      !("IntersectionObserver" in window)
+    ) {
+
+      elements.forEach(
+        element => {
+
+          element.classList.add(
+            "visible"
+          );
+
+        }
+      );
+
+      return;
+
+    }
+
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if (
+                !entry.isIntersecting
+              ) {
+
+                return;
+
+              }
+
+
+              entry.target.classList.add(
+                "visible"
+              );
+
+
+              observer.unobserve(
+                entry.target
+              );
+
+            }
+          );
+
+        },
+        {
+          threshold:
+            .08,
+
+          rootMargin:
+            "0px 0px -30px 0px"
+        }
+      );
+
+
+    elements.forEach(
+      element => {
+
+        observer.observe(
+          element
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     CARD POINTER EFFECT
+     ========================================================= */
+
+  function initializeCardEffects() {
+
+    const cards =
+      document.querySelectorAll(
+        ".card"
+      );
+
+
+    cards.forEach(
+      card => {
+
+        card.addEventListener(
+          "pointermove",
+          event => {
+
+            const rect =
+              card.getBoundingClientRect();
+
+
+            const x =
+              event.clientX -
+              rect.left;
+
+
+            const y =
+              event.clientY -
+              rect.top;
+
+
+            const px =
+              (
+                x /
+                rect.width
+              ) *
+              100;
+
+
+            const py =
+              (
+                y /
+                rect.height
+              ) *
+              100;
+
+
+            card.style.setProperty(
+              "--card-x",
+              px + "%"
+            );
+
+
+            card.style.setProperty(
+              "--card-y",
+              py + "%"
+            );
+
+          }
+        );
+
+
+        card.addEventListener(
+          "pointerleave",
+          () => {
+
+            card.style.setProperty(
+              "--card-x",
+              "50%"
+            );
+
+
+            card.style.setProperty(
+              "--card-y",
+              "50%"
+            );
+
+          }
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     KEYBOARD MENU CONTROL
+     ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape"
+      ) {
+
+        setMenuState(
+          false
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     CLOSE MENU AFTER INTERNAL NAVIGATION
+     ========================================================= */
+
+  document.addEventListener(
+    "click",
+    event => {
+
+      const target =
+        event.target.closest(
+          "a"
+        );
+
+
+      if (
+        !target
+      ) {
+
+        return;
+
+      }
+
+
+      if (
+        target.closest(
+          "#siteMenu"
+        )
+      ) {
+
+        setMenuState(
+          false
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     START
+     ========================================================= */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      initializeReveal();
+
+      initializeCardEffects();
+
+      initializeRepository();
+
+    }
+  );
+
 </script>
 
 </body>
