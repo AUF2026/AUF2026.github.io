@@ -4139,34 +4139,31 @@ html[data-theme="light"] {
   
   <script>
 
+<script>
+
 /* =========================================================
-   AUF2026 REPOSITORY NAVIGATION
+   AUF2026 · CODE SECTION
    =========================================================
-   DIRECT GITHUB PAGES ONLY
+   LOCAL SECTION PARSER
+
+   This parser belongs ONLY to:
+
+       /code/
+
+   It does NOT discover the whole repository.
 
    NO GitHub API
    NO raw.githubusercontent.com
-   NO external repository requests
+   NO repository tree discovery
+   NO cross-section parsing
 
-   Architecture:
+   Direct GitHub Pages origin:
 
-   /index.html
-       |
-       +-- /bibliography/
-       +-- /code/
-       +-- /datasets/
-       +-- /docs/
-       +-- /pages/
-       +-- /papers/
-       +-- /pdf/
-       +-- /proofs/
-       +-- /validation/
+       https://auf2026.github.io/
 
-   Every section is a normal GitHub Pages directory.
+   Code resources are addressed as:
 
-   Files are opened directly from:
-
-   https://auf2026.github.io/<path>
+       /code/<file>
 
    ========================================================= */
 
@@ -4175,24 +4172,13 @@ html[data-theme="light"] {
    CONFIGURATION
    ========================================================= */
 
-const AUF2026_CONFIG = {
+const AUF2026_SECTION_CONFIG = {
 
   origin:
     "https://auf2026.github.io",
 
-  sections: [
-
-    "bibliography",
-    "code",
-    "datasets",
-    "docs",
-    "pages",
-    "papers",
-    "pdf",
-    "proofs",
-    "validation"
-
-  ]
+  section:
+    "code"
 
 };
 
@@ -4203,24 +4189,28 @@ const AUF2026_CONFIG = {
 
 const state = {
 
-  directories: [],
+  section:
+    AUF2026_SECTION_CONFIG.section,
 
-  rootDirectories: [],
+  directories: [],
 
   files: [],
 
-  initialized: false
+  initialized:
+    false
 
 };
 
 
 /* =========================================================
-   PATH NORMALISATION
+   NORMALISE PATH
    ========================================================= */
 
 function normalizePath(path) {
 
-  return String(path || "")
+  return String(
+    path || ""
+  )
 
     .replace(
       /\\/g,
@@ -4246,13 +4236,69 @@ function normalizePath(path) {
 
 
 /* =========================================================
-   GITHUB PAGES URL
+   SECTION PATH
    ========================================================= */
 
-function repositoryResourceURL(path) {
+function sectionPath(path) {
 
   const clean =
-    normalizePath(path);
+    normalizePath(
+      path
+    );
+
+
+  if (!clean) {
+
+    return (
+      AUF2026_SECTION_CONFIG.section
+    );
+
+  }
+
+
+  if (
+    clean ===
+    AUF2026_SECTION_CONFIG.section
+  ) {
+
+    return clean;
+
+  }
+
+
+  if (
+    clean.startsWith(
+      AUF2026_SECTION_CONFIG.section +
+      "/"
+    )
+  ) {
+
+    return clean;
+
+  }
+
+
+  return (
+    AUF2026_SECTION_CONFIG.section +
+    "/" +
+    clean
+  );
+
+}
+
+
+/* =========================================================
+   GITHUB PAGES RESOURCE URL
+   ========================================================= */
+
+function repositoryResourceURL(
+  path
+) {
+
+  const clean =
+    sectionPath(
+      path
+    );
 
 
   if (!clean) {
@@ -4264,10 +4310,8 @@ function repositoryResourceURL(path) {
 
   return (
 
-    AUF2026_CONFIG.origin +
-
+    AUF2026_SECTION_CONFIG.origin +
     "/" +
-
     clean
       .split("/")
       .map(
@@ -4281,63 +4325,18 @@ function repositoryResourceURL(path) {
 
 
 /* =========================================================
-   SECTION URL
+   CODE SECTION URL
    ========================================================= */
 
-function repositorySectionURL(section) {
-
-  const clean =
-    normalizePath(section);
-
-
-  if (!clean) {
-
-    return (
-      AUF2026_CONFIG.origin +
-      "/"
-    );
-
-  }
-
+function repositorySectionURL() {
 
   return (
 
-    AUF2026_CONFIG.origin +
+    AUF2026_SECTION_CONFIG.origin +
     "/" +
-    clean +
+    AUF2026_SECTION_CONFIG.section +
     "/"
 
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY NAME
-   ========================================================= */
-
-function directoryName(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return "Repository";
-
-  }
-
-
-  const parts =
-    clean
-      .split("/")
-      .filter(Boolean);
-
-
-  return (
-    parts[parts.length - 1] ||
-    clean
   );
 
 }
@@ -4347,10 +4346,14 @@ function directoryName(path) {
    FILE EXTENSION
    ========================================================= */
 
-function getFileExtension(path) {
+function getFileExtension(
+  path
+) {
 
   const clean =
-    normalizePath(path);
+    normalizePath(
+      path
+    );
 
 
   const filename =
@@ -4361,7 +4364,9 @@ function getFileExtension(path) {
 
 
   const dot =
-    filename.lastIndexOf(".");
+    filename.lastIndexOf(
+      "."
+    );
 
 
   if (
@@ -4374,7 +4379,9 @@ function getFileExtension(path) {
 
 
   return filename
-    .slice(dot + 1)
+    .slice(
+      dot + 1
+    )
     .toLowerCase();
 
 }
@@ -4384,42 +4391,11 @@ function getFileExtension(path) {
    FILE ICON
    ========================================================= */
 
-function fileIcon(extension) {
+function fileIcon(
+  extension
+) {
 
   const icons = {
-
-    md:
-      "M",
-
-    markdown:
-      "M",
-
-    html:
-      "H",
-
-    htm:
-      "H",
-
-    pdf:
-      "P",
-
-    tex:
-      "T",
-
-    latex:
-      "T",
-
-    lean:
-      "λ",
-
-    json:
-      "{}",
-
-    csv:
-      "≡",
-
-    txt:
-      "T",
 
     js:
       "JS",
@@ -4430,11 +4406,77 @@ function fileIcon(extension) {
     cjs:
       "JS",
 
-    css:
-      "#",
+    ts:
+      "TS",
 
-    xml:
-      "XML",
+    jsx:
+      "JS",
+
+    tsx:
+      "TS",
+
+    py:
+      "PY",
+
+    r:
+      "R",
+
+    rb:
+      "RB",
+
+    java:
+      "JV",
+
+    c:
+      "C",
+
+    h:
+      "C",
+
+    cpp:
+      "C++",
+
+    hpp:
+      "C++",
+
+    cs:
+      "C#",
+
+    go:
+      "GO",
+
+    rs:
+      "RS",
+
+    swift:
+      "SW",
+
+    kt:
+      "KT",
+
+    kts:
+      "KT",
+
+    php:
+      "PHP",
+
+    sh:
+      "SH",
+
+    bash:
+      "SH",
+
+    zsh:
+      "SH",
+
+    sql:
+      "SQL",
+
+    lean:
+      "λ",
+
+    json:
+      "{}",
 
     yaml:
       "Y",
@@ -4445,56 +4487,31 @@ function fileIcon(extension) {
     toml:
       "T",
 
-    png:
-      "IMG",
+    xml:
+      "XML",
 
-    jpg:
-      "IMG",
+    html:
+      "H",
 
-    jpeg:
-      "IMG",
+    htm:
+      "H",
 
-    gif:
-      "IMG",
+    css:
+      "#",
 
-    webp:
-      "IMG",
+    md:
+      "M",
 
-    svg:
-      "IMG",
-
-    bmp:
-      "IMG",
-
-    mp3:
-      "♫",
-
-    wav:
-      "♫",
-
-    ogg:
-      "♫",
-
-    flac:
-      "♫",
-
-    mp4:
-      "▶",
-
-    webm:
-      "▶",
-
-    mov:
-      "▶",
-
-    avi:
-      "▶"
+    txt:
+      "T"
 
   };
 
 
   return (
-    icons[extension] ||
+    icons[
+      extension
+    ] ||
     "·"
   );
 
@@ -4505,20 +4522,26 @@ function fileIcon(extension) {
    SORT
    ========================================================= */
 
-function naturalPathCompare(a, b) {
+function naturalPathCompare(
+  a,
+  b
+) {
 
-  return String(a || "")
-    .localeCompare(
-      String(b || ""),
-      undefined,
-      {
-        numeric:
-          true,
+  return String(
+    a || ""
+  ).localeCompare(
+    String(
+      b || ""
+    ),
+    undefined,
+    {
+      numeric:
+        true,
 
-        sensitivity:
-          "base"
-      }
-    );
+      sensitivity:
+        "base"
+    }
+  );
 
 }
 
@@ -4535,16 +4558,35 @@ function getRequestedResource() {
     );
 
 
-  return normalizePath(
+  const requested =
+    normalizePath(
 
-    params.get("resource") ||
+      params.get(
+        "resource"
+      ) ||
 
-    params.get("file") ||
+      params.get(
+        "file"
+      ) ||
 
-    params.get("doc") ||
+      params.get(
+        "doc"
+      ) ||
 
-    ""
+      ""
 
+    );
+
+
+  if (!requested) {
+
+    return "";
+
+  }
+
+
+  return sectionPath(
+    requested
   );
 
 }
@@ -4554,10 +4596,14 @@ function getRequestedResource() {
    URL UPDATE
    ========================================================= */
 
-function updateURL(path) {
+function updateURL(
+  path
+) {
 
   const clean =
-    normalizePath(path);
+    sectionPath(
+      path
+    );
 
 
   if (!clean) {
@@ -4624,7 +4670,8 @@ function findMenuMount() {
 
 
   for (
-    const selector of selectors
+    const selector of
+      selectors
   ) {
 
     const element =
@@ -4633,7 +4680,9 @@ function findMenuMount() {
       );
 
 
-    if (element) {
+    if (
+      element
+    ) {
 
       return element;
 
@@ -4687,51 +4736,145 @@ function findMenuMount() {
 
 
 /* =========================================================
-   DISCOVER REPOSITORY
+   LOCAL CODE FILE REGISTRY
    =========================================================
    IMPORTANT:
 
-   GitHub Pages has no directory listing API.
+   GitHub Pages cannot enumerate arbitrary files in
+   a directory.
 
-   Therefore the root parser discovers the SECTIONS,
-   not arbitrary files.
+   Therefore this index contains ONLY files that are
+   explicitly registered here.
 
-   Each section is responsible for its own resources.
+   Add/remove files below when the /code/ directory
+   changes.
 
-   This completely eliminates:
+   Paths are always relative to /code/.
 
-   - GitHub API
-   - raw.githubusercontent.com
-   - HTTP 403
-   - CORS failures
+   Example:
+
+       "main.js"
+
+   becomes:
+
+       /code/main.js
+
+   ========================================================= */
+
+const CODE_FILES = [
+
+  /*
+   * INSERT CODE FILES HERE.
+   *
+   * Example:
+   *
+   * "main.js",
+   * "parser.js",
+   * "utils/helpers.js"
+   */
+
+];
+
+
+/* =========================================================
+   DISCOVER CODE SECTION
    ========================================================= */
 
 async function discoverRepository() {
+
+  state.files =
+    Array.from(
+
+      new Set(
+
+        CODE_FILES
+
+          .map(
+            normalizePath
+          )
+
+          .filter(
+            Boolean
+          )
+
+          .map(
+            sectionPath
+          )
+
+          .filter(
+            file =>
+              file ===
+                AUF2026_SECTION_CONFIG.section ||
+
+              file.startsWith(
+                AUF2026_SECTION_CONFIG.section +
+                "/"
+              )
+          )
+
+      )
+
+    )
+    .sort(
+      naturalPathCompare
+    );
+
 
   const directories =
     new Set();
 
 
-  AUF2026_CONFIG.sections
-    .forEach(
-      section => {
+  state.files.forEach(
+    file => {
 
-        const clean =
-          normalizePath(
-            section
-          );
+      const clean =
+        normalizePath(
+          file
+        );
 
 
-        if (clean) {
+      const parts =
+        clean
+          .split("/")
+          .filter(Boolean);
 
-          directories.add(
-            clean
-          );
+
+      /*
+       * Remove filename.
+       */
+
+      parts.pop();
+
+
+      let current =
+        "";
+
+
+      parts.forEach(
+        part => {
+
+          current =
+            current
+              ? current + "/" + part
+              : part;
+
+
+          if (
+            current !==
+            AUF2026_SECTION_CONFIG.section
+          ) {
+
+            directories.add(
+              current
+            );
+
+          }
 
         }
+      );
 
-      }
-    );
+    }
+  );
 
 
   state.directories =
@@ -4743,31 +4886,13 @@ async function discoverRepository() {
     );
 
 
-  state.rootDirectories =
-    state.directories
-      .filter(
-        path =>
-          !path.includes("/")
-      );
-
-
-  /*
-   * No fake file discovery.
-   *
-   * The root parser deliberately does not invent
-   * filenames that it cannot know.
-   */
-
-  state.files = [];
-
-
   return true;
 
 }
 
 
 /* =========================================================
-   BUILD REPOSITORY MENU
+   BUILD MENU
    ========================================================= */
 
 function buildRepositoryMenu() {
@@ -4776,14 +4901,17 @@ function buildRepositoryMenu() {
     findMenuMount();
 
 
-  if (!mount) {
+  if (
+    !mount
+  ) {
 
     return;
 
   }
 
 
-  mount.innerHTML = "";
+  mount.innerHTML =
+    "";
 
 
   const navigation =
@@ -4796,93 +4924,81 @@ function buildRepositoryMenu() {
     "auf-repository-menu";
 
 
-  state.rootDirectories
-    .forEach(
-      directory => {
-
-        navigation.appendChild(
-
-          createDirectorySection(
-            directory
-          )
-
-        );
-
-      }
+  const section =
+    createSectionShell(
+      "Code",
+      AUF2026_SECTION_CONFIG.section,
+      "directory"
     );
+
+
+  /*
+   * Files belonging ONLY to /code/.
+   */
+
+  const files =
+    state.files
+      .filter(
+        file =>
+          file.startsWith(
+            AUF2026_SECTION_CONFIG.section +
+            "/"
+          )
+      )
+      .sort(
+        naturalPathCompare
+      );
+
+
+  files.forEach(
+    file => {
+
+      section.list.appendChild(
+
+        createFileItem(
+          file,
+          AUF2026_SECTION_CONFIG.section
+        )
+
+      );
+
+    }
+  );
+
+
+  if (
+    !files.length
+  ) {
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "auf-menu-empty";
+
+
+    empty.textContent =
+      "No code resources registered.";
+
+
+    section.list.appendChild(
+      empty
+    );
+
+  }
+
+
+  navigation.appendChild(
+    section.root
+  );
 
 
   mount.appendChild(
     navigation
   );
-
-}
-
-
-/* =========================================================
-   DIRECTORY SECTION
-   ========================================================= */
-
-function createDirectorySection(
-  directory
-) {
-
-  const shell =
-    createSectionShell(
-
-      directoryName(
-        directory
-      ),
-
-      directory,
-
-      "directory"
-
-    );
-
-
-  /*
-   * The section itself is a real GitHub Pages
-   * directory.
-
-   * No API request is made.
-   */
-
-  const openButton =
-    document.createElement(
-      "a"
-    );
-
-
-  openButton.className =
-    "auf-menu-directory-link";
-
-
-  openButton.href =
-    repositorySectionURL(
-      directory
-    );
-
-
-  openButton.textContent =
-    "Open section";
-
-
-  openButton.setAttribute(
-    "aria-label",
-    "Open " +
-    directoryName(
-      directory
-    )
-  );
-
-
-  shell.list.appendChild(
-    openButton
-  );
-
-
-  return shell.root;
 
 }
 
@@ -4907,6 +5023,10 @@ function createSectionShell(
     "auf-menu-section " +
     "auf-menu-section-" +
     type;
+
+
+  root.dataset.path =
+    path;
 
 
   const header =
@@ -4946,9 +5066,7 @@ function createSectionShell(
 
 
   icon.textContent =
-    type === "directory"
-      ? "§"
-      : "R";
+    "§";
 
 
   const titleElement =
@@ -5041,7 +5159,9 @@ function createSectionShell(
 
       header.setAttribute(
         "aria-expanded",
-        String(open)
+        String(
+          open
+        )
       );
 
     }
@@ -5058,6 +5178,37 @@ function createSectionShell(
   );
 
 
+  /*
+   * Open automatically when the URL points to a
+   * resource inside /code/.
+   */
+
+  const requested =
+    getRequestedResource();
+
+
+  if (
+    requested &&
+    (
+      requested === path ||
+      requested.startsWith(
+        path + "/"
+      )
+    )
+  ) {
+
+    root.classList.add(
+      "is-open"
+    );
+
+    header.setAttribute(
+      "aria-expanded",
+      "true"
+    );
+
+  }
+
+
   return {
 
     root:
@@ -5070,116 +5221,6 @@ function createSectionShell(
       list
 
   };
-
-}
-
-
-/* =========================================================
-   OPEN RESOURCE
-   ========================================================= */
-
-function openResource(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  /*
-   * Prefer the parser already installed by the page.
-   */
-
-  if (
-    typeof window.loadRepositoryResource ===
-    "function"
-  ) {
-
-    window.loadRepositoryResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  if (
-    typeof window.loadResource ===
-    "function"
-  ) {
-
-    window.loadResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Absolute fallback:
-   * direct GitHub Pages resource.
-   */
-
-  const url =
-    repositoryResourceURL(
-      clean
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   OPEN SECTION
-   ========================================================= */
-
-function openSection(
-  section
-) {
-
-  const url =
-    repositorySectionURL(
-      section
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
 
 }
 
@@ -5212,24 +5253,32 @@ function createFileItem(
 
 
   const filename =
-    normalizePath(file)
+    normalizePath(
+      file
+    )
       .split("/")
       .filter(Boolean)
       .pop() ||
     file;
 
 
+  const parent =
+    normalizePath(
+      parentDirectory
+    );
+
+
   const relative =
-    parentDirectory
+    parent &&
+    file.startsWith(
+      parent + "/"
+    )
 
-      ? normalizePath(file)
-          .slice(
-            normalizePath(
-              parentDirectory
-            ).length + 1
-          )
+      ? file.slice(
+          parent.length + 1
+        )
 
-      : normalizePath(file);
+      : file;
 
 
   const extension =
@@ -5423,36 +5472,46 @@ function setActiveFile(
 
 
 /* =========================================================
-   REGISTER SECTION FILES
-   =========================================================
-   This is the interface used by each folder parser.
-
-   Example from /pages/index.html:
-
-   window.AUF2026Repository.registerFiles(
-     "pages",
-     [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
-     ]
-   );
-
-   No external server is contacted.
+   OPEN RESOURCE
    ========================================================= */
 
-function registerSectionFiles(
-  directory,
-  files
+function openResource(
+  path
 ) {
 
-  const root =
-    normalizePath(
-      directory
+  const clean =
+    sectionPath(
+      path
     );
 
 
-  if (!root) {
+  if (!clean) {
+
+    return;
+
+  }
+
+
+  /*
+   * Prefer the existing page renderer if available.
+   */
+
+  if (
+    typeof window.loadRepositoryResource ===
+    "function"
+  ) {
+
+    window.loadRepositoryResource(
+      clean
+    );
+
+    updateURL(
+      clean
+    );
+
+    setActiveFile(
+      clean
+    );
 
     return;
 
@@ -5460,158 +5519,59 @@ function registerSectionFiles(
 
 
   if (
-    !Array.isArray(files)
+    typeof window.loadResource ===
+    "function"
   ) {
+
+    window.loadResource(
+      clean
+    );
+
+    updateURL(
+      clean
+    );
+
+    setActiveFile(
+      clean
+    );
 
     return;
 
   }
 
 
-  files
-    .map(
-      normalizePath
-    )
-    .filter(Boolean)
-    .forEach(
-      file => {
+  /*
+   * Direct GitHub Pages fallback.
+   *
+   * NEVER raw.githubusercontent.com.
+   */
 
-        if (
-          !state.files.includes(
-            file
-          )
-        ) {
-
-          state.files.push(
-            file
-          );
-
-        }
-
-      }
+  const url =
+    repositoryResourceURL(
+      clean
     );
 
 
-  state.files =
-    Array.from(
-      new Set(
-        state.files
-      )
-    )
-    .sort(
-      naturalPathCompare
-    );
+  if (
+    url
+  ) {
 
+    window.location.href =
+      url;
 
-  rebuildSectionFiles(
-    root
-  );
+  }
 
 }
 
 
 /* =========================================================
-   REBUILD SECTION FILES
+   OPEN CODE SECTION
    ========================================================= */
 
-function rebuildSectionFiles(
-  directory
-) {
+function openSection() {
 
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  const section =
-    document.querySelector(
-      ".auf-menu-section[data-path=\"" +
-      CSS.escape(root) +
-      "\"]"
-    );
-
-
-  if (!section) {
-
-    return;
-
-  }
-
-
-  const list =
-    section.querySelector(
-      ".auf-menu-file-list"
-    );
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  const files =
-    state.files
-      .filter(
-        file =>
-          file === root ||
-          file.startsWith(
-            root + "/"
-          )
-      )
-      .sort(
-        naturalPathCompare
-      );
-
-
-  files.forEach(
-    file => {
-
-      list.appendChild(
-
-        createFileItem(
-          file,
-          root
-        )
-
-      );
-
-    }
-  );
-
-
-  if (!files.length) {
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "auf-menu-directory-link";
-
-
-    link.href =
-      repositorySectionURL(
-        root
-      );
-
-
-    link.textContent =
-      "Open section";
-
-
-    list.appendChild(
-      link
-    );
-
-  }
+  window.location.href =
+    repositorySectionURL();
 
 }
 
@@ -5628,14 +5588,17 @@ function renderRepositoryError(
     findMenuMount();
 
 
-  if (!mount) {
+  if (
+    !mount
+  ) {
 
     return;
 
   }
 
 
-  mount.innerHTML = "";
+  mount.innerHTML =
+    "";
 
 
   const box =
@@ -5655,7 +5618,7 @@ function renderRepositoryError(
 
 
   strong.textContent =
-    "Repository navigation error";
+    "Code navigation error";
 
 
   const message =
@@ -5670,7 +5633,7 @@ function renderRepositoryError(
 
       ? error.message
 
-      : "Unable to initialise repository navigation.";
+      : "Unable to initialise the code section.";
 
 
   box.appendChild(
@@ -5713,7 +5676,11 @@ async function initialiseRepository() {
 
 
     if (
-      requested
+      requested &&
+      requested.startsWith(
+        AUF2026_SECTION_CONFIG.section +
+        "/"
+      )
     ) {
 
       openResource(
@@ -5727,7 +5694,7 @@ async function initialiseRepository() {
   ) {
 
     console.error(
-      "AUF2026 repository navigation:",
+      "AUF2026 code section:",
       error
     );
 
@@ -5776,9 +5743,6 @@ window.AUF2026Repository = {
 
   open:
     openResource,
-
-  registerFiles:
-    registerSectionFiles,
 
   refresh:
     initialiseRepository
