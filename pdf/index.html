@@ -2400,7 +2400,7 @@ html[data-theme="light"] {
   <script>
 
 /* =========================================================
-   AUF2026 SECTION REPOSITORY PARSER
+   AUF2026 INDEPENDENT SECTION VIEWER
    ========================================================= */
 
 const GITHUB_OWNER =
@@ -2413,20 +2413,24 @@ const GITHUB_BRANCH =
   "main";
 
 /*
- * CAMBIA SOLO QUESTA RIGA
+ * =========================================================
+ * SECTION
+ * =========================================================
  *
- * bibliography
- * code
- * datasets
  * docs
  * papers
  * pdf
  * proofs
  * validation
  */
+
 const GITHUB_SECTION =
   "pdf";
 
+
+/* =========================================================
+   GITHUB
+   ========================================================= */
 
 const GITHUB_TREE_URL =
   "https://api.github.com/repos/" +
@@ -2459,6 +2463,20 @@ const GITHUB_BLOB_BASE =
 
 
 /* =========================================================
+   URL PARAMETERS
+   ========================================================= */
+
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
+
+
+const requestedFile =
+  params.get("file");
+
+
+/* =========================================================
    DOM
    ========================================================= */
 
@@ -2480,18 +2498,52 @@ const repositoryFiles =
   );
 
 
+const documentElement =
+  document.getElementById(
+    "document"
+  ) ||
+  document.getElementById(
+    "repositoryDocument"
+  );
+
+
+const titleElement =
+  document.getElementById(
+    "document-title"
+  ) ||
+  document.getElementById(
+    "repositoryTitle"
+  );
+
+
+const sourceElement =
+  document.getElementById(
+    "document-source"
+  ) ||
+  document.getElementById(
+    "repositorySource"
+  );
+
+
+/* =========================================================
+   DISCOVERED FILES
+   ========================================================= */
+
+let discoveredFiles = [];
+
+
 /* =========================================================
    INITIALIZE
    ========================================================= */
 
-loadRepository();
+startSectionViewer();
 
 
 /* =========================================================
-   LOAD REPOSITORY TREE
+   START
    ========================================================= */
 
-async function loadRepository() {
+async function startSectionViewer() {
 
   try {
 
@@ -2545,22 +2597,40 @@ async function loadRepository() {
     }
 
 
-    const discovered =
+    discoveredFiles =
       discoverSectionFiles(
         data.tree
       );
 
 
+    /*
+     * If a file was requested,
+     * this index becomes the viewer.
+     */
+    if (
+      requestedFile
+    ) {
+
+      await loadRequestedFile();
+
+      return;
+
+    }
+
+
+    /*
+     * Otherwise show the repository index.
+     */
     renderFiles(
-      discovered
+      discoveredFiles
     );
 
 
     setStatus(
-      discovered.length +
+      discoveredFiles.length +
       " resource" +
       (
-        discovered.length === 1
+        discoveredFiles.length === 1
           ? ""
           : "s"
       ) +
@@ -2576,7 +2646,7 @@ async function loadRepository() {
   ) {
 
     console.error(
-      "AUF2026 repository parser:",
+      "AUF2026 section viewer:",
       error
     );
 
@@ -2588,24 +2658,9 @@ async function loadRepository() {
     );
 
 
-    if (
-      repositoryFiles
-    ) {
-
-      repositoryFiles.innerHTML =
-        `
-          <div class="pages-empty">
-
-            Unable to read
-            <code>/${escapeHTML(
-              GITHUB_SECTION
-            )}/</code>
-            from the AUF2026 repository.
-
-          </div>
-        `;
-
-    }
+    renderError(
+      error
+    );
 
   }
 
@@ -2613,7 +2668,7 @@ async function loadRepository() {
 
 
 /* =========================================================
-   DISCOVER FILES
+   DISCOVER SECTION FILES
    ========================================================= */
 
 function discoverSectionFiles(
@@ -2642,13 +2697,6 @@ function discoverSectionFiles(
       }
     )
 
-    /*
-     * Il parser non deve mostrare il proprio
-     * index.html.
-     *
-     * Se vuoi mostrare index.html della sezione,
-     * elimina questo filter.
-     */
     .filter(
       item => {
 
@@ -2801,7 +2849,7 @@ function renderFiles(
 
 
 /* =========================================================
-   CREATE FILE
+   CREATE FILE ENTRY
    ========================================================= */
 
 function createFileElement(
@@ -2858,13 +2906,14 @@ function createFileElement(
 
       <div class="pages-file-actions">
 
-        <button
+        <a
           class="pages-file-button"
-          type="button"
-          data-open
+          href="${sectionViewerURL(
+            item.path
+          )}"
         >
           VIEW
-        </button>
+        </a>
 
         <a
           class="pages-file-github"
@@ -2881,68 +2930,439 @@ function createFileElement(
     `;
 
 
-  article
-    .querySelector(
-      "[data-open]"
-    )
-    .addEventListener(
-      "click",
-      function () {
+  return article;
 
-        /*
-         * Usa esclusivamente il viewer.
-         */
-
-        if (
-          typeof window.openRepositoryResource ===
-          "function"
-        ) {
-
-          window.openRepositoryResource(
-            item.path
-          );
-
-          return;
-
-        }
+}
 
 
-        /*
-         * Compatibilità con il viewer
-         * originale di pages/index.html.
-         */
+/* =========================================================
+   SECTION VIEWER URL
+   ========================================================= */
 
-        if (
-          typeof window.openResource ===
-          "function"
-        ) {
+function sectionViewerURL(
+  repositoryPath
+) {
 
-          window.openResource(
-            item.path
-          );
-
-          return;
-
-        }
-
-
-        /*
-         * Fallback diretto.
-         */
-
-        window.open(
-          rawURL(
-            item.path
-          ),
-          "_blank",
-          "noopener"
-        );
-
-      }
+  const relativePath =
+    getSectionRelativePath(
+      repositoryPath
     );
 
 
-  return article;
+  return (
+    "index.html?file=" +
+    encodeURIComponent(
+      relativePath
+    )
+  );
+
+}
+
+
+/* =========================================================
+   RESOLVE REQUESTED FILE
+   ========================================================= */
+
+function resolveRequestedFile(
+  requested
+) {
+
+  if (
+    !requested
+  ) {
+
+    return null;
+
+  }
+
+
+  let cleanPath;
+
+
+  try {
+
+    cleanPath =
+      decodeURIComponent(
+        requested
+      );
+
+  } catch {
+
+    cleanPath =
+      requested;
+
+  }
+
+
+  cleanPath =
+    cleanPath
+      .replace(/^\/+/, "")
+      .replace(/\\/g, "/");
+
+
+  /*
+   * Security.
+   */
+  if (
+    !cleanPath ||
+    cleanPath.includes("..") ||
+    cleanPath.startsWith("/")
+  ) {
+
+    return null;
+
+  }
+
+
+  /*
+   * Do not allow the section to escape.
+   */
+  if (
+    cleanPath ===
+    "index.html"
+  ) {
+
+    return null;
+
+  }
+
+
+  const expectedPrefix =
+    GITHUB_SECTION +
+    "/";
+
+
+  /*
+   * Accept:
+   *
+   * ?file=test.md
+   *
+   * and:
+   *
+   * ?file=docs/test.md
+   */
+  if (
+    cleanPath.startsWith(
+      expectedPrefix
+    )
+  ) {
+
+    cleanPath =
+      cleanPath.slice(
+        expectedPrefix.length
+      );
+
+  }
+
+
+  if (
+    !cleanPath
+  ) {
+
+    return null;
+
+  }
+
+
+  const repositoryPath =
+    GITHUB_SECTION +
+    "/" +
+    cleanPath;
+
+
+  const found =
+    discoveredFiles.find(
+      item =>
+        item.path ===
+        repositoryPath
+    );
+
+
+  if (
+    !found
+  ) {
+
+    return null;
+
+  }
+
+
+  return found;
+
+}
+
+
+/* =========================================================
+   LOAD REQUESTED FILE
+   ========================================================= */
+
+async function loadRequestedFile() {
+
+  const item =
+    resolveRequestedFile(
+      requestedFile
+    );
+
+
+  if (
+    !item
+  ) {
+
+    renderError(
+      new Error(
+        "Resource not found under /" +
+        GITHUB_SECTION +
+        "/: " +
+        requestedFile
+      )
+    );
+
+    return;
+
+  }
+
+
+  const filename =
+    item.path
+      .split("/")
+      .pop();
+
+
+  const extension =
+    getExtension(
+      filename
+    );
+
+
+  const relativePath =
+    getSectionRelativePath(
+      item.path
+    );
+
+
+  const localPath =
+    item.path;
+
+
+  if (
+    sourceElement
+  ) {
+
+    sourceElement.textContent =
+      localPath;
+
+  }
+
+
+  if (
+    titleElement
+  ) {
+
+    titleElement.textContent =
+      humanTitle(
+        filename
+      );
+
+  }
+
+
+  document.title =
+    "AUF2026 — " +
+    humanTitle(
+      filename
+    );
+
+
+  /*
+   * Markdown
+   */
+  if (
+    extension === "md" ||
+    extension === "markdown"
+  ) {
+
+    await loadMarkdown(
+      item.path,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * HTML
+   */
+  if (
+    extension === "html" ||
+    extension === "htm"
+  ) {
+
+    renderHTMLPage(
+      localPath,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * PDF
+   */
+  if (
+    extension === "pdf"
+  ) {
+
+    renderPDF(
+      localPath,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Image
+   */
+  if (
+    [
+      "svg",
+      "png",
+      "jpg",
+      "jpeg",
+      "gif",
+      "webp",
+      "avif",
+      "bmp",
+      "ico"
+    ].includes(
+      extension
+    )
+  ) {
+
+    renderImage(
+      localPath,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Audio / video
+   */
+  if (
+    [
+      "mp3",
+      "wav",
+      "ogg",
+      "oga",
+      "m4a",
+      "aac",
+      "flac",
+      "mp4",
+      "webm",
+      "ogv",
+      "mov",
+      "m4v"
+    ].includes(
+      extension
+    )
+  ) {
+
+    renderMedia(
+      localPath,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * CSV
+   */
+  if (
+    extension === "csv"
+  ) {
+
+    await loadCSV(
+      localPath,
+      filename
+    );
+
+    return;
+
+  }
+
+
+  /*
+   * Text/source.
+   */
+  await loadText(
+    localPath,
+    filename
+  );
+
+}
+
+
+/* =========================================================
+   SECTION RELATIVE PATH
+   ========================================================= */
+
+function getSectionRelativePath(
+  repositoryPath
+) {
+
+  const prefix =
+    GITHUB_SECTION +
+    "/";
+
+
+  if (
+    repositoryPath.startsWith(
+      prefix
+    )
+  ) {
+
+    return repositoryPath.slice(
+      prefix.length
+    );
+
+  }
+
+
+  return repositoryPath;
+
+}
+
+
+/* =========================================================
+   RAW PATH
+   ========================================================= */
+
+function rawURL(
+  repositoryPath
+) {
+
+  return (
+    GITHUB_RAW_BASE +
+    repositoryPath
+      .split("/")
+      .map(
+        encodeURIComponent
+      )
+      .join("/")
+  );
 
 }
 
@@ -2952,12 +3372,12 @@ function createFileElement(
    ========================================================= */
 
 function githubURL(
-  path
+  repositoryPath
 ) {
 
   return (
     GITHUB_BLOB_BASE +
-    path
+    repositoryPath
       .split("/")
       .map(
         encodeURIComponent
@@ -2969,22 +3389,1260 @@ function githubURL(
 
 
 /* =========================================================
-   RAW URL
+   MARKDOWN
    ========================================================= */
 
-function rawURL(
+async function loadMarkdown(
+  repositoryPath,
+  filename
+) {
+
+  try {
+
+    const response =
+      await fetch(
+        rawURL(
+          repositoryPath
+        ),
+        {
+          cache:
+            "no-cache"
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const markdown =
+      await response.text();
+
+
+    if (
+      typeof marked ===
+      "undefined"
+    ) {
+
+      throw new Error(
+        "Markdown renderer 'marked' is not available."
+      );
+
+    }
+
+
+    marked.setOptions({
+
+      gfm:
+        true,
+
+      breaks:
+        true
+
+    });
+
+
+    if (
+      !documentElement
+    ) {
+
+      return;
+
+    }
+
+
+    documentElement.innerHTML =
+      marked.parse(
+        markdown
+      );
+
+
+    normalizeMarkdownLinks(
+      repositoryPath
+    );
+
+
+    improveTables();
+
+
+  } catch (
+    error
+  ) {
+
+    renderError(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   MARKDOWN LINKS
+   ========================================================= */
+
+function normalizeMarkdownLinks(
+  currentRepositoryPath
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  documentElement
+    .querySelectorAll("a")
+    .forEach(
+      link => {
+
+        const rawHref =
+          link.getAttribute(
+            "href"
+          );
+
+
+        if (
+          !rawHref
+        ) {
+
+          return;
+
+        }
+
+
+        const href =
+          rawHref.trim();
+
+
+        if (
+          href.startsWith(
+            "http://"
+          ) ||
+          href.startsWith(
+            "https://"
+          ) ||
+          href.startsWith(
+            "mailto:"
+          ) ||
+          href.startsWith(
+            "tel:"
+          ) ||
+          href.startsWith(
+            "#"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        const hashIndex =
+          href.indexOf("#");
+
+
+        const queryIndex =
+          href.indexOf("?");
+
+
+        let splitIndex =
+          -1;
+
+
+        if (
+          hashIndex >= 0 &&
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            Math.min(
+              hashIndex,
+              queryIndex
+            );
+
+        } else if (
+          hashIndex >= 0
+        ) {
+
+          splitIndex =
+            hashIndex;
+
+        } else if (
+          queryIndex >= 0
+        ) {
+
+          splitIndex =
+            queryIndex;
+
+        }
+
+
+        const path =
+          splitIndex >= 0
+            ? href.slice(
+                0,
+                splitIndex
+              )
+            : href;
+
+
+        const suffix =
+          splitIndex >= 0
+            ? href.slice(
+                splitIndex
+              )
+            : "";
+
+
+        if (
+          !path
+        ) {
+
+          return;
+
+        }
+
+
+        /*
+         * Only repository Markdown links.
+         */
+        const extension =
+          getExtension(
+            path
+          );
+
+
+        if (
+          extension !== "md" &&
+          extension !== "markdown"
+        ) {
+
+          return;
+
+        }
+
+
+        const resolved =
+          resolveRelativeRepositoryPath(
+            currentRepositoryPath,
+            path
+          );
+
+
+        if (
+          !resolved
+        ) {
+
+          return;
+
+        }
+
+
+        const found =
+          discoveredFiles.find(
+            item =>
+              item.path ===
+              resolved
+          );
+
+
+        if (
+          !found
+        ) {
+
+          return;
+
+        }
+
+
+        link.href =
+          sectionViewerURL(
+            resolved
+          ) +
+          suffix;
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   RELATIVE REPOSITORY PATH
+   ========================================================= */
+
+function resolveRelativeRepositoryPath(
+  currentRepositoryPath,
+  linkPath
+) {
+
+  let clean =
+    linkPath
+      .replace(
+        /^\/+/,
+        ""
+      )
+      .replace(
+        /\\/g,
+        "/"
+      );
+
+
+  /*
+   * Absolute repository path:
+   *
+   * /docs/file.md
+   */
+  if (
+    clean.startsWith(
+      GITHUB_SECTION +
+      "/"
+    )
+  ) {
+
+    return normalizePath(
+      clean
+    );
+
+  }
+
+
+  const currentDirectory =
+    currentRepositoryPath
+      .split("/")
+      .slice(
+        0,
+        -1
+      )
+      .join("/");
+
+
+  const combined =
+    currentDirectory
+      ? currentDirectory +
+        "/" +
+        clean
+      : clean;
+
+
+  const repositoryPath =
+    GITHUB_SECTION +
+    "/" +
+    combined;
+
+
+  return normalizePath(
+    repositoryPath
+  );
+
+}
+
+
+/* =========================================================
+   NORMALIZE PATH
+   ========================================================= */
+
+function normalizePath(
   path
 ) {
 
-  return (
-    GITHUB_RAW_BASE +
+  const parts =
     path
       .split("/")
-      .map(
-        encodeURIComponent
-      )
-      .join("/")
+      .filter(
+        part =>
+          part &&
+          part !== "."
+      );
+
+
+  const result = [];
+
+
+  for (
+    const part of parts
+  ) {
+
+    if (
+      part === ".."
+    ) {
+
+      if (
+        result.length
+      ) {
+
+        result.pop();
+
+      }
+
+      continue;
+
+    }
+
+
+    result.push(
+      part
+    );
+
+  }
+
+
+  return result.join("/");
+
+}
+
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+function improveTables() {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  documentElement
+    .querySelectorAll(
+      "table"
+    )
+    .forEach(
+      table => {
+
+        if (
+          table.parentElement &&
+          table.parentElement.classList.contains(
+            "archive-table-wrap"
+          )
+        ) {
+
+          return;
+
+        }
+
+
+        const wrapper =
+          document.createElement(
+            "div"
+          );
+
+
+        wrapper.className =
+          "archive-table-wrap";
+
+
+        table.parentNode.insertBefore(
+          wrapper,
+          table
+        );
+
+
+        wrapper.appendChild(
+          table
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   HTML PAGE
+   ========================================================= */
+
+function renderHTMLPage(
+  repositoryPath,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-page-viewer";
+
+
+  const frame =
+    document.createElement(
+      "iframe"
+    );
+
+
+  frame.className =
+    "archive-page-frame";
+
+
+  frame.src =
+    rawURL(
+      repositoryPath
+    );
+
+
+  frame.title =
+    humanTitle(
+      filename
+    );
+
+
+  frame.loading =
+    "eager";
+
+
+  frame.allow =
+    "accelerometer; autoplay; camera; encrypted-media; fullscreen; gyroscope; microphone; picture-in-picture; web-share";
+
+
+  frame.allowFullscreen =
+    true;
+
+
+  resource.appendChild(
+    frame
   );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+}
+
+
+/* =========================================================
+   PDF
+   ========================================================= */
+
+function renderPDF(
+  repositoryPath,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-resource";
+
+
+  const object =
+    document.createElement(
+      "object"
+    );
+
+
+  object.data =
+    rawURL(
+      repositoryPath
+    );
+
+
+  object.type =
+    "application/pdf";
+
+
+  const fallback =
+    document.createElement(
+      "p"
+    );
+
+
+  fallback.textContent =
+    "Your browser cannot display this PDF directly.";
+
+
+  const link =
+    document.createElement(
+      "a"
+    );
+
+
+  link.href =
+    rawURL(
+      repositoryPath
+    );
+
+
+  link.target =
+    "_blank";
+
+
+  link.rel =
+    "noopener noreferrer";
+
+
+  link.textContent =
+    "Open PDF";
+
+
+  fallback.appendChild(
+    document.createTextNode(
+      " "
+    )
+  );
+
+
+  fallback.appendChild(
+    link
+  );
+
+
+  object.appendChild(
+    fallback
+  );
+
+
+  resource.appendChild(
+    object
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+}
+
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+function renderImage(
+  repositoryPath,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-resource";
+
+
+  const image =
+    document.createElement(
+      "img"
+    );
+
+
+  image.src =
+    rawURL(
+      repositoryPath
+    );
+
+
+  image.alt =
+    filename;
+
+
+  resource.appendChild(
+    image
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+}
+
+
+/* =========================================================
+   MEDIA
+   ========================================================= */
+
+function renderMedia(
+  repositoryPath,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const extension =
+    getExtension(
+      filename
+    );
+
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-resource";
+
+
+  let element;
+
+
+  if (
+    [
+      "mp3",
+      "wav",
+      "ogg",
+      "oga",
+      "m4a",
+      "aac",
+      "flac"
+    ].includes(
+      extension
+    )
+  ) {
+
+    element =
+      document.createElement(
+        "audio"
+      );
+
+    element.controls =
+      true;
+
+  }
+
+
+  if (
+    [
+      "mp4",
+      "webm",
+      "ogv",
+      "mov",
+      "m4v"
+    ].includes(
+      extension
+    )
+  ) {
+
+    element =
+      document.createElement(
+        "video"
+      );
+
+    element.controls =
+      true;
+
+    element.playsInline =
+      true;
+
+  }
+
+
+  if (
+    !element
+  ) {
+
+    return;
+
+  }
+
+
+  element.src =
+    rawURL(
+      repositoryPath
+    );
+
+
+  element.preload =
+    "metadata";
+
+
+  resource.appendChild(
+    element
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+}
+
+
+/* =========================================================
+   CSV
+   ========================================================= */
+
+async function loadCSV(
+  repositoryPath,
+  filename
+) {
+
+  try {
+
+    const response =
+      await fetch(
+        rawURL(
+          repositoryPath
+        ),
+        {
+          cache:
+            "no-cache"
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    renderCSV(
+      text,
+      filename
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    renderError(
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CSV PARSER
+   ========================================================= */
+
+function parseCSV(
+  text
+) {
+
+  const rows = [];
+
+  let row = [];
+
+  let cell = "";
+
+  let insideQuotes =
+    false;
+
+
+  for (
+    let i = 0;
+    i < text.length;
+    i++
+  ) {
+
+    const char =
+      text[i];
+
+
+    const next =
+      text[i + 1];
+
+
+    if (
+      char === '"' &&
+      insideQuotes &&
+      next === '"'
+    ) {
+
+      cell += '"';
+
+      i++;
+
+      continue;
+
+    }
+
+
+    if (
+      char === '"'
+    ) {
+
+      insideQuotes =
+        !insideQuotes;
+
+      continue;
+
+    }
+
+
+    if (
+      char === "," &&
+      !insideQuotes
+    ) {
+
+      row.push(
+        cell
+      );
+
+      cell =
+        "";
+
+      continue;
+
+    }
+
+
+    if (
+      (
+        char === "\n" ||
+        char === "\r"
+      ) &&
+      !insideQuotes
+    ) {
+
+      if (
+        char === "\r" &&
+        next === "\n"
+      ) {
+
+        i++;
+
+      }
+
+
+      row.push(
+        cell
+      );
+
+      rows.push(
+        row
+      );
+
+      row = [];
+
+      cell =
+        "";
+
+      continue;
+
+    }
+
+
+    cell += char;
+
+  }
+
+
+  if (
+    cell.length ||
+    row.length
+  ) {
+
+    row.push(
+      cell
+    );
+
+    rows.push(
+      row
+    );
+
+  }
+
+
+  return rows;
+
+}
+
+
+/* =========================================================
+   RENDER CSV
+   ========================================================= */
+
+function renderCSV(
+  text,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const rows =
+    parseCSV(
+      text
+    );
+
+
+  const wrapper =
+    document.createElement(
+      "div"
+    );
+
+
+  wrapper.className =
+    "archive-resource-table";
+
+
+  const table =
+    document.createElement(
+      "table"
+    );
+
+
+  rows.forEach(
+    (
+      row,
+      index
+    ) => {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      row.forEach(
+        value => {
+
+          const cell =
+            document.createElement(
+              index === 0
+                ? "th"
+                : "td"
+            );
+
+
+          cell.textContent =
+            value;
+
+
+          tr.appendChild(
+            cell
+          );
+
+        }
+      );
+
+
+      table.appendChild(
+        tr
+      );
+
+    }
+  );
+
+
+  wrapper.appendChild(
+    table
+  );
+
+
+  documentElement.replaceChildren(
+    wrapper
+  );
+
+}
+
+
+/* =========================================================
+   TEXT RESOURCE
+   ========================================================= */
+
+async function loadText(
+  repositoryPath,
+  filename
+) {
+
+  try {
+
+    const response =
+      await fetch(
+        rawURL(
+          repositoryPath
+        ),
+        {
+          cache:
+            "no-cache"
+        }
+      );
+
+
+    if (
+      !response.ok
+    ) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
+
+    renderText(
+      text,
+      filename
+    );
+
+
+  } catch (
+    error
+  ) {
+
+    renderError(
+      error
+    );
+
+  }
+
+}
+
+
+function renderText(
+  text,
+  filename
+) {
+
+  if (
+    !documentElement
+  ) {
+
+    return;
+
+  }
+
+
+  const resource =
+    document.createElement(
+      "div"
+    );
+
+
+  resource.className =
+    "archive-resource";
+
+
+  const pre =
+    document.createElement(
+      "pre"
+    );
+
+
+  pre.textContent =
+    text;
+
+
+  resource.appendChild(
+    pre
+  );
+
+
+  documentElement.replaceChildren(
+    resource
+  );
+
+}
+
+
+/* =========================================================
+   HUMAN TITLE
+   ========================================================= */
+
+function humanTitle(
+  filename
+) {
+
+  return String(
+    filename || ""
+  )
+
+    .replace(
+      /\.(md|markdown|html?|pdf|csv|svg|txt|json|xml|ya?ml|log)$/i,
+      ""
+    )
+
+    .replace(
+      /[-_]+/g,
+      " "
+    )
+
+    .replace(
+      /\b\w/g,
+      character =>
+        character.toUpperCase()
+    );
 
 }
 
@@ -2997,8 +4655,16 @@ function getExtension(
   filename
 ) {
 
+  const clean =
+    String(
+      filename || ""
+    )
+      .split("?")[0]
+      .split("#")[0];
+
+
   const index =
-    filename.lastIndexOf(".");
+    clean.lastIndexOf(".");
 
 
   if (
@@ -3010,7 +4676,7 @@ function getExtension(
   }
 
 
-  return filename
+  return clean
     .slice(
       index + 1
     )
@@ -3031,7 +4697,9 @@ function getFileType(
     [
       "md",
       "markdown"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "MARKDOWN";
@@ -3043,7 +4711,9 @@ function getFileType(
     [
       "html",
       "htm"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "HTML";
@@ -3070,8 +4740,11 @@ function getFileType(
       "webp",
       "svg",
       "avif",
-      "bmp"
-    ].includes(extension)
+      "bmp",
+      "ico"
+    ].includes(
+      extension
+    )
   ) {
 
     return "IMAGE";
@@ -3086,8 +4759,11 @@ function getFileType(
       "ogg",
       "oga",
       "m4a",
+      "aac",
       "flac"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "AUDIO";
@@ -3102,10 +4778,40 @@ function getFileType(
       "ogv",
       "mov",
       "m4v"
-    ].includes(extension)
+    ].includes(
+      extension
+    )
   ) {
 
     return "VIDEO";
+
+  }
+
+
+  if (
+    extension ===
+    "csv"
+  ) {
+
+    return "CSV";
+
+  }
+
+
+  if (
+    [
+      "txt",
+      "json",
+      "xml",
+      "yaml",
+      "yml",
+      "log"
+    ].includes(
+      extension
+    )
+  ) {
+
+    return "TEXT";
 
   }
 
@@ -3161,7 +4867,9 @@ function escapeHTML(
   value
 ) {
 
-  return String(value)
+  return String(
+    value
+  )
 
     .replace(
       /&/g,
