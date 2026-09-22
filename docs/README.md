@@ -1,99 +1,182 @@
-# AUF2026 · Documentation
+# AUF2026
 
-> **Technical · Mathematical · Formal · Computational · Bibliographic · Archival**
+ > **Technical · Mathematical · Formal · Computational · Bibliographic · Archival**
 
-The directories are the control layer of the AUF2026 research corpus.
+ **AUF2026** is a version-controlled research repository for the development, formalization, computation, validation and archival organization of the AUF2026 mathematical framework.
 
-It connects mathematical claims and research objects to their source files, formal artifacts, computational evidence, validation records and bibliographic context.
+ The repository is structured so that mathematical statements, manuscripts, formal proofs, source code, datasets, bibliographic material and validation records remain separately identifiable while preserving their relationships.
+
+ The associated GitHub Pages interface provides a human-readable research archive over the same repository structure.
 
 ---
 
-## Research Architecture
+ ## Research Architecture
 
-```text
-                         AUF2026
-                            │
-             ┌──────────────┼──────────────┐
-             │              │              │
-          PAPERS          PROOFS          CODE
-             │              │              │
-             └──────────────┼──────────────┘
-                            │
-                       RESEARCH OBJECTS
-                            │
-             ┌──────────────┼──────────────┐
-             │              │              │
-         DATASETS       VALIDATION     BIBLIOGRAPHY
-             │              │              │
-             └──────────────┼──────────────┘
-                            │
-                         DOCS /
-                            │
-          ┌─────────────────┼─────────────────┐
-          │                 │                 │
-       CLAIMS            REGISTRY          PROVENANCE
-          │                 │                 │
-          └─────────────────┼─────────────────┘
-                            │
-                       AUDITABLE RECORD
-````
+```
+                              AUF2026
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+       PAPERS                  PROOFS                  CODE
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                         RESEARCH OBJECTS
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+       DATASETS              VALIDATION            BIBLIOGRAPHY
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                                DOCS
+                                 │
+          ┌──────────────────────┼──────────────────────┐
+          │                      │                      │
+        CLAIMS                REGISTRY              PROVENANCE
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                         AUDITABLE RECORD
+```
 
  The documentation layer does not replace the underlying evidence.
 
- It provides the structure needed to locate, compare and audit that evidence.
+ It provides the structure required to locate, relate, compare and audit that evidence.
 
 ---
 
- ## Core Registry
+ # Repository Structure
+
+ | Directory | Primary role |
+| --- | --- |
+| `/bibliography/` | Literature, references and bibliographic analysis |
+| `/code/` | Computational and executable research artifacts |
+| `/datasets/` | Datasets, inputs and computational source material |
+| `/docs/` | Technical documentation, registries and archival control |
+| `/pages/` | Research archive pages and web-facing resources |
+| `/papers/` | Research manuscripts and scientific documents |
+| `/pdf/` | PDF research artifacts and generated documents |
+| `/proofs/` | Formal proofs, theorem artifacts and Lean material |
+| `/validation/` | Validation, reproduction and verification records |
+
+Root-level files provide repository entry points, project metadata and archive navigation.
+
+---
+
+ # GitHub Pages Research Archive
+
+ The repository is accompanied by a GitHub Pages interface:
+
+ **https://auf2026.github.io/**
+
+ The web archive is designed as a presentation layer over the repository.
+
+ Its purpose is to expose research resources without changing their repository identity.
+
+```
+GitHub Repository
+       │
+       ├── bibliography/
+       ├── code/
+       ├── datasets/
+       ├── docs/
+       ├── pages/
+       ├── papers/
+       ├── pdf/
+       ├── proofs/
+       └── validation/
+               │
+               ▼
+        GitHub Pages Archive
+               │
+               ├── sections
+               ├── documents
+               ├── source files
+               ├── PDFs
+               ├── formal artifacts
+               └── computational resources
+```
+
+ Repository-relative paths remain canonical.
+
+ The web interface is not intended to become a second, independent copy of the research corpus.
+
+---
+
+ # Research Objects
+
+ The archive treats research material as identifiable objects rather than as undifferentiated files.
+
+ A research object may be:
+
+ - a mathematical definition;
+- a theorem;
+- a lemma;
+- a proof;
+- a Lean formalization;
+- a manuscript;
+- a dataset;
+- a computational experiment;
+- a source-code artifact;
+- a validation record;
+- a bibliographic record;
+- an application record.
+
+ Where appropriate, objects receive stable identifiers.
+
+```
+THM-001
+THM-002
+THM-003
+...
+
+PRF-001
+PRF-002
+PRF-003
+...
+
+APP-001
+APP-002
+APP-003
+```
+
+ Identifiers provide archival traceability.
+
+ They do not replace descriptive mathematical names.
+
+---
+
+ # Documentation Layer
+
+ The `/docs/` directory acts as the technical and archival control layer.
+
+ Typical registry documents include:
 
  | Document | Function |
 | --- | --- |
-| `RESEARCH-REGISTER.md` | Central registry of research objects |
-| `CLAIMS.md` | Claim-level evidence and validation tracking |
+| `RESEARCH-REGISTER.md` | Central research-object registry |
+| `CLAIMS.md` | Claim-level evidence and status |
 | `OBJECT-REGISTRY.md` | Stable identifiers for corpus objects |
 | `CORPUS-INDEX.md` | Master corpus inventory |
-| `ARCHIVE-MAP.md` | Website-to-repository architecture |
-
-These records form the primary navigation layer of the research archive.
-
----
-
- ## Source & Provenance
-
- | Document | Function |
-| --- | --- |
-| `SOURCE-MANIFEST.md` | Source provenance, paths, versions and commits |
-| `SOURCE-INVENTORY.md` | Inventory of available source material |
+| `ARCHIVE-MAP.md` | Repository-to-website architecture |
+| `SOURCE-MANIFEST.md` | Source provenance and version information |
+| `SOURCE-INVENTORY.md` | Inventory of source material |
 | `REPOSITORY-MAP.md` | Repository structure and roles |
-| `EXTRACTION-STATUS.md` | State of corpus ingestion |
-| `LOCAL-CORPUS-MAP.md` | Local source-corpus mapping |
-| `LOCAL-CORPUS-ROOTS.md` | Local corpus root definitions |
+| `EXTRACTION-STATUS.md` | Corpus ingestion state |
+| `CONFIGURATION-MATRIX.md` | Computational configuration tracking |
 
-The provenance chain is preserved rather than inferred:
-
-```
-SOURCE
-  ↓
-REPOSITORY
-  ↓
-FILE
-  ↓
-VERSION
-  ↓
-COMMIT
-  ↓
-EXTRACTED OBJECT
-```
+The exact document set may evolve as the research corpus grows.
 
 ---
 
- ## Mathematical Structure
+ # Mathematical Structure
 
- ### Core Genealogy
+ ## Core Genealogy
 
- `CORE-GENEALOGY.md`
+ `CORE-GENEALOGY.md` records structural relationships identified within the AUF2026 mathematical framework.
 
- Documents the structural relationships currently identified within the AUF2026 mathematical framework.
+ A current structural representation is:
 
 ```
 K_min
@@ -115,81 +198,107 @@ L_F
 Born
 ```
 
- The genealogy describes structural relationships.
+ This genealogy describes structural relationships.
 
- It does not by itself establish formal proof, novelty or application validity.
+ It does not, by itself, establish:
 
- ### Configuration Matrix
+ - formal proof;
+- mathematical novelty;
+- historical priority;
+- computational correctness;
+- application validity.
 
- `CONFIGURATION-MATRIX.md`
-
- Tracks computational and numerical variants without automatically treating them as different mathematical objects.
-
- Recorded dimensions include:
-
- - precision;
-- implementation;
-- algorithm;
-- input;
-- output;
-- software version;
-- mathematical definition;
-- computational environment.
+ Those claims require their respective evidence layers.
 
 ---
 
- ## Theorem & Proof Layer
+ # Configuration Matrix
+
+ `CONFIGURATION-MATRIX.md` tracks computational and numerical variants.
+
+ The archive distinguishes mathematical identity from implementation configuration.
+
+ Relevant dimensions may include:
+
+ | Dimension | Examples |
+| --- | --- |
+| Mathematical definition | formal object / variant |
+| Input | dataset / parameters |
+| Precision | numerical precision |
+| Algorithm | computational procedure |
+| Implementation | software artifact |
+| Environment | operating system / toolchain |
+| Version | software release |
+| Output | generated result |
+
+Different computational configurations are not automatically treated as different mathematical objects.
+
+---
+
+ # Theorem and Proof Layer
 
  The formal research chain is maintained separately from descriptive documentation.
 
 ```
 MATHEMATICAL CLAIM
-       ↓
+        ↓
 EXACT STATEMENT
-       ↓
+        ↓
 DEFINITIONS
-       ↓
+        ↓
 ASSUMPTIONS
-       ↓
+        ↓
 DEPENDENCIES
-       ↓
+        ↓
 FORMALIZATION
-       ↓
+        ↓
 LEAN VERIFICATION
-       ↓
+        ↓
 VALIDATION RECORD
 ```
 
- Internal identifiers provide archival traceability:
+ Formal artifacts may contain:
 
 ```
-THM-001
-THM-002
-THM-003
-...
-
-PRF-001
-PRF-002
-PRF-003
-...
+definitions
+theorems
+lemmas
+examples
+imports
+namespaces
+dependencies
+tests
+compilation results
 ```
 
- Public theorem names remain descriptive and are not replaced by internal identifiers.
+ A formal artifact should preserve its declared environment whenever possible.
+
+ For Lean material this includes, where available:
+
+```
+Lean version
+Mathlib revision
+imports
+namespace
+source file
+commit
+compilation status
+```
 
 ---
 
- ## Evidence States
+ # Evidence States
 
  Different forms of evidence are recorded independently.
 
  | State | Meaning |
 | --- | --- |
 | `DOCUMENTED` | Statement or result exists in a preserved source |
-| `FORMALLY VERIFIED` | Formal artifact verified in the declared environment |
-| `COMPUTATIONALLY REPRODUCED` | Specified computation reproduced |
-| `INDEPENDENTLY REPRODUCED` | Reproduced independently of the original execution |
-| `BIBLIOGRAPHICALLY COMPARED` | Relevant literature examined |
-| `MATHEMATICALLY DISTINGUISHED` | Concrete mathematical differences documented |
+| `FORMALLY VERIFIED` | Formal artifact verifies the declared proposition in the declared environment |
+| `COMPUTATIONALLY REPRODUCED` | Specified computation has been reproduced |
+| `INDEPENDENTLY REPRODUCED` | Reproduction was performed independently |
+| `BIBLIOGRAPHICALLY COMPARED` | Relevant literature has been examined |
+| `MATHEMATICALLY DISTINGUISHED` | Concrete mathematical differences have been documented |
 | `PEER REVIEWED` | External peer-review evidence exists |
 | `APPLICATION VERIFIED` | Claimed application has independent supporting evidence |
 
@@ -198,64 +307,71 @@ These states are **not interchangeable**.
  In particular:
 
 ```
-formal verification ≠ mathematical novelty
-computation ≠ formal proof
-bibliographic comparison ≠ originality
-application claim ≠ application validation
+formal verification
+        ≠
+mathematical novelty
 ```
+
+```
+computation
+        ≠
+formal proof
+```
+
+```
+bibliographic comparison
+        ≠
+originality
+```
+
+```
+application claim
+        ≠
+application validation
+```
+
+ The registry should record only the evidence actually available.
 
 ---
 
- ## Bibliographic Control
+ # Provenance
 
- Bibliographic analysis is maintained separately from theorem verification.
-
- The relevant records include:
-
- - `AUTHOR-IDENTITY.md`
-- `BIBLIOGRAPHIC-NOVELTY-MATRIX.md`
-- `CORE-GENEALOGY.md`
-- `CLAIMS.md`
-
- For a mathematical claim, the intended comparison chain is:
+ The repository preserves provenance rather than inferring it.
 
 ```
-AUF2026 CLAIM
-      ↓
-CANONICAL STATEMENT
-      ↓
-LITERATURE SEARCH
-      ↓
-RELEVANT PRIOR RESULT
-      ↓
-MATHEMATICAL COMPARISON
-      ↓
-DOCUMENTED DIFFERENCES
+SOURCE
+  ↓
+REPOSITORY
+  ↓
+FILE
+  ↓
+VERSION
+  ↓
+COMMIT
+  ↓
+EXTRACTED OBJECT
+  ↓
+VALIDATION RECORD
 ```
 
- The archive distinguishes:
+ Where available, provenance records should include:
 
-```
-no prior result identified in the searched corpus
-```
-
- from the much stronger statement:
-
-```
-no prior result exists
-```
-
- The first describes a documented search scope.
-
- The second requires substantially broader historical evidence.
+ - source location;
+- repository path;
+- file name;
+- version;
+- commit;
+- extraction procedure;
+- associated object identifier;
+- validation record.
 
 ---
 
- ## Reproducibility
+ # Reproducibility
 
  Computational results should preserve enough information to reconstruct the execution context.
 
- Where available, the archive records:
+ Where applicable:
 
  | Parameter | Examples |
 | --- | --- |
@@ -266,7 +382,7 @@ no prior result exists
 | Lean | Lean version |
 | Mathlib | Mathlib revision |
 | Precision | numerical precision |
-| Input | source dataset / parameters |
+| Input | dataset / parameters |
 | Output | generated result |
 | Procedure | execution method |
 | Tests | validation results |
@@ -289,9 +405,11 @@ RESULT
 
 ---
 
- ## Validation
+ # Validation
 
- Validation records remain independent from authorship and from the existence of a mathematical claim.
+ Validation records are maintained separately from authorship and from the existence of a mathematical claim.
+
+ A validation chain may take the following form:
 
 ```
 DOCUMENTED
@@ -307,13 +425,58 @@ EXTERNALLY ASSESSED
 
  Not every research object will pass through every state.
 
- The registry records the actual state supported by evidence.
+ The repository records the state supported by the available evidence.
 
 ---
 
- ## Application Layer
+ # Bibliographic Control
 
- Applications are linked to the underlying mathematical or computational object.
+ Bibliographic analysis is maintained independently from theorem verification.
+
+ Relevant records may include:
+
+ - `AUTHOR-IDENTITY.md`
+- `BIBLIOGRAPHIC-NOVELTY-MATRIX.md`
+- `CORE-GENEALOGY.md`
+- `CLAIMS.md`
+
+ For a mathematical claim, the comparison workflow is:
+
+```
+AUF2026 CLAIM
+      ↓
+CANONICAL STATEMENT
+      ↓
+LITERATURE SEARCH
+      ↓
+RELEVANT PRIOR RESULT
+      ↓
+MATHEMATICAL COMPARISON
+      ↓
+DOCUMENTED DIFFERENCES
+```
+
+ The archive distinguishes between:
+
+```
+no prior result identified in the searched corpus
+```
+
+ and:
+
+```
+no prior result exists
+```
+
+ The first describes a documented search scope.
+
+ The second requires substantially broader historical evidence.
+
+---
+
+ # Application Layer
+
+ Applications are linked to the mathematical or computational objects on which they depend.
 
 ```
 MATHEMATICAL OBJECT
@@ -327,7 +490,16 @@ REPRODUCIBLE RESULT
 APPLICATION
 ```
 
- Application identifiers use:
+ Application records should identify the relevant:
+
+ - theorem;
+- definition;
+- implementation;
+- experiment;
+- dataset;
+- validation record.
+
+ Application identifiers may use:
 
 ```
 APP-001
@@ -336,33 +508,42 @@ APP-003
 ...
 ```
 
- An application record should identify the theorem, implementation, experiment or validation record on which it depends.
+---
+
+ # Corpus Layers
+
+ The repository deliberately separates different evidence layers.
+
+```
+                    AUF2026 CORPUS
+                          │
+       ┌──────────────────┼──────────────────┐
+       │                  │                  │
+   SCIENTIFIC          FORMAL            COMPUTATIONAL
+       │                  │                  │
+    papers             proofs             code
+    manuscripts        Lean               datasets
+       │                  │                  │
+       └──────────────────┼──────────────────┘
+                          │
+                    CONTROL LAYER
+                          │
+                documentation
+                bibliography
+                validation
+```
+
+ This separation makes it possible to inspect each layer independently while retaining cross-references between them.
 
 ---
 
- ## Research Corpus
-
- The repository separates the principal evidence layers:
-
- | Directory | Role |
-| --- | --- |
-| `/papers/` | Research manuscripts |
-| `/proofs/` | Formal proofs and Lean artifacts |
-| `/validation/` | Reproduction and validation records |
-| `/bibliography/` | Literature and prior-art material |
-| `/datasets/` | Computational datasets and inputs |
-| `/code/` | Software and executable research artifacts |
-| `/docs/` | Technical and archival control layer |
-
----
-
- ## Chronology & Versioning
+ # Chronology and Versioning
 
  Historical material is preserved.
 
- A later formulation does not silently replace an earlier one.
+ A later formulation does not silently erase an earlier one.
 
- Where versions differ materially, the archive should preserve:
+ Where versions differ materially, the archive may preserve:
 
 ```
 HISTORICAL
@@ -374,7 +555,7 @@ CORRECTED / EXTENDED
 CANONICAL
 ```
 
- Relevant historical information includes:
+ Relevant historical information may include:
 
  - publication date;
 - manuscript version;
@@ -386,11 +567,11 @@ CANONICAL
 
 ---
 
- ## Local Formal Corpus
+ # Formal Corpus
 
- The formal extraction phase begins from the preserved local source corpus.
+ The formal extraction layer may record each source file together with its formal environment.
 
- For each formal source, the archive may record:
+ For each formal source, the archive may preserve:
 
 ```
 FILE
@@ -407,39 +588,43 @@ DEPENDENCIES
 COMPILATION STATUS
 ```
 
- Formal artifacts receive stable identifiers such as:
+ Formal artifacts receive stable identifiers where useful:
 
 ```
 PRF-0001
 PRF-0002
 PRF-0003
+...
 ```
 
- Associated mathematical propositions receive corresponding theorem identifiers.
+ Associated mathematical propositions may receive corresponding theorem identifiers.
 
 ---
 
- ## Documentation Rules
+ # Documentation Rules
 
- Every new record should preserve:
+ Every new research record should preserve, where applicable:
 
  1. source provenance;
 2. canonical version;
 3. evidence status;
 4. relationship to other objects;
-5. historical versions where relevant.
+5. historical versions;
+6. relevant validation information.
 
- A new document should be created only when it provides a distinct archival function.
+ A new document should be created when it provides a distinct archival function.
 
  Existing documents should be revised when their scope remains unchanged.
 
  No mathematical statement, proof status, prior result or originality conclusion should be inferred merely to complete a registry field.
 
+ Unknown information should remain explicitly unknown.
+
 ---
 
- ## Evidence Principle
+ # Evidence Principle
 
- The archive follows one fundamental rule:
+ The archive follows a simple principle:
 
 ```
 CLAIM
@@ -457,11 +642,11 @@ COMPARISON
 AUDITABLE RESEARCH RECORD
 ```
 
- If an evidentiary component is missing, that component remains explicitly open.
+ If an evidentiary component is missing, that component remains open.
 
 ---
 
- ## Current Workflow
+ # Current Research Workflow
 
 ```
 PUBLIC CORPUS
@@ -489,16 +674,140 @@ ARCHIVAL RECORD
 
 ---
 
- ## Documentation Status
+ # Web Archive Workflow
 
- **Directory:** `/docs/`
+ The public research interface follows the repository structure rather than maintaining a separate document database.
 
- **Role:** AUF2026 technical and archival control layer
+```
+REPOSITORY
+    │
+    ├── bibliography/
+    ├── code/
+    ├── datasets/
+    ├── docs/
+    ├── pages/
+    ├── papers/
+    ├── pdf/
+    ├── proofs/
+    └── validation/
+             │
+             ▼
+      REPOSITORY NAVIGATION
+             │
+             ▼
+       RESOURCE PARSER
+             │
+       ┌─────┼──────────────┐
+       │     │              │
+      MD    PDF       SOURCE / FORMAL
+       │     │              │
+       ▼     ▼              ▼
+      HTML  VIEWER      RESOURCE VIEW
+```
+
+ The parser is intended to preserve the original repository path while presenting the resource in a readable web interface.
+
+ Supported resource types can include, depending on browser support and parser implementation:
+
+```
+Markdown
+HTML
+PDF
+LaTeX
+Lean
+JSON
+CSV
+TXT
+JavaScript
+CSS
+XML
+YAML
+TOML
+images
+audio
+video
+```
+
+ Unsupported formats remain downloadable as repository resources rather than being silently discarded.
+
+---
+
+ # Repository Navigation
+
+ The principal sections are:
+
+```
+/bibliography/
+/code/
+/datasets/
+/docs/
+/pages/
+/papers/
+/pdf/
+/proofs/
+/validation/
+```
+
+ Each section may contain nested directories.
+
+ Repository-relative paths are the canonical identifiers used by the archive.
+
+ For example:
+
+```
+proofs/example.lean
+papers/faure-universal-theory.md
+datasets/example.csv
+docs/RESEARCH-REGISTER.md
+pdf/example.pdf
+```
+
+---
+
+ # Source of Truth
+
+ The version-controlled repository is the primary archival source.
+
+```
+Git repository
+      ↓
+version
+      ↓
+commit
+      ↓
+file
+      ↓
+research object
+```
+
+ GitHub Pages is the presentation layer.
+
+ The website should not be treated as a replacement for the underlying repository artifacts.
+
+---
+
+ # Documentation Status
+
+ **Project:** AUF2026
+
+ **Repository:** `AUF2026/AUF2026.github.io`
+
+ **Documentation layer:** `/docs/`
+
+ **Web archive:** `https://auf2026.github.io/`
 
  **Status:** Active
 
- **Source of truth:** Version-controlled repository artifacts
+ **Primary source of truth:** Version-controlled repository artifacts
 
- The documentation is intentionally modular.
+ **Architecture:** Modular research corpus with repository-relative resource navigation
 
- Each record should answer one question clearly and link to the artifacts required to verify it.
+---
+
+ # Principle
+
+ > **Preserve the source. Identify the object. Record the provenance. Separate evidence states. Preserve the history. Make the result auditable.**
+
+ The AUF2026 repository is intended to grow without requiring the underlying research record to be reconstructed from the website.
+
+ Each document should answer one question clearly and provide the paths required to inspect the evidence behind it.
