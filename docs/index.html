@@ -10,53 +10,48 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>AUF2026 — Docs</title>
+  <title>
+    AUF2026 — Docs
+  </title>
+
 
   <style>
 
     :root {
 
       --bg:
-        #070a0f;
+        #0b0f14;
 
       --panel:
-        #0e141d;
+        #111821;
 
       --panel-2:
-        #131c27;
+        #151e28;
+
+      --border:
+        #263241;
 
       --text:
-        #eef3f8;
+        #e8edf3;
 
       --muted:
         #8d9aaa;
 
-      --auf:
-        #63e6be;
+      --accent:
+        #7dd3fc;
 
-      --blue:
-        #6ea8ff;
+      --accent-strong:
+        #38bdf8;
 
-      --gold:
-        #e6c76a;
-
-      --red:
-        #ff7373;
-
-      --border:
-        rgba(255,255,255,.10);
-
-      --shadow:
-        0 24px 70px rgba(0,0,0,.38);
+      --danger:
+        #f87171;
 
     }
 
 
     * {
-
       box-sizing:
         border-box;
-
     }
 
 
@@ -64,6 +59,9 @@
     body {
 
       margin:
+        0;
+
+      padding:
         0;
 
       min-height:
@@ -75,363 +73,162 @@
       color:
         var(--text);
 
-    }
-
-
-    body {
-
-      min-height:
-        100vh;
-
       font-family:
-        Inter,
-        ui-sans-serif,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
 
-      background:
+    }
 
-        radial-gradient(
-          circle at 80% 0%,
-          rgba(110,168,255,.10),
-          transparent 32%
-        ),
 
-        radial-gradient(
-          circle at 0% 30%,
-          rgba(99,230,190,.07),
-          transparent 30%
-        ),
+    body {
 
-        var(--bg);
+      padding:
+        32px 20px 60px;
 
     }
 
 
-    button,
-    input {
-
-      font:
-        inherit;
-
-    }
-
-
-    a {
-
-      color:
-        inherit;
-
-    }
-
-
-    /* =========================================================
-       PAGE
-       ========================================================= */
-
-    .pages-page {
+    main {
 
       width:
-        min(
-          1100px,
-          calc(100% - 32px)
-        );
+        min(1100px, 100%);
 
       margin:
         0 auto;
 
-      padding:
-        32px 0 90px;
-
     }
 
 
-    /* =========================================================
-       TOP BAR
-       ========================================================= */
-
-    .pages-topbar {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      gap:
-        16px;
+    .archive-header {
 
       margin-bottom:
-        42px;
+        28px;
 
     }
 
 
-    .pages-back {
+    .archive-kicker {
 
-      display:
-        inline-flex;
+      color:
+        var(--accent);
 
-      align-items:
-        center;
+      font-size:
+        12px;
 
-      gap:
+      font-weight:
+        700;
+
+      letter-spacing:
+        .14em;
+
+      text-transform:
+        uppercase;
+
+      margin-bottom:
         8px;
 
-      padding:
-        9px 14px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(255,255,255,.03);
-
-      color:
-        var(--text);
-
-      text-decoration:
-        none;
-
-      font-size:
-        .72rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        .08em;
-
-      text-transform:
-        uppercase;
-
-      transition:
-        .2s ease;
-
     }
 
 
-    .pages-back:hover {
-
-      border-color:
-        var(--auf);
-
-      color:
-        var(--auf);
-
-      transform:
-        translateX(-2px);
-
-    }
-
-
-    .pages-brand {
-
-      color:
-        var(--muted);
-
-      font-size:
-        .7rem;
-
-      letter-spacing:
-        .15em;
-
-      text-transform:
-        uppercase;
-
-    }
-
-
-    /* =========================================================
-       HEADER
-       ========================================================= */
-
-    .pages-kicker {
-
-      margin-bottom:
-        10px;
-
-      color:
-        var(--auf);
-
-      font-size:
-        .72rem;
-
-      font-weight:
-        700;
-
-      letter-spacing:
-        .18em;
-
-      text-transform:
-        uppercase;
-
-    }
-
-
-    .pages-header h1 {
-
-      margin:
-        0 0 13px;
-
-      color:
-        var(--text);
-
-      font-size:
-        clamp(
-          2rem,
-          5vw,
-          3.6rem
-        );
-
-      line-height:
-        1.05;
-
-      letter-spacing:
-        -.04em;
-
-    }
-
-
-    .pages-subtitle {
-
-      max-width:
-        780px;
+    h1 {
 
       margin:
         0;
 
-      color:
-        var(--muted);
-
       font-size:
-        .95rem;
+        clamp(28px, 5vw, 44px);
 
       line-height:
-        1.75;
+        1.05;
 
     }
 
 
-    /* =========================================================
-       STATUS
-       ========================================================= */
+    .archive-description {
 
-    .pages-status {
-
-      margin:
-        28px 0 20px;
-
-      padding:
-        11px 14px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        9px;
-
-      background:
-        rgba(255,255,255,.025);
-
-      color:
-        var(--muted);
-
-      font-size:
-        .73rem;
-
-    }
-
-
-    .pages-status[data-state="ok"] {
-
-      border-color:
-        rgba(99,230,190,.24);
-
-    }
-
-
-    .pages-status[data-state="error"] {
-
-      border-color:
-        rgba(255,115,115,.30);
-
-      color:
-        var(--red);
-
-    }
-
-
-    /* =========================================================
-       DIRECTORY
-       ========================================================= */
-
-    .pages-directory {
-
-      margin:
-        30px 0 10px;
-
-      color:
-        var(--gold);
-
-      font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Consolas,
-        monospace;
-
-      font-size:
-        .72rem;
-
-      letter-spacing:
-        .08em;
-
-    }
-
-
-    /* =========================================================
-       FILE LIST
-       ========================================================= */
-
-    .pages-files {
-
-      display:
-        grid;
-
-      gap:
-        8px;
-
-    }
-
-
-    .pages-empty {
-
-      padding:
-        30px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
+      margin-top:
         12px;
 
       color:
         var(--muted);
 
+      line-height:
+        1.6;
+
+      max-width:
+        780px;
+
+    }
+
+
+    .archive-status {
+
+      margin:
+        20px 0;
+
+      padding:
+        12px 14px;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        8px;
+
       background:
         var(--panel);
+
+      color:
+        var(--muted);
+
+      font-size:
+        14px;
+
+    }
+
+
+    .archive-status[data-state="ok"] {
+
+      color:
+        var(--accent);
+
+    }
+
+
+    .archive-status[data-state="error"] {
+
+      color:
+        var(--danger);
+
+    }
+
+
+    .pages-directory {
+
+      margin:
+        28px 0 10px;
+
+      padding:
+        8px 0;
+
+      color:
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+
+      font-size:
+        13px;
+
+      font-weight:
+        700;
 
     }
 
@@ -448,43 +245,22 @@
         space-between;
 
       gap:
-        18px;
+        20px;
 
       padding:
-        15px 17px;
+        18px;
+
+      margin:
+        8px 0;
+
+      background:
+        var(--panel);
 
       border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
       border-radius:
-        11px;
-
-      background:
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.015)
-        );
-
-      transition:
-        border-color .18s ease,
-        transform .18s ease,
-        background .18s ease;
-
-    }
-
-
-    .pages-file:hover {
-
-      transform:
-        translateY(-1px);
-
-      border-color:
-        rgba(99,230,190,.30);
-
-      background:
-        rgba(99,230,190,.035);
+        10px;
 
     }
 
@@ -500,19 +276,16 @@
     .pages-file-name {
 
       margin:
-        0 0 5px;
-
-      color:
-        var(--text);
+        0;
 
       font-size:
-        .92rem;
+        17px;
 
-      font-weight:
-        650;
+      line-height:
+        1.4;
 
-      overflow-wrap:
-        anywhere;
+      word-break:
+        break-word;
 
     }
 
@@ -526,21 +299,31 @@
         8px;
 
       color:
-        var(--auf);
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
 
       font-size:
-        .62rem;
+        11px;
 
       font-weight:
-        750;
+        700;
 
       letter-spacing:
-        .08em;
+        .06em;
 
     }
 
 
     .pages-file-path {
+
+      margin-top:
+        6px;
 
       color:
         var(--muted);
@@ -548,14 +331,15 @@
       font-family:
         ui-monospace,
         SFMono-Regular,
+        Menlo,
         Consolas,
         monospace;
 
       font-size:
-        .7rem;
+        12px;
 
-      overflow-wrap:
-        anywhere;
+      word-break:
+        break-all;
 
     }
 
@@ -565,11 +349,14 @@
       display:
         flex;
 
-      flex-shrink:
-        0;
+      align-items:
+        center;
 
       gap:
-        7px;
+        8px;
+
+      flex-shrink:
+        0;
 
     }
 
@@ -587,14 +374,13 @@
         center;
 
       min-height:
-        34px;
+        36px;
 
       padding:
-        7px 11px;
+        0 13px;
 
       border:
-        1px solid
-        var(--border);
+        1px solid var(--border);
 
       border-radius:
         7px;
@@ -606,13 +392,10 @@
         var(--text);
 
       font-size:
-        .64rem;
+        12px;
 
       font-weight:
         700;
-
-      letter-spacing:
-        .07em;
 
       text-decoration:
         none;
@@ -620,52 +403,59 @@
       cursor:
         pointer;
 
-      transition:
-        .18s ease;
-
     }
 
 
-    .pages-file-button:hover {
-
-      border-color:
-        var(--auf);
-
-      color:
-        var(--auf);
-
-    }
-
-
+    .pages-file-button:hover,
     .pages-file-github:hover {
 
       border-color:
-        var(--blue);
+        var(--accent-strong);
 
       color:
-        var(--blue);
+        var(--accent);
 
     }
 
 
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
+    .pages-empty {
+
+      padding:
+        30px;
+
+      border:
+        1px dashed var(--border);
+
+      border-radius:
+        10px;
+
+      color:
+        var(--muted);
+
+      text-align:
+        center;
+
+    }
+
+
+    code {
+
+      color:
+        var(--accent);
+
+      font-family:
+        ui-monospace,
+        SFMono-Regular,
+        Menlo,
+        Consolas,
+        monospace;
+
+    }
+
 
     @media (
       max-width: 700px
     ) {
-
-      .pages-page {
-
-        width:
-          calc(100% - 20px);
-
-        padding-top:
-          20px;
-
-      }
-
 
       .pages-file {
 
@@ -696,1645 +486,6 @@
 
     }
 
-    .resource-viewer {
-
-  margin-top:
-    42px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    15px;
-
-  overflow:
-    hidden;
-
-  background:
-    var(--panel);
-
-  box-shadow:
-    var(--shadow);
-
-}
-
-
-.resource-viewer[hidden] {
-
-  display:
-    none;
-
-}
-
-
-.resource-viewer-header {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  gap:
-    15px;
-
-  padding:
-    13px 17px;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
-  background:
-    var(--panel-2);
-
-}
-
-
-.resource-viewer-title {
-
-  min-width:
-    0;
-
-  color:
-    var(--text);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .72rem;
-
-  overflow-wrap:
-    anywhere;
-
-}
-
-
-.resource-viewer-close {
-
-  flex-shrink:
-    0;
-
-  appearance:
-    none;
-
-  padding:
-    7px 10px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    7px;
-
-  background:
-    transparent;
-
-  color:
-    var(--muted);
-
-  font-size:
-    .64rem;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    .08em;
-
-  cursor:
-    pointer;
-
-}
-
-
-.resource-viewer-close:hover {
-
-  border-color:
-    var(--red);
-
-  color:
-    var(--red);
-
-}
-
-
-.resource-viewer-body {
-
-  min-height:
-    300px;
-
-  padding:
-    30px;
-
-  overflow:
-    auto;
-
-}
-
-
-.resource-loading {
-
-  padding:
-    40px 0;
-
-  text-align:
-    center;
-
-  color:
-    var(--muted);
-
-}
-
-
-.resource-note {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    10px;
-
-  margin-bottom:
-    18px;
-
-  padding:
-    10px 13px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    8px;
-
-  background:
-    rgba(255,255,255,.025);
-
-  color:
-    var(--muted);
-
-  font-size:
-    .72rem;
-
-}
-
-
-.resource-note strong {
-
-  color:
-    var(--auf);
-
-  letter-spacing:
-    .08em;
-
-}
-
-
-.resource-markdown {
-
-  max-width:
-    860px;
-
-  margin:
-    0 auto;
-
-  color:
-    var(--text);
-
-  line-height:
-    1.78;
-
-}
-
-
-.resource-markdown h1,
-.resource-markdown h2,
-.resource-markdown h3,
-.resource-markdown h4,
-.resource-markdown h5,
-.resource-markdown h6 {
-
-  color:
-    var(--text);
-
-  line-height:
-    1.25;
-
-}
-
-
-.resource-markdown h1 {
-
-  font-size:
-    2rem;
-
-}
-
-
-.resource-markdown h2 {
-
-  margin-top:
-    2.5em;
-
-  padding-bottom:
-    .55em;
-
-  border-bottom:
-    1px solid
-    var(--border);
-
-}
-
-
-.resource-markdown h3 {
-
-  margin-top:
-    2em;
-
-}
-
-
-.resource-markdown a {
-
-  color:
-    var(--auf);
-
-}
-
-
-.resource-markdown code {
-
-  color:
-    var(--auf);
-
-  background:
-    rgba(99,230,190,.06);
-
-  border-radius:
-    4px;
-
-  padding:
-    .15em .35em;
-
-}
-
-
-.resource-markdown pre {
-
-  overflow:
-    auto;
-
-  padding:
-    18px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    9px;
-
-  background:
-    #05070a;
-
-}
-
-
-.resource-markdown pre code {
-
-  padding:
-    0;
-
-  background:
-    transparent;
-
-}
-
-
-.resource-markdown img {
-
-  display:
-    block;
-
-  max-width:
-    100%;
-
-  height:
-    auto;
-
-  margin:
-    20px auto;
-
-}
-
-
-.resource-markdown table {
-
-  width:
-    100%;
-
-  border-collapse:
-    collapse;
-
-  overflow:
-    auto;
-
-}
-
-
-.resource-markdown th,
-.resource-markdown td {
-
-  padding:
-    8px 10px;
-
-  border:
-    1px solid
-    var(--border);
-
-  text-align:
-    left;
-
-}
-
-
-.resource-markdown th {
-
-  background:
-    var(--panel-2);
-
-}
-
-
-.resource-html-frame,
-.resource-pdf {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-  min-height:
-    700px;
-
-  height:
-    80vh;
-
-  border:
-    0;
-
-  background:
-    white;
-
-}
-
-
-.resource-pdf {
-
-  border-radius:
-    8px;
-
-}
-
-
-.resource-image-wrap {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  min-height:
-    300px;
-
-}
-
-
-.resource-image {
-
-  display:
-    block;
-
-  max-width:
-    100%;
-
-  max-height:
-    80vh;
-
-  object-fit:
-    contain;
-
-}
-
-
-.resource-audio {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-}
-
-
-.resource-video {
-
-  display:
-    block;
-
-  width:
-    100%;
-
-  max-height:
-    80vh;
-
-  background:
-    #000;
-
-  border-radius:
-    8px;
-
-}
-
-
-.resource-source {
-
-  margin:
-    0;
-
-  padding:
-    20px;
-
-  overflow:
-    auto;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    9px;
-
-  background:
-    #05070a;
-
-  color:
-    #dce7f2;
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .82rem;
-
-  line-height:
-    1.65;
-
-  white-space:
-    pre-wrap;
-
-  overflow-wrap:
-    anywhere;
-
-}
-
-
-.resource-source code {
-
-  font:
-    inherit;
-
-}
-
-
-.resource-error {
-
-  padding:
-    24px;
-
-  border:
-    1px solid
-    rgba(255,115,115,.30);
-
-  border-radius:
-    10px;
-
-  background:
-    rgba(255,115,115,.04);
-
-  color:
-    var(--muted);
-
-  line-height:
-    1.7;
-
-}
-
-
-.resource-error strong {
-
-  color:
-    var(--red);
-
-}
-
-
-.resource-error a {
-
-  color:
-    var(--auf);
-
-}
-
-
-@media (
-  max-width: 700px
-) {
-
-  .resource-viewer-body {
-
-    padding:
-      18px;
-
-  }
-
-
-  .resource-html-frame,
-  .resource-pdf {
-
-    min-height:
-      600px;
-
-    height:
-      75vh;
-
-  }
-
-}
-
-    /* =========================================================
-   AUF2026 REPOSITORY PARSER
-   SCIENTIFIC / RESEARCH INTERFACE
-   ========================================================= */
-
-:root {
-
-  --auf:
-    #63e6be;
-
-  --auf-blue:
-    #6ea8ff;
-
-  --auf-gold:
-    #e6c76a;
-
-  --auf-red:
-    #ff7b7b;
-
-  --text:
-    #f2f6fb;
-
-  --muted:
-    #9ba8b7;
-
-  --panel:
-    #121923;
-
-  --panel-2:
-    #18212d;
-
-  --border:
-    rgba(255,255,255,.10);
-
-  --shadow:
-    0 24px 70px
-    rgba(0,0,0,.35);
-
-}
-
-
-html[data-theme="light"] {
-
-  --auf:
-    #087f65;
-
-  --auf-blue:
-    #2868c7;
-
-  --auf-gold:
-    #9a7610;
-
-  --auf-red:
-    #c43f3f;
-
-  --text:
-    #111820;
-
-  --muted:
-    #5f6b78;
-
-  --panel:
-    #ffffff;
-
-  --panel-2:
-    #f1f4f7;
-
-  --border:
-    rgba(17,24,32,.12);
-
-  --shadow:
-    0 24px 70px
-    rgba(15,23,42,.10);
-
-}
-
-
-/* =========================================================
-   MENU MOUNT
-   ========================================================= */
-
-.auf-repository-menu-mount {
-
-  width:
-    100%;
-
-  margin:
-    0 0 34px;
-
-}
-
-
-/* =========================================================
-   MENU
-   ========================================================= */
-
-.auf-repository-menu {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(
-        280px,
-        1fr
-      )
-    );
-
-  gap:
-    12px;
-
-  width:
-    100%;
-
-}
-
-
-/* =========================================================
-   SECTION
-   ========================================================= */
-
-.auf-menu-section {
-
-  position:
-    relative;
-
-  min-width:
-    0;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    13px;
-
-  overflow:
-    hidden;
-
-  background:
-    linear-gradient(
-      145deg,
-      var(--panel),
-      var(--panel-2)
-    );
-
-  box-shadow:
-    0 10px 35px
-    rgba(0,0,0,.12);
-
-  transition:
-    border-color .25s ease,
-    box-shadow .25s ease,
-    transform .25s ease;
-
-}
-
-
-.auf-menu-section:hover {
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 24%,
-      var(--border)
-    );
-
-  box-shadow:
-    0 15px 45px
-    rgba(0,0,0,.20);
-
-}
-
-
-.auf-menu-section.is-open {
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 38%,
-      var(--border)
-    );
-
-}
-
-
-/* =========================================================
-   SECTION HEADER
-   ========================================================= */
-
-.auf-menu-section-header {
-
-  position:
-    relative;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    30px
-    minmax(0,1fr)
-    auto
-    20px;
-
-  align-items:
-    center;
-
-  width:
-    100%;
-
-  min-height:
-    66px;
-
-  padding:
-    11px 13px;
-
-  appearance:
-    none;
-
-  border:
-    0;
-
-  background:
-    transparent;
-
-  color:
-    var(--text);
-
-  font:
-    inherit;
-
-  text-align:
-    left;
-
-  cursor:
-    pointer;
-
-}
-
-
-/* =========================================================
-   SECTION ACCENT LINE
-   ========================================================= */
-
-.auf-menu-section-header::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    0;
-
-  top:
-    0;
-
-  bottom:
-    0;
-
-  width:
-    2px;
-
-  background:
-    var(--auf);
-
-  opacity:
-    .30;
-
-  transition:
-    opacity .25s ease,
-    width .25s ease;
-
-}
-
-
-.auf-menu-section:hover
-.auf-menu-section-header::before {
-
-  opacity:
-    .70;
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-section-header::before {
-
-  width:
-    3px;
-
-  opacity:
-    1;
-
-}
-
-
-/* =========================================================
-   SECTION ICON
-   ========================================================= */
-
-.auf-menu-section-icon {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  width:
-    25px;
-
-  height:
-    25px;
-
-  border:
-    1px solid
-    color-mix(
-      in srgb,
-      var(--auf) 35%,
-      var(--border)
-    );
-
-  border-radius:
-    7px;
-
-  color:
-    var(--auf);
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 7%,
-      transparent
-    );
-
-  font-family:
-    ui-monospace,
-    monospace;
-
-  font-size:
-    .82rem;
-
-  font-weight:
-    700;
-
-}
-
-
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
-
-.auf-menu-section-title {
-
-  min-width:
-    0;
-
-  overflow:
-    hidden;
-
-  color:
-    var(--text);
-
-  font-size:
-    .86rem;
-
-  font-weight:
-    700;
-
-  letter-spacing:
-    .04em;
-
-  text-transform:
-    uppercase;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-}
-
-
-/* =========================================================
-   SECTION PATH
-   ========================================================= */
-
-.auf-menu-section-path {
-
-  max-width:
-    150px;
-
-  overflow:
-    hidden;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .62rem;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-  opacity:
-    .55;
-
-}
-
-
-/* =========================================================
-   SECTION ARROW
-   ========================================================= */
-
-.auf-menu-section-arrow {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  color:
-    var(--muted);
-
-  font-size:
-    1.1rem;
-
-  transition:
-    transform .25s ease,
-    color .25s ease;
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-section-arrow {
-
-  color:
-    var(--auf);
-
-  transform:
-    rotate(90deg);
-
-}
-
-
-/* =========================================================
-   FILE LIST
-   ========================================================= */
-
-.auf-menu-file-list {
-
-  display:
-    none;
-
-  padding:
-    0 8px 9px;
-
-  border-top:
-    1px solid
-    var(--border);
-
-}
-
-
-.auf-menu-section.is-open
-.auf-menu-file-list {
-
-  display:
-    block;
-
-}
-
-
-/* =========================================================
-   FILE BUTTON
-   ========================================================= */
-
-.auf-menu-file {
-
-  position:
-    relative;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    32px
-    minmax(0,1fr)
-    auto;
-
-  align-items:
-    center;
-
-  width:
-    100%;
-
-  min-height:
-    52px;
-
-  margin:
-    4px 0;
-
-  padding:
-    7px 9px;
-
-  appearance:
-    none;
-
-  border:
-    1px solid
-    transparent;
-
-  border-radius:
-    8px;
-
-  background:
-    transparent;
-
-  color:
-    var(--text);
-
-  font:
-    inherit;
-
-  text-align:
-    left;
-
-  cursor:
-    pointer;
-
-  transition:
-    background .18s ease,
-    border-color .18s ease,
-    transform .18s ease;
-
-}
-
-
-.auf-menu-file:hover {
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 5%,
-      transparent
-    );
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 18%,
-      transparent
-    );
-
-  transform:
-    translateX(2px);
-
-}
-
-
-.auf-menu-file.is-active {
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf) 9%,
-      transparent
-    );
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 32%,
-      var(--border)
-    );
-
-}
-
-
-.auf-menu-file.is-active::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    -1px;
-
-  top:
-    8px;
-
-  bottom:
-    8px;
-
-  width:
-    2px;
-
-  border-radius:
-    2px;
-
-  background:
-    var(--auf);
-
-}
-
-
-/* =========================================================
-   FILE ICON
-   ========================================================= */
-
-.auf-menu-file-icon {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  width:
-    26px;
-
-  height:
-    26px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    6px;
-
-  background:
-    var(--panel-2);
-
-  color:
-    var(--auf);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .58rem;
-
-  font-weight:
-    800;
-
-}
-
-
-/* =========================================================
-   FILE MAIN
-   ========================================================= */
-
-.auf-menu-file-main {
-
-  min-width:
-    0;
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    2px;
-
-}
-
-
-.auf-menu-file-name {
-
-  overflow:
-    hidden;
-
-  color:
-    var(--text);
-
-  font-size:
-    .76rem;
-
-  font-weight:
-    600;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-}
-
-
-.auf-menu-file-path {
-
-  overflow:
-    hidden;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Consolas,
-    monospace;
-
-  font-size:
-    .57rem;
-
-  white-space:
-    nowrap;
-
-  text-overflow:
-    ellipsis;
-
-  opacity:
-    .65;
-
-}
-
-
-/* =========================================================
-   EXTENSION
-   ========================================================= */
-
-.auf-menu-file-extension {
-
-  margin-left:
-    8px;
-
-  padding:
-    3px 5px;
-
-  border:
-    1px solid
-    var(--border);
-
-  border-radius:
-    4px;
-
-  color:
-    var(--muted);
-
-  font-family:
-    ui-monospace,
-    monospace;
-
-  font-size:
-    .52rem;
-
-  letter-spacing:
-    .04em;
-
-  opacity:
-    .65;
-
-}
-
-
-/* =========================================================
-   ROOT FILES
-   ========================================================= */
-
-.auf-menu-section-root-files {
-
-  grid-column:
-    1 / -1;
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-.auf-menu-error {
-
-  display:
-    flex;
-
-  flex-direction:
-    column;
-
-  gap:
-    6px;
-
-  padding:
-    16px;
-
-  border:
-    1px solid
-    color-mix(
-      in srgb,
-      var(--auf-red) 35%,
-      var(--border)
-    );
-
-  border-radius:
-    10px;
-
-  background:
-    color-mix(
-      in srgb,
-      var(--auf-red) 5%,
-      var(--panel)
-    );
-
-  color:
-    var(--muted);
-
-  font-size:
-    .76rem;
-
-}
-
-
-.auf-menu-error strong {
-
-  color:
-    var(--auf-red);
-
-}
-
-
-/* =========================================================
-   RESOURCE VIEWER — SAME VISUAL LANGUAGE
-   ========================================================= */
-
-.resource-viewer {
-
-  position:
-    relative;
-
-  border-color:
-    color-mix(
-      in srgb,
-      var(--auf) 20%,
-      var(--border)
-    );
-
-}
-
-
-.resource-viewer::before {
-
-  content:
-    "";
-
-  position:
-    absolute;
-
-  left:
-    0;
-
-  right:
-    0;
-
-  top:
-    0;
-
-  height:
-    1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      var(--auf),
-      var(--auf-blue),
-      transparent
-    );
-
-  opacity:
-    .65;
-
-}
-
-
-.resource-viewer-header {
-
-  background:
-    linear-gradient(
-      90deg,
-      color-mix(
-        in srgb,
-        var(--auf) 5%,
-        var(--panel-2)
-      ),
-      var(--panel-2)
-    );
-
-}
-
-
-.resource-viewer-title {
-
-  color:
-    var(--auf);
-
-}
-
-
-.resource-viewer-body {
-
-  background:
-    radial-gradient(
-      circle at 85% 10%,
-      color-mix(
-        in srgb,
-        var(--auf-blue) 4%,
-        transparent
-      ),
-      transparent 30%
-    );
-
-}
-
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (
-  max-width: 760px
-) {
-
-  .auf-repository-menu {
-
-    grid-template-columns:
-      1fr;
-
-    gap:
-      9px;
-
-  }
-
-
-  .auf-menu-section-path {
-
-    display:
-      none;
-
-  }
-
-
-  .auf-menu-section-header {
-
-    grid-template-columns:
-      30px
-      minmax(0,1fr)
-      20px;
-
-  }
-
-
-  .auf-menu-section-arrow {
-
-    grid-column:
-      3;
-
-  }
-
-
-  .auf-menu-file {
-
-    grid-template-columns:
-      30px
-      minmax(0,1fr)
-      auto;
-
-  }
-
-
-  .auf-menu-file-extension {
-
-    display:
-      none;
-
-  }
-
-
-  .resource-viewer-body {
-
-    padding:
-      18px;
-
-  }
-
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (
-  prefers-reduced-motion: reduce
-) {
-
-  .auf-menu-section,
-  .auf-menu-file,
-  .auf-menu-section-arrow {
-
-    transition:
-      none;
-
-  }
-
-}
-
   </style>
 
 </head>
@@ -2342,1536 +493,151 @@ html[data-theme="light"] {
 
 <body>
 
-  <main class="pages-page">
+<main>
 
+  <header class="archive-header">
 
-    <nav class="pages-topbar">
-
-      <a
-        class="pages-back"
-        href="../index.html"
-      >
-        ← Back
-      </a>
-
-      <div class="pages-brand">
-        AUF2026
-      </div>
-
-    </nav>
-
-
-    <header class="pages-header">
-
-      <div class="pages-kicker">
-        AUF2026 · Repository Section
-      </div>
-
-      <h1>
-        Pages
-      </h1>
-
-      <p class="pages-subtitle">
-        Repository resources contained in
-        <code>/pages/</code>, including
-        nested directories.
-      </p>
-
-    </header>
-
-
-    <div
-      id="pagesStatus"
-      class="pages-status"
-    >
-      Connecting to AUF2026 repository…
+    <div class="archive-kicker">
+      AUF2026 RESEARCH ARCHIVE
     </div>
 
+    <h1>
+      Documentation
+    </h1>
 
-    <section
-      id="pagesFiles"
-      class="pages-files"
-    ></section>
+    <div class="archive-description">
+      Repository resources discovered automatically
+      under <code>/docs/</code>.
+      Markdown documents are opened through the
+      central <code>archive.html</code> viewer.
+    </div>
 
+  </header>
 
-  </main>
 
+  <div
+    id="pagesStatus"
+    class="archive-status"
+  >
+    Scanning repository tree…
+  </div>
 
-  <script>
 
-    /* =========================================================
-       AUF2026 REPOSITORY CONFIGURATION
-       ========================================================= */
+  <section
+    id="pagesFiles"
+    aria-live="polite"
+  ></section>
 
-    const GITHUB_OWNER =
-      "AUF2026";
+</main>
 
 
-    const GITHUB_REPOSITORY =
-      "AUF2026.github.io";
-
-
-    const GITHUB_BRANCH =
-      "main";
-
-
-    const GITHUB_SECTION =
-      "docs";
-
-
-    const GITHUB_TREE_URL =
-      "https://api.github.com/repos/" +
-      GITHUB_OWNER +
-      "/" +
-      GITHUB_REPOSITORY +
-      "/git/trees/" +
-      GITHUB_BRANCH +
-      "?recursive=1";
-
-
-    const GITHUB_RAW_BASE =
-      "https://raw.githubusercontent.com/" +
-      GITHUB_OWNER +
-      "/" +
-      GITHUB_REPOSITORY +
-      "/" +
-      GITHUB_BRANCH +
-      "/";
-
-
-    const GITHUB_BLOB_BASE =
-      "https://github.com/" +
-      GITHUB_OWNER +
-      "/" +
-      GITHUB_REPOSITORY +
-      "/blob/" +
-      GITHUB_BRANCH +
-      "/";
-
-
-    /* =========================================================
-       DOM
-       ========================================================= */
-
-    const pagesStatus =
-      document.getElementById(
-        "pagesStatus"
-      );
-
-
-    const pagesFiles =
-      document.getElementById(
-        "pagesFiles"
-      );
-
-
-    /* =========================================================
-       INITIALIZE
-       ========================================================= */
-
-    loadPagesRepository();
-
-
-    /* =========================================================
-       LOAD REPOSITORY TREE
-       ========================================================= */
-
-    async function loadPagesRepository() {
-
-      try {
-
-        setStatus(
-          "Scanning repository tree…"
-        );
-
-
-        const response =
-          await fetch(
-            GITHUB_TREE_URL,
-            {
-              cache:
-                "no-store",
-
-              headers: {
-                "Accept":
-                  "application/vnd.github+json"
-              }
-            }
-          );
-
-
-        if (
-          !response.ok
-        ) {
-
-          throw new Error(
-            "GitHub API HTTP " +
-            response.status
-          );
-
-        }
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          !data ||
-          !Array.isArray(
-            data.tree
-          )
-        ) {
-
-          throw new Error(
-            "Invalid GitHub repository tree."
-          );
-
-        }
-
-
-        const discovered =
-          discoverPagesFiles(
-            data.tree
-          );
-
-
-        renderPagesFiles(
-          discovered
-        );
-
-
-        setStatus(
-          discovered.length +
-          " resource" +
-          (
-            discovered.length === 1
-              ? ""
-              : "s"
-          ) +
-          " found under /docs/",
-          "ok"
-        );
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          "AUF2026 Docs parser:",
-          error
-        );
-
-
-        setStatus(
-          "Repository scan failed: " +
-          error.message,
-          "error"
-        );
-
-
-        pagesFiles.innerHTML =
-          `
-            <div class="pages-empty">
-
-              Unable to read
-              <code>/docs/</code>
-              from the AUF2026 repository.
-
-            </div>
-          `;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       DISCOVER FILES
-       ========================================================= */
-
-    function discoverPagesFiles(
-      tree
-    ) {
-
-      const prefix =
-        GITHUB_SECTION +
-        "/";
-
-
-      return tree
-        .filter(
-          item => {
-
-            return (
-              item &&
-              item.type === "blob" &&
-              typeof item.path === "string" &&
-              item.path.startsWith(
-                prefix
-              )
-            );
-
-          }
-        )
-        .filter(
-          item => {
-
-            /*
-             * The parser itself must not list itself.
-             */
-
-            return (
-              item.path !==
-              "docs/index.html"
-            );
-
-          }
-        )
-        .sort(
-          (a, b) => {
-
-            return a.path.localeCompare(
-              b.path,
-              undefined,
-              {
-                numeric:
-                  true,
-
-                sensitivity:
-                  "base"
-              }
-            );
-
-          }
-        );
-
-    }
-
-
-    /* =========================================================
-       RENDER FILE LIST
-       ========================================================= */
-
-    function renderPagesFiles(
-      items
-    ) {
-
-      pagesFiles.innerHTML =
-        "";
-
-
-      if (
-        items.length === 0
-      ) {
-
-        pagesFiles.innerHTML =
-          `
-            <div class="pages-empty">
-
-              No resources were found
-              under <code>/docs/</code>.
-
-            </div>
-          `;
-
-        return;
-
-      }
-
-
-      let currentDirectory =
-        null;
-
-
-      for (
-        const item of items
-      ) {
-
-        const relativePath =
-          item.path.slice(
-            GITHUB_SECTION.length + 1
-          );
-
-
-        const parts =
-          relativePath.split("/");
-
-
-        const directory =
-          parts.length > 1
-            ? parts
-                .slice(0, -1)
-                .join("/")
-            : "";
-
-
-        if (
-          directory !==
-          currentDirectory
-        ) {
-
-          currentDirectory =
-            directory;
-
-
-          const directoryElement =
-            document.createElement(
-              "div"
-            );
-
-
-          directoryElement.className =
-            "docs-directory";
-
-
-          directoryElement.textContent =
-            directory
-              ? "/docs/" +
-                directory +
-                "/"
-              : "/docs/";
-
-
-          pagesFiles.appendChild(
-            directoryElement
-          );
-
-        }
-
-
-        pagesFiles.appendChild(
-          createFileElement(
-            item
-          )
-        );
-
-      }
-
-    }
-
-
-    /* =========================================================
-       CREATE FILE
-       ========================================================= */
-
-    function createFileElement(
-      item
-    ) {
-
-      const article =
-        document.createElement(
-          "article"
-        );
-
-
-      article.className =
-        "docs-file";
-
-
-      const filename =
-        item.path
-          .split("/")
-          .pop();
-
-
-      const extension =
-        getExtension(
-          filename
-        );
-
-
-      const type =
-        getFileType(
-          extension
-        );
-
-
-      article.innerHTML =
-        `
-          <div class="pages-file-info">
-
-            <h2 class="pages-file-name">
-
-              <span class="pages-file-type">
-                ${escapeHTML(type)}
-              </span>
-
-              ${escapeHTML(filename)}
-
-            </h2>
-
-            <div class="pages-file-path">
-              ${escapeHTML(item.path)}
-            </div>
-
-          </div>
-
-          <div class="pages-file-actions">
-
-            <button
-              class="pages-file-button"
-              type="button"
-              data-open
-            >
-              VIEW
-            </button>
-
-            <a
-              class="pages-file-github"
-              href="${GITHUB_BLOB_BASE + encodeURI(item.path)}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GITHUB
-            </a>
-
-          </div>
-        `;
-
-
-      article
-        .querySelector(
-          "[data-open]"
-        )
-        .addEventListener(
-          "click",
-          function () {
-
-            openResource(
-              item.path
-            );
-
-          }
-        );
-
-
-      return article;
-
-    }
-
-
-    /* =========================================================
-       EXTENSION
-       ========================================================= */
-
-    function getExtension(
-      filename
-    ) {
-
-      const index =
-        filename.lastIndexOf(".");
-
-
-      if (
-        index < 0
-      ) {
-
-        return "";
-
-      }
-
-
-      return filename
-        .slice(index + 1)
-        .toLowerCase();
-
-    }
-
-
-    /* =========================================================
-       FILE TYPE
-       ========================================================= */
-
-    function getFileType(
-      extension
-    ) {
-
-      if (
-        ["md", "markdown"]
-          .includes(extension)
-      ) {
-
-        return "MARKDOWN";
-
-      }
-
-
-      if (
-        ["html", "htm"]
-          .includes(extension)
-      ) {
-
-        return "HTML";
-
-      }
-
-
-      if (
-        extension === "pdf"
-      ) {
-
-        return "PDF";
-
-      }
-
-
-      if (
-        [
-          "png",
-          "jpg",
-          "jpeg",
-          "gif",
-          "webp",
-          "svg",
-          "avif",
-          "bmp"
-        ].includes(extension)
-      ) {
-
-        return "IMAGE";
-
-      }
-
-
-      if (
-        [
-          "mp3",
-          "wav",
-          "ogg",
-          "oga",
-          "m4a",
-          "flac"
-        ].includes(extension)
-      ) {
-
-        return "AUDIO";
-
-      }
-
-
-      if (
-        [
-          "mp4",
-          "webm",
-          "ogv",
-          "mov",
-          "m4v"
-        ].includes(extension)
-      ) {
-
-        return "VIDEO";
-
-      }
-
-
-      return "SOURCE";
-
-    }
-
-
-    /* =========================================================
-       STATUS
-       ========================================================= */
-
-    function setStatus(
-      message,
-      state
-    ) {
-
-      pagesStatus.textContent =
-        message;
-
-
-      if (
-        state
-      ) {
-
-        pagesStatus.dataset.state =
-          state;
-
-      } else {
-
-        delete pagesStatus.dataset.state;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       HTML ESCAPE
-       ========================================================= */
-
-    function escapeHTML(
-      value
-    ) {
-
-      return String(value)
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
-
-  </script>
 <script>
 
 /* =========================================================
-   AUF2026 RESOURCE VIEWER
+   AUF2026 SECTION REPOSITORY PARSER
    ========================================================= */
 
-(function () {
-
-  const RAW_BASE =
-    "https://raw.githubusercontent.com/" +
-    "AUF2026/" +
-    "AUF2026.github.io/" +
-    "main/";
+const GITHUB_OWNER =
+  "AUF2026";
 
 
-  const viewer =
-    createViewer();
+const GITHUB_REPOSITORY =
+  "AUF2026.github.io";
 
 
-  document.body.appendChild(
-    viewer.root
+const GITHUB_BRANCH =
+  "main";
+
+
+/*
+ * THIS IS THE ONLY SECTION-SPECIFIC VALUE.
+ *
+ * For this file:
+ *
+ *   /docs/index.html
+ *
+ * therefore:
+ *
+ *   docs
+ */
+
+const GITHUB_SECTION =
+  "docs";
+
+
+const GITHUB_TREE_URL =
+  "https://api.github.com/repos/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/git/trees/" +
+  GITHUB_BRANCH +
+  "?recursive=1";
+
+
+const GITHUB_BLOB_BASE =
+  "https://github.com/" +
+  GITHUB_OWNER +
+  "/" +
+  GITHUB_REPOSITORY +
+  "/blob/" +
+  GITHUB_BRANCH +
+  "/";
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const repositoryStatus =
+  document.getElementById(
+    "pagesStatus"
+  ) ||
+  document.getElementById(
+    "repositoryStatus"
   );
 
 
-  /* =======================================================
-     OPEN RESOURCE
-     ======================================================= */
+const repositoryFiles =
+  document.getElementById(
+    "pagesFiles"
+  ) ||
+  document.getElementById(
+    "repositoryFiles"
+  );
 
-  window.openResource =
-    async function (
-      repositoryPath
-    ) {
 
-      if (
-        !repositoryPath ||
-        typeof repositoryPath !== "string"
-      ) {
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
 
-        return;
+loadRepository();
 
-      }
 
+/* =========================================================
+   LOAD REPOSITORY TREE
+   ========================================================= */
 
-      const cleanPath =
-        repositoryPath
-          .replace(/^\/+/, "")
-          .replace(/\\/g, "/");
+async function loadRepository() {
 
+  try {
 
-      const filename =
-        cleanPath
-          .split("/")
-          .filter(Boolean)
-          .pop();
-
-
-      if (!filename) {
-
-        return;
-
-      }
-
-
-      const extension =
-        getResourceExtension(
-          filename
-        );
-
-
-      viewer.title.textContent =
-        cleanPath;
-
-
-      viewer.root.hidden =
-        false;
-
-
-      viewer.body.innerHTML =
-        `
-          <div class="resource-loading">
-            Loading resource…
-          </div>
-        `;
-
-
-      viewer.root.scrollIntoView({
-        behavior:
-          "smooth",
-        block:
-          "start"
-      });
-
-
-      try {
-
-        await renderResource(
-          cleanPath,
-          extension
-        );
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          "AUF2026 resource:",
-          error
-        );
-
-
-        renderResourceError(
-          cleanPath,
-          error
-        );
-
-      }
-
-    };
-
-
-  /* =======================================================
-     RESOURCE ROUTER
-     ======================================================= */
-
-  async function renderResource(
-    path,
-    extension
-  ) {
-
-    /*
-     * Markdown
-     */
-
-    if (
-      extension === "md" ||
-      extension === "markdown"
-    ) {
-
-      await renderMarkdown(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * HTML
-     */
-
-    if (
-      extension === "html" ||
-      extension === "htm"
-    ) {
-
-      renderHTML(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * PDF
-     */
-
-    if (
-      extension === "pdf"
-    ) {
-
-      renderPDF(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * Images
-     */
-
-    if (
-      [
-        "png",
-        "jpg",
-        "jpeg",
-        "gif",
-        "webp",
-        "svg",
-        "avif",
-        "bmp"
-      ].includes(extension)
-    ) {
-
-      renderImage(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * Audio
-     */
-
-    if (
-      [
-        "mp3",
-        "wav",
-        "ogg",
-        "oga",
-        "m4a",
-        "flac"
-      ].includes(extension)
-    ) {
-
-      renderAudio(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * Video
-     */
-
-    if (
-      [
-        "mp4",
-        "webm",
-        "ogv",
-        "mov",
-        "m4v"
-      ].includes(extension)
-    ) {
-
-      renderVideo(
-        path
-      );
-
-      return;
-
-    }
-
-
-    /*
-     * Everything else:
-     *
-     * Lean
-     * LaTeX
-     * TXT
-     * JSON
-     * CSV
-     * XML
-     * CSS
-     * JS
-     * TS
-     * C
-     * C++
-     * etc.
-     *
-     * is fetched and displayed as source.
-     */
-
-    await renderSource(
-      path
+    setStatus(
+      "Scanning repository tree…"
     );
 
-  }
-
-
-  /* =======================================================
-     MARKDOWN
-     ======================================================= */
-
-  async function renderMarkdown(
-    path
-  ) {
-
-    const text =
-      await fetchText(
-        path
-      );
-
-
-    /*
-     * Prefer marked when available.
-     */
-
-    if (
-      window.marked &&
-      typeof window.marked.parse ===
-        "function"
-    ) {
-
-      const html =
-        window.marked.parse(
-          text,
-          {
-            gfm:
-              true,
-
-            breaks:
-              false
-          }
-        );
-
-
-      viewer.body.innerHTML =
-        `
-          <article class="resource-markdown">
-            ${html}
-          </article>
-        `;
-
-
-      return;
-
-    }
-
-
-    /*
-     * Fallback Markdown renderer.
-     *
-     * This prevents a completely blank page if
-     * the external Markdown library is unavailable.
-     */
-
-    viewer.body.innerHTML =
-      `
-        <article class="resource-markdown">
-          ${basicMarkdown(
-            text
-          )}
-        </article>
-      `;
-
-  }
-
-
-  /* =======================================================
-     BASIC MARKDOWN FALLBACK
-     ======================================================= */
-
-  function basicMarkdown(
-    source
-  ) {
-
-    let text =
-      escapeHTML(
-        source
-      );
-
-
-    /*
-     * Fenced code blocks.
-     */
-
-    text =
-      text.replace(
-        /```([\s\S]*?)```/g,
-        function (
-          match,
-          code
-        ) {
-
-          return (
-            "<pre><code>" +
-            code.trim() +
-            "</code></pre>"
-          );
-
-        }
-      );
-
-
-    /*
-     * Headings.
-     */
-
-    text =
-      text.replace(
-        /^###### (.+)$/gm,
-        "<h6>$1</h6>"
-      );
-
-
-    text =
-      text.replace(
-        /^##### (.+)$/gm,
-        "<h5>$1</h5>"
-      );
-
-
-    text =
-      text.replace(
-        /^#### (.+)$/gm,
-        "<h4>$1</h4>"
-      );
-
-
-    text =
-      text.replace(
-        /^### (.+)$/gm,
-        "<h3>$1</h3>"
-      );
-
-
-    text =
-      text.replace(
-        /^## (.+)$/gm,
-        "<h2>$1</h2>"
-      );
-
-
-    text =
-      text.replace(
-        /^# (.+)$/gm,
-        "<h1>$1</h1>"
-      );
-
-
-    /*
-     * Bold.
-     */
-
-    text =
-      text.replace(
-        /\*\*(.+?)\*\*/g,
-        "<strong>$1</strong>"
-      );
-
-
-    /*
-     * Italic.
-     */
-
-    text =
-      text.replace(
-        /(^|[^*])\*([^*\n]+)\*/g,
-        "$1<em>$2</em>"
-      );
-
-
-    /*
-     * Inline code.
-     */
-
-    text =
-      text.replace(
-        /`([^`\n]+)`/g,
-        "<code>$1</code>"
-      );
-
-
-    /*
-     * Horizontal rules.
-     */
-
-    text =
-      text.replace(
-        /^---$/gm,
-        "<hr>"
-      );
-
-
-    /*
-     * Links.
-     *
-     * URLs have already been escaped.
-     */
-
-    text =
-      text.replace(
-        /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
-        '<a href="$2" target="_blank" rel="noopener">$1</a>'
-      );
-
-
-    /*
-     * Unordered lists.
-     */
-
-    text =
-      text.replace(
-        /^(?:-|\*) (.+)$/gm,
-        "<li>$1</li>"
-      );
-
-
-    text =
-      text.replace(
-        /(<li>[\s\S]*?<\/li>)/g,
-        function (
-          match
-        ) {
-
-          return (
-            "<ul>" +
-            match +
-            "</ul>"
-          );
-
-        }
-      );
-
-
-    /*
-     * Paragraphs.
-     */
-
-    const blocks =
-      text
-        .split(
-          /\n{2,}/
-        )
-        .map(
-          block =>
-            block.trim()
-        )
-        .filter(
-          Boolean
-        );
-
-
-    return blocks
-      .map(
-        block => {
-
-          if (
-            /^<(h[1-6]|ul|pre|hr|blockquote)/i
-              .test(block)
-          ) {
-
-            return block;
-
-          }
-
-
-          return (
-            "<p>" +
-            block
-              .replace(
-                /\n/g,
-                "<br>"
-              ) +
-            "</p>"
-          );
-
-        }
-      )
-      .join("\n");
-
-  }
-
-
-  /* =======================================================
-     HTML
-     ======================================================= */
-
-  function renderHTML(
-    path
-  ) {
-
-    const url =
-      rawURL(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-note">
-
-          <strong>
-            HTML resource
-          </strong>
-
-          <span>
-            Rendered from the AUF2026 repository.
-          </span>
-
-        </div>
-
-        <iframe
-          class="resource-html-frame"
-          src="${escapeAttribute(
-            url
-          )}"
-          title="${escapeAttribute(
-            path
-          )}"
-          loading="lazy"
-        ></iframe>
-      `;
-
-  }
-
-
-  /* =======================================================
-     PDF
-     ======================================================= */
-
-  function renderPDF(
-    path
-  ) {
-
-    const url =
-      rawURL(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-note">
-
-          <strong>
-            PDF
-          </strong>
-
-          <span>
-            Repository document.
-          </span>
-
-        </div>
-
-        <object
-          class="resource-pdf"
-          data="${escapeAttribute(
-            url
-          )}"
-          type="application/pdf"
-        >
-
-          <iframe
-            class="resource-html-frame"
-            src="${escapeAttribute(
-              url
-            )}"
-            title="${escapeAttribute(
-              path
-            )}"
-          ></iframe>
-
-        </object>
-      `;
-
-  }
-
-
-  /* =======================================================
-     IMAGE
-     ======================================================= */
-
-  function renderImage(
-    path
-  ) {
-
-    const url =
-      rawURL(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-image-wrap">
-
-          <img
-            class="resource-image"
-            src="${escapeAttribute(
-              url
-            )}"
-            alt="${escapeAttribute(
-              path
-            )}"
-          >
-
-        </div>
-      `;
-
-  }
-
-
-  /* =======================================================
-     AUDIO
-     ======================================================= */
-
-  function renderAudio(
-    path
-  ) {
-
-    const url =
-      rawURL(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-media">
-
-          <div class="resource-note">
-
-            <strong>
-              Audio
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                path
-              )}
-            </span>
-
-          </div>
-
-          <audio
-            class="resource-audio"
-            controls
-            preload="metadata"
-            src="${escapeAttribute(
-              url
-            )}"
-          ></audio>
-
-        </div>
-      `;
-
-  }
-
-
-  /* =======================================================
-     VIDEO
-     ======================================================= */
-
-  function renderVideo(
-    path
-  ) {
-
-    const url =
-      rawURL(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-media">
-
-          <div class="resource-note">
-
-            <strong>
-              Video
-            </strong>
-
-            <span>
-              ${escapeHTML(
-                path
-              )}
-            </span>
-
-          </div>
-
-          <video
-            class="resource-video"
-            controls
-            preload="metadata"
-            src="${escapeAttribute(
-              url
-            )}"
-          ></video>
-
-        </div>
-      `;
-
-  }
-
-
-  /* =======================================================
-     SOURCE / CODE
-     ======================================================= */
-
-  async function renderSource(
-    path
-  ) {
-
-    const text =
-      await fetchText(
-        path
-      );
-
-
-    viewer.body.innerHTML =
-      `
-        <div class="resource-note">
-
-          <strong>
-            SOURCE
-          </strong>
-
-          <span>
-            Raw repository content.
-          </span>
-
-        </div>
-
-        <pre class="resource-source"><code>${escapeHTML(
-          text
-        )}</code></pre>
-      `;
-
-  }
-
-
-  /* =======================================================
-     FETCH TEXT
-     ======================================================= */
-
-  async function fetchText(
-    path
-  ) {
 
     const response =
       await fetch(
-        rawURL(path),
+        GITHUB_TREE_URL,
         {
           cache:
-            "no-store"
+            "no-store",
+
+          headers: {
+            "Accept":
+              "application/vnd.github+json"
+          }
         }
       );
 
@@ -3881,455 +647,510 @@ html[data-theme="light"] {
     ) {
 
       throw new Error(
-        "Resource HTTP " +
+        "GitHub API HTTP " +
         response.status
       );
 
     }
 
 
-    return response.text();
-
-  }
-
-
-  /* =======================================================
-     RAW URL
-     ======================================================= */
-
-  function rawURL(
-    path
-  ) {
-
-    return (
-      RAW_BASE +
-      path
-        .split("/")
-        .map(
-          encodeURIComponent
-        )
-        .join("/")
-    );
-
-  }
-
-
-  /* =======================================================
-     EXTENSION
-     ======================================================= */
-
-  function getResourceExtension(
-    filename
-  ) {
-
-    const index =
-      filename.lastIndexOf(".");
+    const data =
+      await response.json();
 
 
     if (
-      index < 0
+      !data ||
+      !Array.isArray(
+        data.tree
+      )
     ) {
 
-      return "";
+      throw new Error(
+        "Invalid GitHub repository tree."
+      );
 
     }
 
 
-    return filename
-      .slice(
-        index + 1
-      )
-      .toLowerCase();
-
-  }
-
-
-  /* =======================================================
-     ESCAPE
-     ======================================================= */
-
-  function escapeHTML(
-    value
-  ) {
-
-    return String(value)
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
+    const discovered =
+      discoverSectionFiles(
+        data.tree
       );
 
-  }
 
-
-  function escapeAttribute(
-    value
-  ) {
-
-    return escapeHTML(
-      value
+    renderFiles(
+      discovered
     );
 
-  }
+
+    setStatus(
+      discovered.length +
+      " resource" +
+      (
+        discovered.length === 1
+          ? ""
+          : "s"
+      ) +
+      " found under /" +
+      GITHUB_SECTION +
+      "/",
+      "ok"
+    );
 
 
-  /* =======================================================
-     ERROR
-     ======================================================= */
-
-  function renderResourceError(
-    path,
+  } catch (
     error
   ) {
 
-    const githubURL =
-      "https://github.com/" +
-      "AUF2026/" +
-      "AUF2026.github.io/" +
-      "blob/main/" +
-      path
-        .split("/")
-        .map(
-          encodeURIComponent
-        )
-        .join("/");
+    console.error(
+      "AUF2026 repository parser:",
+      error
+    );
 
 
-    viewer.body.innerHTML =
+    setStatus(
+      "Repository scan failed: " +
+      error.message,
+      "error"
+    );
+
+
+    if (
+      repositoryFiles
+    ) {
+
+      repositoryFiles.innerHTML =
+        `
+          <div class="pages-empty">
+
+            Unable to read
+            <code>/${escapeHTML(
+              GITHUB_SECTION
+            )}/</code>
+            from the AUF2026 repository.
+
+          </div>
+        `;
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   DISCOVER FILES
+   ========================================================= */
+
+function discoverSectionFiles(
+  tree
+) {
+
+  const prefix =
+    GITHUB_SECTION +
+    "/";
+
+
+  return tree
+
+    .filter(
+      item => {
+
+        return (
+          item &&
+          item.type === "blob" &&
+          typeof item.path === "string" &&
+          item.path.startsWith(
+            prefix
+          )
+        );
+
+      }
+    )
+
+    /*
+     * IMPORTANT:
+     *
+     * The section parser must not display
+     * its own index.html.
+     */
+
+    .filter(
+      item => {
+
+        return (
+          item.path !==
+          GITHUB_SECTION +
+          "/index.html"
+        );
+
+      }
+    )
+
+    .sort(
+      (a, b) => {
+
+        return a.path.localeCompare(
+          b.path,
+          undefined,
+          {
+            numeric:
+              true,
+
+            sensitivity:
+              "base"
+          }
+        );
+
+      }
+    );
+
+}
+
+
+/* =========================================================
+   RENDER FILE LIST
+   ========================================================= */
+
+function renderFiles(
+  items
+) {
+
+  if (
+    !repositoryFiles
+  ) {
+
+    return;
+
+  }
+
+
+  repositoryFiles.innerHTML =
+    "";
+
+
+  if (
+    items.length === 0
+  ) {
+
+    repositoryFiles.innerHTML =
       `
-        <div class="resource-error">
+        <div class="pages-empty">
 
-          <strong>
-            Resource could not be loaded.
-          </strong>
-
-          <p>
-            ${escapeHTML(
-              path
-            )}
-          </p>
-
-          <p>
-            ${escapeHTML(
-              error.message
-            )}
-          </p>
-
-          <a
-            href="${escapeAttribute(
-              githubURL
-            )}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open directly on GitHub →
-          </a>
+          No resources were found
+          under
+          <code>/${escapeHTML(
+            GITHUB_SECTION
+          )}/</code>.
 
         </div>
       `;
 
+    return;
+
   }
 
 
-  /* =======================================================
-     VIEWER DOM
-     ======================================================= */
+  let currentDirectory =
+    null;
 
-  function createViewer() {
 
-    const root =
-      document.createElement(
-        "section"
+  for (
+    const item of items
+  ) {
+
+    const relativePath =
+      item.path.slice(
+        GITHUB_SECTION.length + 1
       );
 
 
-    root.className =
-      "resource-viewer";
+    const parts =
+      relativePath.split("/");
 
 
-    root.hidden =
-      true;
+    const directory =
+      parts.length > 1
+        ? parts
+            .slice(0, -1)
+            .join("/")
+        : "";
 
 
-    root.innerHTML =
-      `
-        <header class="resource-viewer-header">
+    if (
+      directory !==
+      currentDirectory
+    ) {
 
-          <div
-            class="resource-viewer-title"
-          ></div>
-
-          <button
-            type="button"
-            class="resource-viewer-close"
-          >
-            CLOSE
-          </button>
-
-        </header>
-
-        <div
-          class="resource-viewer-body"
-        ></div>
-      `;
+      currentDirectory =
+        directory;
 
 
-    const close =
-      root.querySelector(
-        ".resource-viewer-close"
+      const directoryElement =
+        document.createElement(
+          "div"
+        );
+
+
+      directoryElement.className =
+        "pages-directory";
+
+
+      directoryElement.textContent =
+        directory
+          ? "/" +
+            GITHUB_SECTION +
+            "/" +
+            directory +
+            "/"
+          : "/" +
+            GITHUB_SECTION +
+            "/";
+
+
+      repositoryFiles.appendChild(
+        directoryElement
       );
 
+    }
 
-    close.addEventListener(
+
+    repositoryFiles.appendChild(
+      createFileElement(
+        item
+      )
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   CREATE FILE
+   ========================================================= */
+
+function createFileElement(
+  item
+) {
+
+  const article =
+    document.createElement(
+      "article"
+    );
+
+
+  article.className =
+    "pages-file";
+
+
+  const filename =
+    item.path
+      .split("/")
+      .pop();
+
+
+  const extension =
+    getExtension(
+      filename
+    );
+
+
+  const type =
+    getFileType(
+      extension
+    );
+
+
+  article.innerHTML =
+    `
+      <div class="pages-file-info">
+
+        <h2 class="pages-file-name">
+
+          <span class="pages-file-type">
+            ${escapeHTML(type)}
+          </span>
+
+          ${escapeHTML(filename)}
+
+        </h2>
+
+        <div class="pages-file-path">
+          ${escapeHTML(item.path)}
+        </div>
+
+      </div>
+
+      <div class="pages-file-actions">
+
+        <button
+          class="pages-file-button"
+          type="button"
+          data-open
+        >
+          VIEW
+        </button>
+
+        <a
+          class="pages-file-github"
+          href="${githubURL(
+            item.path
+          )}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GITHUB
+        </a>
+
+      </div>
+    `;
+
+
+  article
+    .querySelector(
+      "[data-open]"
+    )
+    .addEventListener(
       "click",
       function () {
 
-        root.hidden =
-          true;
+        /*
+         * IMPORTANT:
+         *
+         * Do NOT create another viewer here.
+         *
+         * Everything is delegated to the
+         * central /archive.html parser.
+         */
 
-        root.querySelector(
-          ".resource-viewer-body"
-        ).innerHTML =
-          "";
+        openInArchive(
+          item.path
+        );
 
       }
     );
 
 
-    return {
+  return article;
 
-      root:
+}
 
-        root,
 
-      title:
+/* =========================================================
+   OPEN RESOURCE THROUGH CENTRAL ARCHIVE
+   ========================================================= */
 
-        root.querySelector(
-          ".resource-viewer-title"
-        ),
+function openInArchive(
+  path
+) {
 
-      body:
+  const url =
+    "../archive.html?";
 
-        root.querySelector(
-          ".resource-viewer-body"
-        )
 
-    };
+  const extension =
+    getExtension(
+      path
+    );
+
+
+  /*
+   * Markdown files are opened through:
+   *
+   * archive.html?doc=docs/file.md
+   */
+
+  if (
+    extension === ".md"
+  ) {
+
+    window.location.href =
+      url +
+      "doc=" +
+      encodeURIComponent(
+        path
+      );
+
+    return;
 
   }
 
-})();
 
-</script>
-  
-  <script>
+  /*
+   * HTML pages are opened through:
+   *
+   * archive.html?page=docs/file.html
+   */
 
-/* =========================================================
-   AUF2026 PAGES REPOSITORY NAVIGATION
-   =========================================================
-   DIRECT GITHUB PAGES ONLY
+  if (
+    extension === ".html" ||
+    extension === ".htm"
+  ) {
 
-   NO GitHub API
-   NO raw.githubusercontent.com
-   NO external repository requests
+    window.location.href =
+      url +
+      "page=" +
+      encodeURIComponent(
+        path
+      );
 
-   Architecture:
+    return;
 
-   /index.html
-       |
-       +-- /pages/
-
-   The pages section is a normal GitHub Pages directory.
-
-   Files are opened directly from:
-
-   https://auf2026.github.io/pages/
-
-   ========================================================= */
+  }
 
 
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
+  /*
+   * Everything else uses the generic
+   * archive resource router.
+   */
 
-const AUF2026_CONFIG = {
-
-  origin:
-    "https://auf2026.github.io",
-
-  section:
-    "docs"
-
-};
-
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-const state = {
-
-  directory:
-    "docs",
-
-  files: [],
-
-  initialized: false
-
-};
-
-
-/* =========================================================
-   PATH NORMALISATION
-   ========================================================= */
-
-function normalizePath(path) {
-
-  return String(path || "")
-
-    .replace(
-      /\\/g,
-      "/"
-    )
-
-    .replace(
-      /^\/+/,
-      ""
-    )
-
-    .replace(
-      /\/+/g,
-      "/"
-    )
-
-    .replace(
-      /\/$/,
-      ""
+  window.location.href =
+    url +
+    "file=" +
+    encodeURIComponent(
+      path
     );
 
 }
 
 
 /* =========================================================
-   GITHUB PAGES URL
+   GITHUB URL
    ========================================================= */
 
-function repositoryResourceURL(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return null;
-
-  }
-
+function githubURL(
+  path
+) {
 
   return (
-
-    AUF2026_CONFIG.origin +
-
-    "/" +
-
-    clean
+    GITHUB_BLOB_BASE +
+    path
       .split("/")
       .map(
         encodeURIComponent
       )
       .join("/")
-
   );
 
 }
 
 
 /* =========================================================
-   SECTION URL
+   EXTENSION
    ========================================================= */
 
-function repositorySectionURL() {
+function getExtension(
+  filename
+) {
 
-  return (
-
-    AUF2026_CONFIG.origin +
-    "/docs/"
-
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY NAME
-   ========================================================= */
-
-function directoryName(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return "Repository";
-
-  }
-
-
-  const parts =
-    clean
-      .split("/")
-      .filter(Boolean);
-
-
-  return (
-    parts[parts.length - 1] ||
-    clean
-  );
-
-}
-
-
-/* =========================================================
-   FILE EXTENSION
-   ========================================================= */
-
-function getFileExtension(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  const filename =
-    clean
-      .split("/")
-      .filter(Boolean)
-      .pop() || "";
-
-
-  const dot =
+  const index =
     filename.lastIndexOf(".");
 
 
   if (
-    dot <= 0
+    index < 0
   ) {
 
     return "";
@@ -4338,1415 +1159,214 @@ function getFileExtension(path) {
 
 
   return filename
-    .slice(dot + 1)
+    .slice(
+      index
+    )
     .toLowerCase();
 
 }
 
 
 /* =========================================================
-   FILE ICON
+   FILE TYPE
    ========================================================= */
 
-function fileIcon(extension) {
+function getFileType(
+  extension
+) {
 
-  const icons = {
+  if (
+    [
+      ".md",
+      ".markdown"
+    ].includes(extension)
+  ) {
 
-    md:
-      "M",
+    return "MARKDOWN";
 
-    markdown:
-      "M",
-
-    html:
-      "H",
-
-    htm:
-      "H",
-
-    pdf:
-      "P",
-
-    tex:
-      "T",
-
-    latex:
-      "T",
-
-    lean:
-      "λ",
-
-    json:
-      "{}",
-
-    csv:
-      "≡",
-
-    txt:
-      "T",
-
-    js:
-      "JS",
-
-    mjs:
-      "JS",
-
-    cjs:
-      "JS",
-
-    css:
-      "#",
-
-    xml:
-      "XML",
-
-    yaml:
-      "Y",
-
-    yml:
-      "Y",
-
-    toml:
-      "T",
-
-    png:
-      "IMG",
-
-    jpg:
-      "IMG",
-
-    jpeg:
-      "IMG",
-
-    gif:
-      "IMG",
-
-    webp:
-      "IMG",
-
-    svg:
-      "IMG",
-
-    bmp:
-      "IMG",
-
-    mp3:
-      "♫",
-
-    wav:
-      "♫",
-
-    ogg:
-      "♫",
-
-    flac:
-      "♫",
-
-    mp4:
-      "▶",
-
-    webm:
-      "▶",
-
-    mov:
-      "▶",
-
-    avi:
-      "▶"
-
-  };
+  }
 
 
-  return (
-    icons[extension] ||
-    "·"
-  );
+  if (
+    [
+      ".html",
+      ".htm"
+    ].includes(extension)
+  ) {
+
+    return "HTML";
+
+  }
+
+
+  if (
+    extension ===
+    ".pdf"
+  ) {
+
+    return "PDF";
+
+  }
+
+
+  if (
+    [
+      ".png",
+      ".jpg",
+      ".jpeg",
+      ".gif",
+      ".webp",
+      ".svg",
+      ".avif",
+      ".bmp",
+      ".ico"
+    ].includes(extension)
+  ) {
+
+    return "IMAGE";
+
+  }
+
+
+  if (
+    [
+      ".mp3",
+      ".wav",
+      ".ogg",
+      ".oga",
+      ".m4a",
+      ".aac",
+      ".flac"
+    ].includes(extension)
+  ) {
+
+    return "AUDIO";
+
+  }
+
+
+  if (
+    [
+      ".mp4",
+      ".webm",
+      ".ogv",
+      ".mov",
+      ".m4v"
+    ].includes(extension)
+  ) {
+
+    return "VIDEO";
+
+  }
+
+
+  if (
+    extension ===
+    ".csv"
+  ) {
+
+    return "CSV";
+
+  }
+
+
+  if (
+    [
+      ".txt",
+      ".json",
+      ".xml",
+      ".yaml",
+      ".yml",
+      ".log"
+    ].includes(extension)
+  ) {
+
+    return "TEXT";
+
+  }
+
+
+  return "SOURCE";
 
 }
 
 
 /* =========================================================
-   SORT
+   STATUS
    ========================================================= */
 
-function naturalPathCompare(a, b) {
+function setStatus(
+  message,
+  state
+) {
 
-  return String(a || "")
-    .localeCompare(
-      String(b || ""),
-      undefined,
-      {
-        numeric:
-          true,
-
-        sensitivity:
-          "base"
-      }
-    );
-
-}
-
-
-/* =========================================================
-   REQUESTED RESOURCE
-   ========================================================= */
-
-function getRequestedResource() {
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  return normalizePath(
-
-    params.get("resource") ||
-
-    params.get("file") ||
-
-    params.get("doc") ||
-
-    ""
-
-  );
-
-}
-
-
-/* =========================================================
-   URL UPDATE
-   ========================================================= */
-
-function updateURL(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
+  if (
+    !repositoryStatus
+  ) {
 
     return;
 
   }
 
 
-  const url =
-    new URL(
-      window.location.href
-    );
-
-
-  url.searchParams.delete(
-    "file"
-  );
-
-
-  url.searchParams.delete(
-    "doc"
-  );
-
-
-  url.searchParams.set(
-    "resource",
-    clean
-  );
-
-
-  history.replaceState(
-    null,
-    "",
-    url
-  );
-
-}
-
-
-/* =========================================================
-   MENU MOUNT
-   ========================================================= */
-
-function findMenuMount() {
-
-  const selectors = [
-
-    "#repository-menu",
-
-    "#repo-menu",
-
-    "#auf-menu",
-
-    "#archive-menu",
-
-    ".repository-menu",
-
-    ".auf-menu",
-
-    ".archive-menu"
-
-  ];
-
-
-  for (
-    const selector of selectors
-  ) {
-
-    const element =
-      document.querySelector(
-        selector
-      );
-
-
-    if (element) {
-
-      return element;
-
-    }
-
-  }
-
-
-  const viewer =
-    document.querySelector(
-      ".resource-viewer"
-    );
-
-
-  const mount =
-    document.createElement(
-      "div"
-    );
-
-
-  mount.id =
-    "repository-menu";
-
-
-  mount.className =
-    "auf-repository-menu-mount";
+  repositoryStatus.textContent =
+    message;
 
 
   if (
-    viewer &&
-    viewer.parentNode
+    state
   ) {
 
-    viewer.parentNode.insertBefore(
-      mount,
-      viewer
-    );
+    repositoryStatus.dataset.state =
+      state;
 
   } else {
 
-    document.body.appendChild(
-      mount
-    );
+    delete repositoryStatus.dataset.state;
 
   }
-
-
-  return mount;
 
 }
 
 
 /* =========================================================
-   DISCOVER PAGES
-   =========================================================
-   IMPORTANT:
-
-   GitHub Pages has no directory listing API.
-
-   Therefore /pages/ is treated as the single
-   repository section.
-
-   No GitHub API is used.
-   No raw.githubusercontent.com is used.
-   No external repository request is made.
-
-   Files are registered explicitly through:
-
-   window.AUF2026Repository.registerFiles(
-     "pages",
-     [
-       "pages/index.html",
-       "pages/archive.html"
-     ]
-   );
-
+   HTML ESCAPE
    ========================================================= */
 
-async function discoverRepository() {
+function escapeHTML(
+  value
+) {
 
-  state.directory =
-    "docs";
+  return String(value)
 
-
-  state.files =
-    [];
-
-
-  return true;
-
-}
-
-
-/* =========================================================
-   BUILD REPOSITORY MENU
-   ========================================================= */
-
-function buildRepositoryMenu() {
-
-  const mount =
-    findMenuMount();
-
-
-  if (!mount) {
-
-    return;
-
-  }
-
-
-  mount.innerHTML = "";
-
-
-  const navigation =
-    document.createElement(
-      "nav"
-    );
-
-
-  navigation.className =
-    "auf-repository-menu";
-
-
-  navigation.appendChild(
-
-    createDirectorySection(
-      "pages"
+    .replace(
+      /&/g,
+      "&amp;"
     )
 
-  );
-
-
-  mount.appendChild(
-    navigation
-  );
-
-}
-
-
-/* =========================================================
-   DIRECTORY SECTION
-   ========================================================= */
-
-function createDirectorySection(
-  directory
-) {
-
-  const shell =
-    createSectionShell(
-
-      directoryName(
-        directory
-      ),
-
-      directory,
-
-      "directory"
-
-    );
-
-
-  /*
-   * The pages section itself is the real
-   * GitHub Pages directory.
-   *
-   * No API request is made.
-   */
-
-  const openButton =
-    document.createElement(
-      "a"
-    );
-
-
-  openButton.className =
-    "auf-menu-directory-link";
-
-
-  openButton.href =
-    repositorySectionURL();
-
-
-  openButton.textContent =
-    "Open section";
-
-
-  openButton.setAttribute(
-    "aria-label",
-    "Open " +
-    directoryName(
-      directory
+    .replace(
+      /</g,
+      "&lt;"
     )
-  );
 
-
-  shell.list.appendChild(
-    openButton
-  );
-
-
-  return shell.root;
-
-}
-
-
-/* =========================================================
-   SECTION SHELL
-   ========================================================= */
-
-function createSectionShell(
-  title,
-  path,
-  type
-) {
-
-  const root =
-    document.createElement(
-      "section"
-    );
-
-
-  root.className =
-    "auf-menu-section " +
-    "auf-menu-section-" +
-    type;
-
-
-  root.dataset.path =
-    normalizePath(
-      path
-    );
-
-
-  const header =
-    document.createElement(
-      "button"
-    );
-
-
-  header.type =
-    "button";
-
-
-  header.className =
-    "auf-menu-section-header";
-
-
-  header.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-
-  const icon =
-    document.createElement(
-      "span"
-    );
-
-
-  icon.className =
-    "auf-menu-section-icon";
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  icon.textContent =
-    type === "directory"
-      ? "§"
-      : "R";
-
-
-  const titleElement =
-    document.createElement(
-      "span"
-    );
-
-
-  titleElement.className =
-    "auf-menu-section-title";
-
-
-  titleElement.textContent =
-    title;
-
-
-  const pathElement =
-    document.createElement(
-      "span"
-    );
-
-
-  pathElement.className =
-    "auf-menu-section-path";
-
-
-  pathElement.textContent =
-    path;
-
-
-  const arrow =
-    document.createElement(
-      "span"
-    );
-
-
-  arrow.className =
-    "auf-menu-section-arrow";
-
-
-  arrow.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  arrow.textContent =
-    "›";
-
-
-  header.appendChild(
-    icon
-  );
-
-
-  header.appendChild(
-    titleElement
-  );
-
-
-  header.appendChild(
-    pathElement
-  );
-
-
-  header.appendChild(
-    arrow
-  );
-
-
-  const list =
-    document.createElement(
-      "div"
-    );
-
-
-  list.className =
-    "auf-menu-file-list";
-
-
-  header.addEventListener(
-    "click",
-    function () {
-
-      const open =
-        root.classList.toggle(
-          "is-open"
-        );
-
-
-      header.setAttribute(
-        "aria-expanded",
-        String(open)
-      );
-
-    }
-  );
-
-
-  root.appendChild(
-    header
-  );
-
-
-  root.appendChild(
-    list
-  );
-
-
-  return {
-
-    root:
-      root,
-
-    header:
-      header,
-
-    list:
-      list
-
-  };
-
-}
-
-
-/* =========================================================
-   OPEN RESOURCE
-   ========================================================= */
-
-function openResource(path) {
-
-  const clean =
-    normalizePath(path);
-
-
-  if (!clean) {
-
-    return;
-
-  }
-
-
-  /*
-   * Prefer the parser already installed by the page.
-   */
-
-  if (
-    typeof window.loadRepositoryResource ===
-    "function"
-  ) {
-
-    window.loadRepositoryResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  if (
-    typeof window.loadResource ===
-    "function"
-  ) {
-
-    window.loadResource(
-      clean
-    );
-
-    updateURL(
-      clean
-    );
-
-    setActiveFile(
-      clean
-    );
-
-    return;
-
-  }
-
-
-  /*
-   * Absolute fallback:
-   * direct GitHub Pages resource.
-   */
-
-  const url =
-    repositoryResourceURL(
-      clean
-    );
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   OPEN SECTION
-   ========================================================= */
-
-function openSection() {
-
-  const url =
-    repositorySectionURL();
-
-
-  if (url) {
-
-    window.location.href =
-      url;
-
-  }
-
-}
-
-
-/* =========================================================
-   FILE ITEM
-   ========================================================= */
-
-function createFileItem(
-  file,
-  parentDirectory
-) {
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.type =
-    "button";
-
-
-  button.className =
-    "auf-menu-file";
-
-
-  button.dataset.path =
-    file;
-
-
-  const filename =
-    normalizePath(file)
-      .split("/")
-      .filter(Boolean)
-      .pop() ||
-    file;
-
-
-  const relative =
-    parentDirectory
-
-      ? normalizePath(file)
-          .slice(
-            normalizePath(
-              parentDirectory
-            ).length + 1
-          )
-
-      : normalizePath(file);
-
-
-  const extension =
-    getFileExtension(
-      filename
-    );
-
-
-  const icon =
-    document.createElement(
-      "span"
-    );
-
-
-  icon.className =
-    "auf-menu-file-icon";
-
-
-  icon.textContent =
-    fileIcon(
-      extension
-    );
-
-
-  icon.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-
-  const main =
-    document.createElement(
-      "span"
-    );
-
-
-  main.className =
-    "auf-menu-file-main";
-
-
-  const name =
-    document.createElement(
-      "span"
-    );
-
-
-  name.className =
-    "auf-menu-file-name";
-
-
-  name.textContent =
-    filename;
-
-
-  const pathElement =
-    document.createElement(
-      "span"
-    );
-
-
-  pathElement.className =
-    "auf-menu-file-path";
-
-
-  pathElement.textContent =
-    relative;
-
-
-  main.appendChild(
-    name
-  );
-
-
-  main.appendChild(
-    pathElement
-  );
-
-
-  const extensionElement =
-    document.createElement(
-      "span"
-    );
-
-
-  extensionElement.className =
-    "auf-menu-file-extension";
-
-
-  extensionElement.textContent =
-    extension
-      ? "." + extension
-      : "FILE";
-
-
-  button.appendChild(
-    icon
-  );
-
-
-  button.appendChild(
-    main
-  );
-
-
-  button.appendChild(
-    extensionElement
-  );
-
-
-  button.addEventListener(
-    "click",
-    function () {
-
-      openResource(
-        file
-      );
-
-    }
-  );
-
-
-  if (
-    getRequestedResource() ===
-    normalizePath(file)
-  ) {
-
-    button.classList.add(
-      "is-active"
-    );
-
-  }
-
-
-  return button;
-
-}
-
-
-/* =========================================================
-   ACTIVE FILE
-   ========================================================= */
-
-function setActiveFile(
-  file
-) {
-
-  const clean =
-    normalizePath(
-      file
-    );
-
-
-  document
-    .querySelectorAll(
-      ".auf-menu-file.is-active"
+    .replace(
+      />/g,
+      "&gt;"
     )
-    .forEach(
-      item => {
 
-        item.classList.remove(
-          "is-active"
-        );
-
-      }
-    );
-
-
-  document
-    .querySelectorAll(
-      ".auf-menu-file"
+    .replace(
+      /"/g,
+      "&quot;"
     )
-    .forEach(
-      item => {
 
-        if (
-          normalizePath(
-            item.dataset.path
-          ) === clean
-        ) {
-
-          item.classList.add(
-            "is-active"
-          );
-
-        }
-
-      }
+    .replace(
+      /'/g,
+      "&#039;"
     );
-
-}
-
-
-/* =========================================================
-   REGISTER PAGES FILES
-   =========================================================
-   This is the interface used by /pages/.
-
-   Example:
-
-   window.AUF2026Repository.registerFiles(
-     "pages",
-     [
-       "pages/index.html",
-       "pages/archive.html",
-       "pages/example.md"
-     ]
-   );
-
-   Only files belonging to pages/ are accepted.
-   No external server is contacted.
-   ========================================================= */
-
-function registerSectionFiles(
-  directory,
-  files
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  if (
-    root !==
-    "docs"
-  ) {
-
-    return;
-
-  }
-
-
-  if (
-    !Array.isArray(files)
-  ) {
-
-    return;
-
-  }
-
-
-  files
-    .map(
-      normalizePath
-    )
-    .filter(
-      file =>
-        file === "docs" ||
-        file.startsWith(
-          "pages/"
-        )
-    )
-    .filter(Boolean)
-    .forEach(
-      file => {
-
-        if (
-          !state.files.includes(
-            file
-          )
-        ) {
-
-          state.files.push(
-            file
-          );
-
-        }
-
-      }
-    );
-
-
-  state.files =
-    Array.from(
-      new Set(
-        state.files
-      )
-    )
-    .sort(
-      naturalPathCompare
-    );
-
-
-  rebuildSectionFiles(
-    "docs"
-  );
-
-}
-
-
-/* =========================================================
-   REBUILD PAGES FILES
-   ========================================================= */
-
-function rebuildSectionFiles(
-  directory
-) {
-
-  const root =
-    normalizePath(
-      directory
-    );
-
-
-  if (
-    root !==
-    "docs"
-  ) {
-
-    return;
-
-  }
-
-
-  const section =
-    document.querySelector(
-      ".auf-menu-section[data-path=\"" +
-      CSS.escape(root) +
-      "\"]"
-    );
-
-
-  if (!section) {
-
-    return;
-
-  }
-
-
-  const list =
-    section.querySelector(
-      ".auf-menu-file-list"
-    );
-
-
-  if (!list) {
-
-    return;
-
-  }
-
-
-  list.innerHTML = "";
-
-
-  const files =
-    state.files
-      .filter(
-        file =>
-          file === root ||
-          file.startsWith(
-            root + "/"
-          )
-      )
-      .sort(
-        naturalPathCompare
-      );
-
-
-  files.forEach(
-    file => {
-
-      list.appendChild(
-
-        createFileItem(
-          file,
-          root
-        )
-
-      );
-
-    }
-  );
-
-
-  if (!files.length) {
-
-    const link =
-      document.createElement(
-        "a"
-      );
-
-
-    link.className =
-      "auf-menu-directory-link";
-
-
-    link.href =
-      repositorySectionURL();
-
-
-    link.textContent =
-      "Open section";
-
-
-    list.appendChild(
-      link
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function renderRepositoryError(
-  error
-) {
-
-  const mount =
-    findMenuMount();
-
-
-  if (!mount) {
-
-    return;
-
-  }
-
-
-  mount.innerHTML = "";
-
-
-  const box =
-    document.createElement(
-      "div"
-    );
-
-
-  box.className =
-    "auf-menu-error";
-
-
-  const strong =
-    document.createElement(
-      "strong"
-    );
-
-
-  strong.textContent =
-    "Pages navigation error";
-
-
-  const message =
-    document.createElement(
-      "span"
-    );
-
-
-  message.textContent =
-    error &&
-    error.message
-
-      ? error.message
-
-      : "Unable to initialise pages navigation.";
-
-
-  box.appendChild(
-    strong
-  );
-
-
-  box.appendChild(
-    message
-  );
-
-
-  mount.appendChild(
-    box
-  );
-
-}
-
-
-/* =========================================================
-   INITIALISE
-   ========================================================= */
-
-async function initialiseRepository() {
-
-  try {
-
-    await discoverRepository();
-
-
-    buildRepositoryMenu();
-
-
-    state.initialized =
-      true;
-
-
-    const requested =
-      getRequestedResource();
-
-
-    if (
-      requested
-    ) {
-
-      openResource(
-        requested
-      );
-
-    }
-
-  } catch (
-    error
-  ) {
-
-    console.error(
-      "AUF2026 docs navigation:",
-      error
-    );
-
-
-    renderRepositoryError(
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   PUBLIC API
-   ========================================================= */
-
-window.AUF2026Repository = {
-
-  state:
-    state,
-
-  files:
-    function () {
-
-      return [
-        ...state.files
-      ];
-
-    },
-
-  directory:
-    function () {
-
-      return "docs";
-
-    },
-
-  url:
-    repositoryResourceURL,
-
-  section:
-    repositorySectionURL,
-
-  open:
-    openResource,
-
-  registerFiles:
-    registerSectionFiles,
-
-  refresh:
-    initialiseRepository
-
-};
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-if (
-  document.readyState ===
-  "loading"
-) {
-
-  document.addEventListener(
-    "DOMContentLoaded",
-    initialiseRepository,
-    {
-      once:
-        true
-    }
-  );
-
-} else {
-
-  initialiseRepository();
 
 }
 
 </script>
 
 </body>
-
 </html>
