@@ -2360,8 +2360,8 @@
 
 
   /* =========================================================
-     GITHUB API DOCUMENT DISCOVERY
-     ========================================================= */
+   GITHUB API DOCUMENT DISCOVERY
+   ========================================================= */
 
   const GITHUB_OWNER =
     "AUF2026";
@@ -2435,8 +2435,15 @@
        *
        * Examples:
        *
+       *   bibliography/example.md
+       *   code/example.md
+       *   datasets/example.md
        *   docs/ARCHIVE-MAP.md
-       *   docs/FAURE-THEOREM-NO-GOD.md
+       *   pages/example.md
+       *   papers/example.md
+       *   pdf/example.md
+       *   proofs/example.md
+       *   validation/example.md
        *   some-new-folder/example.md
        *   future-folder/subfolder/file.md
        *
@@ -2547,6 +2554,12 @@
      * Example:
      *
      * archive.html?doc=docs/FAURE-THEOREM-NO-GOD.md
+     *
+     * This also works for every other repository directory:
+     *
+     * archive.html?doc=papers/example.md
+     * archive.html?doc=proofs/example.md
+     * archive.html?doc=validation/example.md
      */
     if (
       cleanPath.includes("/")
@@ -2576,6 +2589,8 @@
      * archive.html?doc=ARCHIVE-MAP.md
      *
      * These documents live in /docs/.
+     *
+     * Keep this behaviour unchanged.
      */
     const docsPath =
       "docs/" +
@@ -2594,10 +2609,12 @@
 
 
     /*
-     * Static fallback compatibility.
+     * Static / repository compatibility.
      *
-     * This preserves the behaviour of the original archive
-     * while GitHub discovery is unavailable.
+     * If the requested document itself is already a valid
+     * repository path, use it directly.
+     *
+     * This allows documents outside /docs/ to resolve too.
      */
     if (
       allowedDocuments.includes(
@@ -2605,10 +2622,7 @@
       )
     ) {
 
-      return (
-        "docs/" +
-        cleanPath
-      );
+      return cleanPath;
 
     }
 
@@ -2621,8 +2635,20 @@
      *
      * archive.html?doc=FAURE-THEOREM-NO-GOD.md
      *
-     * to resolve automatically even after the file has
-     * moved outside /docs/.
+     * to resolve automatically regardless of which
+     * repository directory contains the document.
+     *
+     * Examples:
+     *
+     *   bibliography/FILE.md
+     *   code/FILE.md
+     *   datasets/FILE.md
+     *   docs/FILE.md
+     *   pages/FILE.md
+     *   papers/FILE.md
+     *   pdf/FILE.md
+     *   proofs/FILE.md
+     *   validation/FILE.md
      */
     const matches =
       allowedDocuments.filter(
@@ -2653,7 +2679,6 @@
     return null;
 
   }
-
 
   /* =========================================================
      PAGE / RESOURCE VALIDATION
