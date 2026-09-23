@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>AUF2026 · Faure Structural Architecture</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Typography -->
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=STIX+Two+Text:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   AUF2026 — SCIENTIFIC FRAMEWORK + DARK/LIGHT MODE
+   ============================================================ */
+
+:root {
+  --bg: #0b0f14;
+  --panel: #11161f;
+  --fg: #e6eef6;
+  --fg-soft: #9aa6b2;
+  --border: #222a35;
+  --accent: #3fb5c7;
+  --accent-soft: #4fc0d2;
+  --serif: "Crimson Pro", "STIX Two Text", serif;
+  --mono: "JetBrains Mono", Menlo, monospace;
+}
+
+/* LIGHT MODE */
+:root.light {
+  --bg: #ffffff;
+  --panel: #fffff;
+  --fg: #111;
+  --fg-soft: #555;
+  --border: #d0d0d0;
+  --accent-soft: #006688;
+}
+
+/* GLOBAL */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--serif);
+  padding: 40px;
+  transition: background .3s, color .3s;
+}
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  padding: 32px 24px;
+  border-right: 1px solid var(--border);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+}
+
+#titleAUF { color: var(--accent); transition: color .2s; }
+#title2026 { color: #fff; }
+
+.subtitle {
+  font-size: .9rem;
+  color: var(--fg-soft);
+  margin-top: 6px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* TOGGLE */
+.toggle {
+  margin-top: 20px;
+  cursor: pointer;
+  font-size: .9rem;
+  color: var(--accent);
+  padding: 6px 0;
+}
+
+/* SECTIONS LIST */
+.section-list {
+  margin-top: 32px;
+  list-style: none;
+}
+
+.section-item {
+  padding: 8px 4px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-soft);
+  transition: .15s;
+}
+
+.section-item:hover {
+  background: var(--panel);
+  color: var(--fg);
+}
+
+.section-item.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* MAIN */
+.main {
+  padding: 32px;
+}
+
+/* SECTION HEADER */
+.section-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 8px;
+}
+
+#heroAUF { color: var(--accent); transition: color .2s; }
+#hero2026 { color: #fff; }
+
+.section-header p {
+  margin-top: 6px;
+  color: var(--fg-soft);
+}
+
+/* SECTION DESCRIPTION */
+.section-description {
+  margin: 20px 0;
+  padding: 16px;
+  background: var(--panel);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+/* FILE LIST */
+.file-list {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-bottom: 32px;
+}
+
+.file-item {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--fg-soft);
+}
+
+.file-item:hover {
+  background: var(--panel);
+  color: var(--fg);
+}
+
+.file-item.active {
+  background: var(--panel);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* VIEWER */
+.viewer-body {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 300px;
+  max-height: 600px;
+  overflow: auto;
+}
+
+pre {
+  background: #000;
+  color: #e6eef6;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: .85rem;
+}
+
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 8px;
+  background: #000;
+}
+
+/* LANDING PAGE */
+#landing {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 9999;
+  transition: opacity .4s;
+}
+
+#landing h1 {
+  font-size: 3rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  display: flex;
+  gap: 12px;
+}
+
+#landingAUF { color: var(--accent); }
+#landing2026 { color: #fff; }
+
+#enterBtn {
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  letter-spacing: .05em;
+  transition: .2s;
+}
+
+#enterBtn:hover {
+  background: var(--accent-soft);
+}
+</style>
+
+<!-- Markdown -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<!-- MathJax -->
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <h1>
+    <span id="landingAUF">AUF</span>
+    <span id="landing2026">2026</span>
+  </h1>
+  <div style="color:var(--fg-soft);font-size:1.1rem;">
+    Faure Structural Architecture — Archivio Fondazionale
+  </div>
+  <div id="enterBtn">Entra nell’Archivio</div>
+</div>
+
+<div class="layout" style="opacity:0;transition:opacity .4s;" id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="title">
+      <span id="titleAUF">AUF</span>
+      <span id="title2026">2026</span>
+    </div>
+    <div class="subtitle">Faure Structural Architecture</div>
+
+    <div class="toggle" id="toggleMode">Toggle Light/Dark</div>
+
+    <ul class="section-list" id="sectionList"></ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="section-header">
+      <h2>
+        <span id="heroAUF">AUF</span>
+        <span id="hero2026">2026</span>
+      </h2>
+      <p id="sectionDesc">Seleziona una sezione.</p>
+    </div>
+
+    <div class="section-description" id="sectionDescription">
+      Benvenuto nell’Archivio AUF2026.  
+      Seleziona una sezione a sinistra per visualizzare contenuti, documenti, prove, papers e dataset.
+    </div>
+    
+    <div>
+      
+      
+    </div>
+
+    <div class="file-list" id="fileList"></div>
+
+    <div class="viewer">
+      <div class="viewer-title" id="viewerTitle">Viewer</div>
+      <div class="viewer-body" id="viewerBody">
+        Seleziona un file.
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+/* ============================================================
+   LANDING PAGE
+   ============================================================ */
+document.getElementById("enterBtn").onclick = () => {
+  document.getElementById("landing").style.opacity = 0;
+  setTimeout(() => {
+    document.getElementById("landing").style.display = "none";
+    const app = document.getElementById("app");
+    app.style.opacity = 1;
+  }, 400);
+};
+
+/* ============================================================
+   DARK/LIGHT MODE
+   ============================================================ */
+document.getElementById("toggleMode").onclick = () => {
+  document.documentElement.classList.toggle("light");
+};
+
+/* ============================================================
+   REPO LOGIC
+   ============================================================ */
+
+const REPO = "AUF2026/AUF2026.github.io";
+const API = "https://api.github.com/repos/" + REPO + "/contents";
+
+const SECTIONS = [
+  { name: "papers", label: "Papers", desc: "Articoli scientifici fondazionali, dimostrazioni, operatori, strutture." },
+  { name: "proofs", label: "Proofs", desc: "Dimostrazioni formali, Lean4, verifiche meccaniche." },
+  { name: "docs", label: "Documentation", desc: "Documentazione tecnica, specifiche, architettura." },
+  { name: "pages", label: "Pages", desc: "Pagine HTML, contenuti strutturali, presentazioni." },
+  { name: "pdf", label: "PDF Manuscripts", desc: "Manoscritti PDF, papers completi, versioni Annals." },
+  { name: "datasets", label: "Datasets", desc: "Dataset strutturali, matrici, operatori, geometrie." },
+  { name: "code", label: "Code", desc: "Codice sorgente, Lean, Python, operatori." },
+  { name: "validation", label: "Validation", desc: "Validazioni, test, verifiche." },
+  { name: "bibliography", label: "Bibliography", desc: "Riferimenti, citazioni, bibliografia AUF2026." }
+];
+
+const sectionList = document.getElementById("sectionList");
+const fileList = document.getElementById("fileList");
+const viewerBody = document.getElementById("viewerBody");
+const viewerTitle = document.getElementById("viewerTitle");
+const sectionDesc = document.getElementById("sectionDesc");
+const sectionDescription = document.getElementById("sectionDescription");
+const titleAUF = document.getElementById("titleAUF");
+const heroAUF = document.getElementById("heroAUF");
+
+function colorFor(name){
+  let h=0;
+  for(let i=0;i<name.length;i++) h=(h*31+name.charCodeAt(i))>>>0;
+  return `hsl(${h%360} 60% 55%)`;
+}
+
+function setAccent(name){
+  const c = colorFor(name);
+  document.documentElement.style.setProperty("--accent", c);
+  titleAUF.style.color = c;
+  heroAUF.style.color = c;
+  document.getElementById("landingAUF").style.color = c;
+}
+
+SECTIONS.forEach(sec => {
+  const li = document.createElement("li");
+  li.className = "section-item";
+  li.textContent = sec.label;
+  li.onclick = (e) => loadSection(sec, e.currentTarget);
+  sectionList.appendChild(li);
+});
+
+async function loadSection(sec, el) {
+  document.querySelectorAll(".section-item").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+
+  setAccent(sec.label);
+
+  sectionDesc.textContent = sec.label;
+  sectionDescription.textContent = sec.desc;
+
+  const res = await fetch(API + "/" + sec.name);
+  const data = await res.json();
+
+  fileList.innerHTML = "";
+  viewerBody.innerHTML = "Seleziona un file.";
+  viewerTitle.textContent = "Viewer";
+
+  data.forEach(file => {
+    if (file.type !== "file") return;
+
+    const item = document.createElement("div");
+    item.className = "file-item";
+    item.textContent = file.name;
+    item.onclick = (e) => loadFile(file, e.currentTarget);
+    fileList.appendChild(item);
+  });
+}
+
+async function loadFile(file, el) {
+  document.querySelectorAll(".file-item").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+
+  viewerTitle.textContent = file.name;
+
+  const ext = file.name.split(".").pop().toLowerCase();
+
+  if (ext === "pdf") {
+    viewerBody.innerHTML = `
+      <iframe src="https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(file.download_url)}"></iframe>
+    `;
+    return;
+  }
+
+  const res = await fetch(file.download_url);
+  const text = await res.text();
+
+  if (ext === "md") {
+    viewerBody.innerHTML = marked.parse(text);
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([viewerBody]);
+    }
+    return;
+  }
+
+  if (ext === "html") {
+    viewerBody.innerHTML = `<iframe sandbox="allow-scripts allow-same-origin"></iframe>`;
+    const iframe = viewerBody.querySelector("iframe");
+    const doc = iframe.contentDocument;
+    doc.open();
+    doc.write(text);
+    doc.close();
+    return;
+  }
+
+  viewerBody.innerHTML = `<pre>${escapeHtml(text)}</pre>`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+}
+</script>
+
+</body>
+</html>
