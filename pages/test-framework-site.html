@@ -1,0 +1,2794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>AUF2026 — Faure Framework</title>
+
+  <meta
+    name="description"
+    content="AUF2026 — Faure Framework, mathematical structures, deterministic computation, formal verification and reproducible scientific analysis."
+  >
+
+  <meta
+    name="author"
+    content="Alain Faure"
+  >
+
+  <style>
+    :root {
+      --bg:#050608;
+      --bg-2:#080b10;
+      --surface:#0b0f15;
+      --surface-2:#101620;
+      --surface-3:#141b24;
+      --text:#f2f6fa;
+      --text-soft:#b8c3ce;
+      --muted:#7e8b98;
+      --dim:#4d5965;
+
+      --auf-cyan:#55dfff;
+      --auf-violet:#8b7cff;
+      --auf-magenta:#ff4fd8;
+
+      --green:#63e6be;
+      --blue:#6ea8ff;
+      --gold:#e6c76a;
+      --red:#ff7070;
+
+      --line:rgba(255,255,255,.095);
+      --line-soft:rgba(255,255,255,.055);
+
+      --max-width:1240px;
+      --content-width:1080px;
+
+      --shadow:0 25px 80px rgba(0,0,0,.42);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html {
+      scroll-behavior:smooth;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    body {
+      min-height:100vh;
+      overflow-x:hidden;
+      background:
+        radial-gradient(circle at 82% 4%,rgba(85,223,255,.075),transparent 31%),
+        radial-gradient(circle at 12% 32%,rgba(139,124,255,.045),transparent 34%),
+        linear-gradient(180deg,var(--bg-2),var(--bg));
+      color:var(--text);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.65;
+    }
+
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-10;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size:64px 64px;
+      mask-image:linear-gradient(to bottom,black,transparent 82%);
+      -webkit-mask-image:linear-gradient(to bottom,black,transparent 82%);
+    }
+
+    body::after {
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-11;
+      pointer-events:none;
+      opacity:.35;
+      background:
+        radial-gradient(circle at 50% 0%,rgba(255,255,255,.025),transparent 50%);
+    }
+
+    a {
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button {
+      font:inherit;
+    }
+
+    img {
+      max-width:100%;
+      display:block;
+    }
+
+    .container {
+      width:min(var(--max-width),calc(100% - 48px));
+      margin:0 auto;
+    }
+
+    /* HEADER */
+
+    .site-header {
+      position:sticky;
+      top:0;
+      z-index:1000;
+      background:rgba(5,6,8,.88);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line-soft);
+    }
+
+    .site-nav {
+      width:min(var(--max-width),calc(100% - 48px));
+      min-height:68px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand {
+      display:inline-flex;
+      align-items:center;
+      gap:0;
+      font-size:15px;
+      font-weight:800;
+      letter-spacing:-.025em;
+    }
+
+    .brand-auf {
+      background:linear-gradient(90deg,var(--auf-cyan),var(--auf-violet),var(--auf-magenta));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .brand-year {
+      color:#fff;
+    }
+
+    .menu-button {
+      appearance:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:78px;
+      min-height:34px;
+      border:1px solid var(--line);
+      border-radius:3px;
+      background:rgba(255,255,255,.018);
+      color:var(--text-soft);
+      padding:9px 14px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.15em;
+      cursor:pointer;
+      transition:border-color .25s ease,color .25s ease,background .25s ease,transform .25s ease;
+    }
+
+    .menu-button:hover {
+      color:#fff;
+      border-color:rgba(85,223,255,.45);
+      background:rgba(85,223,255,.035);
+      transform:translateY(-1px);
+    }
+
+    .menu-button[aria-expanded="true"] {
+      color:#fff;
+      border-color:rgba(85,223,255,.55);
+      background:rgba(85,223,255,.06);
+    }
+
+    #siteMenu {
+      width:min(var(--max-width),calc(100% - 48px));
+      margin:0 auto;
+      padding:0 0 20px;
+    }
+
+    #siteMenu[hidden] {
+      display:none;
+    }
+
+    .site-menu-panel {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1px;
+      border:1px solid var(--line);
+      background:var(--line);
+    }
+
+    .site-menu-item {
+      position:relative;
+      display:block;
+      min-height:100px;
+      padding:20px;
+      overflow:hidden;
+      background:var(--surface);
+      transition:background .25s ease,transform .25s ease;
+    }
+
+    .site-menu-item::before {
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      width:2px;
+      height:100%;
+      background:var(--menu-color,var(--auf-cyan));
+      opacity:.7;
+    }
+
+    .site-menu-item:hover {
+      background:var(--surface-2);
+    }
+
+    .site-menu-id {
+      display:block;
+      margin-bottom:8px;
+      color:var(--menu-color,var(--auf-cyan));
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.13em;
+    }
+
+    .site-menu-name {
+      display:block;
+      color:var(--text);
+      font-size:15px;
+      font-weight:700;
+      line-height:1.2;
+    }
+
+    .site-menu-description {
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    /* HERO */
+
+    .hero {
+      position:relative;
+      padding:112px 0 92px;
+    }
+
+    .hero::after {
+      content:"";
+      position:absolute;
+      left:0;
+      bottom:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg,var(--auf-cyan),var(--auf-violet),var(--auf-magenta),transparent 85%);
+      opacity:.5;
+    }
+
+    .eyebrow {
+      color:var(--dim);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.19em;
+    }
+
+    .hero-title,
+    .hero h1 {
+      margin:17px 0 25px;
+      font-size:clamp(64px,10vw,132px);
+      line-height:.82;
+      letter-spacing:-.075em;
+      font-weight:800;
+    }
+
+    .auf {
+      background:linear-gradient(90deg,var(--auf-cyan),var(--auf-violet),var(--auf-magenta));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .year {
+      color:#fff;
+    }
+
+    .hero-description,
+    .hero-subtitle {
+      max-width:760px;
+      color:var(--text-soft);
+      font-size:15px;
+      line-height:1.8;
+    }
+
+    .hero-links,
+    .hero-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:30px;
+    }
+
+    .hero-link,
+    .button {
+      display:inline-flex;
+      align-items:center;
+      padding:9px 13px;
+      border:1px solid var(--line);
+      color:#b8c0c9;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      letter-spacing:.04em;
+      transition:all .25s ease;
+    }
+
+    .hero-link:hover,
+    .button:hover {
+      color:#fff;
+      border-color:rgba(85,223,255,.42);
+      background:rgba(85,223,255,.035);
+    }
+
+    .button-primary {
+      border-color:rgba(85,223,255,.6);
+      color:#fff;
+      background:rgba(85,223,255,.08);
+    }
+
+    .button-secondary {
+      border-color:var(--line);
+    }
+
+    /* SECTIONS */
+
+    .section {
+      position:relative;
+      padding:86px 0;
+      border-bottom:1px solid var(--line-soft);
+    }
+
+    .section-header,
+    .section-heading {
+      margin-bottom:40px;
+    }
+
+    .section-number,
+    .section-kicker {
+      margin-bottom:13px;
+      color:var(--section-color,var(--auf-cyan));
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.15em;
+    }
+
+    .section-title,
+    .section-heading h2 {
+      margin:0;
+      font-size:clamp(28px,4vw,43px);
+      line-height:1.04;
+      letter-spacing:-.04em;
+    }
+
+    .section-intro,
+    .section-description,
+    .section-lead {
+      max-width:790px;
+      margin-top:16px;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    /* GRID & CARDS */
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+
+    .cards {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+
+    .card {
+      --card-color:var(--auf-cyan);
+      position:relative;
+      min-height:245px;
+      padding:29px;
+      background:var(--surface);
+      overflow:hidden;
+      transition:background .3s ease;
+    }
+
+    .card:hover {
+      background:var(--surface-2);
+    }
+
+    .card::before {
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:2px;
+      height:100%;
+      background:var(--card-color);
+      opacity:.75;
+    }
+
+    .card::after {
+      content:"";
+      position:absolute;
+      width:230px;
+      height:230px;
+      left:var(--card-x,50%);
+      top:var(--card-y,50%);
+      transform:translate(-50%,-50%);
+      background:
+        radial-gradient(circle,
+          color-mix(in srgb,var(--card-color) 10%,transparent),
+          transparent 68%);
+      opacity:0;
+      transition:opacity .3s ease;
+      pointer-events:none;
+    }
+
+    .card:hover::after {
+      opacity:1;
+    }
+
+    .card-id,
+    .card-number {
+      color:var(--card-color,var(--auf-cyan));
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.12em;
+    }
+
+    .card-title,
+    .card h3 {
+      margin:13px 0 10px;
+      font-size:20px;
+      line-height:1.15;
+      letter-spacing:-.025em;
+    }
+
+    .card-text,
+    .card p {
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.72;
+    }
+
+    .card-link {
+      position:absolute;
+      left:29px;
+      bottom:25px;
+      color:var(--card-color,var(--auf-cyan));
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.08em;
+    }
+
+    .formula {
+      margin-top:30px;
+      padding:28px;
+      overflow-x:auto;
+      background:#05070a;
+      border:1px solid var(--line);
+      border-radius:8px;
+      color:var(--green);
+      font-family:"Times New Roman",Georgia,serif;
+      font-size:clamp(1.2rem,3vw,2rem);
+    }
+
+    .status-grid {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:1px;
+      margin-top:45px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+
+    .status {
+      padding:22px;
+      background:var(--surface);
+    }
+
+    .status strong {
+      display:block;
+      color:var(--green);
+      font-size:9px;
+      letter-spacing:.12em;
+    }
+
+    .status span {
+      display:block;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .documents {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:1px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+
+    .document {
+      padding:28px;
+      background:var(--surface);
+    }
+
+    .document h3 {
+      margin-bottom:10px;
+    }
+
+    .document p {
+      color:var(--muted);
+    }
+
+    .document-meta {
+      margin-top:10px;
+      color:var(--dim);
+      font-size:.8rem;
+    }
+
+    .validation-box {
+      padding:35px;
+      border:1px solid rgba(230,199,106,.25);
+      border-radius:10px;
+      background:
+        linear-gradient(145deg,
+          rgba(230,199,106,.06),
+          rgba(255,255,255,.015));
+    }
+
+    .validation-box h3 {
+      color:var(--gold);
+    }
+
+    .validation-box p {
+      margin-top:15px;
+      color:var(--muted);
+    }
+
+    .archive-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:1px;
+      margin-top:25px;
+      background:var(--line);
+      border:1px solid var(--line);
+    }
+
+    .archive-link {
+      position:relative;
+      display:block;
+      min-height:130px;
+      padding:22px;
+      background:var(--surface);
+      overflow:hidden;
+      transition:background .2s ease;
+    }
+
+    .archive-link:hover {
+      background:var(--surface-2);
+    }
+
+    .archive-link strong {
+      display:block;
+      color:var(--text);
+      font-size:1rem;
+    }
+
+    .archive-link span {
+      display:block;
+      margin-top:7px;
+      color:var(--muted);
+      font-size:.85rem;
+    }
+
+    .support-box {
+      position:relative;
+      padding:42px;
+      border:1px solid rgba(99,230,190,.22);
+      background:
+        linear-gradient(135deg,
+          rgba(99,230,190,.055),
+          rgba(85,223,255,.025),
+          rgba(255,255,255,.012));
+      overflow:hidden;
+    }
+
+    .support-box::before {
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:1px;
+      background:linear-gradient(90deg,var(--auf-cyan),var(--auf-violet),var(--auf-magenta),transparent);
+    }
+
+    .support-label {
+      color:var(--green);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.16em;
+    }
+
+    .support-box h3 {
+      margin-top:12px;
+      font-size:clamp(25px,4vw,40px);
+      line-height:1.05;
+    }
+
+    .support-box p {
+      max-width:720px;
+      margin-top:15px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    .support-actions {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:25px;
+    }
+
+    .support-button {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:38px;
+      padding:9px 15px;
+      border:1px solid var(--line);
+      color:var(--text);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.08em;
+      transition:all .2s ease;
+    }
+
+    .support-button:hover {
+      border-color:rgba(99,230,190,.45);
+      background:rgba(99,230,190,.05);
+      color:#fff;
+    }
+
+    .author-section {
+      width:100%;
+      max-width:900px;
+      margin:70px auto 0;
+    }
+
+    .author-panel {
+      position:relative;
+      padding:32px;
+      border:1px solid rgba(99,230,190,.22);
+      background:
+        linear-gradient(135deg,
+          rgba(99,230,190,.055),
+          rgba(255,255,255,.018));
+    }
+
+    .author-panel h3 {
+      font-size:1.25rem;
+    }
+
+    .author-panel p {
+      margin-top:12px;
+      color:var(--muted);
+    }
+
+    .author-links {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:22px;
+    }
+
+    .author-link {
+      padding:9px 13px;
+      border:1px solid var(--line);
+      color:var(--text-soft);
+      font-size:.75rem;
+      transition:.2s ease;
+    }
+
+    .author-link:hover {
+      border-color:rgba(85,223,255,.35);
+      color:#fff;
+    }
+
+    footer {
+      padding:55px 0;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:.75rem;
+    }
+
+    .footer-row {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .reveal {
+      opacity:0;
+      transform:translateY(20px);
+      transition:
+        opacity .7s cubic-bezier(.22,1,.36,1),
+        transform .7s cubic-bezier(.22,1,.36,1);
+    }
+
+    .reveal.visible {
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* Support page */
+
+    .support-page {
+      padding:80px 0;
+    }
+
+    .support-container {
+      width:min(var(--max-width),calc(100% - 48px));
+      margin:0 auto;
+    }
+
+    .support-kicker {
+      color:var(--dim);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:10px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .support-title {
+      font-size:clamp(28px,4vw,42px);
+      letter-spacing:-.04em;
+      margin-bottom:16px;
+    }
+
+    .support-lead {
+      max-width:720px;
+      color:var(--muted);
+      line-height:1.8;
+      margin-bottom:32px;
+    }
+
+    .support-card {
+      padding:32px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--surface-2);
+      box-shadow:var(--shadow);
+      margin-bottom:40px;
+    }
+
+    .card-label {
+      color:var(--green);
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      font-size:9px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .support-card h3 {
+      font-size:22px;
+      margin-bottom:16px;
+    }
+
+    .support-card p {
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+
+    .donation-container {
+      margin-top:28px;
+      padding:24px;
+      border-radius:10px;
+      border:1px solid rgba(99,230,190,.35);
+      background:
+        linear-gradient(135deg,
+          rgba(99,230,190,.08),
+          rgba(85,223,255,.04),
+          rgba(255,255,255,.015));
+    }
+
+    .donation-title {
+      font-size:20px;
+      margin-bottom:18px;
+    }
+
+    .author-meta {
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .author-name {
+      color:var(--text);
+    }
+
+    .author-quote {
+      color:var(--text-soft);
+      font-style:italic;
+    }
+
+    .meta-label {
+      font-weight:600;
+      color:var(--dim);
+    }
+
+    .meta-link {
+      color:var(--auf-cyan);
+      text-decoration:none;
+    }
+
+    .meta-link:hover {
+      text-decoration:underline;
+    }
+
+    .framework-formulas {
+      margin:18px 0;
+      font-family:"Times New Roman",Georgia,serif;
+      color:var(--green);
+      font-size:1rem;
+    }
+
+    .framework-formulas div {
+      margin-bottom:6px;
+    }
+
+    .donation-description {
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+
+    .stripe-support {
+      margin:20px 0;
+    }
+
+    .payment-line {
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--dim);
+      font-size:.8rem;
+    }
+
+    .payment-dot {
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:var(--green);
+    }
+
+    .legal-notice {
+      margin-top:24px;
+      padding-top:16px;
+      border-top:1px solid var(--line-soft);
+      color:var(--muted);
+      font-size:.85rem;
+    }
+
+    .legal-notice strong {
+      display:block;
+      margin-bottom:10px;
+      color:var(--gold);
+      letter-spacing:.12em;
+      font-size:.8rem;
+    }
+
+    .system-signature {
+      margin-top:18px;
+      color:var(--dim);
+      font-size:.85rem;
+    }
+
+    .system-signature strong {
+      display:block;
+      margin-top:4px;
+      color:var(--text-soft);
+    }
+
+    .principles {
+      margin-top:40px;
+      padding:24px 0;
+      border-top:1px solid var(--line-soft);
+      border-bottom:1px solid var(--line-soft);
+    }
+
+    .principle {
+      display:flex;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .principle .number {
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:.8rem;
+      color:var(--dim);
+    }
+
+    .principle h3 {
+      font-size:1rem;
+      margin-bottom:6px;
+    }
+
+    .principle p {
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .support-footer {
+      margin-top:32px;
+      text-align:center;
+      color:var(--dim);
+      font-size:.85rem;
+    }
+
+    /* Responsive (basic) */
+
+    @media (max-width:900px) {
+      .grid,
+      .cards,
+      .status-grid,
+      .archive-grid,
+      .documents {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media (max-width:640px) {
+      .grid,
+      .cards,
+      .status-grid,
+      .archive-grid,
+      .documents {
+        grid-template-columns:1fr;
+      }
+
+      .site-nav {
+        flex-wrap:wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       SITE HEADER
+       ===================================================== -->
+  <header class="site-header">
+    <div class="site-nav">
+      <a href="#top" class="brand">
+        <span class="brand-auf">AUF</span><span class="brand-year">2026</span>
+      </a>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >
+        MENU
+      </button>
+    </div>
+
+    <div id="siteMenu" hidden></div>
+  </header>
+
+  <!-- =====================================================
+       MAIN NAV + REPOSITORY NAV
+       ===================================================== -->
+  <header>
+
+    <div class="container nav">
+
+      <a
+        href="#top"
+        class="brand"
+      >
+        <span>AUF</span>2026
+      </a>
+
+      <button
+        class="menu-button"
+        id="menuButtonSecondary"
+        aria-label="Open navigation"
+      >
+        MENU
+      </button>
+
+      <nav
+        class="nav-links"
+        id="navLinks"
+      >
+        <a href="#framework">Framework</a>
+        <a href="#theorems">Theorems</a>
+        <a href="#mathematics">Mathematics</a>
+        <a href="#verification">Lean</a>
+        <a href="#kernel">Kernel</a>
+        <a href="#applications">Applications</a>
+        <a href="#support">Donation</a>
+        <a href="#documents">Documents</a>
+        <a href="pages/index.html">Pages</a>
+        <a href="#author">Author</a>
+      </nav>
+
+    </div>
+
+    <div class="repository-navigation">
+      <div class="container">
+        <nav
+          class="repository-sections"
+          aria-label="Repository sections"
+        >
+          <a href="bibliography/index.html" class="repository-section-link">Bibliography</a>
+          <a href="code/index.html" class="repository-section-link">Code</a>
+          <a href="datasets/index.html" class="repository-section-link">Datasets</a>
+          <a href="docs/index.html" class="repository-section-link">Documents</a>
+          <a href="pages/index.html" class="repository-section-link">Pages</a>
+          <a href="papers/index.html" class="repository-section-link">Papers</a>
+          <a href="pdf/index.html" class="repository-section-link">PDF</a>
+          <a href="proofs/index.html" class="repository-section-link">Proofs</a>
+          <a href="validation/index.html" class="repository-section-link">Validation</a>
+        </nav>
+      </div>
+    </div>
+
+  </header>
+
+  <main id="top">
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+    <section class="hero">
+      <div class="container">
+        <p class="eyebrow">
+          AUF2026 · RESEARCH ARCHIVE
+        </p>
+
+        <h1>
+          Faure<br>
+          Framework
+        </h1>
+
+        <p class="hero-subtitle">
+          Mathematical structures, deterministic computation,
+          formal verification and reproducible research.
+          <br><br>
+          This repository provides the public technical archive
+          for the AUF2026 research program.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="#framework">
+            Explore Framework
+          </a>
+          <a class="button button-secondary" href="#verification">
+            Formal Verification
+          </a>
+          <a
+            class="button button-secondary"
+            href="https://github.com/AUF2026"
+            target="_blank"
+            rel="noopener"
+          >
+            Research Repository
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         FRAMEWORK
+         ===================================================== -->
+    <section id="framework">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            01 · ARCHITECTURE
+          </p>
+          <h2>
+            Universal structural framework
+          </h2>
+          <p class="section-description">
+            The AUF2026 archive organizes the Faure research
+            framework into mathematical definitions,
+            operators, relations, observables, formal proofs,
+            computational implementations and application
+            protocols.
+          </p>
+        </div>
+
+        <div class="grid">
+
+          <article class="card">
+            <span class="card-number">F01</span>
+            <h3>Universal Kernel</h3>
+            <p>
+              The structural kernel is represented by the
+              six-component tuple
+              U_F = (M, G, A, Ψ, Λ, Π).
+            </p>
+            <a class="card-link" href="#kernel">
+              Kernel →
+            </a>
+          </article>
+
+          <article class="card">
+            <span class="card-number">F02</span>
+            <h3>Structural Independence</h3>
+            <p>
+              Component-removal tests are documented using
+              explicit finite models and formal propositions.
+            </p>
+            <a class="card-link" href="#verification">
+              Verification →
+            </a>
+          </article>
+
+          <article class="card">
+            <span class="card-number">F03</span>
+            <h3>Spectral Structure</h3>
+            <p>
+              The archive documents the Ψ₉ construction,
+              the idempotent P₉ and the associated
+              finite-dimensional decomposition.
+            </p>
+            <a class="card-link" href="#mathematics">
+              Mathematics →
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         RESEARCH CARDS (THEORY / FORMAL / COMPUTATION)
+         ===================================================== -->
+    <section class="section" style="--section-color:var(--auf-cyan);">
+      <div class="container">
+
+        <header class="section-header reveal">
+          <div class="section-number">
+            01B / CORE MATERIAL
+          </div>
+          <h2 class="section-title">
+            Core research material
+          </h2>
+          <p class="section-intro">
+            The AUF2026 archive separates mathematical theory,
+            formal verification and computational material into
+            dedicated sections, each with its own parser and
+            viewer.
+          </p>
+        </header>
+
+        <div class="cards">
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-cyan);"
+          >
+            <span class="card-id">
+              THEORY
+            </span>
+            <h3 class="card-title">
+              Mathematical foundations
+            </h3>
+            <p class="card-text">
+              Definitions, constructions, propositions,
+              mathematical structures and theoretical
+              documentation.
+            </p>
+            <a
+              class="card-link"
+              href="docs/index.html"
+            >
+              OPEN DOCUMENTATION →
+            </a>
+          </article>
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-violet);"
+          >
+            <span class="card-id">
+              FORMAL
+            </span>
+            <h3 class="card-title">
+              Proof and verification
+            </h3>
+            <p class="card-text">
+              Formal proof material, Lean sources and
+              verification records associated with the
+              mathematical framework.
+            </p>
+            <a
+              class="card-link"
+              href="proofs/index.html"
+            >
+              OPEN PROOFS →
+            </a>
+          </article>
+
+          <article
+            class="card reveal"
+            style="--card-color: var(--auf-magenta);"
+          >
+            <span class="card-id">
+              COMPUTATION
+            </span>
+            <h3 class="card-title">
+              Reproducible computation
+            </h3>
+            <p class="card-text">
+              Source code, datasets, computational experiments
+              and machine-readable research material.
+            </p>
+            <a
+              class="card-link"
+              href="code/index.html"
+            >
+              OPEN CODE →
+            </a>
+          </article>
+
+        </div>
+
+        <div class="formula reveal">
+          AUF : mathematical structure → formal system → computation → validation
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         RESEARCH
+         ===================================================== -->
+    <section
+      id="research"
+      class="section"
+      style="--section-color: var(--auf-violet);"
+    >
+      <div class="container">
+        <header class="section-header reveal">
+          <div class="section-number">
+            02 / RESEARCH
+          </div>
+          <h2 class="section-title">
+            Research corpus
+          </h2>
+          <p class="section-intro">
+            The repository is divided into dedicated research
+            domains. Each directory can contain arbitrary
+            subdirectories and files and is exposed through its
+            own parser or viewer.
+          </p>
+        </header>
+
+        <div id="repositoryArchive" class="archive-grid reveal">
+          <!-- auto-populated via GitHub API -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         THEOREMS
+         ===================================================== -->
+    <section
+      id="theorems"
+      class="scientific-scope section"
+    >
+      <div class="container">
+        <div class="section-heading">
+          <div class="section-kicker">
+            Theorem Registry
+          </div>
+          <h2>
+            Faure Theorems
+          </h2>
+        </div>
+
+        <p class="section-lead">
+          Public theorem names use the descriptive Faure Theorem
+          nomenclature. Internal identifiers T1, T2, T3 ... are retained
+          exclusively for repository traceability and do not constitute
+          public theorem numbering.
+        </p>
+
+        <div class="validation-banner">
+          <p>
+            Each theorem is tracked independently through the complete
+            evidence chain:
+            statement → definitions → assumptions → dependencies →
+            formalization → Lean verification → prior-art comparison →
+            mathematical distinction → validation status.
+          </p>
+          <p>
+            Formal verification, bibliographic priority, mathematical
+            originality and application validity are recorded as separate
+            evidentiary dimensions.
+          </p>
+        </div>
+
+        <div
+          class="scope-links"
+          id="theoremRegistryLinks"
+        ></div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         MATHEMATICS
+         ===================================================== -->
+    <section id="mathematics">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            03 · MATHEMATICAL CORE
+          </p>
+          <h2>
+            Mathematical structures
+          </h2>
+          <p class="section-description">
+            Core objects currently documented in the AUF2026
+            research material.
+          </p>
+        </div>
+
+        <div class="formula">
+          U<sub>F</sub>
+          =
+          (M, G, A, Ψ, Λ, Π)
+          <br><br>
+          P<sub>9</sub>
+          =
+          Ψ<sub>9</sub><sup>4</sup>
+          <br><br>
+          P<sub>9</sub><sup>2</sup>
+          =
+          P<sub>9</sub>
+          <br><br>
+          V<sub>0</sub>
+          =
+          ker(Ψ<sub>9</sub><sup>4</sup>)
+          ⊕
+          ker(I − Ψ<sub>9</sub>)
+        </div>
+
+        <div class="grid" style="margin-top:25px;">
+
+          <article class="card">
+            <span class="card-number">
+              M01
+            </span>
+            <h3>
+              Arithmetic lattice
+            </h3>
+            <p>
+              L = Z<sup>(P)</sup> and its relation with
+              prime factorization and the logarithmic embedding.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              M02
+            </span>
+            <h3>
+              Subspace lattice
+            </h3>
+            <p>
+              Documentation of the non-distributive structure
+              of P(V) for dim V ≥ 2.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              M03
+            </span>
+            <h3>
+              Measure Gate
+            </h3>
+            <p>
+              Formal documentation of the measure conditions
+              and the associated density operator construction.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 03B · SCIENTIFIC SCOPE & BIBLIOGRAPHIC NOVELTY -->
+    <section id="scientific-scope" class="section scientific-scope">
+      <div class="container">
+        <div class="section-kicker">
+          03B · SCIENTIFIC SCOPE
+        </div>
+
+        <div class="section-heading">
+          <h2>Foundational architecture and claim-by-claim validation</h2>
+          <p class="section-lead">
+            The AUF2026 research archive documents a mathematical-computational
+            foundational research program whose central architecture connects
+            the primordial Faure object F, the Universal Faure Tuple U_F,
+            AOS144, spectral structures, arithmetic lattices, measure structures,
+            formal verification and application models.
+          </p>
+        </div>
+
+        <div class="scope-equation">
+          <code>
+            K_min → F → U_F → AOS144 → N_F → μ_F → L_F → ⊥_F → Born
+          </code>
+        </div>
+
+        <div class="scope-equation secondary">
+          <code>
+            F → Ψ → Ψ⁴ ≡ Ψ⁵ → P₉ → representation / witness elimination
+          </code>
+        </div>
+
+        <div class="scope-grid">
+
+          <article class="scope-card">
+            <span class="scope-id">S01</span>
+            <h3>Foundational architecture</h3>
+            <p>
+              The public corpus records an explicit dependency architecture
+              connecting multiple mathematical structures rather than presenting
+              the research as a single isolated theorem.
+            </p>
+          </article>
+
+          <article class="scope-card">
+            <span class="scope-id">S02</span>
+            <h3>Formal verification</h3>
+            <p>
+              Formal claims are linked to Lean artifacts, declared environments,
+              theorem dependencies and reproducibility records.
+            </p>
+          </article>
+
+          <article class="scope-card">
+            <span class="scope-id">S03</span>
+            <h3>Bibliographic comparison</h3>
+            <p>
+              Each substantive claim is compared independently against the closest
+              mathematical prior art, including hypotheses, construction,
+              derivation, conclusion and generality.
+            </p>
+          </article>
+
+          <article class="scope-card">
+            <span class="scope-id">S04</span>
+            <h3>Independent evidence axes</h3>
+            <p>
+              Mathematical originality, derivation novelty, generality, semantic
+              correctness, computational performance and application validity are
+              maintained as separate validation dimensions.
+            </p>
+          </article>
+
+        </div>
+
+        <div class="validation-banner">
+          <strong>Current scientific classification</strong>
+          <p>
+            The AUF2026 corpus supports the description
+            <strong>mathematical-computational foundational research program</strong>.
+            At the architectural level, the project presents a
+            <strong>foundational + paradigmatic</strong> research architecture.
+          </p>
+          <p>
+            This architectural classification is maintained separately from
+            claim-specific mathematical novelty, formal correctness, semantic
+            correspondence, computational performance, empirical validation and
+            external acceptance.
+          </p>
+        </div>
+
+        <div class="scope-links">
+          <a href="docs/CLAIMS.md" class="archive-link">
+            Claim-by-Claim Validation Matrix →
+          </a>
+          <a href="docs/CORE-GENEALOGY.md" class="archive-link">
+            Core Genealogy →
+          </a>
+          <a href="docs/BIBLIOGRAPHIC-NOVELTY-MATRIX.md" class="archive-link">
+            Bibliographic Novelty Matrix →
+          </a>
+          <a href="docs/RESEARCH-REGISTER.md" class="archive-link">
+            Research Register →
+          </a>
+        </div>
+
+        <div class="scope-note">
+          <strong>Research rule:</strong>
+          the absence of a bibliographic match is not treated as a global
+          mathematical novelty certificate. Every result receives its own
+          evidence state and comparison record.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         FORMAL VERIFICATION
+         ===================================================== -->
+    <section id="verification" class="math-section section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            04 · FORMAL VERIFICATION
+          </p>
+          <h2>
+            Lean 4 verification
+          </h2>
+          <p class="section-description">
+            Formal verification artifacts are separated from
+            explanatory prose. Source files, dependencies,
+            compiler versions and reproducibility information
+            will be archived in the repository.
+          </p>
+        </div>
+
+        <div class="validation-box">
+          <h3>
+            Verification protocol
+          </h3>
+          <p>
+            Every formal claim should identify its exact
+            proposition, assumptions, source file, Lean version,
+            Mathlib revision and compilation status.
+          </p>
+          <p>
+            A formal proof artifact establishes what is proved
+            inside the stated formal system. Broader scientific
+            interpretations are documented separately.
+          </p>
+          <code>
+            Lean 4 · Mathlib · reproducible source · proof artifact
+          </code>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         COMPUTATIONAL KERNEL
+         ===================================================== -->
+    <section id="kernel" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            05 · COMPUTATIONAL KERNEL
+          </p>
+          <h2>
+            AUF2026 / AOS configurations
+          </h2>
+          <p class="section-description">
+            Computational configurations are treated as
+            explicit parameterizations of the framework.
+            Configuration identifiers are documented independently
+            from the mathematical kernel.
+          </p>
+        </div>
+
+        <div class="grid">
+
+          <article class="card">
+            <span class="card-number">
+              K01
+            </span>
+            <h3>
+              AOS V1.0
+            </h3>
+            <p>
+              Base configuration documented in the research archive.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              K02
+            </span>
+            <h3>
+              AOS120
+            </h3>
+            <p>
+              Configuration identified by its computational
+              precision or task specification.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              K03
+            </span>
+            <h3>
+              AOS250
+            </h3>
+            <p>
+              Configuration maintained as an explicit
+              parameterized computational setup.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              K04
+            </span>
+            <h3>
+              AOS600
+            </h3>
+            <p>
+              High-precision configuration documented separately
+              from other computational instances.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         APPLICATIONS
+         ===================================================== -->
+    <section id="applications" class="math-section section">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow">
+            06 · APPLICATIONS
+          </p>
+          <h2>
+            Application research
+          </h2>
+          <p class="section-description">
+            Applications are documented as independently
+            testable computational or mathematical propositions.
+          </p>
+        </div>
+
+        <div class="grid">
+
+          <article class="card">
+            <span class="card-number">
+              A01
+            </span>
+            <h3>
+              Formal mathematics
+            </h3>
+            <p>
+              Automated and machine-checkable mathematical
+              structures and proof workflows.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              A02
+            </span>
+            <h3>
+              Deterministic computation
+            </h3>
+            <p>
+              Reproducible computational configurations and
+              exact verification protocols.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              A03
+            </span>
+            <h3>
+              Scientific computing
+            </h3>
+            <p>
+              Numerical structures, operators and reproducibility
+              benchmarks.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              A04
+            </span>
+            <h3>
+              Verification infrastructure
+            </h3>
+            <p>
+              Evidence archives connecting source code,
+              mathematical claims and executable proofs.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              A05
+            </span>
+            <h3>
+              Research reproducibility
+            </h3>
+            <p>
+              Versioned datasets, source code, hashes and
+              reproducible computational environments.
+            </p>
+          </article>
+
+          <article class="card">
+            <span class="card-number">
+              A06
+            </span>
+            <h3>
+              Industrial proof-of-concept
+            </h3>
+            <p>
+              Application-specific experiments can be connected
+              to measurable technical requirements.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         DOCUMENTS · RESEARCH ARCHIVE
+         ===================================================== -->
+    <section
+      id="documents"
+      class="scientific-scope research-archive-section section"
+    >
+      <div class="container">
+        <div class="section-heading">
+          <p class="section-kicker">
+            07 · RESEARCH ARCHIVE
+          </p>
+          <h2>
+            Documents, evidence & research record
+          </h2>
+          <p class="section-lead">
+            The AUF2026 research archive connects the public research
+            website with the version-controlled mathematical, formal,
+            computational and bibliographic corpus maintained in the
+            repository.
+          </p>
+          <p class="section-lead">
+            Research documents are rendered through the AUF2026 Archive
+            Reader rather than displayed as raw Markdown files. Repository
+            directories remain directly traceable to their version-controlled
+            source.
+          </p>
+        </div>
+
+        <div class="documents">
+
+          <article class="document">
+            <div class="scope-id">
+              RESEARCH MANUSCRIPTS
+            </div>
+            <h3>
+              Research manuscripts
+            </h3>
+            <p>
+              Canonical articles, theoretical manuscripts and technical
+              research documents forming the written mathematical corpus.
+            </p>
+            <div class="document-meta">
+              Papers · Canonical research sources
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/papers"
+              target="_blank"
+              rel="noopener"
+            >
+              Open papers archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              FORMAL MATHEMATICS
+            </div>
+            <h3>
+              Formal proofs
+            </h3>
+            <p>
+              Lean 4 source files, formal theorem developments and
+              associated proof artifacts supporting the mathematical corpus.
+            </p>
+            <div class="document-meta">
+              Proofs · Lean formalization
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/proofs"
+              target="_blank"
+              rel="noopener"
+            >
+              Open proofs archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              REPRODUCIBILITY
+            </div>
+            <h3>
+              Validation
+            </h3>
+            <p>
+              Independent checks, validation records, reproducibility
+              material, benchmarks and supporting verification evidence.
+            </p>
+            <div class="document-meta">
+              Validation · Reproduction records
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/validation"
+              target="_blank"
+              rel="noopener"
+            >
+              Open validation archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              PRIOR ART
+            </div>
+            <h3>
+              Bibliography
+            </h3>
+            <p>
+              References, prior mathematical literature, bibliographic
+              provenance and claim-level comparison with existing results.
+            </p>
+            <div class="document-meta">
+              Bibliography · Prior-art analysis
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/bibliography"
+              target="_blank"
+              rel="noopener"
+            >
+              Open bibliography archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              COMPUTATIONAL DATA
+            </div>
+            <h3>
+              Datasets
+            </h3>
+            <p>
+              Computational datasets, provenance records, versions and
+              experimental material associated with the research corpus.
+            </p>
+            <div class="document-meta">
+              Datasets · Provenance · Experiments
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/datasets"
+              target="_blank"
+              rel="noopener"
+            >
+              Open datasets archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              COMPUTATIONAL IMPLEMENTATION
+            </div>
+            <h3>
+              Source code
+            </h3>
+            <p>
+              Computational implementations, dependencies, execution
+              instructions and expected outputs associated with the
+              research and validation workflow.
+            </p>
+            <div class="document-meta">
+              Code · Implementations · Environments
+            </div>
+            <a
+              class="card-link"
+              href="https://github.com/AUF2026/AUF2026.github.io/tree/main/code"
+              target="_blank"
+              rel="noopener"
+            >
+              Open code archive →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              RESEARCH DOCUMENTATION
+            </div>
+            <h3>
+              Documentation
+            </h3>
+            <p>
+              Technical specifications, research protocols, corpus maps,
+              registries, source manifests and archival documentation.
+            </p>
+            <div class="document-meta">
+              Documentation · Research infrastructure
+            </div>
+            <a
+              class="card-link"
+              href="archive.html?doc=README.md"
+            >
+              Open documentation →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              CENTRAL REGISTRY
+            </div>
+            <h3>
+              Research Register
+            </h3>
+            <p>
+              Central registry connecting claims, theorems, manuscripts,
+              proofs, experiments, validation records and applications
+              throughout the AUF2026 corpus.
+            </p>
+            <div class="document-meta">
+              Research Register · Claim traceability
+            </div>
+            <a
+              class="card-link"
+              href="archive.html?doc=RESEARCH-REGISTER.md"
+            >
+              Open research register →
+            </a>
+          </article>
+
+          <article class="document">
+            <div class="scope-id">
+              ARCHIVE ARCHITECTURE
+            </div>
+            <h3>
+              Archive Map
+            </h3>
+            <p>
+              Complete map connecting the public AUF2026 website with
+              the version-controlled research repository and its
+              mathematical, formal, computational and bibliographic layers.
+            </p>
+            <div class="document-meta">
+              Archive Map · Repository architecture
+            </div>
+            <a
+              class="card-link"
+              href="archive.html?doc=ARCHIVE-MAP.md"
+            >
+              Open archive map →
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         AUTHOR / IDENTITY
+         ===================================================== -->
+    <section id="author" class="section">
+      <div class="container">
+
+        <div class="scope-card">
+          <div class="scope-id">
+            REPOSITORY IDENTITY
+          </div>
+          <h3>
+            AUF2026
+          </h3>
+          <p>
+            Public research repository and archival namespace used for
+            source, proof, validation and bibliographic traceability.
+          </p>
+        </div>
+
+        <div class="validation-banner">
+          <div class="scope-id">
+            BIBLIOGRAPHIC DISAMBIGUATION
+          </div>
+          <h3>
+            Author Identity & Attribution
+          </h3>
+          <p>
+            The author identity record is intended to distinguish the
+            AUF2026 author from other individuals sharing the surname
+            Faure or related name variants in bibliographic databases,
+            repositories and scientific indexes.
+          </p>
+          <p>
+            Bibliographic attribution should therefore be established from
+            the combination of author name, persistent identifier,
+            repository provenance, associated mathematical corpus and
+            documented publication or archival records rather than from
+            surname matching alone.
+          </p>
+          <div class="scope-links" id="authorRegistryLinks"></div>
+        </div>
+
+        <div class="scope-card">
+          <div class="scope-id">
+            RESEARCH ATTRIBUTION
+          </div>
+          <h3>
+            Mathematical and Formal Corpus
+          </h3>
+          <p>
+            The AUF2026 archive associates the author identity with
+            mathematical statements, theorem records, formal proofs,
+            Lean artifacts, computational experiments, datasets,
+            validation records and archival source documents.
+            Each component is independently traceable within the
+            repository.
+          </p>
+          <div class="scope-links">
+            <a
+              class="archive-link"
+              href="https://github.com/AUF2026"
+              target="_blank"
+              rel="noopener"
+            >
+              AUF2026 GitHub →
+            </a>
+            <a
+              class="archive-link"
+              href="https://orcid.org/0009-0009-5333-1181"
+              target="_blank"
+              rel="noopener"
+            >
+              ORCID Record →
+            </a>
+          </div>
+        </div>
+
+        <div class="scope-note">
+          <strong>Identity principle.</strong>
+          The author identity record establishes bibliographic attribution
+          and disambiguation. It does not itself establish the correctness,
+          originality or validity of any individual mathematical claim.
+          Those properties are evaluated separately through the corresponding
+          theorem, proof, validation and bibliographic evidence chains.
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         SUPPORT THE RESEARCH
+         ===================================================== -->
+    <section
+      id="support"
+      class="support-page"
+    >
+      <main class="support-container">
+
+        <div class="support-kicker">
+          AUF2026 · INDEPENDENT RESEARCH
+        </div>
+
+        <h2 class="support-title">
+          Support the Research
+        </h2>
+
+        <p class="support-lead">
+          AUF2026 is freely accessible and developed as an
+          independent mathematical research, formalization
+          and archival project.
+        </p>
+
+        <section class="support-card">
+
+          <div class="card-label">
+            RESEARCH SUPPORT
+          </div>
+
+          <h3>
+            Help keep the research public.
+          </h3>
+
+          <p>
+            The archive, mathematical statements, formal proofs,
+            computational experiments, datasets and documentation
+            are made available openly.
+          </p>
+
+          <p>
+            I am currently developing and maintaining the project
+            independently. Voluntary financial support helps provide
+            the time and infrastructure required to maintain,
+            formalize and expand the research.
+          </p>
+
+          <p>
+            There is no paywall and no requirement to contribute.
+            The research remains freely accessible regardless of
+            whether you support it.
+          </p>
+
+          <div
+            id="faure-framework-donation-block"
+            class="donation-container"
+          >
+
+            <h3 class="donation-title">
+              Support the U_F Structural Framework
+            </h3>
+
+            <div class="author-meta">
+              <strong class="author-name">
+                Alain Faure — Master Architect - Q.E.D.
+              </strong>
+              <br>
+              <span class="author-quote">
+                “First the data speak. Then, through the data, Alain Faure speaks.”
+              </span>
+              <br><br>
+              <span class="meta-label">
+                ORCID:
+              </span>
+              <a
+                href="https://orcid.org/0009-0009-5333-1181"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="meta-link"
+              >
+                0009-0009-5333-1181
+              </a>
+              <br>
+              <span class="meta-label">
+                GitHub:
+              </span>
+              <a
+                href="https://github.com/AUF2026"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="meta-link"
+              >
+                AUF2026
+              </a>
+              <br>
+              <span class="meta-label">
+                LinkedIn:
+              </span>
+              <a
+                href="https://www.linkedin.com/in/alain-faure-ge/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="meta-link"
+              >
+                alain-faure-ge
+              </a>
+            </div>
+
+            <div class="framework-formulas">
+              <div>
+                𝓕(A, A′, S, S′, R, R′, T, φ)
+              </div>
+              <div>
+                U<sub>F</sub>(M, G, A, Ψ, Λ, Π)
+              </div>
+            </div>
+
+            <p class="donation-description">
+              Financial contributions made through this channel are
+              intended exclusively to support independent research,
+              data reproducibility and formal validation in Lean 4
+              Core carried out within the AUF2026 research project.
+            </p>
+
+            <p class="donation-description">
+              Contributions are voluntary. They do not purchase
+              access to the research archive and do not confer
+              ownership of the mathematical framework, source code,
+              proofs or associated intellectual property.
+            </p>
+
+            <div class="stripe-support">
+              <script
+                async
+                src="https://js.stripe.com/v3/buy-button.js"
+              ></script>
+
+              <stripe-buy-button
+                buy-button-id="buy_btn_1UHU1vBkPXKw3Sx9dCHjlvQW"
+                publishable-key="pk_live_51UHRz9BkPXKw3Sx9YAfBJo2h9Uwcek14QWdoljUXC5FOTUn70yGTwCbuJfa75NL0wajCjiSQAY1AD7Dm3oT6YlQi00YzUZ5jNo"
+              >
+              </stripe-buy-button>
+            </div>
+
+            <div class="payment-line">
+              <span class="payment-dot"></span>
+              Secure payment · Voluntary support · Public research
+            </div>
+
+            <div class="legal-notice">
+              <strong>
+                LEGAL INFORMATION
+              </strong>
+              <p>
+                Contributions made through this channel are
+                voluntary payments intended to support the
+                independent AUF2026 research project.
+              </p>
+              <p>
+                A contribution does not by itself confer any
+                intellectual property right, ownership interest,
+                commercial licence, technical assistance,
+                consultancy or other contractual counter-performance.
+              </p>
+              <p>
+                The legal and tax treatment of any contribution
+                depends on the applicable law and the circumstances
+                of the individual transaction. This information
+                does not constitute legal or tax advice.
+              </p>
+            </div>
+
+            <div class="system-signature">
+              <em>
+                Research infrastructure:
+              </em>
+              <strong>
+                AUF2026 · Mathematical &amp; Formal Research Archive
+              </strong>
+            </div>
+
+          </div>
+
+        </section>
+
+        <section class="principles">
+
+          <div class="principle">
+            <div class="number">
+              01
+            </div>
+            <div>
+              <h3>
+                Free access
+              </h3>
+              <p>
+                The research archive remains publicly accessible
+                whether or not a visitor contributes.
+              </p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <div class="number">
+              02
+            </div>
+            <div>
+              <h3>
+                Independent research
+              </h3>
+              <p>
+                Financial support does not determine theorem status,
+                proof validity, bibliographic attribution or research
+                conclusions.
+              </p>
+            </div>
+          </div>
+
+          <div class="principle">
+            <div class="number">
+              03
+            </div>
+            <div>
+              <h3>
+                Direct support
+              </h3>
+              <p>
+                Contributions are voluntary and help support the
+                continued development and maintenance of AUF2026.
+              </p>
+            </div>
+          </div>
+
+        </section>
+
+        <div class="support-footer">
+          AUF2026 · Independent Mathematical Research Archive
+        </div>
+
+      </main>
+    </section>
+
+  </main>
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <span>AUF2026 · Faure Framework · Mathematical & Formal Research Archive</span>
+        <span>Repository: <a href="https://github.com/AUF2026/AUF2026.github.io" target="_blank" rel="noopener">AUF2026.github.io</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       AUF2026 — REPOSITORY CONFIGURATION (CONTENTS API)
+       ========================================================= */
+
+    const GITHUB_OWNER = "AUF2026";
+    const GITHUB_REPOSITORY = "AUF2026.github.io";
+
+    const GITHUB_CONTENTS_API =
+      "https://api.github.com/repos/" +
+      GITHUB_OWNER +
+      "/" +
+      GITHUB_REPOSITORY +
+      "/contents/";
+
+    /* =========================================================
+       STATE
+       ========================================================= */
+
+    let repositoryDirectories = [];
+
+    /* =========================================================
+       DOM
+       ========================================================= */
+
+    const menuButton = document.getElementById("menuButton");
+    const siteMenu = document.getElementById("siteMenu");
+    const repositoryArchive = document.getElementById("repositoryArchive");
+
+    /* =========================================================
+       MENU TOGGLE
+       ========================================================= */
+
+    function setMenuState(open) {
+      if (!menuButton || !siteMenu) return;
+
+      menuButton.setAttribute("aria-expanded", String(open));
+      siteMenu.hidden = !open;
+      menuButton.textContent = open ? "CLOSE" : "MENU";
+    }
+
+    function toggleMenu() {
+      if (!menuButton || !siteMenu) return;
+
+      const isOpen =
+        menuButton.getAttribute("aria-expanded") === "true";
+
+      setMenuState(!isOpen);
+    }
+
+    if (menuButton) {
+      menuButton.addEventListener("click", toggleMenu);
+    }
+
+    /* =========================================================
+       GITHUB CONTENTS REQUEST
+       ========================================================= */
+
+    async function fetchRepositoryContents() {
+      try {
+        const response = await fetch(GITHUB_CONTENTS_API, {
+          method: "GET",
+          cache: "no-cache",
+          headers: {
+            "Accept": "application/vnd.github+json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            "GitHub API returned HTTP " + response.status
+          );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid GitHub contents response.");
+        }
+
+        return data;
+      } catch (error) {
+        console.error("AUF2026 repository contents:", error);
+        return [];
+      }
+    }
+
+    /* =========================================================
+       DIRECTORY FILTER
+       ========================================================= */
+
+    function normalizeDirectories(contents) {
+      repositoryDirectories =
+        contents
+          .filter(item => item && item.type === "dir")
+          .map(item => ({
+            name: item.name,
+            path: item.path,
+            url: item.html_url || null
+          }));
+    }
+
+    /* =========================================================
+       SECTION METADATA
+       ========================================================= */
+
+    const SECTION_META = {
+      bibliography: {
+        label: "Bibliography",
+        description: "Bibliographic records and references.",
+        color: "#55dfff"
+      },
+      code: {
+        label: "Code",
+        description: "Computational source and implementations.",
+        color: "#8b7cff"
+      },
+      datasets: {
+        label: "Datasets",
+        description: "Research data and machine-readable resources.",
+        color: "#63e6be"
+      },
+      docs: {
+        label: "Documentation",
+        description: "Scientific documentation and Markdown material.",
+        color: "#6ea8ff"
+      },
+      pages: {
+        label: "Pages",
+        description: "HTML research pages and internal interfaces.",
+        color: "#ff4fd8"
+      },
+      papers: {
+        label: "Papers",
+        description: "Research papers and scientific publications.",
+        color: "#e6c76a"
+      },
+      pdf: {
+        label: "PDF",
+        description: "PDF documents and publication material.",
+        color: "#ff7070"
+      },
+      proofs: {
+        label: "Proofs",
+        description: "Formal proofs and verification resources.",
+        color: "#63e6be"
+      },
+      validation: {
+        label: "Validation",
+        description: "Validation records and reproducibility material.",
+        color: "#6ea8ff"
+      }
+    };
+
+    function getSectionMeta(directory) {
+      if (SECTION_META[directory]) {
+        return SECTION_META[directory];
+      }
+
+      return {
+        label:
+          directory
+            .replace(/[-_]+/g, " ")
+            .replace(/\b\w/g, char => char.toUpperCase()),
+        description: "Repository research section.",
+        color: "#55dfff"
+      };
+    }
+
+    function getDirectoryURL(directory) {
+      return directory + "/index.html";
+    }
+
+    /* =========================================================
+       CREATE MENU ITEM
+       ========================================================= */
+
+    function createMenuItem(directory) {
+      const meta = getSectionMeta(directory.name);
+
+      const link = document.createElement("a");
+      link.className = "site-menu-item";
+      link.href = getDirectoryURL(directory.name);
+      link.style.setProperty("--menu-color", meta.color);
+
+      const id = document.createElement("span");
+      id.className = "site-menu-id";
+      id.textContent = directory.name.toUpperCase();
+
+      const name = document.createElement("span");
+      name.className = "site-menu-name";
+      name.textContent = meta.label;
+
+      const description = document.createElement("span");
+      description.className = "site-menu-description";
+      description.textContent = meta.description;
+
+      link.appendChild(id);
+      link.appendChild(name);
+      link.appendChild(description);
+
+      return link;
+    }
+
+    /* =========================================================
+       BUILD MAIN MENU
+       ========================================================= */
+
+    function renderRepositoryMenu() {
+      if (!siteMenu) return;
+
+      siteMenu.innerHTML = "";
+
+      const panel = document.createElement("div");
+      panel.className = "site-menu-panel";
+
+      if (!repositoryDirectories.length) {
+        const empty = document.createElement("div");
+        empty.className = "site-menu-item";
+        empty.textContent = "No repository directories found.";
+        panel.appendChild(empty);
+      } else {
+        repositoryDirectories.forEach(directory => {
+          panel.appendChild(createMenuItem(directory));
+        });
+      }
+
+      siteMenu.appendChild(panel);
+    }
+
+    /* =========================================================
+       ARCHIVE ITEM
+       ========================================================= */
+
+    function createArchiveItem(directory) {
+      const meta = getSectionMeta(directory.name);
+
+      const link = document.createElement("a");
+      link.className = "archive-link";
+      link.href = getDirectoryURL(directory.name);
+      link.style.setProperty("--archive-color", meta.color);
+
+      const title = document.createElement("strong");
+      title.textContent = meta.label;
+
+      const description = document.createElement("span");
+      description.textContent =
+        "Open section parser · " + directory.name + "/";
+
+      link.appendChild(title);
+      link.appendChild(description);
+
+      return link;
+    }
+
+    /* =========================================================
+       RENDER ARCHIVE SECTIONS
+       ========================================================= */
+
+    function renderRepositoryArchive() {
+      if (!repositoryArchive) return;
+
+      repositoryArchive.innerHTML = "";
+
+      if (!repositoryDirectories.length) {
+        const empty = document.createElement("div");
+        empty.className = "archive-link";
+        empty.textContent = "No repository directories discovered.";
+        repositoryArchive.appendChild(empty);
+        return;
+      }
+
+      repositoryDirectories.forEach(directory => {
+        repositoryArchive.appendChild(
+          createArchiveItem(directory)
+        );
+      });
+    }
+
+    /* =========================================================
+       INITIALIZE REPOSITORY
+       ========================================================= */
+
+    async function initializeRepository() {
+      try {
+        const contents = await fetchRepositoryContents();
+        normalizeDirectories(contents);
+        renderRepositoryMenu();
+        renderRepositoryArchive();
+
+        document.documentElement
+          .setAttribute("data-repository", "ready");
+      } catch (error) {
+        console.error("AUF2026 repository discovery:", error);
+
+        if (siteMenu) {
+          siteMenu.innerHTML = `
+            <div class="site-menu-panel">
+              <div
+                class="site-menu-item"
+                style="--menu-color:#ff7070;"
+              >
+                <span class="site-menu-id">
+                  REPOSITORY ERROR
+                </span>
+                <span class="site-menu-name">
+                  GitHub API unavailable
+                </span>
+                <span class="site-menu-description">
+                  The static interface remains available.
+                </span>
+              </div>
+            </div>
+          `;
+        }
+      }
+    }
+
+    /* =========================================================
+       REVEAL ANIMATION
+       ========================================================= */
+
+    function initializeReveal() {
+      const elements = document.querySelectorAll(".reveal");
+
+      if (!elements.length) return;
+
+      if (!("IntersectionObserver" in window)) {
+        elements.forEach(element => {
+          element.classList.add("visible");
+        });
+        return;
+      }
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: .08,
+          rootMargin: "0px 0px -30px 0px"
+        }
+      );
+
+      elements.forEach(element => {
+        observer.observe(element);
+      });
+    }
+
+    /* =========================================================
+       CARD POINTER EFFECT
+       ========================================================= */
+
+    function initializeCardEffects() {
+      const cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        card.addEventListener("pointermove", event => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          const px = (x / rect.width) * 100;
+          const py = (y / rect.height) * 100;
+
+          card.style.setProperty("--card-x", px + "%");
+          card.style.setProperty("--card-y", py + "%");
+        });
+
+        card.addEventListener("pointerleave", () => {
+          card.style.setProperty("--card-x", "50%");
+          card.style.setProperty("--card-y", "50%");
+        });
+      });
+    }
+
+    /* =========================================================
+       KEYBOARD MENU CONTROL
+       ========================================================= */
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        setMenuState(false);
+      }
+    });
+
+    /* =========================================================
+       CLOSE MENU AFTER INTERNAL NAVIGATION
+       ========================================================= */
+
+    document.addEventListener("click", event => {
+      const target = event.target.closest("a");
+      if (!target) return;
+
+      if (target.closest("#siteMenu")) {
+        setMenuState(false);
+      }
+    });
+
+    /* =========================================================
+       START
+       ========================================================= */
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initializeReveal();
+      initializeCardEffects();
+      initializeRepository();
+    });
+  </script>
+
+</body>
+</html>
