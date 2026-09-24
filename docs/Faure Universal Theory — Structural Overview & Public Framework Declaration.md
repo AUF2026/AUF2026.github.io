@@ -1,8 +1,4 @@
-Sì. Te la riscrivo **in Markdown puro**, senza `\boxed`, senza delimitatori LaTeX fragili per il tuo parser, con blocchi puliti e formule in `$...$` / `$$...$$`, adatta a una pipeline **MD → HTML**.
-
- Ho anche eliminato formulazioni che presentano come fatti verificati cose che nel testo originale sono dichiarazioni dell'autore, trasformandole in formulazioni documentali più precise. Mantengo però i contenuti che mi hai fornito.
-
- # 📘 Faure Universal Theory — Structural Overview & Public Framework Declaration
+# 📘 Faure Universal Theory — Structural Overview & Public Framework Declaration
 
  ### AUF2026 — Deterministic Structural Architecture
 
