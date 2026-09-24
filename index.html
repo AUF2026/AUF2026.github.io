@@ -4,43 +4,2122 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>AUF2026 — Faure Framework</title>
+  <title>AUF2026 — Faure Foundational Framework</title>
 
   <meta
     name="description"
-    content="AUF2026 — Faure Framework, mathematical structures, deterministic computation, formal verification and research documentation."
+    content="AUF2026 — Faure Foundational Framework, mathematical structures, deterministic computation, formal verification and research documentation."
   >
 
   <meta name="author" content="Alain Faure">
 
+  <!-- MathJax 3 — configurazione per Markdown → HTML -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    tags: 'none'
+  },
+
+  options: {
+    skipHtmlTags: [
+      'script',
+      'noscript',
+      'style',
+      'textarea',
+      'pre',
+      'code'
+    ]
+  },
+
+  startup: {
+    typeset: true
+  }
+};
+</script>
+
+<script
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+  <script>
+
+  /*
+   * =========================================================
+   * MOBILE NAVIGATION
+   * =========================================================
+   */
+
+  const menuButton =
+    document.getElementById("menuButton");
+
+  const navLinks =
+    document.getElementById("navLinks");
+
+
+  if (menuButton && navLinks) {
+
+    menuButton.addEventListener(
+      "click",
+      () => {
+
+        navLinks.classList.toggle("open");
+
+      }
+    );
+
+
+    /*
+     * Close mobile navigation
+     * after selecting a link.
+     */
+
+    document
+      .querySelectorAll("#navLinks a")
+      .forEach(
+        link => {
+
+          link.addEventListener(
+            "click",
+            () => {
+
+              navLinks.classList.remove("open");
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /*
+   * =========================================================
+   * AUF2026 DOCUMENT ARCHIVE
+   * =========================================================
+   *
+   * GitHub repository = source of truth.
+   *
+   * Current Markdown documents are read dynamically from:
+   *
+   *   /docs/
+   *
+   * Each document is opened through:
+   *
+   *   archive.html?doc=FILENAME.md
+   *
+   * archive.html is responsible for loading the Markdown
+   * source and rendering it as the public HTML archive page.
+   *
+   */
+
+
+  const ARCHIVE_API =
+    "https://api.github.com/repos/AUF2026/AUF2026.github.io/contents/docs";
+
+
+  /*
+   * =========================================================
+   * DOCUMENT TITLE
+   * =========================================================
+   *
+   * Convert repository filenames into readable titles.
+   *
+   * Example:
+   *
+   * THEOREM-ORIGINALITY-MATRIX.md
+   *
+   * becomes:
+   *
+   * Theorem Originality Matrix
+   *
+   */
+
+  function documentTitle(
+    filename
+  ) {
+
+    return filename
+
+      .replace(
+        /\.md$/i,
+        ""
+      )
+
+      .replace(
+        /[-_]+/g,
+        " "
+      )
+
+      .replace(
+        /\b\w/g,
+        character =>
+          character.toUpperCase()
+      );
+
+  }
+
+
+  /*
+   * =========================================================
+   * ARCHIVE DOCUMENT URL
+   * =========================================================
+   *
+   * IMPORTANT:
+   *
+   * The Markdown file is NOT opened directly.
+   *
+   * Instead:
+   *
+   * /docs/example.md
+   *
+   * becomes:
+   *
+   * archive.html?doc=example.md
+   *
+   */
+
+  function documentUrl(
+    filename
+  ) {
+
+    return (
+      "archive.html?doc=" +
+      encodeURIComponent(
+        filename
+      )
+    );
+
+  }
+
+/*
+ * =========================================================
+ * THEOREM REGISTRY
+ * =========================================================
+ *
+ * The theorem registry uses the same archive URL generator
+ * as the main research archive.
+ */
+
+const theoremRegistry =
+  document.getElementById(
+    "theoremRegistryLinks"
+  );
+
+const theoremDocuments = [
+  {
+    file: "THEOREM-ORIGINALITY-MATRIX.md",
+    title: "Theorem Originality Matrix"
+  },
+  {
+    file: "CLAIMS.md",
+    title: "Master Claim Matrix"
+  },
+  {
+    file: "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    title: "Bibliographic Novelty Matrix"
+  },
+  {
+    file: "PROOF-REGISTRY.md",
+    title: "Proof Registry"
+  }
+];
+
+if (theoremRegistry) {
+
+  theoremDocuments.forEach(
+    theorem => {
+
+      const link =
+        document.createElement("a");
+
+      link.className =
+        "archive-link";
+
+      link.href =
+        documentUrl(
+          theorem.file
+        );
+
+      link.textContent =
+        theorem.title + " →";
+
+      theoremRegistry.appendChild(
+        link
+      );
+
+    }
+  );
+
+}
+
+  /*
+ * =========================================================
+ * AUTHOR REGISTRY
+ * =========================================================
+ */
+
+const authorRegistry =
+  document.getElementById(
+    "authorRegistryLinks"
+  );
+
+const authorDocuments = [
+  {
+    file: "AUTHOR-IDENTITY.md",
+    title: "Author Identity Record"
+  },
+  {
+    file: "BIBLIOGRAPHIC-NOVELTY-MATRIX.md",
+    title: "Bibliographic Novelty Matrix"
+  },
+  {
+    file: "SOURCE-MANIFEST.md",
+    title: "Source Manifest"
+  }
+];
+
+if (authorRegistry) {
+
+  authorDocuments.forEach(
+    author => {
+
+      const link =
+        document.createElement("a");
+
+      link.className =
+        "archive-link";
+
+      link.href =
+        documentUrl(
+          author.file
+        );
+
+      link.textContent =
+        author.title + " →";
+
+      authorRegistry.appendChild(
+        link
+      );
+
+    }
+  );
+
+}
+
+  /*
+   * =========================================================
+   * ARCHIVE CONTAINERS
+   * =========================================================
+   *
+   * Documents can be rendered inside:
+   *
+   *   .archive-grid
+   *
+   * or:
+   *
+   *   .archive-links
+   *
+   */
+
+  const archiveContainers =
+    document.querySelectorAll(
+      ".archive-grid, .archive-links"
+    );
+
+
+  /*
+   * =========================================================
+   * LOAD DOCUMENTS FROM GITHUB
+   * =========================================================
+   */
+
+  async function loadArchiveDocuments() {
+
+    if (
+      !archiveContainers.length
+    ) {
+
+      return;
+
+    }
+
+
+    try {
+
+      const response =
+        await fetch(
+          ARCHIVE_API,
+          {
+            headers: {
+              "Accept":
+                "application/vnd.github+json"
+            }
+          }
+        );
+
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          "GitHub API returned HTTP " +
+          response.status
+        );
+
+      }
+
+
+      const files =
+        await response.json();
+
+
+      /*
+       * Keep only Markdown files.
+       */
+
+      const documents =
+        files
+
+          .filter(
+            file =>
+              file.type === "file" &&
+              /\.md$/i.test(
+                file.name
+              )
+          )
+
+          .sort(
+            (a, b) =>
+              a.name.localeCompare(
+                b.name
+              )
+          );
+
+
+      /*
+       * Generate archive entries.
+       */
+
+      archiveContainers.forEach(
+        container => {
+
+          /*
+           * Remove static/generated
+           * archive entries before rebuilding.
+           */
+
+          container.innerHTML = "";
+
+
+          documents.forEach(
+            file => {
+
+              const link =
+                document.createElement(
+                  "a"
+                );
+
+
+              link.className =
+                "archive-link";
+
+
+              /*
+               * Every document goes through
+               * archive.html.
+               */
+
+              link.href =
+                documentUrl(
+                  file.name
+                );
+
+
+              const strong =
+                document.createElement(
+                  "strong"
+                );
+
+
+              strong.textContent =
+                documentTitle(
+                  file.name
+                );
+
+
+              const span =
+                document.createElement(
+                  "span"
+                );
+
+
+              span.textContent =
+                "AUF2026 Research Document";
+
+
+              link.appendChild(
+                strong
+              );
+
+
+              link.appendChild(
+                span
+              );
+
+
+              container.appendChild(
+                link
+              );
+
+            }
+          );
+
+        }
+      );
+
+
+      console.log(
+        "AUF2026 — " +
+        documents.length +
+        " Markdown documents loaded."
+      );
+
+
+    } catch (
+      error
+    ) {
+
+      console.error(
+        "AUF2026 archive loading error:",
+        error
+      );
+
+
+      archiveContainers.forEach(
+        container => {
+
+          container.innerHTML = `
+
+            <div class="archive-error">
+
+              <strong>
+                Research archive unavailable.
+              </strong>
+
+              <p>
+                The AUF2026 document index could not
+                be loaded from the repository.
+              </p>
+
+            </div>
+
+          `;
+
+        }
+      );
+
+    }
+
+  }
+
+
+  /*
+   * =========================================================
+   * INITIALIZE
+   * =========================================================
+   */
+
+  loadArchiveDocuments();
+
+
+  /*
+   * =========================================================
+   * CONSOLE IDENTITY
+   * =========================================================
+   */
+
+  console.log(
+    "AUF2026 — Faure Framework"
+  );
+
+  console.log(
+    "Research archive initialized."
+  );
+
+  console.log(
+    "GitHub repository: AUF2026/AUF2026.github.io"
+  );
+
+  console.log(
+    "Markdown source directory: /docs/"
+  );
+
+  console.log(
+    "Archive renderer: /archive.html"
+  );
+
+</script>
+  
+<style>
+
+/* =========================================================
+   AUF2026 // DEEP SCIENTIFIC INTERFACE
+   WOW ENGINE — VISUAL ONLY
+   ========================================================= */
+
+:root {
+  --auf-mx: 50vw;
+  --auf-my: 35vh;
+  --auf-scroll: 0;
+}
+
+
+/* =========================================================
+   GLOBAL OPTICAL FIELD
+   ========================================================= */
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9998;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      650px circle
+      at var(--auf-mx) var(--auf-my),
+
+      rgba(65, 160, 255, .085),
+
+      rgba(65, 160, 255, .025) 34%,
+
+      transparent 70%
+    );
+
+  opacity: .9;
+
+  mix-blend-mode: screen;
+
+}
+
+
+/* secondary fine field */
+
+body::after {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9997;
+
+  pointer-events: none;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(80,170,255,.018) 50%,
+      transparent 100%
+    );
+
+  transform:
+    translateX(
+      calc(
+        (var(--auf-mx) - 50vw) * .025
+      )
+    );
+
+}
+
+
+/* =========================================================
+   SECTION ENTRY
+   ========================================================= */
+
+.scientific-scope {
+
+  opacity: 0;
+
+  transform:
+    translateY(34px)
+    scale(.985);
+
+  filter:
+    blur(3px);
+
+  transition:
+
+    opacity .9s cubic-bezier(.16,1,.3,1),
+
+    transform .9s cubic-bezier(.16,1,.3,1),
+
+    filter .9s cubic-bezier(.16,1,.3,1);
+
+}
+
+
+.scientific-scope.auf-revealed {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter:
+    blur(0);
+
+}
+
+
+/* =========================================================
+   HEADINGS
+   ========================================================= */
+
+.section-heading {
+
+  position: relative;
+
+}
+
+
+.section-heading::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: -60px;
+
+  top: 50%;
+
+  width: 42px;
+
+  height: 1px;
+
+  transform:
+    scaleX(0);
+
+  transform-origin: right;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(75,190,255,.95)
+    );
+
+  box-shadow:
+    0 0 12px
+    rgba(75,190,255,.7);
+
+  transition:
+    transform .8s cubic-bezier(.16,1,.3,1);
+
+}
+
+
+.section-heading.auf-heading::before {
+
+  transform:
+    scaleX(1);
+
+}
+
+
+.section-heading h1,
+.section-heading h2,
+.section-heading h3 {
+
+  transition:
+
+    transform .45s cubic-bezier(.16,1,.3,1),
+
+    text-shadow .45s ease;
+
+}
+
+
+.section-heading:hover h1,
+.section-heading:hover h2,
+.section-heading:hover h3 {
+
+  transform:
+    translateX(7px);
+
+  text-shadow:
+
+    0 0 8px
+    rgba(90,190,255,.3),
+
+    0 0 30px
+    rgba(90,190,255,.12);
+
+}
+
+
+/* =========================================================
+   KICKERS / IDS
+   ========================================================= */
+
+.section-kicker,
+.scope-id {
+
+  transition:
+
+    letter-spacing .4s ease,
+
+    color .4s ease,
+
+    text-shadow .4s ease;
+
+}
+
+
+.section-kicker:hover,
+.scope-id:hover {
+
+  letter-spacing:
+    .16em;
+
+  color:
+    #7edcff;
+
+  text-shadow:
+    0 0 15px
+    rgba(80,190,255,.55);
+
+}
+
+
+/* =========================================================
+   CARDS — MAIN WOW
+   ========================================================= */
+
+.scope-card {
+
+  --focus-x: 50%;
+  --focus-y: 50%;
+
+  position: relative;
+
+  overflow: hidden;
+
+  transform-style:
+    preserve-3d;
+
+  will-change:
+    transform;
+
+  transition:
+
+    transform .10s linear,
+
+    border-color .35s ease,
+
+    box-shadow .35s ease;
+
+}
+
+
+/*
+ * Cursor spotlight.
+ */
+
+.scope-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: -1px;
+
+  pointer-events: none;
+
+  background:
+
+    radial-gradient(
+
+      330px circle
+      at var(--focus-x) var(--focus-y),
+
+      rgba(75,185,255,.20),
+
+      rgba(75,185,255,.055) 32%,
+
+      transparent 68%
+
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity .2s ease;
+
+  z-index: 0;
+
+}
+
+
+/*
+ * Precision edge.
+ */
+
+.scope-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  border:
+
+    1px solid
+    rgba(80,180,255,.0);
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(100,210,255,.0),
+      rgba(100,210,255,.08),
+      transparent 45%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity .3s ease;
+
+}
+
+
+.scope-card:hover::before,
+.scope-card:hover::after {
+
+  opacity: 1;
+
+}
+
+
+.scope-card:hover {
+
+  border-color:
+    rgba(85,180,255,.42);
+
+  box-shadow:
+
+    0 25px 70px
+    rgba(0,0,0,.30),
+
+    0 0 0 1px
+    rgba(70,160,255,.05),
+
+    0 0 45px
+    rgba(50,145,255,.09);
+
+}
+
+
+/*
+ * Preserve content above spotlight.
+ */
+
+.scope-card > * {
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+
+/* =========================================================
+   CARD ID / INTERNAL MARKER
+   ========================================================= */
+
+.scope-card:hover .scope-id {
+
+  color:
+    #8ee4ff;
+
+  text-shadow:
+    0 0 18px
+    rgba(80,190,255,.55);
+
+}
+
+
+/* =========================================================
+   ARCHIVE LINKS
+   ========================================================= */
+
+.scope-links .archive-link {
+
+  position: relative;
+
+  display: inline-block;
+
+  will-change:
+    transform;
+
+  transition:
+
+    transform .14s ease-out,
+
+    color .25s ease,
+
+    text-shadow .25s ease;
+
+}
+
+
+/*
+ * Moving light under the link.
+ */
+
+.scope-links .archive-link::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: -5px;
+
+  width: 100%;
+
+  height: 1px;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(90,200,255,.95),
+      transparent
+    );
+
+  transform:
+    scaleX(0);
+
+  transform-origin:
+    center;
+
+  transition:
+    transform .35s cubic-bezier(.16,1,.3,1);
+
+}
+
+
+.scope-links .archive-link:hover::after {
+
+  transform:
+    scaleX(1);
+
+}
+
+
+.scope-links .archive-link:hover {
+
+  color:
+    #a3eaff;
+
+  text-shadow:
+
+    0 0 8px
+    rgba(70,190,255,.5),
+
+    0 0 22px
+    rgba(70,190,255,.18);
+
+}
+
+
+/* =========================================================
+   THEOREM REGISTRY
+   ========================================================= */
+
+#theoremRegistryLinks {
+
+  position: relative;
+
+}
+
+
+/*
+ * Vertical instrument rail.
+ */
+
+#theoremRegistryLinks::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: -18px;
+
+  top: 0;
+
+  width: 1px;
+
+  height: 100%;
+
+  background:
+
+    linear-gradient(
+      to bottom,
+
+      transparent,
+
+      rgba(65,175,255,.45) 15%,
+
+      rgba(65,175,255,.12) 50%,
+
+      transparent
+    );
+
+}
+
+
+/*
+ * THE LASER
+ *
+ * One single pass.
+ */
+
+#theoremRegistryLinks::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: -12px;
+
+  left: -25px;
+
+  width: 2px;
+
+  height: calc(100% + 24px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  background:
+
+    linear-gradient(
+      to bottom,
+
+      transparent 0%,
+
+      rgba(65,190,255,.1) 15%,
+
+      #61d5ff 48%,
+
+      #9de8ff 50%,
+
+      #42bfff 52%,
+
+      rgba(65,190,255,.1) 85%,
+
+      transparent 100%
+    );
+
+  box-shadow:
+
+    0 0 5px
+    rgba(65,190,255,.95),
+
+    0 0 18px
+    rgba(65,190,255,.55),
+
+    0 0 42px
+    rgba(65,190,255,.18);
+
+}
+
+
+/*
+ * Scanner activated by JS.
+ */
+
+#theoremRegistryLinks.auf-scanning::after {
+
+  animation:
+
+    auf-laser-pass
+    1.05s
+    cubic-bezier(.2,.05,.15,1)
+    forwards;
+
+}
+
+
+@keyframes auf-laser-pass {
+
+  0% {
+
+    transform:
+      translateX(0);
+
+    opacity: 0;
+
+  }
+
+  8% {
+
+    opacity: .95;
+
+  }
+
+  78% {
+
+    opacity: .85;
+
+  }
+
+  100% {
+
+    transform:
+      translateX(
+        calc(100% + 35px)
+      );
+
+    opacity: 0;
+
+  }
+
+}
+
+
+/*
+ * Registry content catches the laser briefly.
+ */
+
+#theoremRegistryLinks.auf-scanning
+.archive-link {
+
+  animation:
+
+    auf-registry-catch
+    1.05s
+    ease-out
+    forwards;
+
+}
+
+
+@keyframes auf-registry-catch {
+
+  0% {
+
+    color: inherit;
+
+    text-shadow: none;
+
+  }
+
+  32% {
+
+    color:
+      #a8eaff;
+
+    text-shadow:
+
+      0 0 7px
+      rgba(70,190,255,.75),
+
+      0 0 18px
+      rgba(70,190,255,.25);
+
+  }
+
+  100% {
+
+    color: inherit;
+
+    text-shadow: none;
+
+  }
+
+}
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+.validation-banner {
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+
+.validation-banner::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  bottom: 0;
+
+  left: -15%;
+
+  width: 1px;
+
+  opacity: 0;
+
+  background:
+
+    linear-gradient(
+      transparent,
+      rgba(80,200,255,.9),
+      transparent
+    );
+
+  box-shadow:
+
+    0 0 12px
+    rgba(80,200,255,.55);
+
+}
+
+
+.validation-banner:hover::after {
+
+  animation:
+
+    auf-validation-scan
+    1.1s
+    cubic-bezier(.2,.05,.15,1)
+    forwards;
+
+}
+
+
+@keyframes auf-validation-scan {
+
+  0% {
+
+    left: -10%;
+
+    opacity: 0;
+
+  }
+
+  10% {
+
+    opacity: .8;
+
+  }
+
+  100% {
+
+    left: 110%;
+
+    opacity: 0;
+
+  }
+
+}
+
+
+/* =========================================================
+   EVIDENCE CHAIN
+   ========================================================= */
+
+.validation-banner p {
+
+  transition:
+
+    color .35s ease,
+
+    text-shadow .35s ease;
+
+}
+
+
+.validation-banner p:hover {
+
+  color:
+    #e8f8ff;
+
+  text-shadow:
+    0 0 14px
+    rgba(80,180,255,.16);
+
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.scope-note {
+
+  transition:
+
+    transform .4s cubic-bezier(.16,1,.3,1),
+
+    box-shadow .4s ease,
+
+    border-color .4s ease;
+
+}
+
+
+.scope-note:hover {
+
+  transform:
+    translateX(8px);
+
+  box-shadow:
+
+    -14px 0 40px
+    rgba(60,155,255,.07);
+
+}
+
+
+/* =========================================================
+   TABLE FOCUS
+   ========================================================= */
+
+table tbody tr {
+
+  position: relative;
+
+  transition:
+
+    background .2s ease,
+
+    transform .2s ease;
+
+}
+
+
+table tbody tr:hover {
+
+  background:
+    rgba(60,160,255,.055);
+
+  transform:
+    translateX(5px);
+
+}
+
+
+/* =========================================================
+   CODE / FORMAL PROOF
+   ========================================================= */
+
+pre,
+code {
+
+  transition:
+
+    border-color .35s ease,
+
+    box-shadow .35s ease,
+
+    color .35s ease;
+
+}
+
+
+pre:hover {
+
+  box-shadow:
+
+    inset 0 0 35px
+    rgba(50,160,255,.035),
+
+    0 0 28px
+    rgba(50,160,255,.05);
+
+}
+
+
+code:hover {
+
+  color:
+    #a6eaff;
+
+}
+
+
+/* =========================================================
+   NODES
+   ========================================================= */
+
+.node {
+
+  transition:
+
+    transform .35s
+    cubic-bezier(.16,1,.3,1),
+
+    filter .35s ease,
+
+    opacity .35s ease;
+
+}
+
+
+.node:hover {
+
+  transform:
+    scale(1.12);
+
+  filter:
+
+    drop-shadow(
+      0 0 6px
+      rgba(70,190,255,.8)
+    )
+
+    drop-shadow(
+      0 0 18px
+      rgba(70,160,255,.25)
+    );
+
+}
+
+
+/* =========================================================
+   FIGURES
+   ========================================================= */
+
+figure {
+
+  transition:
+
+    transform .6s
+    cubic-bezier(.16,1,.3,1);
+
+}
+
+
+figure:hover {
+
+  transform:
+    translateY(-4px);
+
+}
+
+
+figure img {
+
+  transition:
+    filter .5s ease;
+
+}
+
+
+figure:hover img {
+
+  filter:
+
+    brightness(1.04)
+
+    contrast(1.02)
+
+    saturate(1.04);
+
+}
+
+
+/* =========================================================
+   FOOTER DEPTH
+   ========================================================= */
+
+footer {
+
+  transition:
+    box-shadow .6s ease;
+
+}
+
+
+footer:hover {
+
+  box-shadow:
+
+    0 -30px 80px
+    rgba(50,150,255,.055);
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media
+(prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   AUF2026
+   DEEP SCIENTIFIC WOW ENGINE
+   ========================================================= */
+
+(() => {
+
+  "use strict";
+
+
+  const root =
+    document.documentElement;
+
+
+  const reducedMotion =
+    window.matchMedia &&
+    window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+
+  if (reducedMotion) {
+    return;
+  }
+
+
+  /* =======================================================
+     01 · GLOBAL OPTICAL FIELD
+     ======================================================= */
+
+  let tx =
+    window.innerWidth * .5;
+
+  let ty =
+    window.innerHeight * .35;
+
+
+  let cx =
+    tx;
+
+  let cy =
+    ty;
+
+
+  window.addEventListener(
+    "pointermove",
+    event => {
+
+      tx =
+        event.clientX;
+
+      ty =
+        event.clientY;
+
+    },
+    {
+      passive: true
+    }
+  );
+
+
+  function opticalLoop() {
+
+    cx +=
+      (tx - cx) * .055;
+
+    cy +=
+      (ty - cy) * .055;
+
+
+    root.style.setProperty(
+      "--auf-mx",
+      cx + "px"
+    );
+
+
+    root.style.setProperty(
+      "--auf-my",
+      cy + "px"
+    );
+
+
+    requestAnimationFrame(
+      opticalLoop
+    );
+
+  }
+
+
+  opticalLoop();
+
+
+  /* =======================================================
+     02 · CINEMATIC SECTION REVEAL
+     ======================================================= */
+
+  const sections =
+    document.querySelectorAll(
+      ".scientific-scope"
+    );
+
+
+  if (
+    "IntersectionObserver" in window
+  ) {
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(
+            entry => {
+
+              if (
+                entry.isIntersecting
+              ) {
+
+                entry.target.classList.add(
+                  "auf-revealed"
+                );
+
+                const heading =
+                  entry.target.querySelector(
+                    ".section-heading"
+                  );
+
+
+                if (heading) {
+
+                  window.setTimeout(
+                    () => {
+
+                      heading.classList.add(
+                        "auf-heading"
+                      );
+
+                    },
+                    180
+                  );
+
+                }
+
+
+                observer.unobserve(
+                  entry.target
+                );
+
+              }
+
+            }
+          );
+
+        },
+        {
+          threshold: .12,
+
+          rootMargin:
+            "0px 0px -50px 0px"
+        }
+      );
+
+
+    sections.forEach(
+      section =>
+        observer.observe(
+          section
+        )
+    );
+
+  }
+  else {
+
+    sections.forEach(
+      section =>
+        section.classList.add(
+          "auf-revealed"
+        )
+    );
+
+  }
+
+
+  /* =======================================================
+     03 · CARD OPTICAL TRACKING
+     ======================================================= */
+
+  document
+    .querySelectorAll(
+      ".scope-card"
+    )
+    .forEach(
+      card => {
+
+        card.addEventListener(
+          "pointermove",
+          event => {
+
+            const rect =
+              card.getBoundingClientRect();
+
+
+            const x =
+              event.clientX -
+              rect.left;
+
+
+            const y =
+              event.clientY -
+              rect.top;
+
+
+            const px =
+              x / rect.width;
+
+
+            const py =
+              y / rect.height;
+
+
+            card.style.setProperty(
+              "--focus-x",
+              x + "px"
+            );
+
+
+            card.style.setProperty(
+              "--focus-y",
+              y + "px"
+            );
+
+
+            /*
+             * Deliberately stronger than
+             * previous versions.
+             */
+
+            const rotateX =
+              (.5 - py) * 6;
+
+
+            const rotateY =
+              (px - .5) * 8;
+
+
+            card.style.transform =
+              `
+              perspective(1200px)
+              rotateX(${rotateX}deg)
+              rotateY(${rotateY}deg)
+              translateZ(8px)
+              `;
+
+          },
+          {
+            passive: true
+          }
+        );
+
+
+        card.addEventListener(
+          "pointerleave",
+          () => {
+
+            card.style.transform =
+              "";
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     04 · MAGNETIC LINKS
+     ======================================================= */
+
+  document
+    .querySelectorAll(
+      ".archive-link"
+    )
+    .forEach(
+      link => {
+
+        link.addEventListener(
+          "pointermove",
+          event => {
+
+            const rect =
+              link.getBoundingClientRect();
+
+
+            const dx =
+              event.clientX -
+              (
+                rect.left +
+                rect.width / 2
+              );
+
+
+            const dy =
+              event.clientY -
+              (
+                rect.top +
+                rect.height / 2
+              );
+
+
+            link.style.transform =
+              `
+              translate(
+                ${dx * .045}px,
+                ${dy * .045}px
+              )
+              `;
+
+          },
+          {
+            passive: true
+          }
+        );
+
+
+        link.addEventListener(
+          "pointerleave",
+          () => {
+
+            link.style.transform =
+              "";
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     05 · THEOREM REGISTRY LASER
+     ======================================================= */
+
+  const registry =
+    document.getElementById(
+      "theoremRegistryLinks"
+    );
+
+
+  if (registry) {
+
+    let laserBusy =
+      false;
+
+
+    registry.addEventListener(
+      "mouseenter",
+      () => {
+
+        if (laserBusy) {
+          return;
+        }
+
+
+        laserBusy =
+          true;
+
+
+        registry.classList.remove(
+          "auf-scanning"
+        );
+
+
+        /*
+         * Force one fresh animation.
+         */
+
+        void registry.offsetWidth;
+
+
+        registry.classList.add(
+          "auf-scanning"
+        );
+
+
+        window.setTimeout(
+          () => {
+
+            registry.classList.remove(
+              "auf-scanning"
+            );
+
+            laserBusy =
+              false;
+
+          },
+          1250
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     06 · NODE FOCUS
+     ======================================================= */
+
+  const nodes =
+    document.querySelectorAll(
+      ".node"
+    );
+
+
+  nodes.forEach(
+    node => {
+
+      node.addEventListener(
+        "mouseenter",
+        () => {
+
+          nodes.forEach(
+            other => {
+
+              if (
+                other !== node
+              ) {
+
+                other.style.opacity =
+                  ".28";
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+
+      node.addEventListener(
+        "mouseleave",
+        () => {
+
+          nodes.forEach(
+            other => {
+
+              other.style.opacity =
+                "";
+
+            }
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     07 · SCROLL DEPTH
+     ======================================================= */
+
+  function scrollDepth() {
+
+    const max =
+      document.documentElement
+        .scrollHeight -
+      window.innerHeight;
+
+
+    if (max <= 0) {
+      return;
+    }
+
+
+    root.style.setProperty(
+      "--auf-scroll",
+      window.scrollY / max
+    );
+
+  }
+
+
+  window.addEventListener(
+    "scroll",
+    scrollDepth,
+    {
+      passive: true
+    }
+  );
+
+
+  scrollDepth();
+
+
+})();
+
+</script>
+  
   <style>
-
-    /* =========================================================
-       AUF2026
-       SINGLE-FILE WEBSITE
-       HTML + CSS + JAVASCRIPT
-       ========================================================= */
-
     :root {
       --bg: #070a0f;
       --bg2: #0d121a;
       --panel: #121923;
       --panel2: #18212d;
-
       --text: #f2f6fb;
       --muted: #9ba8b7;
-
       --green: #63e6be;
       --blue: #6ea8ff;
       --gold: #e6c76a;
       --red: #ff7b7b;
-
       --border: rgba(255,255,255,0.10);
-
       --max: 1240px;
-
-      --shadow:
-        0 20px 60px rgba(0,0,0,0.35);
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
     }
 
     * {
@@ -55,29 +2134,11 @@
 
     body {
       background:
-        radial-gradient(
-          circle at 80% 10%,
-          rgba(110,168,255,0.10),
-          transparent 35%
-        ),
-        radial-gradient(
-          circle at 10% 40%,
-          rgba(99,230,190,0.06),
-          transparent 30%
-        ),
+        radial-gradient(circle at 80% 10%, rgba(110,168,255,0.10), transparent 35%),
+        radial-gradient(circle at 10% 40%, rgba(99,230,190,0.06), transparent 30%),
         var(--bg);
-
       color: var(--text);
-
-      font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-
+      font-family: Inter, system-ui, -apple-system, sans-serif;
       line-height: 1.65;
     }
 
@@ -86,1848 +2147,1259 @@
       text-decoration: none;
     }
 
-    button {
-      font: inherit;
-    }
-
     .container {
-      width: min(
-        var(--max),
-        calc(100% - 40px)
-      );
-
+      width: min(var(--max), calc(100% - 40px));
       margin-inline: auto;
     }
 
-    /* =========================================================
-   HEADER
-   ========================================================= */
-
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  background:
-    rgba(7,10,15,0.88);
-
-  backdrop-filter: blur(18px);
-
-  border-bottom:
-    1px solid var(--border);
-}
-
-
-.nav {
-  min-height: 72px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 30px;
-}
-
-
-.brand {
-  flex:
-    0 0 auto;
-
-  font-weight: 900;
-
-  letter-spacing:
-    0.14em;
-
-  font-size:
-    1.05rem;
-}
-
-
-.brand span {
-  color:
-    var(--green);
-}
-
-
-/* =========================================================
-   MAIN SITE MENU
-   ========================================================= */
-
-.nav-links {
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 22px;
-
-  flex:
-    0 1 auto;
-}
-
-
-.nav-links a {
-  color:
-    var(--muted);
-
-  font-size:
-    0.9rem;
-
-  white-space:
-    nowrap;
-
-  transition:
-    color .2s ease;
-}
-
-
-.nav-links a:hover {
-  color:
-    var(--text);
-}
-
-
-/* =========================================================
-   REPOSITORY SECTIONS MENU
-   ========================================================= */
-
-.repository-sections {
-
-  display: flex;
-
-  align-items: center;
-
-  flex-wrap: wrap;
-
-  gap: 8px 18px;
-
-  margin-left: auto;
-
-  padding-left: 28px;
-
-  border-left:
-    1px solid var(--border);
-}
-
-
-.repository-section-link {
-
-  display: inline-flex;
-
-  align-items: center;
-
-  padding:
-    7px 9px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    0.85rem;
-
-  line-height:
-    1.2;
-
-  white-space:
-    nowrap;
-
-  text-decoration:
-    none;
-
-  border-radius:
-    7px;
-
-  transition:
-    color .2s ease,
-    background .2s ease;
-}
-
-
-.repository-section-link:hover {
-
-  color:
-    var(--text);
-
-  background:
-    rgba(99,230,190,.07);
-}
-
-
-/* =========================================================
-   MOBILE MENU BUTTON
-   ========================================================= */
-
-.menu-button {
-  display: none;
-
-  border:
-    1px solid var(--border);
-
-  background:
-    var(--panel);
-
-  color:
-    var(--text);
-
-  padding:
-    8px 12px;
-
-  border-radius:
-    8px;
-
-  cursor:
-    pointer;
-}
-
-
-/* =========================================================
-   RESPONSIVE HEADER
-   ========================================================= */
-
-@media (
-  max-width: 1250px
-) {
-
-  .nav {
-
-    flex-wrap:
-      wrap;
-
-    padding-top:
-      12px;
-
-    padding-bottom:
-      12px;
-  }
-
-
-  .repository-sections {
-
-    width:
-      100%;
-
-    margin-left:
-      0;
-
-    padding-left:
-      0;
-
-    padding-top:
-      12px;
-
-    border-left:
-      none;
-
-    border-top:
-      1px solid var(--border);
-  }
-
-}
-
-
-@media (
-  max-width: 800px
-) {
-
-  .nav {
-
-    min-height:
-      64px;
-  }
-
-
-  .nav-links {
-
-    display:
-      none;
-  }
-
-
-  .menu-button {
-
-    display:
-      block;
-
-    margin-left:
-      auto;
-  }
-
-
-  .repository-sections {
-
-    gap:
-      6px 12px;
-  }
-
-
-  .repository-section-link {
-
-    font-size:
-      0.82rem;
-  }
-
-}
-
-    /* =========================================================
-       HERO
-       ========================================================= */
-
-    .hero {
-      min-height: 82vh;
-
+    /* HEADER & NAVIGATION */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7,10,15,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav {
+      min-height: 72px;
       display: flex;
       align-items: center;
+      gap: 30px;
+    }
 
-      padding:
-        120px 0
-        100px;
+    .brand {
+      flex: 0 0 auto;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      font-size: 1.05rem;
+    }
+
+    .brand span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 22px;
+      flex: 0 1 auto;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      white-space: nowrap;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .repository-sections {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-left: auto;
+      padding-left: 28px;
+      border-left: 1px solid var(--border);
+    }
+
+    .repository-section-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 9px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.2;
+      white-space: nowrap;
+      border-radius: 7px;
+      transition: color .2s ease, background .2s ease;
+    }
+
+    .repository-section-link:hover {
+      color: var(--text);
+      background: rgba(99,230,190,.07);
+    }
+
+    /* HERO & FONDAZIONE SPECIFIC ELEMENTS */
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
     }
 
     .eyebrow {
       color: var(--green);
-
-      font-family:
-        ui-monospace,
-        SFMono-Regular,
-        Menlo,
-        monospace;
-
+      font-family: ui-monospace, SFMono-Regular, monospace;
       font-size: 0.75rem;
       font-weight: 800;
-
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
     h1 {
-      max-width: 1050px;
-
+      max-width: 1100px;
       margin-top: 22px;
-
-      font-size:
-        clamp(
-          3.2rem,
-          9vw,
-          8rem
-        );
-
-      line-height: .88;
-
-      letter-spacing:
-        -0.065em;
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      line-height: .92;
+      letter-spacing: -0.05em;
     }
 
     .hero-subtitle {
-      max-width: 820px;
-
+      max-width: 850px;
       margin-top: 35px;
-
       color: var(--muted);
-
-      font-size:
-        clamp(
-          1.05rem,
-          2vw,
-          1.35rem
-        );
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-
       gap: 14px;
-
       margin-top: 38px;
     }
 
     .button {
       display: inline-flex;
-
       align-items: center;
       justify-content: center;
-
-      padding:
-        13px 20px;
-
+      padding: 13px 22px;
       border-radius: 9px;
-
-      border:
-        1px solid var(--border);
-
+      border: 1px solid var(--border);
       font-weight: 750;
-
       cursor: pointer;
-
-      transition:
-        transform .2s ease,
-        border-color .2s ease,
-        background .2s ease;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
     }
 
     .button:hover {
       transform: translateY(-2px);
-
-      border-color:
-        rgba(99,230,190,.45);
+      border-color: rgba(99,230,190,.45);
     }
 
-    .button-primary {
-      color: #06100d;
+    .button-primary { color: #06100d; background: var(--green); }
+    .button-secondary { background: var(--panel); color: var(--text); }
 
-      background:
-        var(--green);
+    /* LAYOUT DELLE SEZIONI ASSIOMATICHE */
+    section { padding: 90px 0; border-bottom: 1px solid var(--border); }
+    .section-heading { max-width: 900px; margin-bottom: 50px; }
+    h2 { margin-top: 15px; font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.04em; }
+    .section-description { margin-top: 18px; color: var(--muted); font-size: 1.1rem; }
+    
+    .genealogy-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      font-family: ui-monospace, monospace;
+      font-size: 1.05rem;
+      color: #ffffff;
+      text-align: center;
+      margin: 40px 0 10px 0;
     }
 
-    .button-secondary {
-      background:
-        var(--panel);
-
-      color:
-        var(--text);
-    }
-
-    /* =========================================================
-       SECTIONS
-       ========================================================= */
-
-    section {
-      padding:
-        105px 0;
-    }
-
-    .section-heading {
-      max-width: 850px;
-
-      margin-bottom: 50px;
-    }
-
-    h2 {
-      margin-top: 15px;
-
-      font-size:
-        clamp(
-          2rem,
-          5vw,
-          3.7rem
-        );
-
-      line-height: 1;
-
-      letter-spacing:
-        -0.04em;
-    }
-
-    .section-description {
-      margin-top: 20px;
-
-      color:
-        var(--muted);
-
-      font-size:
-        1.05rem;
-    }
-
-    /* =========================================================
-       RESEARCH GRID
-       ========================================================= */
-
-    .grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0,1fr)
-        );
-
-      gap: 18px;
-    }
-
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
     .card {
       position: relative;
-
-      padding: 30px;
-
-      background:
-        linear-gradient(
-          145deg,
-          var(--panel),
-          rgba(18,25,35,.72)
-        );
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 15px;
-
-      box-shadow:
-        0 10px 35px
-        rgba(0,0,0,.18);
-
-      transition:
-        transform .2s ease,
-        border-color .2s ease;
-    }
-
-    .card:hover {
-      transform:
-        translateY(-4px);
-
-      border-color:
-        rgba(99,230,190,.30);
-    }
-
-    .card-number {
-      color:
-        var(--blue);
-
-      font-family:
-        ui-monospace,
-        monospace;
-
-      font-size:
-        .75rem;
-
-      font-weight:
-        800;
-    }
-
-    .card h3 {
-      margin-top: 12px;
-
-      font-size:
-        1.35rem;
-    }
-
-    .card p {
-      margin-top: 12px;
-
-      color:
-        var(--muted);
-    }
-
-    .card-link {
-      display: inline-block;
-
-      margin-top: 22px;
-
-      color:
-        var(--green);
-
-      font-weight:
-        750;
-    }
-
-    /* =========================================================
-       MATHEMATICAL CORE
-       ========================================================= */
-
-    .math-section {
-      background:
-        var(--bg2);
-    }
-
-    .formula {
-      margin-top: 30px;
-
-      padding: 28px;
-
-      overflow-x: auto;
-
-      background:
-        #05070a;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 12px;
-
-      color:
-        var(--green);
-
-      font-family:
-        "Times New Roman",
-        Georgia,
-        serif;
-
-      font-size:
-        clamp(
-          1.2rem,
-          3vw,
-          2rem
-        );
-    }
-
-    /* =========================================================
-       STATUS
-       ========================================================= */
-
-    .status-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          4,
-          minmax(0,1fr)
-        );
-
-      gap: 15px;
-
-      margin-top: 45px;
-    }
-
-    .status {
-      padding: 22px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 11px;
-
-      background:
-        rgba(255,255,255,.025);
-    }
-
-    .status strong {
-      display: block;
-
-      color:
-        var(--green);
-
-      font-size:
-        .75rem;
-
-      letter-spacing:
-        .10em;
-    }
-
-    .status span {
-      display: block;
-
-      margin-top: 8px;
-
-      color:
-        var(--muted);
-
-      font-size:
-        .9rem;
-    }
-
-    /* =========================================================
-       DOCUMENTATION
-       ========================================================= */
-
-    .documents {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          2,
-          minmax(0,1fr)
-        );
-
-      gap: 18px;
-    }
-
-    .document {
-      padding: 28px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 13px;
-
-      background:
-        var(--panel);
-    }
-
-    .document h3 {
-      margin-bottom: 10px;
-    }
-
-    .document p {
-      color:
-        var(--muted);
-    }
-
-    .document code {
-      display: block;
-
-      margin-top: 18px;
-
-      padding: 12px;
-
-      overflow-x: auto;
-
-      background:
-        #070a0f;
-
-      border-radius: 8px;
-
-      color:
-        var(--green);
-
-      font-family:
-        ui-monospace,
-        monospace;
-
-      font-size:
-        .8rem;
-    }
-
-    /* =========================================================
-       VALIDATION
-       ========================================================= */
-
-    .validation-box {
       padding: 35px;
-
-      border:
-        1px solid
-        rgba(230,199,106,.25);
-
-      border-radius: 15px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(230,199,106,.06),
-          rgba(255,255,255,.015)
-        );
+      background: linear-gradient(145deg, var(--panel), rgba(18,25,35,.72));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease, border-color .2s ease;
     }
+    .card:hover { transform: translateY(-4px); border-color: rgba(99,230,190,.30); }
+    .card-number { color: var(--blue); font-family: ui-monospace, monospace; font-size: 0.85rem; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.1em; }
+    .card h3 { font-size: 1.4rem; color: #ffffff; margin-bottom: 15px; letter-spacing: -0.02em; }
+    
+    .box-math { text-align: center; margin: 20px 0; padding: 18px; background: rgba(110,168,255,0.03); border: 1px dashed rgba(110,168,255,0.2); border-radius: 8px; }
+    .highlight-text { border-left: 4px solid var(--red); padding-left: 20px; font-style: italic; background: rgba(255,123,123,0.02); margin: 25px 0; }
+    
+    pre { background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; font-family: ui-monospace, monospace; font-size: 13.5px; color: #e1e4e8; }
+    code { font-family: ui-monospace, monospace; color: var(--red); background: rgba(255,123,123,0.1); padding: 2px 5px; border-radius: 4px; font-size: 90%; }
+    pre code { background: transparent; padding: 0; color: inherit; font-size: 100%; }
 
-    .validation-box h3 {
-      color:
-        var(--gold);
+    @media (max-width: 1250px) {
+      .nav { flex-wrap: wrap; padding: 15px 0; }
+      .repository-sections { width: 100%; margin-left: 0; padding-left: 0; padding-top: 12px; border-left: none; border-top: 1px solid var(--border); }
     }
-
-    .validation-box p {
-      margin-top: 15px;
-
-      color:
-        var(--muted);
+    @media (max-width: 800px) {
+      .nav-links { display: none; }
+      .repository-sections { gap: 6px 12px; }
     }
+    
+   /* =========================================================
+   AUF2026 // DEEP SCIENTIFIC INTERFACE
+   WOW ENGINE — VISUAL ONLY
+   ========================================================= */
+
+:root {
+  --auf-mx: 50vw;
+  --auf-my: 35vh;
+  --auf-scroll: 0;
+}
 
-    /* =========================================================
-       AUTHOR
-       ========================================================= */
-
-    .author-box {
-      max-width: 800px;
-    }
-
-    .author-box p {
-      margin-top: 15px;
-
-      color:
-        var(--muted);
-    }
-
-    .author-links {
-      display: flex;
-
-      flex-wrap: wrap;
-
-      gap: 12px;
-
-      margin-top: 25px;
-    }
-
-    .author-link {
-      padding:
-        9px 14px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius:
-        8px;
-
-      background:
-        var(--panel);
-
-      color:
-        var(--text);
-    }
-
-    /* =========================================================
-       ARCHIVE LINKS
-       ========================================================= */
-
-    .archive-grid {
-      display: grid;
-
-      grid-template-columns:
-        repeat(
-          3,
-          minmax(0,1fr)
-        );
-
-      gap: 15px;
-
-      margin-top: 25px;
-    }
-
-    .archive-link {
-      display: block;
-
-      padding: 22px;
-
-      border:
-        1px solid var(--border);
-
-      border-radius: 12px;
-
-      background:
-        rgba(255,255,255,.025);
-
-      transition:
-        transform .2s ease,
-        border-color .2s ease,
-        background .2s ease;
-    }
-
-    .archive-link:hover {
-      transform:
-        translateY(-3px);
-
-      border-color:
-        rgba(99,230,190,.30);
-
-      background:
-        rgba(99,230,190,.04);
-    }
-
-    .archive-link strong {
-      display: block;
-
-      color:
-        var(--text);
-
-      font-size:
-        1rem;
-    }
-
-    .archive-link span {
-      display: block;
-
-      margin-top: 7px;
-
-      color:
-        var(--muted);
-
-      font-size:
-        .85rem;
-    }
-
-    /* =========================================================
-       FOOTER
-       ========================================================= */
-
-    footer {
-      padding:
-        55px 0;
-
-      border-top:
-        1px solid var(--border);
-
-      color:
-        var(--muted);
-
-      font-size:
-        .85rem;
-    }
-
-    .footer-row {
-      display: flex;
-
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 20px;
-
-      flex-wrap: wrap;
-    }
-
-    /* =========================================================
-       RESPONSIVE
-       ========================================================= */
-
-    @media (max-width: 900px) {
-
-      .grid {
-        grid-template-columns:
-          repeat(
-            2,
-            minmax(0,1fr)
-          );
-      }
-
-      .status-grid {
-        grid-template-columns:
-          repeat(2,1fr);
-      }
-
-      .documents {
-        grid-template-columns: 1fr;
-      }
-
-      .archive-grid {
-        grid-template-columns:
-          repeat(2,1fr);
-      }
-    }
-
-    @media (max-width: 700px) {
-
-      .container {
-        width:
-          calc(100% - 28px);
-      }
-
-      .menu-button {
-        display: block;
-      }
-
-      .nav-links {
-        display: none;
-
-        width: 100%;
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        padding:
-          15px 0;
-      }
-
-      .nav-links.open {
-        display: flex;
-      }
-
-      .nav {
-        flex-wrap: wrap;
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .archive-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero {
-        min-height:
-          auto;
-
-        padding:
-          90px 0;
-      }
-
-      section {
-        padding:
-          75px 0;
-      }
-    }
 
 /* =========================================================
-   03B · SCIENTIFIC SCOPE
+   GLOBAL OPTICAL FIELD
+   ========================================================= */
+
+body::before {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9998;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      650px circle
+      at var(--auf-mx) var(--auf-my),
+
+      rgba(65, 160, 255, .085),
+
+      rgba(65, 160, 255, .025) 34%,
+
+      transparent 70%
+    );
+
+  opacity: .9;
+
+  mix-blend-mode: screen;
+
+}
+
+
+/* secondary fine field */
+
+body::after {
+
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 9997;
+
+  pointer-events: none;
+
+  background:
+
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(80,170,255,.018) 50%,
+      transparent 100%
+    );
+
+  transform:
+    translateX(
+      calc(
+        (var(--auf-mx) - 50vw) * .025
+      )
+    );
+
+}
+
+
+/* =========================================================
+   SECTION ENTRY
    ========================================================= */
 
 .scientific-scope {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 1.25rem;
-  box-sizing: border-box;
-}
 
-.section-kicker {
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-size: 0.76rem;
-  opacity: 0.62;
-  margin-bottom: 0.8rem;
-}
+  opacity: 0;
 
-.section-heading {
-  width: 100%;
-  margin: 0 auto;
-}
+  transform:
+    translateY(34px)
+    scale(.985);
 
-.section-heading h2 {
-  margin: 0 0 1rem;
-}
+  filter:
+    blur(3px);
 
-.section-lead {
-  max-width: 900px;
-  margin: 0 auto;
-  line-height: 1.75;
-  opacity: 0.86;
-}
-
-/* ---------------------------------------------------------
-   EQUATIONS
-   --------------------------------------------------------- */
-
-.scope-equation {
-  width: 100%;
-  max-width: 900px;
-  margin: 1.4rem auto;
-  padding: 1rem 1.2rem;
-  box-sizing: border-box;
-  border-left: 3px solid currentColor;
-  background: rgba(127, 127, 127, 0.07);
-  overflow-x: auto;
-}
-
-.scope-equation code {
-  font-size: 1rem;
-  white-space: nowrap;
-}
-
-.scope-equation.secondary {
-  opacity: 0.82;
-}
-
-/* ---------------------------------------------------------
-   SCOPE GRID
-   --------------------------------------------------------- */
-
-.scope-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  width: 100%;
-  max-width: 900px;
-  margin: 2rem auto;
-}
-
-/* ---------------------------------------------------------
-   SCOPE CARDS
-   --------------------------------------------------------- */
-
-.scope-card {
-  min-width: 0;
-  padding: 1.35rem;
-  border: 1px solid rgba(127, 127, 127, 0.22);
-  border-radius: 12px;
-  background: rgba(127, 127, 127, 0.045);
-  box-sizing: border-box;
-}
-
-.scope-card h3 {
-  margin-top: 0.45rem;
-}
-
-.scope-card p {
-  line-height: 1.65;
-  opacity: 0.82;
-}
-
-.scope-id {
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  opacity: 0.55;
-}
-
-/* ---------------------------------------------------------
-   VALIDATION BANNER
-   --------------------------------------------------------- */
-
-.validation-banner {
-  width: 100%;
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 1.5rem;
-  box-sizing: border-box;
-  border-radius: 14px;
-  border: 1px solid rgba(90, 160, 255, 0.30);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(90, 160, 255, 0.08),
-      rgba(127, 127, 127, 0.04)
-    );
-}
-
-.validation-banner p {
-  max-width: 900px;
-  margin: 0;
-  line-height: 1.7;
-}
-
-/* ---------------------------------------------------------
-   ARCHIVE / SCOPE LINKS
-   --------------------------------------------------------- */
-
-.scope-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.7rem;
-  width: 100%;
-  max-width: 900px;
-  margin: 1.5rem auto;
-}
-
-.archive-link {
-  display: inline-block;
-  padding: 0.7rem 0.95rem;
-  border: 1px solid rgba(127, 127, 127, 0.25);
-  border-radius: 999px;
-  text-decoration: none;
   transition:
-    transform 0.18s ease,
-    background 0.18s ease;
+
+    opacity .9s cubic-bezier(.16,1,.3,1),
+
+    transform .9s cubic-bezier(.16,1,.3,1),
+
+    filter .9s cubic-bezier(.16,1,.3,1);
+
 }
 
-.archive-link:hover {
-  transform: translateY(-1px);
-  background: rgba(127, 127, 127, 0.08);
+
+.scientific-scope.auf-revealed {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    scale(1);
+
+  filter:
+    blur(0);
+
 }
 
-/* ---------------------------------------------------------
-   NOTE
-   --------------------------------------------------------- */
 
-.scope-note {
-  width: 100%;
-  max-width: 900px;
-  margin: 1.5rem auto 0;
-  padding: 1rem 1.2rem;
-  box-sizing: border-box;
-  font-size: 0.9rem;
-  line-height: 1.65;
-  opacity: 0.72;
-  border-top: 1px solid rgba(127, 127, 127, 0.18);
-}
-
-/* ---------------------------------------------------------
-   RESPONSIVE
-   --------------------------------------------------------- */
-
-@media (max-width: 760px) {
-
-  .scientific-scope {
-    padding: 0 1rem;
-  }
-
-  .scope-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .scope-equation {
-    padding: 0.9rem 1rem;
-  }
-
-  .scope-equation code {
-    font-size: 0.86rem;
-  }
-
-  .validation-banner {
-    padding: 1.2rem;
-  }
-
-  .scope-links {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .archive-link {
-    text-align: center;
-  }
-}
-
-    /* =========================================================
-   AUTHOR IDENTITY
+/* =========================================================
+   HEADINGS
    ========================================================= */
 
-.author-section {
-  width: 100%;
-  max-width: 900px;
-  margin: 70px auto 0;
-}
+.section-heading {
 
-.author-panel {
   position: relative;
 
-  padding: 32px;
-
-  border:
-    1px solid rgba(99,230,190,.28);
-
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(99,230,190,.075),
-      rgba(255,255,255,.025)
-    );
-
-  box-shadow:
-    0 12px 40px rgba(0,0,0,.12);
-
-  overflow: hidden;
 }
 
-.author-panel::before {
+
+.section-heading::before {
+
   content: "";
 
   position: absolute;
 
-  top: 0;
-  left: 0;
-  right: 0;
+  left: -60px;
 
-  height: 2px;
+  top: 50%;
+
+  width: 42px;
+
+  height: 1px;
+
+  transform:
+    scaleX(0);
+
+  transform-origin: right;
 
   background:
     linear-gradient(
       90deg,
       transparent,
-      #63e6be,
-      transparent
+      rgba(75,190,255,.95)
     );
 
-  opacity: .75;
+  box-shadow:
+    0 0 12px
+    rgba(75,190,255,.7);
+
+  transition:
+    transform .8s cubic-bezier(.16,1,.3,1);
+
 }
 
-.author-kicker {
-  margin-bottom: 10px;
 
-  color:
-    #63e6be;
+.section-heading.auf-heading::before {
 
-  font-size:
-    .72rem;
+  transform:
+    scaleX(1);
+
+}
+
+
+.section-heading h1,
+.section-heading h2,
+.section-heading h3 {
+
+  transition:
+
+    transform .45s cubic-bezier(.16,1,.3,1),
+
+    text-shadow .45s ease;
+
+}
+
+
+.section-heading:hover h1,
+.section-heading:hover h2,
+.section-heading:hover h3 {
+
+  transform:
+    translateX(7px);
+
+  text-shadow:
+
+    0 0 8px
+    rgba(90,190,255,.3),
+
+    0 0 30px
+    rgba(90,190,255,.12);
+
+}
+
+
+/* =========================================================
+   KICKERS / IDS
+   ========================================================= */
+
+.section-kicker,
+.scope-id {
+
+  transition:
+
+    letter-spacing .4s ease,
+
+    color .4s ease,
+
+    text-shadow .4s ease;
+
+}
+
+
+.section-kicker:hover,
+.scope-id:hover {
 
   letter-spacing:
     .16em;
 
-  text-transform:
-    uppercase;
-
-  opacity: .8;
-}
-
-.author-panel h2 {
-  margin:
-    0 0 12px;
-
   color:
-    var(--text);
+    #7edcff;
 
-  font-size:
-    clamp(1.7rem, 4vw, 2.4rem);
-
-  line-height:
-    1.15;
-}
-
-.author-name {
-  color:
-    #63e6be;
-}
-
-.author-description {
-  max-width:
-    760px;
-
-  margin:
-    0;
-
-  color:
-    var(--muted);
-
-  font-size:
-    1rem;
-
-  line-height:
-    1.75;
-}
-
-.author-meta {
-  display:
-    grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
-
-  gap:
-    12px;
-
-  margin-top:
-    25px;
-}
-
-.author-meta-item {
-  padding:
-    15px;
-
-  border:
-    1px solid rgba(127,127,127,.18);
-
-  border-radius:
-    10px;
-
-  background:
-    rgba(255,255,255,.018);
-}
-
-.author-meta-label {
-  display:
-    block;
-
-  margin-bottom:
-    5px;
-
-  color:
-    var(--muted);
-
-  font-size:
-    .7rem;
-
-  letter-spacing:
-    .1em;
-
-  text-transform:
-    uppercase;
-}
-
-.author-meta-value {
-  display:
-    block;
-
-  color:
-    var(--text);
-
-  font-size:
-    .9rem;
-
-  line-height:
-    1.45;
-}
-
-.author-action {
-  display:
-    inline-flex;
-
-  align-items:
-    center;
-
-  gap:
-    8px;
-
-  margin-top:
-    24px;
-
-  padding:
-    10px 16px;
-
-  border:
-    1px solid rgba(99,230,190,.3);
-
-  border-radius:
-    999px;
-
-  color:
-    #63e6be;
-
-  text-decoration:
-    none;
-
-  font-size:
-    .86rem;
-
-  transition:
-    transform .2s ease,
-    background .2s ease,
-    border-color .2s ease;
-}
-
-.author-action:hover {
-  transform:
-    translateY(-2px);
-
-  border-color:
-    rgba(99,230,190,.55);
-
-  background:
-    rgba(99,230,190,.07);
-}
-
-@media (max-width: 700px) {
-
-  .author-section {
-    margin-top:
-      50px;
-  }
-
-  .author-panel {
-    padding:
-      24px;
-  }
-
-  .author-meta {
-    grid-template-columns:
-      1fr;
-  }
+  text-shadow:
+    0 0 15px
+    rgba(80,190,255,.55);
 
 }
+
 
 /* =========================================================
-   SUPPORT — AUF2026
+   CARDS — MAIN WOW
    ========================================================= */
 
-#support.support-page {
+.scope-card {
+
+  --focus-x: 50%;
+  --focus-y: 50%;
+
   position: relative;
+
   overflow: hidden;
-}
 
-#support .support-container {
-  position: relative;
-  z-index: 2;
-  width: min(920px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 90px 0 70px;
-}
+  transform-style:
+    preserve-3d;
 
-#support .support-kicker {
-  margin-bottom: 18px;
-  color: #5fcaff;
-  font-size: .72rem;
-  font-weight: 700;
-  letter-spacing: .2em;
-}
+  will-change:
+    transform;
 
-#support .support-title {
-  max-width: 760px;
-  margin: 0;
-  font-size: clamp(3rem, 8vw, 6rem);
-  line-height: .94;
-  letter-spacing: -.055em;
-  background: linear-gradient(
-    110deg,
-    #fff,
-    #c9edf9 55%,
-    #63caff
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-#support .support-lead {
-  max-width: 700px;
-  margin: 28px 0 0;
-  color: #a9bdc8;
-  font-size: 1.15rem;
-  line-height: 1.8;
-}
-
-#support .support-card {
-  position: relative;
-  margin-top: 60px;
-  padding: clamp(30px, 6vw, 58px);
-  overflow: hidden;
-  border: 1px solid rgba(120,190,220,.17);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.012)
-    );
-  box-shadow: 0 40px 100px rgba(0,0,0,.4);
   transition:
-    transform .4s ease,
-    border-color .4s ease,
-    box-shadow .4s ease;
+
+    transform .10s linear,
+
+    border-color .35s ease,
+
+    box-shadow .35s ease;
+
 }
 
-#support .support-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(90,195,255,.4);
-  box-shadow:
-    0 45px 110px rgba(0,0,0,.45),
-    0 0 55px rgba(70,170,240,.07);
-}
 
-#support .support-card::before {
+/*
+ * Cursor spotlight.
+ */
+
+.scope-card::before {
+
   content: "";
+
   position: absolute;
-  top: 0;
-  left: 8%;
-  width: 84%;
-  height: 1px;
+
+  inset: -1px;
+
+  pointer-events: none;
+
   background:
+
+    radial-gradient(
+
+      330px circle
+      at var(--focus-x) var(--focus-y),
+
+      rgba(75,185,255,.20),
+
+      rgba(75,185,255,.055) 32%,
+
+      transparent 68%
+
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity .2s ease;
+
+  z-index: 0;
+
+}
+
+
+/*
+ * Precision edge.
+ */
+
+.scope-card::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  border:
+
+    1px solid
+    rgba(80,180,255,.0);
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(100,210,255,.0),
+      rgba(100,210,255,.08),
+      transparent 45%
+    );
+
+  opacity: 0;
+
+  transition:
+    opacity .3s ease;
+
+}
+
+
+.scope-card:hover::before,
+.scope-card:hover::after {
+
+  opacity: 1;
+
+}
+
+
+.scope-card:hover {
+
+  border-color:
+    rgba(85,180,255,.42);
+
+  box-shadow:
+
+    0 25px 70px
+    rgba(0,0,0,.30),
+
+    0 0 0 1px
+    rgba(70,160,255,.05),
+
+    0 0 45px
+    rgba(50,145,255,.09);
+
+}
+
+
+/*
+ * Preserve content above spotlight.
+ */
+
+.scope-card > * {
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+
+/* =========================================================
+   CARD ID / INTERNAL MARKER
+   ========================================================= */
+
+.scope-card:hover .scope-id {
+
+  color:
+    #8ee4ff;
+
+  text-shadow:
+    0 0 18px
+    rgba(80,190,255,.55);
+
+}
+
+
+/* =========================================================
+   ARCHIVE LINKS
+   ========================================================= */
+
+.scope-links .archive-link {
+
+  position: relative;
+
+  display: inline-block;
+
+  will-change:
+    transform;
+
+  transition:
+
+    transform .14s ease-out,
+
+    color .25s ease,
+
+    text-shadow .25s ease;
+
+}
+
+
+/*
+ * Moving light under the link.
+ */
+
+.scope-links .archive-link::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  bottom: -5px;
+
+  width: 100%;
+
+  height: 1px;
+
+  background:
+
     linear-gradient(
       90deg,
       transparent,
-      #61d0ff,
+      rgba(90,200,255,.95),
       transparent
     );
-  box-shadow: 0 0 12px rgba(80,200,255,.5);
+
+  transform:
+    scaleX(0);
+
+  transform-origin:
+    center;
+
+  transition:
+    transform .35s cubic-bezier(.16,1,.3,1);
+
 }
 
-#support .donation-container {
-  margin-top: 42px;
-  padding-top: 34px;
-  border-top: 1px solid rgba(120,190,220,.14);
+
+.scope-links .archive-link:hover::after {
+
+  transform:
+    scaleX(1);
+
 }
 
-#support .donation-title {
-  margin: 0 0 22px;
-  color: #dff7ff;
-  font-size: clamp(1.35rem, 3vw, 1.9rem);
+
+.scope-links .archive-link:hover {
+
+  color:
+    #a3eaff;
+
+  text-shadow:
+
+    0 0 8px
+    rgba(70,190,255,.5),
+
+    0 0 22px
+    rgba(70,190,255,.18);
+
 }
 
-#support .author-meta {
-  padding: 20px 0;
-  color: #8fa8b4;
-  font-size: .88rem;
-  line-height: 1.9;
+
+/* =========================================================
+   THEOREM REGISTRY
+   ========================================================= */
+
+#theoremRegistryLinks {
+
+  position: relative;
+
 }
 
-#support .author-name {
-  color: #d8f4fc;
+
+/*
+ * Vertical instrument rail.
+ */
+
+#theoremRegistryLinks::before {
+
+  content: "";
+
+  position: absolute;
+
+  left: -18px;
+
+  top: 0;
+
+  width: 1px;
+
+  height: 100%;
+
+  background:
+
+    linear-gradient(
+      to bottom,
+
+      transparent,
+
+      rgba(65,175,255,.45) 15%,
+
+      rgba(65,175,255,.12) 50%,
+
+      transparent
+    );
+
 }
 
-#support .author-quote {
-  color: #71909d;
-  font-style: italic;
+
+/*
+ * THE LASER
+ *
+ * One single pass.
+ */
+
+#theoremRegistryLinks::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: -12px;
+
+  left: -25px;
+
+  width: 2px;
+
+  height: calc(100% + 24px);
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  background:
+
+    linear-gradient(
+      to bottom,
+
+      transparent 0%,
+
+      rgba(65,190,255,.1) 15%,
+
+      #61d5ff 48%,
+
+      #9de8ff 50%,
+
+      #42bfff 52%,
+
+      rgba(65,190,255,.1) 85%,
+
+      transparent 100%
+    );
+
+  box-shadow:
+
+    0 0 5px
+    rgba(65,190,255,.95),
+
+    0 0 18px
+    rgba(65,190,255,.55),
+
+    0 0 42px
+    rgba(65,190,255,.18);
+
 }
 
-#support .meta-label {
-  color: #5d7c88;
+
+/*
+ * Scanner activated by JS.
+ */
+
+#theoremRegistryLinks.auf-scanning::after {
+
+  animation:
+
+    auf-laser-pass
+    1.05s
+    cubic-bezier(.2,.05,.15,1)
+    forwards;
+
 }
 
-#support .meta-link {
-  color: #61cfff;
-  text-decoration: none;
-}
 
-#support .meta-link:hover {
-  color: #a0eaff;
-  text-shadow: 0 0 12px rgba(90,205,255,.35);
-}
+@keyframes auf-laser-pass {
 
-#support .framework-formulas {
-  margin: 22px 0 26px;
-  padding: 20px 22px;
-  border-left: 2px solid rgba(95,202,255,.5);
-  background: rgba(60,150,190,.035);
-  color: #9ee4f8;
-  font-family: "Times New Roman", Georgia, serif;
-  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
-  line-height: 2;
-}
+  0% {
 
-#support .donation-description {
-  color: #8ea5b0;
-  font-size: .9rem;
-}
+    transform:
+      translateX(0);
 
-#support .stripe-support {
-  margin-top: 28px;
-}
+    opacity: 0;
 
-#support .payment-line {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 20px;
-  color: #718793;
-  font-size: .78rem;
-}
-
-#support .payment-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #5ed5ff;
-  box-shadow: 0 0 10px rgba(90,210,255,.9);
-}
-
-#support .legal-notice {
-  margin-top: 32px;
-  padding: 20px 22px;
-  border: 1px solid rgba(120,190,220,.09);
-  background: rgba(0,0,0,.12);
-  color: #687f8b;
-  font-size: .76rem;
-  line-height: 1.75;
-}
-
-#support .legal-notice strong {
-  color: #8ca7b2;
-  letter-spacing: .08em;
-}
-
-#support .legal-notice p {
-  margin: 10px 0 0;
-  color: #687f8b;
-}
-
-#support .system-signature {
-  margin-top: 24px;
-  color: #526c78;
-  font-size: .75rem;
-}
-
-#support .system-signature strong {
-  color: #7293a0;
-}
-
-#support .principles {
-  margin-top: 65px;
-  border-top: 1px solid rgba(120,190,220,.15);
-}
-
-#support .principle {
-  display: grid;
-  grid-template-columns: 60px 1fr;
-  gap: 20px;
-  padding: 28px 0;
-  border-bottom: 1px solid rgba(120,190,220,.15);
-  transition: padding-left .3s ease;
-}
-
-#support .principle:hover {
-  padding-left: 10px;
-}
-
-#support .number {
-  color: #58caff;
-  font-family: monospace;
-  font-size: .75rem;
-}
-
-#support .principle h3 {
-  margin: 0 0 5px;
-  font-size: 1.05rem;
-}
-
-#support .principle p {
-  max-width: 700px;
-  margin: 0;
-  color: #8197a3;
-  font-size: .92rem;
-}
-
-#support .support-footer {
-  margin-top: 60px;
-  color: #526874;
-  font-size: .78rem;
-  letter-spacing: .04em;
-}
-
-@media (max-width: 600px) {
-
-  #support .support-container {
-    padding-top: 65px;
   }
 
-  #support .support-card {
-    padding: 30px 22px;
+  8% {
+
+    opacity: .95;
+
   }
 
-  #support .principle {
-    grid-template-columns: 40px 1fr;
+  78% {
+
+    opacity: .85;
+
   }
 
-  #support .framework-formulas {
-    padding: 16px;
+  100% {
+
+    transform:
+      translateX(
+        calc(100% + 35px)
+      );
+
+    opacity: 0;
+
   }
 
 }
-    
+
+
+/*
+ * Registry content catches the laser briefly.
+ */
+
+#theoremRegistryLinks.auf-scanning
+.archive-link {
+
+  animation:
+
+    auf-registry-catch
+    1.05s
+    ease-out
+    forwards;
+
+}
+
+
+@keyframes auf-registry-catch {
+
+  0% {
+
+    color: inherit;
+
+    text-shadow: none;
+
+  }
+
+  32% {
+
+    color:
+      #a8eaff;
+
+    text-shadow:
+
+      0 0 7px
+      rgba(70,190,255,.75),
+
+      0 0 18px
+      rgba(70,190,255,.25);
+
+  }
+
+  100% {
+
+    color: inherit;
+
+    text-shadow: none;
+
+  }
+
+}
+
+
+/* =========================================================
+   VALIDATION
+   ========================================================= */
+
+.validation-banner {
+
+  position: relative;
+
+  overflow: hidden;
+
+}
+
+
+.validation-banner::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  bottom: 0;
+
+  left: -15%;
+
+  width: 1px;
+
+  opacity: 0;
+
+  background:
+
+    linear-gradient(
+      transparent,
+      rgba(80,200,255,.9),
+      transparent
+    );
+
+  box-shadow:
+
+    0 0 12px
+    rgba(80,200,255,.55);
+
+}
+
+
+.validation-banner:hover::after {
+
+  animation:
+
+    auf-validation-scan
+    1.1s
+    cubic-bezier(.2,.05,.15,1)
+    forwards;
+
+}
+
+
+@keyframes auf-validation-scan {
+
+  0% {
+
+    left: -10%;
+
+    opacity: 0;
+
+  }
+
+  10% {
+
+    opacity: .8;
+
+  }
+
+  100% {
+
+    left: 110%;
+
+    opacity: 0;
+
+  }
+
+}
+
+
+/* =========================================================
+   EVIDENCE CHAIN
+   ========================================================= */
+
+.validation-banner p {
+
+  transition:
+
+    color .35s ease,
+
+    text-shadow .35s ease;
+
+}
+
+
+.validation-banner p:hover {
+
+  color:
+    #e8f8ff;
+
+  text-shadow:
+    0 0 14px
+    rgba(80,180,255,.16);
+
+}
+
+
+/* =========================================================
+   NOTES
+   ========================================================= */
+
+.scope-note {
+
+  transition:
+
+    transform .4s cubic-bezier(.16,1,.3,1),
+
+    box-shadow .4s ease,
+
+    border-color .4s ease;
+
+}
+
+
+.scope-note:hover {
+
+  transform:
+    translateX(8px);
+
+  box-shadow:
+
+    -14px 0 40px
+    rgba(60,155,255,.07);
+
+}
+
+
+/* =========================================================
+   TABLE FOCUS
+   ========================================================= */
+
+table tbody tr {
+
+  position: relative;
+
+  transition:
+
+    background .2s ease,
+
+    transform .2s ease;
+
+}
+
+
+table tbody tr:hover {
+
+  background:
+    rgba(60,160,255,.055);
+
+  transform:
+    translateX(5px);
+
+}
+
+
+/* =========================================================
+   CODE / FORMAL PROOF
+   ========================================================= */
+
+pre,
+code {
+
+  transition:
+
+    border-color .35s ease,
+
+    box-shadow .35s ease,
+
+    color .35s ease;
+
+}
+
+
+pre:hover {
+
+  box-shadow:
+
+    inset 0 0 35px
+    rgba(50,160,255,.035),
+
+    0 0 28px
+    rgba(50,160,255,.05);
+
+}
+
+
+code:hover {
+
+  color:
+    #a6eaff;
+
+}
+
+
+/* =========================================================
+   NODES
+   ========================================================= */
+
+.node {
+
+  transition:
+
+    transform .35s
+    cubic-bezier(.16,1,.3,1),
+
+    filter .35s ease,
+
+    opacity .35s ease;
+
+}
+
+
+.node:hover {
+
+  transform:
+    scale(1.12);
+
+  filter:
+
+    drop-shadow(
+      0 0 6px
+      rgba(70,190,255,.8)
+    )
+
+    drop-shadow(
+      0 0 18px
+      rgba(70,160,255,.25)
+    );
+
+}
+
+
+/* =========================================================
+   FIGURES
+   ========================================================= */
+
+figure {
+
+  transition:
+
+    transform .6s
+    cubic-bezier(.16,1,.3,1);
+
+}
+
+
+figure:hover {
+
+  transform:
+    translateY(-4px);
+
+}
+
+
+figure img {
+
+  transition:
+    filter .5s ease;
+
+}
+
+
+figure:hover img {
+
+  filter:
+
+    brightness(1.04)
+
+    contrast(1.02)
+
+    saturate(1.04);
+
+}
+
+
+/* =========================================================
+   FOOTER DEPTH
+   ========================================================= */
+
+footer {
+
+  transition:
+    box-shadow .6s ease;
+
+}
+
+
+footer:hover {
+
+  box-shadow:
+
+    0 -30px 80px
+    rgba(50,150,255,.055);
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media
+(prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    animation:
+      none !important;
+
+    transition:
+      none !important;
+
+  }
+
+}
+ 
   </style>
 </head>
-
-
 <body>
 
-
-<!-- =========================================================
-     HEADER
-     ========================================================= -->
-
-<header>
-
-  <div class="container nav">
-
+  <header>
     <a
       href="#top"
       class="brand"
     >
-      <span>AUF</span>2026
-    </a>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">AUF<span>2026</span> Foundational Framework</div>
 
+      <div class="nav-links">
+        <a href="#author">Faure</a>
+        <a href="#axioms">Assiomi</a>
+        <a href="#theorems">Teoremi</a>
+        <a href="#documents">Ricerca</a>
+        <a href="#faure-framework-donation-block">Donation</a>
+        <a href="#part2">Filosofia</a>
+      </div>
 
-    <button
-      class="menu-button"
-      id="menuButton"
-      aria-label="Open navigation"
-    >
-      MENU
-    </button>
-
-
-    <!-- =====================================================
-         MAIN SITE NAVIGATION
-         ===================================================== -->
-
-    <nav
-      class="nav-links"
-      id="navLinks"
-    >
-
-      <a href="#framework">
-        Framework
-      </a>
-
-      <a href="#theorems">
-        Theorems
-      </a>
-
-      <a href="#mathematics">
-        Mathematics
-      </a>
-
-      <a href="#verification">
-        Lean
-      </a>
-
-      <a href="#kernel">
-        Kernel
-      </a>
-
-      <a href="#applications">
-        Applications
-      </a>
-
-      <a href="#support">
-        Donation
-      </a>
-
-      <a href="#documents">
-        Documents
-      </a>
-
-      <a href="pages/index.html">
-        Pages
-      </a>
-
-      <a href="#author">
-        Author
-      </a>
-
-    </nav>
-
-  </div>
-
-
-  <!-- =======================================================
-       REPOSITORY SECTION NAVIGATION
-       ======================================================= -->
-
-  <div class="repository-navigation">
-
-    <div class="container">
-
-      <nav
-        class="repository-sections"
-        aria-label="Repository sections"
-      >
-
-        <a
-          href="bibliography/index.html"
-          class="repository-section-link"
-        >
-          Bibliography
+      <div class="repository-sections">
+        <a href="pages/Proof%20%26%20Doc%20Visualizer.html" class="repository-section-link">
+          Visualizzatore Documenti
         </a>
-
-        <a
-          href="code/index.html"
-          class="repository-section-link"
-        >
-          Code
-        </a>
-
-        <a
-          href="datasets/index.html"
-          class="repository-section-link"
-        >
-          Datasets
-        </a>
-
-        <a
-          href="docs/index.html"
-          class="repository-section-link"
-        >
-          Documents
-        </a>
-
-        <a
-          href="pages/index.html"
-          class="repository-section-link"
-        >
-          Pages
-        </a>
-
-        <a
-          href="papers/index.html"
-          class="repository-section-link"
-        >
-          Papers
-        </a>
-
-        <a
-          href="pdf/index.html"
-          class="repository-section-link"
-        >
-          PDF
-        </a>
-
-        <a
-          href="proofs/index.html"
-          class="repository-section-link"
-        >
-          Proofs
-        </a>
-
-        <a
-          href="validation/index.html"
-          class="repository-section-link"
-        >
-          Validation
-        </a>
-
-      </nav>
-
+        <a href="https://github.com" class="repository-section-link">Docs</a>
+        <a href="https://github.com" class="repository-section-link">Proofs</a>
+      </div>
     </div>
-
   </div>
-
 </header>
 
-
-<main id="top">
-
-
-
-<!-- =========================================================
+<main>
+  <div class="container">
+    
+    <!-- =========================================================
      HERO
      ========================================================= -->
 
@@ -4073,35 +5545,930 @@ header {
 
 </section>
 
-</main>
+    <div class="hero" id="part2">
+      <div>
+        <div class="eyebrow">AOS Programma Fondazionale + Paradigmatico</div>
 
-  
-<!-- =========================================================
-     FOOTER
-     ========================================================= -->
+        <h1>Faure axiom & law</h1>
+
+        <div class="hero-subtitle">
+          Strutture matematiche, computazione deterministica, verificabilità formale
+          rigida e ricerca scientifica riproducibile. Benvenuto nell'archivio tecnico
+          centrale dell'ecosistema AUF2026.
+        </div>
+
+        <div class="hero-actions">
+          <a
+            href="pages/Proof%20%26%20Doc%20Visualizer.html"
+            class="button button-primary"
+          >
+            &boxplus; Apri l'Archive Reader
+          </a>
+
+          <a
+            href="https://github.com"
+            target="_blank"
+            class="button button-secondary"
+          >
+            Esplora il Repository GitHub
+          </a>
+        </div>
+
+        <div class="genealogy-box">
+          Genealogia Assoluta:
+          K_min &rarr; F &rarr; U_F &rarr; AOS144 &rarr; N_F &rarr; &mu;_F
+          &rarr; L_F &rarr; &perp;_F &rarr; Born
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <section id="philosophy">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Sezione I</div>
+
+        <h2>Faure Foundational Philosophy</h2>
+
+        <div class="section-description">
+          L'ossatura fondamentale e assiomatica che precede l'intera catena di
+          deduzione, stabilendo una gerarchia che vincola l'informazione pura
+          alle sue realizzazioni concrete.
+        </div>
+      </div>
+
+      <h3>I. Enunciato Fondazionale</h3>
+
+      <div class="card" style="margin-bottom: 40px; width: 100%;">
+
+        <div class="card-number">
+          FF-0 // PRINCIPIO DI PRECEDENZA STRUTTURALE
+        </div>
+
+        <p>
+          Esiste una distinzione fondamentale tra struttura, rappresentazione,
+          manifestazione computazionale e manifestazione fisica.
+        </p>
+
+        <div class="box-math math-safe">
+          $$
+          \begin{aligned}
+          \text{struttura}
+          &\neq
+          \text{rappresentazione}
+          \\
+          &\neq
+          \text{manifestazione computazionale}
+          \\
+          &\neq
+          \text{manifestazione fisica}
+          \end{aligned}
+          $$
+        </div>
+
+        <p>
+          Quando una famiglia di fenomeni, dati, computazioni o configurazioni
+          fisiche è riconducibile a un medesimo insieme di invarianti, tali
+          manifestazioni possono essere considerate realizzazioni differenti
+          di una struttura comune. La struttura non deriva dalla propria
+          manifestazione. È la manifestazione che, quando la corrispondenza
+          è fedele, realizza la struttura.
+        </p>
+
+        <div class="box-math math-safe">
+          $$
+          \mathcal F
+          \longrightarrow
+          \mathcal R
+          \longrightarrow
+          \mathcal C
+          \longrightarrow
+          \mathcal P
+          $$
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--muted); margin-top: 10px;">
+          Dove: \(\mathcal F\) = struttura matematica invariante;
+          \(\mathcal R\) = rappresentazione;
+          \(\mathcal C\) = manifestazione computazionale;
+          \(\mathcal P\) = manifestazione fisica.
+          La freccia indica precedenza strutturale, non necessariamente
+          successione temporale.
+        </p>
+
+      </div>
+
+      <h3 id="axioms" style="margin-top: 60px; margin-bottom: 25px;">
+        II. I cinque assiomi fondazionali
+      </h3>
+
+      <div class="grid">
+
+        <div class="card">
+
+          <div class="card-number">A1 // STRUTTURA</div>
+
+          <h3>Assioma di Struttura</h3>
+
+          <p>
+            Ogni oggetto matematico o fenomenico considerato dal formalismo
+            è trattato attraverso una struttura relazionale:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \mathcal F=(X,\mathcal R,\mathcal I)
+            $$
+          </div>
+
+          <p>
+            dove \(X\) è il dominio, \(\mathcal R\) l'insieme delle relazioni
+            ammissibili e \(\mathcal I\) l'insieme degli invarianti rilevanti.
+            L'identità strutturale di \(\mathcal F\) non coincide quindi con
+            la particolare codifica utilizzata per rappresentarla.
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-number">A2 // INVARIANZA</div>
+
+          <h3>Assioma di Invarianza</h3>
+
+          <p>
+            Una proprietà è fondazionale quando rimane invariata sotto le
+            trasformazioni ammissibili della rappresentazione.
+            Per una trasformazione \(T:X\rightarrow X'\), una quantità \(I\)
+            è invariante quando:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            I(Tx)=I(x)
+            $$
+          </div>
+
+          <p>
+            L'invariante costituisce pertanto il candidato fondamentale
+            all'identificazione della struttura.
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-number">A3 // RAPPRESENTAZIONE</div>
+
+          <h3>Assioma di Rappresentazione</h3>
+
+          <p>
+            Ogni rappresentazione è una mappa:
+            \(\rho:\mathcal F\rightarrow\mathcal R(\mathcal F)\).
+            La rappresentazione può cambiare coordinate, codifica, linguaggio,
+            granularità, substrato o algoritmo senza necessariamente
+            modificare la struttura rappresentata.
+            Pertanto:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \rho(\mathcal F)\neq\mathcal F
+            $$
+          </div>
+
+          <p>
+            pur potendo essere fedele a \(\mathcal F\).
+          </p>
+
+        </div>
+
+        <div class="card">
+
+          <div class="card-number">A4 // MANIFESTAZIONE</div>
+
+          <h3>Assioma di Manifestazione</h3>
+
+          <p>
+            Una manifestazione è una realizzazione di una rappresentazione:
+            \(m:\mathcal R(\mathcal F)\rightarrow\mathcal M\).
+            La manifestazione può essere computazionale o fisica.
+            Ne segue l'ordinamento morfico rigido:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            \mathcal F
+            &\rightarrow
+            \mathcal R
+            \\
+            &\rightarrow
+            \mathcal M_{\rm comp}
+            \\
+            &\rightarrow
+            \mathcal M_{\rm phys}
+            \end{aligned}
+            $$
+          </div>
+
+        </div>
+
+        <div class="card" style="grid-column: 1 / -1;">
+
+          <div class="card-number">A5 // NON-CREAZIONE</div>
+
+          <h3>Assioma di Non-Creazione</h3>
+
+          <p>
+            La manifestazione fedele di un sistema non genera dal nulla
+            l'invariante che esprime. Se l'uguaglianza spettrale è conservata:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            I(\mathcal F)
+            =
+            I(\mathcal R)
+            =
+            I(\mathcal C)
+            $$
+          </div>
+
+          <p>
+            allora l'invariante appartiene intrinsecamente e originariamente
+            alla struttura pura \(\mathcal F\), mentre \(\mathcal R\) e
+            \(\mathcal C\) ne costituiscono mere proiezioni esecutive.
+            Vale strettamente:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            \text{manifestazione}
+            &\neq
+            \text{origine dell'invariante}
+            \end{aligned}
+            $$
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="theorems">
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Sezione II</div>
+
+        <h2>Teoremi Fondamentali</h2>
+
+        <div class="section-description">
+          I vincoli logici e formali derivati dagli assiomi. Dimostrazioni e
+          implicazioni operative della conservazione degli invarianti lungo
+          l'albero morfico.
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- F1 -->
+
+        <div class="card" style="grid-column: 1 / -1;">
+
+          <div class="card-number">
+            F1 // TEOREMA FONDAMENTALE DI FAURE
+          </div>
+
+          <h3>Teorema della Precedenza dell'Invariante</h3>
+
+          <p>
+            Siano \(\mathcal F,\mathcal R,\mathcal C,\mathcal P\)
+            rispettivamente struttura, rappresentazione, manifestazione
+            computazionale e manifestazione fisica. Supponiamo che esistano
+            mappe \(\rho:\mathcal F\to\mathcal R\),
+            \(c:\mathcal R\to\mathcal C\),
+            \(p:\mathcal C\to\mathcal P\) e che una famiglia di invarianti
+            \(I\) sia preservata da tutte le mappe:
+            \(I(\rho(x))=I(x)\),
+            \(I(c(y))=I(y)\),
+            \(I(p(z))=I(z)\).
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            I(\mathcal F)
+            &=
+            I(\mathcal R)
+            \\
+            &=
+            I(\mathcal C)
+            \\
+            &=
+            I(\mathcal P)
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            <strong>Dimostrazione:</strong>
+            Per composizione delle mappe:
+            \(p\circ c\circ\rho:\mathcal F\rightarrow\mathcal P\).
+            Per la conservazione sequenziale dell'invariante \(I\):
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            I((p\circ c\circ\rho)(x))
+            &=
+            I(c(\rho(x)))
+            \\
+            &=
+            I(\rho(x))
+            \\
+            &=
+            I(x)
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            Pertanto:
+            \(I(\mathcal P)=I(\mathcal F)\).
+            <strong>QED.</strong>
+          </p>
+
+          <p style="font-size: 0.9rem; color: var(--muted); margin-top: 10px;">
+            <em>Significato:</em>
+            La struttura è logicamente anteriore alle sue manifestazioni
+            relativamente agli invarianti conservati. Non è richiesto che
+            le manifestazioni siano identiche tra loro, ma che siano
+            strutturalmente fedeli rispetto agli invarianti isolati.
+          </p>
+
+        </div>
+
+        <!-- F2 -->
+
+        <div class="card">
+
+          <div class="card-number">F2 // INDIPENDENZA</div>
+
+          <h3>Substrate Independence Theorem</h3>
+
+          <p>
+            Siano \(\mathcal M_1,\mathcal M_2,\ldots,\mathcal M_n\)
+            manifestazioni su substrati differenti. Se esistono mappe fedeli
+            \(m_i:\mathcal F\rightarrow\mathcal M_i\) tali che
+            \(I(m_i(\mathcal F))=I(\mathcal F)\) per ogni \(i\), allora la
+            proprietà strutturale non dipende dal substrato particolare:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            I(\mathcal M_1)
+            &=
+            I(\mathcal M_2)
+            \\
+            &=
+            \cdots
+            \\
+            &=
+            I(\mathcal M_n)
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            <em>Conseguenza:</em>
+            La medesima struttura può manifestarsi attraverso la sequenza:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \text{matematica}
+            \rightarrow
+            \text{informazione}
+            \rightarrow
+            \text{computazione}
+            \rightarrow
+            \text{materia}
+            $$
+          </div>
+
+          <p>
+            La diversità dei substrati non implica una diversità strutturale.
+          </p>
+
+        </div>
+
+        <!-- F3 -->
+
+        <div class="card">
+
+          <div class="card-number">F3 // NON-IDENTITÀ</div>
+
+          <h3>Representation–Reality Non-Identity Theorem</h3>
+
+          <p>
+            Una manifestazione fedele non è identica alla struttura che
+            rappresenta:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            \mathcal F &\neq \mathcal R
+            \\
+            \mathcal R &\neq \mathcal C
+            \\
+            \mathcal C &\neq \mathcal P
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            Tuttavia può sussistere equivalenza rispetto alla famiglia
+            di invarianti \(I\):
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \mathcal F
+            \sim_I
+            \mathcal R
+            \sim_I
+            \mathcal C
+            \sim_I
+            \mathcal P
+            $$
+          </div>
+
+          <p>
+            <em>Conseguenza:</em>
+            Non si deve confondere la mappa con il territorio, ma non si
+            deve nemmeno concludere che la mappa sia priva di contenuto;
+            la sua validità consiste nella fedeltà strutturale.
+          </p>
+
+        </div>
+
+        <!-- F4 -->
+
+        <div class="card">
+
+          <div class="card-number">F4 // DERIVAZIONE</div>
+
+          <h3>Computational Derivation Theorem</h3>
+
+          <p>
+            Sia \(A=\mathrm{Alg}(\mathcal F)\) un algoritmo derivato da una
+            struttura \(\mathcal F\). Se \(A\) preserva gli invarianti
+            richiesti, allora:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            A
+            &=
+            \text{manifestazione operativa di }\mathcal F
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            e non la sua sorgente. Due algoritmi differenti
+            \(A_1\neq A_2\) possono essere equivalenti rispetto alla struttura:
+            \(A_1\sim_I A_2\).
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \text{struttura}
+            >
+            \text{algoritmo}
+            $$
+          </div>
+
+        </div>
+
+        <!-- F5 -->
+
+        <div class="card">
+
+          <div class="card-number">F5 // ORDINAMENTO DATO</div>
+
+          <h3>Data–Interpretation Ordering Theorem</h3>
+
+          <p>
+            Siano \(D\) i dati e \(H\) un'interpretazione.
+            Il metodo fondazionale richiede l'ordinamento rigido:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            D\rightarrow H
+            \qquad
+            \text{e mai}
+            \qquad
+            H\rightarrow D
+            $$
+          </div>
+
+          <p>
+            Una struttura interpretativa non deve essere utilizzata per
+            produrre selettivamente il dato che la confermerebbe.
+            L'invariante deve essere cercato attraverso trasformazioni,
+            confronti e ripetizioni indipendenti.
+          </p>
+
+          <p>
+            Se
+            \(I(D_1)=I(D_2)=\cdots=I(D_n)\)
+            nonostante variazioni, la persistenza evidenzia la struttura.
+            L'interpretazione segue la persistenza.
+          </p>
+
+        </div>
+
+        <!-- F6 -->
+
+        <div class="card">
+
+          <div class="card-number">F6 // SEPARAZIONE</div>
+
+          <h3>Level Separation Theorem</h3>
+
+          <p>
+            Una proprietà dimostrata a un determinato livello non può essere
+            trasferita automaticamente ad un altro livello della catena.
+            In particolare:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \begin{aligned}
+            Q(\mathcal C)
+            &\not\Rightarrow
+            Q(\mathcal P)
+            \\
+            Q(\mathcal P)
+            &\not\Rightarrow
+            Q(\mathcal F)
+            \end{aligned}
+            $$
+          </div>
+
+          <p>
+            senza una mappa che dimostri la conservazione della proprietà.
+            Questo diventa un principio di rigore fondamentale: ogni salto
+            di livello richiede una mappa d'invarianza verificata.
+          </p>
+
+        </div>
+
+        <!-- F7 -->
+
+        <div class="card">
+
+          <div class="card-number">F7 // UNIVERSALITÀ</div>
+
+          <h3>Structural Universality Theorem</h3>
+
+          <p>
+            Una struttura \(\mathcal F\) è universalmente applicabile rispetto
+            a una famiglia di domini \(D_1,D_2,\ldots,D_n\) quando esistono
+            mappe \(\phi_i:\mathcal F\rightarrow D_i\) che ne conservano
+            il nucleo invariante:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            I(\phi_i(\mathcal F))
+            =
+            I(\mathcal F)
+            $$
+          </div>
+
+          <p>
+            L'universalità non è definita dal numero di applicazioni, ma dalla
+            conservazione del medesimo nucleo strutturale attraverso domini
+            eterogenei:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \text{Universalità}
+            =
+            \text{invarianza attraverso domini}
+            $$
+          </div>
+
+        </div>
+
+        <!-- F8 -->
+
+        <div class="card">
+
+          <div class="card-number">F8 // AUTORE</div>
+
+          <h3>Author Independence Theorem</h3>
+
+          <p>
+            Sia \(\mathcal F\) una struttura formalizzata dall'autore \(A\).
+            Se un secondo soggetto \(B\), operando in modo indipendente,
+            ricostruisce la medesima struttura e verifica che:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            I_B(\mathcal F)
+            =
+            I_A(\mathcal F)
+            $$
+          </div>
+
+          <p>
+            allora la validità intrinseca della struttura è separata
+            dall'identità dell'operatore:
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \mathrm{Truth}(\mathcal F)
+            \not\equiv
+            \mathrm{Authority}(A)
+            $$
+          </div>
+
+          <p>
+            L'autore fornisce la codifica, la struttura fornisce le proprietà,
+            la traiettoria indipendente valida le conseguenze. Il riconoscimento
+            esterno o istituzionale costituisce un livello ulteriore e distinto.
+          </p>
+
+        </div>
+
+        <!-- F9 -->
+
+        <div class="card">
+
+          <div class="card-number">F9 // MANIFESTAZIONE MULTIPLA</div>
+
+          <h3>Multiple Manifestation Theorem</h3>
+
+          <p>
+            Se la struttura pura \(\mathcal F\) possiede \(n\) rappresentazioni
+            fedeli \(R_1,\ldots,R_n\), possono coesistere \(m\) manifestazioni
+            computazionali distinte per ogni rappresentazione:
+            \(C_{ij}=m_j(R_i(\mathcal F))\).
+          </p>
+
+          <div class="box-math math-safe">
+            $$
+            \mathcal F
+            \rightarrow
+            \{R_i\}
+            \rightarrow
+            \{C_{ij}\}
+            \rightarrow
+            \{P_{ijk}\}
+            $$
+          </div>
+
+          <p>
+            La pluralità delle manifestazioni non intacca l'unicità della
+            struttura generatrice.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="reality">
+
+    <div class="container">
+
+      <div class="section-heading">
+        <div class="eyebrow">Sezione III</div>
+        <h2>Principio di Realtà Strutturale</h2>
+      </div>
+
+      <div class="card" style="width: 100%;">
+
+        <div class="card-number">XII // ABSOLUTE REALITY</div>
+
+        <p>
+          Questo costituisce il passaggio filosofico più profondo dell'intero
+          impianto fondazionale.
+        </p>
+
+        <p>
+          Non si afferma in alcun modo che
+          <em>"la matematica inventa la realtà"</em>,
+          né si conclude ciecamente che
+          <em>"la realtà è semplicemente la matematica"</em>.
+          Si stabilisce invece il seguente enunciato rigoroso:
+        </p>
+
+        <div class="box-math highlight-text">
+          <p>
+            <strong>
+              Quando una struttura è realmente condivisa da manifestazioni
+              indipendenti, la struttura stessa costituisce la realtà
+              fondamentale del sistema, mentre le manifestazioni ne sono
+              le proiezioni contingenti.
+            </strong>
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="verification">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <div class="eyebrow">Sezione IV</div>
+
+        <h2>Kernel di Verifica Formale (Lean 4 Core)</h2>
+
+        <div class="section-description">
+          L'istanza discreta del principio di stabilizzazione universale
+          dell'operatore spettrale \(\Psi\), pilastro matematico del collasso
+          della coda dinamica nell'architettura.
+        </div>
+
+      </div>
+
+      <pre><code>import Mathlib
+
+namespace AUF2026
+
+/-- Faure Universal Stabilization Theorem -/
+theorem faure_universal_stabilization
+    {X : Type*} (Ψ : X → X) (h45 : Ψ^5 = Ψ^4) :
+    ∀ n : Nat, 4 ≤ n → Ψ^[n] = Ψ^4 := by
+  have hfix : Ψ^4 ∘ Ψ = Ψ^4 := by
+    simpa [Function.iterate_succ] using h45.symm
+
+  have htail : ∀ k : Nat, Ψ^[4 + k] = Ψ^4 := by
+    intro k
+    induction k with
+    | zero => rfl
+    | succ k ih =>
+        rw [show 4 + (k + 1) = (4 + k) + 1 by omega]
+        rw [Function.iterate_succ]
+        rw [ih]
+        exact hfix
+
+  intro n hn
+  obtain ⟨k, rfl⟩ := Nat.le.dest hn
+  exact htail k
+
+end AUF2026</code></pre>
+
+    </div>
+
+  </section>
+
+</main>
 
 <footer>
 
-  <div class="container footer-row">
+  <div
+    class="container"
+    style="
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+      padding: 40px 0;
+      font-size: 0.85rem;
+      color: var(--muted);
+    "
+  >
 
-    <div>
-      © 2026 AUF2026 — Alain Faure
+    <p style="margin-bottom: 20px;">
+      <strong>
+        Registro Fondazionale di Ricerca Indipendente
+      </strong>
+      — Validazione e Tracciabilità Computazionale.
+    </p>
+
+    <p
+      style="
+        color: #ffffff;
+        font-family: ui-monospace, monospace;
+        font-size: 1rem;
+        margin-bottom: 5px;
+      "
+    >
+      <strong>Alain Faure — Master Architect - Q.E.D.</strong>
+    </p>
+
+    <p style="font-style: italic; margin-bottom: 15px;">
+      “First the data speak. Then, through the data, Alain Faure speaks.”
+    </p>
+
+    <p style="margin-bottom: 25px;">
+      <strong>ORCID:</strong>
+      <a
+        href="https://orcid.org"
+        target="_blank"
+        style="color: var(--blue);"
+      >
+        0009-0009-5333-1181
+      </a>
+
+      |
+
+      <strong>GitHub:</strong>
+      <a
+        href="https://github.com"
+        target="_blank"
+        style="color: var(--blue);"
+      >
+        AUF2026
+      </a>
+
+      |
+
+      <strong>LinkedIn:</strong>
+      <a
+        href="https://linkedin.com"
+        target="_blank"
+        style="color: var(--blue);"
+      >
+        alain-faure-ge
+      </a>
+
+      |
+
+      <strong>Email:</strong>
+      <a
+        href="mailto:AUF2026@protonmail.com"
+        style="color: var(--blue);"
+      >
+        AUF2026@protonmail.com
+      </a>
+    </p>
+
+    <div
+      style="
+        text-align: center;
+        margin: 30px 0;
+        font-size: 0.85rem;
+        color: var(--green);
+        overflow-x: hidden;
+      "
+    >
+
+      <div class="box-math math-safe">
+        $$
+        \mathcal F(A,A',S,S',R,R',T,\phi)
+        $$
+      </div>
+
+      <div class="box-math math-safe">
+        $$
+        U_F(M,G,A,\Psi,\Lambda,\Pi)
+        $$
+      </div>
+
     </div>
 
-    <div>
-      Research archive · Formal verification · Reproducibility
-    </div>
+    <p
+      style="
+        text-align: center;
+        font-size: 0.8rem;
+        margin-top: 20px;
+      "
+    >
+      © 2026 AUF2026 Foundational Framework Architecture.
+      All Rights Reserved.
+    </p>
 
   </div>
 
 </footer>
 
 
-<!-- =========================================================
-     JAVASCRIPT
-     ========================================================= -->
-
-<script>
+  <script>
 
   /*
    * =========================================================
@@ -6156,7 +8523,7 @@ footer:hover {
 
 })();
 
-</script>
-
+</script
+  
 </body>
 </html>
