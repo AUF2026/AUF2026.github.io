@@ -2306,7 +2306,59 @@ header {
   }
 
 }
-    
+
+/* =========================================================
+   MATHJAX — CONTENIMENTO FORMULE NELLE CARD
+   Non modifica lo stile delle card esistente.
+   ========================================================= */
+
+.card {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.box-math {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  padding: 12px 10px;
+}
+
+/* MathJax non deve mai forzare la larghezza della card */
+.box-math mjx-container {
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+/* Formule display molto lunghe:
+   vengono rese verticalmente quando necessario */
+.box-math mjx-container[display="true"] {
+  max-width: 100% !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Contenimento generale MathJax dentro le card */
+.card mjx-container {
+  max-width: 100% !important;
+}
+
+/* Su schermi piccoli: maggiore protezione contro lo sbordo */
+@media (max-width: 700px) {
+  .box-math {
+    overflow-x: auto;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .box-math mjx-container {
+    max-width: 100% !important;
+  }
+}
+
   </style>
 </head>
 
