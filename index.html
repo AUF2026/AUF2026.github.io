@@ -6318,28 +6318,45 @@ footer:hover {
 
 namespace AUF2026
 
-/-- Faure Universal Stabilization Theorem -/
-theorem faure_universal_stabilization
-    {X : Type*} (Ψ : X → X) (h45 : Ψ^5 = Ψ^4) :
-    ∀ n : Nat, 4 ≤ n → Ψ^[n] = Ψ^4 := by
-  have hfix : Ψ^4 ∘ Ψ = Ψ^4 := by
-    simpa [Function.iterate_succ] using h45.symm
+/--
+Faure Universal Stabilization Theorem.
 
-  have htail : ∀ k : Nat, Ψ^[4 + k] = Ψ^4 := by
+If the fifth iterate of Ψ equals the fourth iterate,
+then every iterate from the fourth onward equals the fourth iterate.
+-/
+theorem faure_universal_stabilization
+    {X : Type*} (Ψ : X → X) (h45 : Ψ^[5] = Ψ^[4]) :
+    ∀ n : Nat, 4 ≤ n → Ψ^[n] = Ψ^[4] := by
+
+  intro n hn
+
+  obtain ⟨k, hk⟩ := Nat.exists_eq_add_of_le hn
+
+  subst n
+
+  have hfix : Ψ^[4] ∘ Ψ = Ψ^[4] := by
+    calc
+      Ψ^[4] ∘ Ψ = Ψ^[4 + 1] := by
+        symm
+        exact Function.iterate_succ Ψ 4
+      _ = Ψ^[5] := by norm_num
+      _ = Ψ^[4] := h45
+
+  have hstable : ∀ k : Nat, Ψ^[4 + k] = Ψ^[4] := by
     intro k
     induction k with
-    | zero => rfl
+    | zero =>
+        rfl
     | succ k ih =>
         rw [show 4 + (k + 1) = (4 + k) + 1 by omega]
         rw [Function.iterate_succ]
         rw [ih]
         exact hfix
 
-  intro n hn
-  obtain ⟨k, rfl⟩ := Nat.le.dest hn
-  exact htail k
+  exact hstable k
 
-end AUF2026</code></pre>
+end AUF2026
+</code></pre>
 
     </div>
 
