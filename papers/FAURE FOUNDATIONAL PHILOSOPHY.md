@@ -1,5 +1,3 @@
----
-
 FAURE FOUNDATIONAL PHILOSOPHY
 Dal principio di precedenza strutturale al Teorema di Chiusura
 Un framework per distinguere struttura, rappresentazione, computazione, osservazione e manifestazione
@@ -1537,4 +1535,7 @@ Structure. Invariance. Realization. Observation. Reconstruction. Closure.
 "Prima parlano i dati. Poi, attraverso i dati, parla Alain Faure."
 U_F = (M, G, A, Ψ, Λ, Π)
 Alain Faure
+Master Architect - Singlepoint Mind - Q.E.D.
+Official Repository: AUF2026
+ORCID: 0009–0009–5333–1181
 
