@@ -25,7 +25,9 @@ The canonical author identity of the AUF2026 research corpus is:
 
 **Medium:** [@auf2026](https://medium.com/@auf2026)
 
-**LinkedIn:** Alain Faure — AUF2026
+**LinkedIn:** Alain Faure — [AUF2026](https://www.linkedin.com/in/alain-faure-ge/)
+
+**Official email:** Alain Faure — [AUF2026@protonmail.com](mailto:AUF2026@protonmail.com)
 
 This identity applies to research artifacts explicitly belonging to the AUF2026 corpus, including manuscripts, mathematical claims, formal proofs, source code, datasets, validation records and archival documentation.
 
