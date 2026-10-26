@@ -1,0 +1,654 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#07111f"/>
+      <stop offset="55%" stop-color="#101b35"/>
+      <stop offset="100%" stop-color="#21133a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f6c96b"/>
+      <stop offset="100%" stop-color="#fff0b0"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#38e6df"/>
+      <stop offset="100%" stop-color="#4285ff"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#000814" flood-opacity=".45"/>
+    </filter>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#38e6df"/>
+    </marker>
+    <marker id="arrowGold" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#f6c96b"/>
+    </marker>
+    <marker id="arrowViolet" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#c084fc"/>
+    </marker>
+    <style>
+      .title{font-family:Arial,Helvetica,sans-serif;font-size:38px;font-weight:800;fill:#fff;letter-spacing:1px}
+      .subtitle{font-family:Arial,Helvetica,sans-serif;font-size:17px;fill:#b8c7e6}
+      .section{font-family:Arial,Helvetica,sans-serif;font-size:19px;font-weight:700;fill:#fff}
+      .body{font-family:Arial,Helvetica,sans-serif;font-size:15px;fill:#dce6fa}
+      .small{font-family:Arial,Helvetica,sans-serif;font-size:12px;fill:#9fb2d5}
+      .formula{font-family:Georgia,'Times New Roman',serif;font-size:21px;fill:#fff}
+      .box{fill:#111f38;stroke:#31486e;stroke-width:1.5}
+      .mutedbox{fill:#0b172a;stroke:#263a5b;stroke-width:1.2}
+      .cyanStroke{stroke:#38e6df}
+      .goldStroke{stroke:#f6c96b}
+      .violetStroke{stroke:#c084fc}
+    </style>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+
+  <g opacity=".18" stroke="#5c78ac" stroke-width="1">
+    <path d="M0 100H1600 M0 200H1600 M0 300H1600 M0 400H1600 M0 500H1600 M0 600H1600 M0 700H1600 M0 800H1600 M0 900H1600 M0 1000H1600 M0 1100H1600"/>
+    <path d="M100 0V1200 M200 0V1200 M300 0V1200 M400 0V1200 M500 0V1200 M600 0V1200 M700 0V1200 M800 0V1200 M900 0V1200 M1000 0V1200 M1100 0V1200 M1200 0V1200 M1300 0V1200 M1400 0V1200 M1500 0V1200"/>
+  </g>
+
+  <circle cx="1320" cy="105" r="180" fill="#7048db" opacity=".09"/>
+  <circle cx="1320" cy="105" r="120" fill="none" stroke="#c084fc" stroke-width="1" opacity=".2"/>
+  <circle cx="1320" cy="105" r="150" fill="none" stroke="#c084fc" stroke-width="1" opacity=".15"/>
+  <circle cx="160" cy="900" r="220" fill="#168fbe" opacity=".06"/>
+
+  <text x="70" y="66" class="title">AUF2026</text>
+  <text x="72" y="99" class="subtitle">FAURE UNIVERSAL TUPLE · FORMAL MATHEMATICAL FRAMEWORK</text>
+  <text x="1525" y="65" text-anchor="end" font-family="Georgia,serif" font-size="19" fill="#f6c96b">U<tspan baseline-shift="sub" font-size="12">F</tspan> = (M, G, A, Ψ, Λ, Π)</text>
+  <path d="M70 124H1530" stroke="#41577c" stroke-width="1.5"/>
+
+  <!-- Universal tuple -->
+  <rect x="70" y="150" width="1460" height="180" rx="22" class="box" filter="url(#shadow)"/>
+  <text x="100" y="185" class="section">01 / ARCHITETTURA UNIVERSALE</text>
+  <text x="1500" y="184" text-anchor="end" class="small">Sei componenti · un quadro formale</text>
+
+  <g filter="url(#shadow)">
+    <rect x="100" y="210" width="205" height="88" rx="14" fill="#172b47" stroke="#38e6df" stroke-width="1.5"/>
+    <rect x="330" y="210" width="205" height="88" rx="14" fill="#172b47" stroke="#38e6df" stroke-width="1.5"/>
+    <rect x="560" y="210" width="205" height="88" rx="14" fill="#172b47" stroke="#38e6df" stroke-width="1.5"/>
+    <rect x="790" y="210" width="205" height="88" rx="14" fill="#27203f" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="1020" y="210" width="205" height="88" rx="14" fill="#27203f" stroke="#c084fc" stroke-width="1.5"/>
+    <rect x="1250" y="210" width="205" height="88" rx="14" fill="#3b2e1c" stroke="#f6c96b" stroke-width="1.5"/>
+  </g>
+
+  <g text-anchor="middle">
+    <text x="202" y="246" font-family="Georgia,serif" font-size="30" fill="#38e6df">M</text>
+    <text x="202" y="274" class="body">Algebra discreta</text>
+    <text x="432" y="246" font-family="Georgia,serif" font-size="30" fill="#38e6df">G</text>
+    <text x="432" y="274" class="body">Determinante</text>
+    <text x="662" y="246" font-family="Georgia,serif" font-size="30" fill="#38e6df">A</text>
+    <text x="662" y="274" class="body">Struttura algebrica</text>
+    <text x="892" y="246" font-family="Georgia,serif" font-size="30" fill="#c084fc">Ψ</text>
+    <text x="892" y="274" class="body">Identità quadratica</text>
+    <text x="1122" y="246" font-family="Georgia,serif" font-size="30" fill="#c084fc">Λ</text>
+    <text x="1122" y="274" class="body">Simmetria di segno</text>
+    <text x="1352" y="246" font-family="Georgia,serif" font-size="30" fill="#f6c96b">Π</text>
+    <text x="1352" y="274" class="body">Teoria dell'ordine</text>
+  </g>
+
+  <!-- Main derivation -->
+  <text x="75" y="376" class="section">02 / CATENA LOGICA CERTIFICATA</text>
+  <text x="1525" y="376" text-anchor="end" class="small">Dalle ipotesi formali alla contraddizione</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="405" width="440" height="130" rx="18" class="box" stroke="#38e6df"/>
+    <rect x="580" y="405" width="440" height="130" rx="18" class="box" stroke="#38e6df"/>
+    <rect x="1080" y="405" width="440" height="130" rx="18" class="box" stroke="#f6c96b"/>
+  </g>
+
+  <path d="M520 470H570" fill="none" stroke="#38e6df" stroke-width="3" marker-end="url(#arrowCyan)"/>
+  <path d="M1020 470H1070" fill="none" stroke="#38e6df" stroke-width="3" marker-end="url(#arrowCyan)"/>
+
+  <text x="110" y="440" class="small">PREMESSA A</text>
+  <text x="110" y="471" class="section">Discesa stretta</text>
+  <text x="110" y="503" class="formula">∀ x, ∃ y : f(y) ≺ f(x)</text>
+
+  <text x="610" y="440" class="small">TEOREMA D'ORDINE</text>
+  <text x="610" y="471" class="section">Nessun minimo globale</text>
+  <text x="610" y="503" class="formula">¬∃ x*, ∀ x : f(x*) ≤ f(x)</text>
+
+  <text x="1110" y="440" class="small">CORRISPONDENZA COSMOLOGICA</text>
+  <text x="1110" y="471" class="section">Minimo globale imposto</text>
+  <text x="1110" y="503" class="formula">a(t*) = 0  ∧  ∀ t, a(t*) ≤ a(t)</text>
+
+  <path d="M1300 535V570H800V595" fill="none" stroke="#f6c96b" stroke-width="2.5" marker-end="url(#arrowGold)"/>
+  <path d="M800 535V595" fill="none" stroke="#38e6df" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <rect x="420" y="600" width="760" height="112" rx="20" fill="#321d30" stroke="#fb7185" stroke-width="2" filter="url(#shadow)"/>
+  <circle cx="470" cy="656" r="25" fill="#fb7185" opacity=".17"/>
+  <text x="470" y="665" text-anchor="middle" font-family="Arial" font-size="29" font-weight="800" fill="#fb7185">!</text>
+  <text x="515" y="640" class="small" fill="#fda4af">RISULTATO FORMALE</text>
+  <text x="515" y="672" font-family="Arial" font-size="25" font-weight="800" fill="#fff">INCOMPATIBILITÀ LOGICA</text>
+  <text x="515" y="696" class="body">Le premesse non possono essere soddisfatte simultaneamente.</text>
+
+  <!-- Temporal inference -->
+  <text x="75" y="757" class="section">03 / DALL'ORDINE DEI VALORI ALL'ORDINE TEMPORALE</text>
+
+  <rect x="80" y="785" width="700" height="150" rx="18" class="box" stroke="#c084fc"/>
+  <text x="110" y="820" class="small">TEOREMA DI TRASFERIMENTO DA VERIFICARE SULLA CORRISPONDENZA AUF</text>
+  <text x="110" y="855" class="formula">∀ t ∈ T, ∃ s ∈ T : s ≺ₜ t</text>
+  <text x="110" y="884" class="body">Ogni istante rappresentato ammette un predecessore.</text>
+  <text x="110" y="912" class="small">Richiede il collegamento dimostrato fra discesa algebrica e precedenza temporale.</text>
+
+  <path d="M780 860H820" stroke="#c084fc" stroke-width="3" marker-end="url(#arrowViolet)"/>
+
+  <rect x="830" y="785" width="690" height="150" rx="18" fill="#142b37" stroke="#38e6df" stroke-width="1.8"/>
+  <text x="860" y="820" class="small">CONSEGUENZA SE IL TRASFERIMENTO È DIMOSTRATO</text>
+  <text x="860" y="855" font-family="Arial" font-size="24" font-weight="800" fill="#38e6df">NESSUN PRIMO ELEMENTO</text>
+  <text x="860" y="886" class="formula">¬∃ t₀, ∀ s : ¬(s ≺ₜ t₀)</text>
+  <text x="860" y="912" class="small">Risultato sull'ordine temporale formalizzato.</text>
+
+  <!-- Timeline -->
+  <text x="75" y="979" class="section">04 / STRUTTURA TEMPORALE SENZA PRIMO ELEMENTO</text>
+  <text x="1525" y="979" text-anchor="end" class="small">Schema illustrativo della proprietà di predecessore</text>
+
+  <line x1="170" y1="1030" x2="1425" y2="1030" stroke="url(#cyan)" stroke-width="3" marker-end="url(#arrowCyan)"/>
+  <g fill="#0b172a" stroke="#38e6df" stroke-width="2.5" filter="url(#glow)">
+    <circle cx="250" cy="1030" r="10"/>
+    <circle cx="470" cy="1030" r="10"/>
+    <circle cx="690" cy="1030" r="10"/>
+    <circle cx="910" cy="1030" r="10"/>
+    <circle cx="1130" cy="1030" r="10"/>
+    <circle cx="1350" cy="1030" r="10"/>
+  </g>
+  <g class="body" text-anchor="middle">
+    <text x="250" y="1060">t₋₅</text>
+    <text x="470" y="1060">t₋₄</text>
+    <text x="690" y="1060">t₋₃</text>
+    <text x="910" y="1060">t₋₂</text>
+    <text x="1130" y="1060">t₋₁</text>
+    <text x="1350" y="1060">t</text>
+  </g>
+  <path d="M250 1010V995H1130V1010" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="4 5" opacity=".8"/>
+  <text x="690" y="993" text-anchor="middle" class="small" fill="#c084fc">Per ogni t, un predecessore s</text>
+
+  <text x="800" y="1110" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#f6c96b">ATTENZIONE: schema concettuale, non una scala temporale numerica certificata.</text>
+  <text x="800" y="1140" text-anchor="middle" class="small">L'assenza di un primo istante fisico richiede che l'ordine formalizzato rappresenti la storia cosmologica pertinente.</text>
+
+  <path d="M70 1165H1530" stroke="#41577c" stroke-width="1"/>
+  <text x="75" y="1187" class="small">AUF2026 · Faure Universal Tuple</text>
+  <text x="1525" y="1187" text-anchor="end" class="small">Algebra → Ordine → Corrispondenza → Conseguenze</text>
+</svg>
+
+<script>(() => {
+  "use strict";
+
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const STYLE_ID = "auf2026-interactive-style";
+  const PANEL_ID = "auf2026-info-panel";
+
+  const state = {
+    playing: true,
+    speed: 1,
+    progress: 0,
+    selected: null,
+    reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  };
+
+  const original = document.querySelector("svg");
+  if (!original) {
+    console.error("AUF2026: SVG non trovato.");
+    return;
+  }
+
+  const svg = original;
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", "AUF2026 — diagramma matematico interattivo");
+  svg.style.overflow = "visible";
+
+  const info = [
+    {
+      title: "M — Algebra discreta",
+      body: "Tipo discreto con atomi interi, operazioni algebriche e proprietà della negazione.",
+      formula: "(-x)^2 = x^2",
+      color: "#38e6df"
+    },
+    {
+      title: "G — Certificato del determinante",
+      body: "La componente geometrica codifica una matrice tetraedrica e certifica il determinante dichiarato nel manoscritto.",
+      formula: "det(G) = 2",
+      color: "#38e6df"
+    },
+    {
+      title: "A — Struttura algebrica",
+      body: "Operazioni e relazioni definite sul tipo discreto. Le proprietà effettive dipendono dalle definizioni formalizzate.",
+      formula: "A : struttura operativa",
+      color: "#38e6df"
+    },
+    {
+      title: "Ψ — Identità quadratica",
+      body: "Una condizione polinomiale quadratica implica l'identità di quadrato unitario descritta nel manoscritto.",
+      formula: "Ψ(x) = 0 ⇒ q(x)² = 1",
+      color: "#c084fc"
+    },
+    {
+      title: "Λ — Simmetria di segno",
+      body: "Il vincolo quadratico di tipo Friedmann è dichiarato invariante sotto inversione del segno.",
+      formula: "Λ(H) = Λ(−H)",
+      color: "#c084fc"
+    },
+    {
+      title: "Π — Teoria dell'ordine",
+      body: "La discesa stretta da ogni punto è incompatibile con un minimo globale.",
+      formula: "∀x ∃y : f(y) < f(x)",
+      color: "#f6c96b"
+    },
+    {
+      title: "Discesa stretta",
+      body: "Da ogni elemento del dominio esiste un altro elemento con valore strettamente minore.",
+      formula: "∀x ∈ X, ∃y ∈ X : f(y) < f(x)",
+      color: "#38e6df"
+    },
+    {
+      title: "Incompatibilità d'ordine",
+      body: "Se ogni punto ammette una discesa stretta, la funzione non può possedere un minimo globale.",
+      formula: "¬∃x*, ∀x : f(x*) ≤ f(x)",
+      color: "#38e6df"
+    },
+    {
+      title: "Corrispondenza cosmologica",
+      body: "La struttura descritta associa un istante designato a un valore nullo e impone un minimo globale. Questa condizione è incompatibile con la discesa stretta.",
+      formula: "a(t*) = 0 ∧ ∀t, a(t*) ≤ a(t)",
+      color: "#f6c96b"
+    },
+    {
+      title: "Contraddizione formale",
+      body: "Le ipotesi di discesa stretta e di minimo globale non possono valere simultaneamente per la stessa funzione sullo stesso dominio.",
+      formula: "P ∧ ¬P ⇒ False",
+      color: "#fb7185"
+    },
+    {
+      title: "Predecessore temporale",
+      body: "Se la relazione temporale è dimostrata equivalente alla relazione di discesa, ogni istante possiede un predecessore.",
+      formula: "∀t ∈ T, ∃s ∈ T : s ≺ t",
+      color: "#c084fc"
+    },
+    {
+      title: "Assenza di un primo elemento",
+      body: "La proprietà di predecessore esclude un primo elemento nell'ordine formalizzato. L'interpretazione fisica richiede che quell'ordine rappresenti la storia cosmologica.",
+      formula: "¬∃t₀, ∀s : ¬(s ≺ t₀)",
+      color: "#38e6df"
+    }
+  ];
+
+  const css = `
+    #auf2026-interactive-style {}
+    svg .auf-node {
+      cursor: pointer;
+      transform-box: fill-box;
+      transform-origin: center;
+      transition: filter .25s ease, opacity .25s ease;
+    }
+    svg .auf-node:hover {
+      filter: brightness(1.35) drop-shadow(0 0 9px currentColor);
+    }
+    svg .auf-node.auf-selected {
+      filter: brightness(1.35) drop-shadow(0 0 12px currentColor);
+    }
+    svg .auf-dimmed { opacity: .2 !important; }
+    svg .auf-flow {
+      stroke-dasharray: 12 9;
+      animation: auf-dash 2.5s linear infinite;
+    }
+    svg .auf-pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: auf-pulse 2.4s ease-in-out infinite;
+    }
+    svg .auf-glow {
+      animation: auf-glow 2.8s ease-in-out infinite alternate;
+    }
+    #auf2026-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 12px;
+      color: #e6edff;
+      background: #0b1426;
+      border: 1px solid #354968;
+      border-radius: 12px;
+      font: 14px system-ui, sans-serif;
+      margin: 8px 0;
+    }
+    #auf2026-controls button,
+    #auf2026-controls select {
+      color: #e6edff;
+      background: #172640;
+      border: 1px solid #435a7d;
+      border-radius: 8px;
+      padding: 8px 11px;
+      cursor: pointer;
+    }
+    #auf2026-controls button:hover,
+    #auf2026-controls select:hover {
+      background: #243b5e;
+    }
+    #auf2026-controls input { accent-color: #38e6df; }
+    #auf2026-controls .auf-status {
+      color: #9eb3d7;
+      margin-left: auto;
+    }
+    #auf2026-info-panel {
+      display: none;
+      padding: 16px;
+      margin: 8px 0;
+      color: #e6edff;
+      background: #101d32;
+      border: 1px solid #38e6df;
+      border-radius: 12px;
+      font: 14px/1.6 system-ui, sans-serif;
+    }
+    #auf2026-info-panel.open { display: block; }
+    #auf2026-info-panel h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    #auf2026-info-panel .formula {
+      display: block;
+      padding: 10px;
+      margin-top: 10px;
+      background: #07111f;
+      border-radius: 8px;
+      font: 16px ui-monospace, monospace;
+      overflow-wrap: anywhere;
+    }
+    @keyframes auf-dash {
+      to { stroke-dashoffset: -42; }
+    }
+    @keyframes auf-pulse {
+      0%,100% { opacity: .75; }
+      50% { opacity: 1; }
+    }
+    @keyframes auf-glow {
+      from { filter: drop-shadow(0 0 1px #38e6df); }
+      to { filter: drop-shadow(0 0 7px #38e6df); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      svg *, #auf2026-controls *, #auf2026-info-panel * {
+        animation-duration: .001ms !important;
+        transition-duration: .001ms !important;
+      }
+    }
+  `;
+
+  if (!document.getElementById(STYLE_ID)) {
+    const style = document.createElement("style");
+    style.id = STYLE_ID;
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  const controls = document.createElement("div");
+  controls.id = "auf2026-controls";
+  controls.innerHTML = `
+    <button type="button" data-action="play">Ⅱ Pausa</button>
+    <button type="button" data-action="restart">↺ Ricomincia</button>
+    <button type="button" data-action="step">→ Passaggio</button>
+    <label>Velocità
+      <select data-action="speed" aria-label="Velocità animazione">
+        <option value="0.5">0.5×</option>
+        <option value="1" selected>1×</option>
+        <option value="2">2×</option>
+        <option value="3">3×</option>
+      </select>
+    </label>
+    <label>Avanzamento
+      <input data-action="progress" type="range" min="0" max="100" value="0" aria-label="Avanzamento della sequenza">
+    </label>
+    <button type="button" data-action="focus">Evidenzia catena</button>
+    <button type="button" data-action="reset">Reset vista</button>
+    <span class="auf-status" aria-live="polite">AUF2026 · Pronto</span>
+  `;
+
+  svg.parentNode.insertBefore(controls, svg);
+
+  let panel = document.getElementById(PANEL_ID);
+  if (!panel) {
+    panel = document.createElement("section");
+    panel.id = PANEL_ID;
+    panel.setAttribute("aria-live", "polite");
+    svg.parentNode.insertBefore(panel, svg.nextSibling);
+  }
+
+  const status = controls.querySelector(".auf-status");
+  const progressInput = controls.querySelector('[data-action="progress"]');
+  const playButton = controls.querySelector('[data-action="play"]');
+
+  const groups = Array.from(svg.querySelectorAll("rect"));
+  const texts = Array.from(svg.querySelectorAll("text"));
+
+  const makeAccessible = (el, index, datum) => {
+    el.classList.add("auf-node");
+    el.style.color = datum.color;
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("role", "button");
+    el.setAttribute("aria-label", datum.title);
+    el.dataset.aufIndex = String(index);
+    el.addEventListener("click", () => select(index));
+    el.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        select(index);
+      }
+    });
+  };
+
+  const candidates = [];
+
+  texts.forEach(textEl => {
+    const label = (textEl.textContent || "").trim();
+    let index = -1;
+
+    if (/^M$/.test(label)) index = 0;
+    else if (/^G$/.test(label)) index = 1;
+    else if (/^A$/.test(label)) index = 2;
+    else if (/^Ψ$/.test(label)) index = 3;
+    else if (/^Λ$/.test(label)) index = 4;
+    else if (/^Π$/.test(label)) index = 5;
+    else if (/Discesa stretta/.test(label)) index = 6;
+    else if (/Nessun minimo globale/.test(label)) index = 7;
+    else if (/Minimo globale imposto/.test(label)) index = 8;
+    else if (/INCOMPATIBILITÀ LOGICA/.test(label)) index = 9;
+    else if (/NESSUN PRIMO ELEMENTO/.test(label)) index = 11;
+    else if (/Ogni istante rappresentato/.test(label)) index = 10;
+
+    if (index >= 0) {
+      const parent = textEl.parentElement;
+      candidates.push({ el: parent && parent.tagName.toLowerCase() === "g" ? parent : textEl, index });
+    }
+  });
+
+  const unique = new Set();
+  candidates.forEach(({ el, index }) => {
+    if (unique.has(el)) return;
+    unique.add(el);
+    makeAccessible(el, index, info[index]);
+  });
+
+  const drawProgress = value => {
+    state.progress = Math.max(0, Math.min(100, value));
+    progressInput.value = String(state.progress);
+
+    const activeCount = Math.ceil((state.progress / 100) * info.length);
+    const activeIndices = new Set(
+      Array.from({ length: activeCount }, (_, i) => i)
+    );
+
+    svg.querySelectorAll(".auf-node").forEach(node => {
+      const i = Number(node.dataset.aufIndex);
+      node.classList.toggle("auf-pulse", activeIndices.has(i));
+      node.classList.toggle("auf-dimmed", !activeIndices.has(i));
+    });
+
+    status.textContent = `Sequenza · ${Math.round(state.progress)}%`;
+  };
+
+  function select(index) {
+    const datum = info[index];
+    if (!datum) return;
+
+    state.selected = index;
+
+    svg.querySelectorAll(".auf-node").forEach(node => {
+      const selected = Number(node.dataset.aufIndex) === index;
+      node.classList.toggle("auf-selected", selected);
+      node.setAttribute("aria-pressed", String(selected));
+    });
+
+    panel.classList.add("open");
+    panel.style.borderColor = datum.color;
+    panel.innerHTML = "";
+
+    const heading = document.createElement("h3");
+    heading.textContent = datum.title;
+    heading.style.color = datum.color;
+
+    const paragraph = document.createElement("p");
+    paragraph.textContent = datum.body;
+
+    const formula = document.createElement("code");
+    formula.className = "formula";
+    formula.textContent = datum.formula;
+
+    const close = document.createElement("button");
+    close.type = "button";
+    close.textContent = "Chiudi";
+    close.style.cssText = `
+      margin-top: 12px; padding: 7px 12px; cursor: pointer;
+      color: #e6edff; background: #172640;
+      border: 1px solid #435a7d; border-radius: 8px;
+    `;
+    close.addEventListener("click", () => panel.classList.remove("open"));
+
+    panel.append(heading, paragraph, formula, close);
+    status.textContent = `Selezionato · ${datum.title}`;
+  }
+
+  const animationNodes = Array.from(svg.querySelectorAll("path, line, polyline"))
+    .filter(el => {
+      const stroke = (el.getAttribute("stroke") || "").toLowerCase();
+      return ["#38e6df", "#f6c96b", "#c084fc", "url(#cyan)", "url(#gold)"]
+        .some(c => stroke.includes(c));
+    });
+
+  animationNodes.forEach(el => {
+    el.classList.add("auf-flow");
+  });
+
+  const mainBoxes = Array.from(svg.querySelectorAll("rect")).filter(rect => {
+    const width = Number(rect.getAttribute("width") || 0);
+    const height = Number(rect.getAttribute("height") || 0);
+    return width > 180 && height > 65;
+  });
+
+  mainBoxes.forEach((rect, i) => {
+    rect.classList.add("auf-glow");
+    rect.style.animationDelay = `${i * 0.17}s`;
+  });
+
+  controls.addEventListener("click", event => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
+
+    const action = button.dataset.action;
+
+    if (action === "play") {
+      state.playing = !state.playing;
+      playButton.textContent = state.playing ? "Ⅱ Pausa" : "▶ Riprendi";
+      status.textContent = state.playing ? "Animazione attiva" : "Animazione in pausa";
+      svg.querySelectorAll(".auf-flow, .auf-pulse, .auf-glow").forEach(el => {
+        el.style.animationPlayState = state.playing ? "running" : "paused";
+      });
+    }
+
+    if (action === "restart") {
+      state.playing = true;
+      playButton.textContent = "Ⅱ Pausa";
+      svg.querySelectorAll(".auf-flow, .auf-pulse, .auf-glow").forEach(el => {
+        el.style.animation = "none";
+        void el.getBoundingClientRect();
+        el.style.animation = "";
+        el.style.animationPlayState = "running";
+      });
+      drawProgress(0);
+      status.textContent = "Sequenza riavviata";
+    }
+
+    if (action === "step") {
+      drawProgress((state.progress + 100 / info.length) % 101);
+      const next = Math.min(
+        info.length - 1,
+        Math.floor((state.progress / 100) * info.length)
+      );
+      select(next);
+    }
+
+    if (action === "focus") {
+      state.playing = false;
+      playButton.textContent = "▶ Riprendi";
+      svg.querySelectorAll(".auf-node").forEach(node => {
+        const index = Number(node.dataset.aufIndex);
+        const inChain = [6, 7, 8, 9, 10, 11].includes(index);
+        node.classList.toggle("auf-dimmed", !inChain);
+        node.classList.toggle("auf-selected", inChain);
+      });
+      status.textContent = "Catena logica evidenziata";
+    }
+
+    if (action === "reset") {
+      state.selected = null;
+      state.playing = true;
+      playButton.textContent = "Ⅱ Pausa";
+      panel.classList.remove("open");
+      svg.querySelectorAll(".auf-node").forEach(node => {
+        node.classList.remove("auf-selected", "auf-dimmed", "auf-pulse");
+        node.removeAttribute("aria-pressed");
+      });
+      svg.querySelectorAll(".auf-flow, .auf-pulse, .auf-glow").forEach(el => {
+        el.style.animationPlayState = "running";
+      });
+      drawProgress(0);
+      status.textContent = "Vista ripristinata";
+    }
+  });
+
+  controls.querySelector('[data-action="speed"]').addEventListener("change", event => {
+    state.speed = Number(event.target.value);
+    svg.querySelectorAll(".auf-flow, .auf-pulse, .auf-glow").forEach(el => {
+      el.style.animationDuration = `${2.5 / state.speed}s`;
+    });
+    status.textContent = `Velocità · ${state.speed}×`;
+  });
+
+  progressInput.addEventListener("input", event => {
+    drawProgress(Number(event.target.value));
+  });
+
+  if (state.reducedMotion) {
+    state.playing = false;
+    svg.querySelectorAll(".auf-flow, .auf-pulse, .auf-glow").forEach(el => {
+      el.style.animation = "none";
+    });
+    playButton.textContent = "▶ Avvia";
+  }
+
+  drawProgress(0);
+
+  console.info("AUF2026 interattivo inizializzato.", {
+    nodi: candidates.length,
+    componenti: info.length
+  });
+})();
+</script>
