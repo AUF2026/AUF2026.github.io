@@ -1,0 +1,2300 @@
+
+<!DOCTYPE html>
+<html lang="it">
+  <style>
+    
+/* ==========================================
+   AUF2026 — PARTE 2
+   DESIGN SYSTEM E STILI PRINCIPALI
+   ========================================== */
+
+:root {
+    --color-bg: #ffffff;
+    --color-surface: #f5f5f7;
+    --color-text: #1d1d1f;
+    --color-muted: #6e6e73;
+    --color-border: #e8e8ed;
+    --color-accent: #0071e3;
+    --color-dark: #101114;
+    --color-white: #ffffff;
+
+    --font-main: -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+
+    --container: 1160px;
+    --header-height: 76px;
+    --radius-card: 24px;
+
+    --transition: 220ms ease;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+a {
+    font-family: var(--font-main);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 5px;
+    border-radius: 4px;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+    letter-spacing: -0.045em;
+}
+
+h1,
+h2 {
+    line-height: 1.08;
+}
+
+::selection {
+    color: #ffffff;
+    background: #0071e3;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 16px;
+    z-index: 1000;
+    padding: 12px 18px;
+    color: #ffffff;
+    background: var(--color-dark);
+    border-radius: 10px;
+}
+
+.skip-link:focus {
+    top: 16px;
+}
+
+
+/* ==========================================
+   HEADER E NAVIGAZIONE
+   ========================================== */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--header-height);
+    background: rgba(255, 255, 255, 0.88);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.header-inner {
+    width: min(var(--container), calc(100% - 48px));
+    height: 100%;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    flex-shrink: 0;
+}
+
+.brand-name {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.09em;
+}
+
+.brand-year {
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+.main-navigation ul {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-navigation a,
+.footer-navigation a {
+    color: var(--color-muted);
+    font-size: 13px;
+    transition: color var(--transition);
+}
+
+.main-navigation a:hover,
+.footer-navigation a:hover {
+    color: var(--color-text);
+}
+
+.header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 10px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    transition:
+        background var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+.header-cta:hover {
+    background: var(--color-surface);
+    border-color: #d5d5dc;
+    transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   HERO
+   ========================================== */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    min-height: 700px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 100px 24px 92px;
+    text-align: center;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(850px, 100%);
+    margin: 0 auto;
+}
+
+.eyebrow {
+    margin-bottom: 24px;
+
+    color: var(--color-muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin-bottom: 26px;
+
+    font-size: clamp(46px, 7.5vw, 88px);
+    font-weight: 750;
+    letter-spacing: -0.075em;
+    line-height: 1.02;
+}
+
+.hero-description {
+    max-width: 570px;
+    margin: 0 auto;
+
+    color: var(--color-muted);
+    font-size: clamp(16px, 2vw, 19px);
+    line-height: 1.75;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+
+    margin-top: 34px;
+}
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    min-height: 48px;
+    padding: 13px 22px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        transform var(--transition),
+        background var(--transition),
+        box-shadow var(--transition);
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    color: var(--color-white);
+    background: var(--color-accent);
+    box-shadow: 0 5px 15px rgba(0, 113, 227, 0.12);
+}
+
+.button-primary:hover {
+    background: #0077ed;
+    box-shadow: 0 8px 22px rgba(0, 113, 227, 0.2);
+}
+
+.button-secondary {
+    color: var(--color-text);
+    background: var(--color-white);
+    border-color: var(--color-border);
+}
+
+.button-secondary:hover {
+    background: var(--color-surface);
+}
+
+
+/* Area grafica del marchio */
+
+.hero-visual {
+    position: relative;
+    isolation: isolate;
+
+    width: min(720px, 100%);
+    min-height: 230px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 70px auto 0;
+    overflow: hidden;
+    border-radius: 28px;
+
+    color: #ffffff;
+    background:
+        radial-gradient(
+            ellipse at 50% 0%,
+            rgba(112, 160, 255, 0.35),
+            transparent 55%
+        ),
+        linear-gradient(145deg, #20232c, #08090d 75%);
+}
+
+.hero-visual::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    width: 260px;
+    height: 260px;
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 35px rgba(255, 255, 255, 0.025),
+        0 0 0 70px rgba(255, 255, 255, 0.018);
+}
+
+.hero-visual-content {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.visual-mark {
+    font-size: clamp(65px, 12vw, 112px);
+    font-weight: 800;
+    letter-spacing: -0.1em;
+    line-height: 1;
+}
+
+.visual-year {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+}
+
+.scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 32px;
+    color: var(--color-muted);
+    font-size: 11px;
+}
+
+.scroll-indicator span:last-child {
+    font-size: 18px;
+}
+
+
+/* ==========================================
+   SEZIONI GENERALI
+   ========================================== */
+
+.section {
+    width: min(var(--container), calc(100% - 48px));
+    margin: 0 auto;
+    padding: 125px 0;
+}
+
+.section-heading {
+    max-width: 760px;
+}
+
+.section h2,
+.values-section h2,
+.contact-section h2 {
+    margin-bottom: 24px;
+    font-size: clamp(38px, 5.8vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.065em;
+}
+
+.section-heading h2 span {
+    display: block;
+    color: var(--color-muted);
+}
+
+.section-description {
+    max-width: 520px;
+    color: var(--color-muted);
+    font-size: 17px;
+}
+
+
+/* ==========================================
+   VISIONE
+   ========================================== */
+
+.vision-section {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    align-items: start;
+    gap: 90px;
+
+    border-top: 1px solid var(--color-border);
+}
+
+.vision-content {
+    padding-top: 34px;
+}
+
+.vision-content p {
+    color: var(--color-muted);
+    font-size: 16px;
+}
+
+.vision-content .lead {
+    color: var(--color-text);
+    font-size: 23px;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.5;
+}
+
+
+/* ==========================================
+   PROGETTO E CARD
+   ========================================== */
+
+.project-section {
+    width: 100%;
+    max-width: none;
+    padding: 125px max(24px, calc((100% - var(--container)) / 2));
+    background: var(--color-surface);
+}
+
+.project-section .section-heading {
+    margin-bottom: 55px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.project-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    min-width: 0;
+    min-height: 340px;
+    padding: 32px;
+
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.035);
+    border-radius: var(--radius-card);
+
+    transition:
+        transform var(--transition),
+        box-shadow var(--transition);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.055);
+}
+
+.card-number {
+    color: #929298;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+}
+
+.card-icon {
+    display: grid;
+    place-items: center;
+
+    width: 48px;
+    height: 48px;
+    margin: 32px 0 22px;
+
+    color: var(--color-accent);
+    background: #eef5ff;
+    border-radius: 15px;
+
+    font-size: 25px;
+}
+
+.project-card h3 {
+    margin-bottom: 12px;
+    font-size: 23px;
+    font-weight: 650;
+}
+
+.project-card p {
+    margin-bottom: 28px;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: auto;
+    color: var(--color-accent);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.text-link span {
+    transition: transform var(--transition);
+}
+
+.text-link:hover span {
+    transform: translateX(4px);
+}
+
+/* ==========================================
+   AUF2026 — PARTE 3
+   VALORI, CONTATTI, FOOTER E RESPONSIVE
+   ========================================== */
+
+
+/* VALORI */
+
+.values-section {
+    display: grid;
+    grid-template-columns: 0.9fr 1fr;
+    align-items: start;
+    gap: 100px;
+}
+
+.values-intro {
+    position: sticky;
+    top: 120px;
+}
+
+.values-list {
+    border-top: 1px solid var(--color-border);
+}
+
+.value-item {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    gap: 20px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.value-index {
+    padding-top: 5px;
+    color: var(--color-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.value-item h3 {
+    margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 650;
+}
+
+.value-item p {
+    max-width: 360px;
+    margin-bottom: 0;
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* CONTATTI */
+
+.contact-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+
+    padding: 115px 24px;
+    color: var(--color-white);
+    background: var(--color-dark);
+
+    text-align: center;
+}
+
+.contact-section::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    width: 480px;
+    height: 480px;
+    top: -310px;
+    left: calc(50% - 240px);
+
+    border-radius: 50%;
+    background: rgba(0, 113, 227, 0.24);
+    filter: blur(80px);
+    pointer-events: none;
+}
+
+.contact-content {
+    width: min(760px, 100%);
+    margin: 0 auto;
+}
+
+.contact-section .eyebrow {
+    color: #a1a1aa;
+}
+
+.contact-section h2 {
+    margin-bottom: 25px;
+    font-size: clamp(38px, 6vw, 68px);
+}
+
+.contact-section p:not(.eyebrow) {
+    max-width: 510px;
+    margin: 0 auto 32px;
+
+    color: #a1a1aa;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.button-light {
+    color: var(--color-dark);
+    background: var(--color-white);
+}
+
+.button-light:hover {
+    background: #e9e9ed;
+}
+
+
+/* FOOTER */
+
+.site-footer {
+    padding: 35px 0;
+    background: #ffffff;
+}
+
+.footer-inner {
+    width: min(var(--container), calc(100% - 48px));
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.footer-brand {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.07em;
+}
+
+.footer-note,
+.copyright {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 11px;
+}
+
+.footer-navigation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+}
+
+
+/* HOVER E TRANSIZIONI */
+
+.header-cta:focus-visible,
+.button:focus-visible,
+.text-link:focus-visible,
+.footer-brand:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 4px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    :root {
+        --header-height: 68px;
+    }
+
+    .header-inner {
+        width: calc(100% - 36px);
+        gap: 16px;
+    }
+
+    .main-navigation ul {
+        gap: 18px;
+    }
+
+    .main-navigation a {
+        font-size: 12px;
+    }
+
+    .header-cta {
+        padding: 9px 12px;
+        font-size: 11px;
+    }
+
+    .hero {
+        min-height: auto;
+        padding-top: 90px;
+    }
+
+    .section {
+        padding-top: 90px;
+        padding-bottom: 90px;
+    }
+
+    .vision-section {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+
+    .project-section {
+        padding: 90px 24px;
+    }
+
+    .project-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .values-section {
+        grid-template-columns: 1fr 1fr;
+        gap: 45px;
+    }
+
+    .values-intro {
+        position: static;
+    }
+
+    .project-card {
+        padding: 26px;
+    }
+
+    .footer-inner {
+        justify-content: flex-start;
+    }
+}
+
+
+/* SMARTPHONE */
+
+@media (max-width: 600px) {
+    :root {
+        --header-height: 64px;
+    }
+
+    .header-inner {
+        width: calc(100% - 32px);
+        gap: 12px;
+    }
+
+    .brand-name {
+        font-size: 23px;
+    }
+
+    .main-navigation ul {
+        gap: 12px;
+    }
+
+    .main-navigation a {
+        font-size: 11px;
+    }
+
+    .header-cta {
+        gap: 5px;
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .hero {
+        padding: 76px 20px 65px;
+    }
+
+    .hero .eyebrow {
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: clamp(42px, 11vw, 58px);
+        letter-spacing: -0.07em;
+    }
+
+    .hero-description {
+        font-size: 15px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .hero-actions .button {
+        width: 100%;
+    }
+
+    .hero-visual {
+        min-height: 175px;
+        margin-top: 48px;
+        border-radius: 22px;
+    }
+
+    .hero-visual::before {
+        width: 190px;
+        height: 190px;
+    }
+
+    .visual-mark {
+        font-size: 68px;
+    }
+
+    .scroll-indicator {
+        margin-top: 26px;
+    }
+
+    .section {
+        width: calc(100% - 40px);
+        padding-top: 72px;
+        padding-bottom: 72px;
+    }
+
+    .section h2,
+    .values-section h2,
+    .contact-section h2 {
+        font-size: clamp(36px, 9vw, 48px);
+    }
+
+    .vision-section {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .vision-content {
+        padding-top: 5px;
+    }
+
+    .vision-content .lead {
+        font-size: 21px;
+    }
+
+    .project-section {
+        width: 100%;
+        padding: 72px 20px;
+    }
+
+    .project-section .section-heading {
+        margin-bottom: 35px;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .project-card {
+        min-height: 300px;
+        padding: 26px;
+        border-radius: 20px;
+    }
+
+    .card-icon {
+        margin-top: 25px;
+    }
+
+    .values-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .value-item {
+        grid-template-columns: 32px 1fr;
+        gap: 14px;
+        padding: 25px 0;
+    }
+
+    .contact-section {
+        padding: 80px 22px;
+    }
+
+    .contact-section p:not(.eyebrow) {
+        font-size: 15px;
+    }
+
+    .footer-inner {
+        width: calc(100% - 40px);
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .footer-navigation {
+        gap: 18px;
+    }
+}
+
+
+/* SCHERMI MOLTO PICCOLI */
+
+@media (max-width: 380px) {
+    .main-navigation ul {
+        gap: 8px;
+    }
+
+    .main-navigation a {
+        font-size: 10px;
+    }
+
+    .header-cta {
+        padding: 7px 8px;
+    }
+
+    .hero h1 {
+        font-size: 39px;
+    }
+
+    .visual-mark {
+        font-size: 58px;
+    }
+}
+
+
+/* ACCESSIBILITÀ: RIDUZIONE DEL MOVIMENTO */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* AUF2026 — Back to top */
+
+.auf-back-to-top:hover {
+    color: #ffffff !important;
+    background: #0071e3 !important;
+}
+
+.auf-back-to-top:focus-visible {
+    outline: 3px solid #0071e3 !important;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .auf-back-to-top {
+        right: 16px !important;
+        bottom: 16px !important;
+        width: 44px !important;
+        height: 44px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auf-back-to-top {
+        transition: none !important;
+    }
+}
+
+  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#ffffff">
+    <meta name="color-scheme" content="light">
+
+    <meta name="description"
+          content="AUF2026 — Un progetto dedicato alla cultura,
+          alla conoscenza, all'innovazione e alla collaborazione.">
+
+    <meta name="author" content="AUF2026">
+
+    <title>AUF2026 — Idee che costruiscono il futuro</title>
+
+    <!-- Anteprima per la condivisione sui social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title"
+          content="AUF2026 — Idee che costruiscono il futuro">
+    <meta property="og:description"
+          content="Conoscenza, collaborazione e nuove prospettive.">
+</head>
+<body>
+
+    <!-- =========================================
+         AUF2026
+         STRUTTURA PRINCIPALE DEL SITO
+    ========================================== -->
+
+    <a href="#contenuto" class="skip-link">
+        Vai al contenuto principale
+    </a>
+
+    <!-- HEADER -->
+    <header class="site-header" id="inizio">
+
+        <div class="header-inner">
+
+            <a class="brand"
+               href="#inizio"
+               aria-label="AUF2026, pagina iniziale">
+
+                <span class="brand-name">AUF</span>
+                <span class="brand-year">2026</span>
+
+            </a>
+
+            <nav class="main-navigation"
+                 aria-label="Navigazione principale">
+
+                <ul>
+                    <li><a href="#visione">Visione</a></li>
+                    <li><a href="#progetto">Il progetto</a></li>
+                    <li><a href="#valori">Valori</a></li>
+                    <li><a href="#contatti">Contatti</a></li>
+                </ul>
+
+            </nav>
+
+            <a class="header-cta" href="#contatti">
+                Scopri AUF2026
+                <span aria-hidden="true">↗</span>
+            </a>
+
+            <!-- Il menu mobile interattivo sarà aggiunto
+                 nella parte JavaScript. -->
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENUTO PRINCIPALE -->
+    <main id="contenuto">
+
+        
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            AUF2026 · Faure Foundational Framework
+        </p>
+
+        <h1 id="hero-title">
+            Faure Framework.
+            <br>
+            Strutture fondamentali.
+        </h1>
+
+        <p class="hero-description">
+            L'archivio di ricerca AUF2026 raccoglie
+            le strutture matematiche del Faure Framework,
+            la tupla universale U_F, le configurazioni AOS,
+            gli sviluppi formali e la documentazione
+            tecnica del programma di ricerca.
+        </p>
+
+        <div class="hero-actions">
+
+            <a class="button button-primary"
+               href="#progetto">
+                Esplora il framework
+                <span aria-hidden="true">→</span>
+            </a>
+
+            <a class="button button-secondary"
+               href="https://github.com/auf2026">
+                Repository di ricerca
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Identità visiva AUF2026 -->
+
+    <div class="hero-visual"
+         role="img"
+         aria-label="AUF2026, Faure Foundational Framework">
+
+        <div class="hero-visual-content">
+            <span class="visual-mark">AUF</span>
+            <span class="visual-year">2026</span>
+        </div>
+
+    </div>
+
+    <a class="scroll-indicator" href="#visione">
+        <span>Esplora l'archivio</span>
+        <span aria-hidden="true">↓</span>
+    </a>
+
+</section>
+
+       
+
+<!-- VISIONE -->
+<section class="section vision-section"
+         id="visione"
+         aria-labelledby="vision-title">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">01 — Faure Foundational Philosophy</p>
+
+        <h2 id="vision-title">
+            La struttura precede
+            <span>la sua manifestazione.</span>
+        </h2>
+
+    </div>
+
+    <div class="vision-content">
+
+        <p class="lead">
+            Il Faure Foundational Framework distingue
+            la struttura matematica, la sua rappresentazione,
+            la manifestazione computazionale e quella fisica.
+        </p>
+
+        <p>
+            Nel principio fondazionale FF-0, queste dimensioni
+            non sono identificate tra loro: una struttura può
+            essere rappresentata e realizzata attraverso
+            manifestazioni differenti. Il framework sviluppa
+            questa distinzione attraverso i principi di
+            struttura, invarianza, rappresentazione,
+            manifestazione e non-creazione, definendo
+            un ordine concettuale tra struttura e realizzazione.
+        </p>
+
+    </div>
+
+</section>
+
+        
+
+<!-- PROGETTO -->
+<section class="section project-section"
+         id="progetto"
+         aria-labelledby="project-title">
+
+    <div class="section-heading">
+
+        <p class="eyebrow">02 — Research Architecture</p>
+
+        <h2 id="project-title">
+            Un framework.
+            <br>
+            Strutture interconnesse.
+        </h2>
+
+        <p class="section-description">
+            L'archivio AUF2026 organizza il programma di ricerca
+            attraverso oggetti matematici, relazioni strutturali
+            e costruzioni documentate, collegando gli enunciati
+            alle rispettive fonti e agli artefatti disponibili.
+        </p>
+
+    </div>
+
+    <div class="project-grid">
+
+        <article class="project-card">
+
+            <span class="card-number">01</span>
+
+            <div class="card-icon" aria-hidden="true">
+                ◇
+            </div>
+
+            <h3>Universal Kernel</h3>
+
+            <p>
+                Il nucleo strutturale è espresso dalla tupla
+                U_F = (M, G, A, Ψ, Λ, Π). L'archivio presenta
+                questa struttura come elemento centrale del
+                Faure Framework e la collega alle altre
+                componenti del programma matematico.
+            </p>
+
+            <a href="https://auf2026.github.io/"
+               class="text-link">
+                Consulta il framework
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </article>
+
+
+        <article class="project-card">
+
+            <span class="card-number">02</span>
+
+            <div class="card-icon" aria-hidden="true">
+                ◎
+            </div>
+
+            <h3>Structural Independence</h3>
+
+            <p>
+                Il materiale di ricerca documenta test di
+                rimozione delle componenti, modelli finiti
+                espliciti e proposizioni formali per studiare
+                l'indipendenza strutturale. Le conclusioni
+                vanno valutate attraverso i relativi enunciati
+                e artefatti documentati.
+            </p>
+
+            <a href="https://github.com/auf2026"
+               class="text-link">
+                Consulta il repository
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </article>
+
+
+        <article class="project-card">
+
+            <span class="card-number">03</span>
+
+            <div class="card-icon" aria-hidden="true">
+                ↗
+            </div>
+
+            <h3>Spectral Structure</h3>
+
+            <p>
+                L'archivio descrive la costruzione Ψ₉,
+                il proiettore P₉ = Ψ₉⁴ e la decomposizione
+                associata V₀ = ker(Ψ₉⁴) ⊕ ker(I − Ψ₉).
+                Definizioni, ipotesi e risultati vanno
+                letti nelle rispettive fonti matematiche.
+            </p>
+
+            <a href="https://auf2026.github.io/"
+               class="text-link">
+                Esplora l'archivio
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </article>
+
+    </div>
+
+</section>
+
+        
+
+<!-- VALORI -->
+<section class="section values-section"
+         id="valori"
+         aria-labelledby="values-title">
+
+    <div class="values-intro">
+
+        <p class="eyebrow">03 — Principi del framework</p>
+
+        <h2 id="values-title">
+            Definizioni esplicite.
+            <br>
+            Strutture distinguibili.
+        </h2>
+
+    </div>
+
+    <div class="values-list">
+
+        <article class="value-item">
+            <span class="value-index">01</span>
+            <div>
+                <h3>Invarianza</h3>
+                <p>
+                    Il framework tratta l'invarianza come
+                    una proprietà strutturale da formulare
+                    rispetto a trasformazioni e condizioni
+                    specifiche. Per valutarne la portata,
+                    occorre consultare le definizioni
+                    e gli enunciati matematici pertinenti.
+                </p>
+            </div>
+        </article>
+
+        <article class="value-item">
+            <span class="value-index">02</span>
+            <div>
+                <h3>Distinzione strutturale</h3>
+                <p>
+                    Struttura, rappresentazione e
+                    manifestazione costituiscono livelli
+                    concettuali distinti nella filosofia
+                    fondazionale del framework. Le relazioni
+                    tra questi livelli vanno lette attraverso
+                    i principi e le formulazioni pubblicate.
+                </p>
+            </div>
+        </article>
+
+        <article class="value-item">
+            <span class="value-index">03</span>
+            <div>
+                <h3>Tracciabilità delle fonti</h3>
+                <p>
+                    Definizioni, proposizioni e risultati
+                    devono essere ricondotti ai documenti
+                    pertinenti. La presenza di un enunciato
+                    nell'archivio non equivale, da sola,
+                    alla verifica indipendente della sua
+                    correttezza matematica.
+                </p>
+            </div>
+        </article>
+
+    </div>
+
+</section>
+
+        
+
+<!-- INVITO FINALE -->
+<section class="contact-section"
+         id="contatti"
+         aria-labelledby="contact-title">
+
+    <div class="contact-content">
+
+        <p class="eyebrow">AUF2026 · Fonti ufficiali</p>
+
+        <h2 id="contact-title">
+            Esamina le strutture.
+            <br>
+            Consulta le fonti.
+        </h2>
+
+        <p>
+            Approfondisci il Faure Foundational Framework
+            attraverso il sito ufficiale e i repository
+            pubblici. Consulta le definizioni, le costruzioni
+            matematiche e la documentazione disponibile
+            per distinguere gli enunciati dalle relative
+            evidenze.
+        </p>
+
+        <a class="button button-light"
+           href="https://auf2026.github.io/"
+           target="_blank"
+           rel="noopener noreferrer">
+            Visita il sito ufficiale
+            <span aria-hidden="true">↗</span>
+        </a>
+
+    </div>
+
+</section>
+
+  </main>
+
+
+    
+<!-- FOOTER -->
+<footer class="site-footer">
+
+    <div class="footer-inner">
+
+        <a class="footer-brand" href="#inizio">
+            AUF2026
+        </a>
+
+        <p class="footer-note">
+            Faure Foundational Framework · Ricerca matematica.
+        </p>
+
+        <nav class="footer-navigation"
+             aria-label="Navigazione secondaria">
+
+            <a href="#visione">Fondamenti</a>
+            <a href="#progetto">Framework</a>
+            <a href="mailto:AUF2026@protonmail.com">Contatti</a>
+
+        </nav>
+
+        <p class="copyright">
+            © 2026 AUF2026. Tutti i diritti riservati.
+        </p>
+
+    </div>
+
+</footer>
+
+
+</body>
+  <script>
+    
+/* ==========================================
+   AUF2026 — JAVASCRIPT PRINCIPALE
+   PARTE 1/5 — INIT + MENU MOBILE
+   ========================================== */
+
+"use strict";
+
+(() => {
+    const AUF = {
+        initialized: false,
+        menuOpen: false,
+        header: null,
+        headerInner: null,
+        navigation: null,
+        navList: null,
+        menuButton: null,
+        mobileQuery: null,
+        reducedMotion: null
+    };
+
+    function initAUF2026() {
+        if (AUF.initialized) return;
+        AUF.initialized = true;
+
+        AUF.header = document.querySelector(".site-header");
+        AUF.headerInner = AUF.header?.querySelector(".header-inner");
+        AUF.navigation = AUF.header?.querySelector(".main-navigation");
+        AUF.navList = AUF.navigation?.querySelector("ul");
+
+        AUF.mobileQuery = window.matchMedia("(max-width: 600px)");
+        AUF.reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        initMobileMenu();
+
+        // Le parti successive verranno inserite qui.
+    }
+
+    /* ======================================
+       MENU MOBILE
+       ====================================== */
+
+    function initMobileMenu() {
+        const {
+            headerInner,
+            navigation,
+            navList,
+            mobileQuery
+        } = AUF;
+
+        if (!headerInner || !navigation || !navList) {
+            console.warn(
+                "AUF2026: header, navigazione o lista menu non trovati."
+            );
+            return;
+        }
+
+        if (!navList.id) navList.id = "main-menu";
+
+        let button = headerInner.querySelector(".mobile-menu-toggle");
+
+        if (!button) {
+            button = document.createElement("button");
+            button.type = "button";
+            button.className = "mobile-menu-toggle";
+            button.innerHTML = `
+                <span></span>
+                <span></span>
+                <span></span>
+            `;
+
+            headerInner.insertBefore(button, navigation);
+        }
+
+        AUF.menuButton = button;
+
+        button.setAttribute("aria-controls", navList.id);
+
+        Object.assign(button.style, {
+            display: "none",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            flexShrink: "0",
+            gap: "5px",
+            width: "44px",
+            height: "44px",
+            padding: "10px",
+            border: "1px solid #e8e8ed",
+            borderRadius: "12px",
+            background: "#fff",
+            color: "#1d1d1f",
+            cursor: "pointer"
+        });
+
+        button.querySelectorAll("span").forEach((line) => {
+            Object.assign(line.style, {
+                display: "block",
+                width: "20px",
+                height: "2px",
+                borderRadius: "2px",
+                background: "currentColor",
+                transition: AUF.reducedMotion.matches
+                    ? "none"
+                    : "transform 180ms ease, opacity 180ms ease"
+            });
+        });
+
+        function renderMenu() {
+            const mobile = mobileQuery.matches;
+            const expanded = mobile && AUF.menuOpen;
+
+            button.style.display = mobile ? "flex" : "none";
+
+            button.setAttribute("aria-expanded", String(expanded));
+            button.setAttribute(
+                "aria-label",
+                expanded ? "Chiudi il menu" : "Apri il menu"
+            );
+
+            navigation.classList.toggle("is-open", expanded);
+            button.classList.toggle("is-active", expanded);
+
+            const lines = button.querySelectorAll("span");
+
+            if (lines.length === 3) {
+                lines[0].style.transform = expanded
+                    ? "translateY(7px) rotate(45deg)" : "";
+
+                lines[1].style.opacity = expanded ? "0" : "1";
+
+                lines[2].style.transform = expanded
+                    ? "translateY(-7px) rotate(-45deg)" : "";
+            }
+
+            if (mobile) {
+                Object.assign(navigation.style, {
+                    display: expanded ? "block" : "none",
+                    position: "absolute",
+                    top: "100%",
+                    left: "0",
+                    right: "0",
+                    zIndex: "101",
+                    maxHeight: "calc(100dvh - 80px)",
+                    overflowY: "auto",
+                    padding: "12px 20px 20px",
+                    background: "#fff",
+                    borderBottom: "1px solid #e8e8ed",
+                    borderRadius: "0 0 16px 16px",
+                    boxShadow: "0 16px 28px rgba(0,0,0,.08)"
+                });
+
+                Object.assign(navList.style, {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "stretch",
+                    gap: "0",
+                    margin: "0",
+                    padding: "0",
+                    listStyle: "none"
+                });
+
+                navigation.querySelectorAll("a").forEach((link) => {
+                    Object.assign(link.style, {
+                        display: "block",
+                        padding: "13px 4px",
+                        fontSize: "14px"
+                    });
+                });
+            } else {
+                navigation.removeAttribute("style");
+                navList.removeAttribute("style");
+
+                navigation.querySelectorAll("a").forEach((link) => {
+                    link.style.removeProperty("display");
+                    link.style.removeProperty("padding");
+                    link.style.removeProperty("font-size");
+                });
+            }
+        }
+
+        function closeMenu() {
+            AUF.menuOpen = false;
+            renderMenu();
+        }
+
+        button.addEventListener("click", () => {
+            AUF.menuOpen = !AUF.menuOpen;
+            renderMenu();
+        });
+
+        navigation.addEventListener("click", (event) => {
+            if (event.target.closest("a")) closeMenu();
+        });
+
+        document.addEventListener("click", (event) => {
+            if (
+                AUF.menuOpen &&
+                !navigation.contains(event.target) &&
+                !button.contains(event.target)
+            ) {
+                closeMenu();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && AUF.menuOpen) {
+                closeMenu();
+                button.focus();
+            }
+        });
+
+        const onBreakpointChange = () => {
+            closeMenu();
+            renderMenu();
+        };
+
+        if (mobileQuery.addEventListener) {
+            mobileQuery.addEventListener("change", onBreakpointChange);
+        } else {
+            mobileQuery.addListener(onBreakpointChange);
+        }
+
+        renderMenu();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initAUF2026, {
+            once: true
+        });
+    } else {
+        initAUF2026();
+    }
+})();
+
+/* ==========================================
+   AUF2026 — PARTE 2/5
+   SCROLL INTELLIGENTE
+   Progress bar · Header dinamico
+   ========================================== */
+
+"use strict";
+
+(() => {
+    function initScrollEffects() {
+        // Evita inizializzazioni duplicate.
+        if (document.documentElement.dataset.aufScrollReady === "true") {
+            return;
+        }
+
+        document.documentElement.dataset.aufScrollReady = "true";
+
+        const header = document.querySelector(".site-header");
+
+        if (!document.body) return;
+
+        /* BARRA DI AVANZAMENTO */
+
+        const progressBar = document.createElement("div");
+
+        progressBar.className = "auf-progress";
+        progressBar.setAttribute("aria-hidden", "true");
+
+        Object.assign(progressBar.style, {
+            position: "fixed",
+            top: "0",
+            left: "0",
+            zIndex: "10001",
+            width: "100%",
+            height: "3px",
+            background: "linear-gradient(90deg, #0071e3, #65b8ff)",
+            transform: "scaleX(0)",
+            transformOrigin: "left center",
+            pointerEvents: "none",
+            willChange: "transform"
+        });
+
+        document.body.appendChild(progressBar);
+
+        /* AGGIORNAMENTO SCROLL */
+
+        let ticking = false;
+
+        function updateScroll() {
+            const root = document.documentElement;
+            const scrollTop = window.scrollY || root.scrollTop;
+            const maxScroll = root.scrollHeight - window.innerHeight;
+
+            const progress = maxScroll > 0
+                ? Math.min(1, Math.max(0, scrollTop / maxScroll))
+                : 0;
+
+            progressBar.style.transform = `scaleX(${progress})`;
+
+            if (header) {
+                header.classList.toggle("is-scrolled", scrollTop > 12);
+            }
+
+            ticking = false;
+        }
+
+        function requestUpdate() {
+            if (ticking) return;
+
+            ticking = true;
+            window.requestAnimationFrame(updateScroll);
+        }
+
+        window.addEventListener("scroll", requestUpdate, {
+            passive: true
+        });
+
+        window.addEventListener("resize", requestUpdate, {
+            passive: true
+        });
+
+        window.addEventListener("load", requestUpdate, {
+            once: true
+        });
+
+        /* ACCESSIBILITÀ */
+
+        const motionPreference = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        function updateMotionPreference() {
+            progressBar.style.transition = motionPreference.matches
+                ? "none"
+                : "transform 80ms linear";
+        }
+
+        updateMotionPreference();
+
+        if (motionPreference.addEventListener) {
+            motionPreference.addEventListener(
+                "change",
+                updateMotionPreference
+            );
+        }
+
+        updateScroll();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initScrollEffects, {
+            once: true
+        });
+    } else {
+        initScrollEffects();
+    }
+})();
+
+/* ==========================================
+   AUF2026 — PARTE 3/5
+   BACK TO TOP
+   Scroll · Accessibilità · Responsive
+   ========================================== */
+
+"use strict";
+
+(() => {
+    function initBackToTop() {
+        if (
+            document.documentElement.dataset.aufBackToTopReady === "true"
+        ) {
+            return;
+        }
+
+        document.documentElement.dataset.aufBackToTopReady = "true";
+
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        /* CREA IL PULSANTE */
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "auf-back-to-top";
+        button.setAttribute("aria-label", "Torna all'inizio della pagina");
+        button.setAttribute("title", "Torna all'inizio");
+        button.setAttribute("aria-hidden", "true");
+        button.tabIndex = -1;
+
+        button.innerHTML = `
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="21"
+                height="21"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                focusable="false"
+            >
+                <path d="m18 15-6-6-6 6"></path>
+            </svg>
+        `;
+
+        Object.assign(button.style, {
+            position: "fixed",
+            right: "24px",
+            bottom: "24px",
+            zIndex: "999",
+            display: "grid",
+            placeItems: "center",
+            width: "48px",
+            height: "48px",
+            padding: "0",
+            border: "1px solid rgba(0,0,0,.08)",
+            borderRadius: "50%",
+            background: "#ffffff",
+            color: "#1d1d1f",
+            boxShadow: "0 5px 22px rgba(0,0,0,.12)",
+            cursor: "pointer",
+            opacity: "0",
+            visibility: "hidden",
+            transform: "translateY(10px)",
+            transition: reducedMotion.matches
+                ? "none"
+                : "opacity 200ms ease, transform 200ms ease, visibility 200ms ease"
+        });
+
+        document.body.appendChild(button);
+
+        /* MOSTRA E NASCONDE IL PULSANTE */
+
+        let visible = false;
+        let ticking = false;
+
+        function renderVisibility() {
+            const shouldShow = window.scrollY > 400;
+
+            if (shouldShow === visible) {
+                ticking = false;
+                return;
+            }
+
+            visible = shouldShow;
+
+            button.style.opacity = visible ? "1" : "0";
+            button.style.visibility = visible ? "visible" : "hidden";
+            button.style.transform = visible
+                ? "translateY(0)"
+                : "translateY(10px)";
+
+            button.setAttribute("aria-hidden", String(!visible));
+            button.tabIndex = visible ? 0 : -1;
+
+            ticking = false;
+        }
+
+        function onScroll() {
+            if (ticking) return;
+
+            ticking = true;
+            window.requestAnimationFrame(renderVisibility);
+        }
+
+        window.addEventListener("scroll", onScroll, {
+            passive: true
+        });
+
+        window.addEventListener("resize", onScroll, {
+            passive: true
+        });
+
+        /* RITORNO ALL'INIZIO */
+
+        button.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: reducedMotion.matches ? "auto" : "smooth"
+            });
+        });
+
+        /* FOCUS VISIBILE */
+
+        button.addEventListener("focus", () => {
+            button.style.outline = "3px solid #0071e3";
+            button.style.outlineOffset = "4px";
+        });
+
+        button.addEventListener("blur", () => {
+            button.style.outline = "none";
+        });
+
+        /* AGGIORNAMENTO PREFERENZE MOVIMENTO */
+
+        function updateMotion() {
+            button.style.transition = reducedMotion.matches
+                ? "none"
+                : "opacity 200ms ease, transform 200ms ease, visibility 200ms ease";
+        }
+
+        if (reducedMotion.addEventListener) {
+            reducedMotion.addEventListener("change", updateMotion);
+        }
+
+        renderVisibility();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initBackToTop, {
+            once: true
+        });
+    } else {
+        initBackToTop();
+    }
+})();
+
+/* ==========================================
+   AUF2026 — PARTE 4/5
+   REVEAL E ANIMAZIONI
+   IntersectionObserver · Accessibilità
+   ========================================== */
+
+"use strict";
+
+(() => {
+    function initReveal() {
+        if (
+            document.documentElement.dataset.aufRevealReady === "true"
+        ) {
+            return;
+        }
+
+        document.documentElement.dataset.aufRevealReady = "true";
+
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        const selectors = [
+            ".section-heading",
+            ".project-card",
+            ".value-item"
+        ];
+
+        const elements = document.querySelectorAll(selectors.join(","));
+
+        if (!elements.length) return;
+
+        /* MOVIMENTO RIDOTTO O BROWSER NON SUPPORTATO */
+
+        if (
+            reducedMotion.matches ||
+            !("IntersectionObserver" in window)
+        ) {
+            elements.forEach((element) => {
+                element.classList.add("is-visible");
+            });
+
+            return;
+        }
+
+        /* OSSERVATORE */
+
+        const observer = new IntersectionObserver(
+            (entries, currentObserver) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+
+                    entry.target.classList.add("is-visible");
+
+                    currentObserver.unobserve(entry.target);
+                });
+            },
+            {
+                root: null,
+                threshold: 0.08,
+                rootMargin: "0px 0px -35px 0px"
+            }
+        );
+
+        elements.forEach((element, index) => {
+            element.classList.add("reveal");
+
+            // Ritardo contenuto per le card consecutive.
+            if (element.matches(".project-card, .value-item")) {
+                const siblings = Array.from(
+                    element.parentElement?.children || []
+                ).filter((sibling) =>
+                    sibling.matches(".project-card, .value-item")
+                );
+
+                const position = siblings.indexOf(element);
+                const delay = Math.max(0, position) * 75;
+
+                element.style.setProperty(
+                    "--auf-reveal-delay",
+                    `${Math.min(delay, 225)}ms`
+                );
+            }
+
+            observer.observe(element);
+        });
+
+        /* PREFERENZE DI ACCESSIBILITÀ AGGIORNABILI */
+
+        function handleMotionChange(event) {
+            if (!event.matches) return;
+
+            observer.disconnect();
+
+            elements.forEach((element) => {
+                element.classList.add("is-visible");
+                element.classList.remove("reveal");
+                element.style.removeProperty("--auf-reveal-delay");
+            });
+        }
+
+        if (reducedMotion.addEventListener) {
+            reducedMotion.addEventListener("change", handleMotionChange);
+        } else if (reducedMotion.addListener) {
+            reducedMotion.addListener(handleMotionChange);
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initReveal, {
+            once: true
+        });
+    } else {
+        initReveal();
+    }
+})();
+
+/* ==========================================
+   AUF2026 — PARTE 5/5
+   FOOTER · ANCORE · ACCESSIBILITÀ
+   ========================================== */
+
+"use strict";
+
+(() => {
+    function initFooterNavigation() {
+        if (
+            document.documentElement.dataset.aufFooterReady === "true"
+        ) {
+            return;
+        }
+
+        document.documentElement.dataset.aufFooterReady = "true";
+
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        /* ======================================
+           1. COPYRIGHT AUTOMATICO
+           ====================================== */
+
+        document.querySelectorAll(".copyright").forEach((element) => {
+            element.textContent =
+                `© ${new Date().getFullYear()} AUF2026. Tutti i diritti riservati.`;
+        });
+
+        /* ======================================
+           2. ANCORE INTERNE
+           ====================================== */
+
+        document.querySelectorAll('a[href^="#"]').forEach((link) => {
+            link.addEventListener("click", (event) => {
+                // Lascia funzionare normalmente i link modificati
+                // con Ctrl, Cmd, Shift o il pulsante centrale.
+                if (
+                    event.ctrlKey ||
+                    event.metaKey ||
+                    event.shiftKey ||
+                    event.altKey ||
+                    event.button !== 0
+                ) {
+                    return;
+                }
+
+                const href = link.getAttribute("href");
+
+                if (!href || href === "#") return;
+
+                let targetId;
+
+                try {
+                    targetId = decodeURIComponent(href.slice(1));
+                } catch {
+                    return;
+                }
+
+                const target = document.getElementById(targetId);
+
+                if (!target) return;
+
+                event.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: reducedMotion.matches ? "auto" : "smooth",
+                    block: "start"
+                });
+
+                // Aggiorna l'URL senza provocare un salto brusco.
+                if (window.location.hash !== href) {
+                    try {
+                        window.history.pushState(null, "", href);
+                    } catch {
+                        // Lo scroll resta funzionante anche se
+                        // il browser non consente pushState.
+                    }
+                }
+
+                // Rende raggiungibile la destinazione da tastiera
+                // senza modificare permanentemente il markup.
+                if (!target.hasAttribute("tabindex")) {
+                    target.setAttribute("tabindex", "-1");
+
+                    target.addEventListener("blur", () => {
+                        target.removeAttribute("tabindex");
+                    }, { once: true });
+                }
+
+                target.focus({ preventScroll: true });
+            });
+        });
+
+        /* ======================================
+           3. INDICATORE DELLA SEZIONE ATTIVA
+           ====================================== */
+
+        const navLinks = document.querySelectorAll(
+            ".main-navigation a[href^='#'], .footer-navigation a[href^='#']"
+        );
+
+        const sections = Array.from(navLinks)
+            .map((link) => {
+                const href = link.getAttribute("href");
+
+                if (!href || href === "#") return null;
+
+                return document.getElementById(href.slice(1));
+            })
+            .filter(Boolean);
+
+        const uniqueSections = [...new Set(sections)];
+
+        if ("IntersectionObserver" in window && uniqueSections.length) {
+            const sectionObserver = new IntersectionObserver(
+                (entries) => {
+                    const visible = entries
+                        .filter((entry) => entry.isIntersecting)
+                        .sort(
+                            (a, b) =>
+                                b.intersectionRatio - a.intersectionRatio
+                        );
+
+                    if (!visible.length) return;
+
+                    const activeId = visible[0].target.id;
+
+                    navLinks.forEach((link) => {
+                        const active =
+                            link.getAttribute("href") === `#${activeId}`;
+
+                        if (active) {
+                            link.setAttribute("aria-current", "location");
+                        } else {
+                            link.removeAttribute("aria-current");
+                        }
+                    });
+                },
+                {
+                    rootMargin: "-20% 0px -60% 0px",
+                    threshold: [0, 0.1, 0.25, 0.5]
+                }
+            );
+
+            uniqueSections.forEach((section) => {
+                sectionObserver.observe(section);
+            });
+        }
+
+        /* ======================================
+           4. ANNO E LINK AL TOP
+           ====================================== */
+
+        document.querySelectorAll(
+            '.site-footer a[href="#inizio"]'
+        ).forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const target = document.getElementById("inizio");
+
+                // Se #inizio non esiste, usa l'inizio del documento.
+                if (!target) {
+                    event.preventDefault();
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: reducedMotion.matches ? "auto" : "smooth"
+                    });
+                }
+            });
+        });
+
+        /* ======================================
+           5. PREFERENZE DI MOVIMENTO
+           ====================================== */
+
+        function updateScrollBehavior(event) {
+            document.documentElement.style.scrollBehavior =
+                event.matches ? "auto" : "";
+        }
+
+        updateScrollBehavior(reducedMotion);
+
+        if (reducedMotion.addEventListener) {
+            reducedMotion.addEventListener(
+                "change",
+                updateScrollBehavior
+            );
+        }
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initFooterNavigation,
+            { once: true }
+        );
+    } else {
+        initFooterNavigation();
+    }
+})();
+
+  </script>
+</html>
