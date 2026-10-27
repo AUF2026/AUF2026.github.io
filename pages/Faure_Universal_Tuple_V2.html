@@ -1,0 +1,5788 @@
+
+<!DOCTYPE html>
+<html lang="it">
+  <style>
+    
+/* =========================================
+   AUF2026 — CSS 01
+   COSMIC FOUNDATION & CINEMATIC HEADER
+   ========================================= */
+
+:root {
+  color-scheme: dark;
+
+  --bg-deep: #07111f;
+  --bg-mid: #101b35;
+  --bg-violet: #21133a;
+
+  --panel: rgba(17, 31, 56, 0.82);
+  --panel-deep: rgba(8, 19, 37, 0.92);
+
+  --cyan: #38e6df;
+  --cyan-bright: #a3fffa;
+  --blue: #4285ff;
+
+  --violet: #c084fc;
+  --violet-deep: #7c3aed;
+
+  --gold: #f6c96b;
+  --gold-bright: #fff0b0;
+
+  --red: #fb7185;
+
+  --text-main: #ffffff;
+  --text-body: #dce6fa;
+  --text-muted: #9fb2d5;
+
+  --border: rgba(111, 146, 201, 0.24);
+  --border-bright: rgba(111, 146, 201, 0.48);
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+
+  --glow-cyan:
+    0 0 12px rgba(56, 230, 223, 0.30),
+    0 0 32px rgba(56, 230, 223, 0.10);
+
+  --glow-violet:
+    0 0 18px rgba(192, 132, 252, 0.25);
+
+  --glow-gold:
+    0 0 18px rgba(246, 201, 107, 0.20);
+
+  --page-width: 1600px;
+  --page-padding: clamp(20px, 4.4vw, 70px);
+}
+
+/* RESET */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  background: var(--bg-deep);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color: var(--text-main);
+  background: var(--bg-deep);
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+input {
+  font-family:
+    Inter,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+}
+
+::selection {
+  color: #07111f;
+  background: var(--cyan);
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ROOT APPLICATION */
+
+#auf2026 {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  max-width: var(--page-width);
+  min-height: 100vh;
+
+  margin-inline: auto;
+  overflow: clip;
+
+  background:
+    radial-gradient(
+      ellipse at 85% 8%,
+      rgba(112, 72, 219, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      ellipse at 5% 75%,
+      rgba(22, 143, 190, 0.09),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      var(--bg-deep) 0%,
+      var(--bg-mid) 55%,
+      var(--bg-violet) 100%
+    );
+}
+
+/* COSMIC BACKGROUND LAYER */
+
+#cosmic-background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* GRID OVERLAY */
+
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.18;
+
+  background-image:
+    linear-gradient(
+      rgba(92, 120, 172, 0.32) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(92, 120, 172, 0.32) 1px,
+      transparent 1px
+    );
+
+  background-size: 100px 100px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    rgba(0, 0, 0, 0.75) 65%,
+    transparent 100%
+  );
+}
+
+/* COSMIC ORBS */
+
+.cosmic-orb {
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  pointer-events: none;
+  will-change: transform;
+}
+
+.orb-violet {
+  width: clamp(240px, 34vw, 540px);
+  top: -220px;
+  right: -130px;
+
+  background: radial-gradient(
+    circle,
+    rgba(124, 58, 237, 0.19) 0%,
+    rgba(112, 72, 219, 0.08) 38%,
+    transparent 70%
+  );
+
+  filter: blur(3px);
+}
+
+.orb-violet::before,
+.orb-violet::after {
+  content: "";
+  position: absolute;
+
+  inset: 15%;
+  border: 1px solid rgba(192, 132, 252, 0.22);
+  border-radius: 50%;
+}
+
+.orb-violet::after {
+  inset: 27%;
+  border-color: rgba(192, 132, 252, 0.16);
+}
+
+.orb-cyan {
+  width: clamp(280px, 40vw, 620px);
+  left: -330px;
+  top: 45%;
+
+  background: radial-gradient(
+    circle,
+    rgba(22, 143, 190, 0.15),
+    rgba(56, 230, 223, 0.04) 42%,
+    transparent 72%
+  );
+}
+
+/* CONTENT LAYER */
+
+.interface {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+
+  padding:
+    34px
+    var(--page-padding)
+    28px;
+}
+
+/* MAIN HEADER */
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 32px;
+  min-height: 90px;
+
+  padding-bottom: 24px;
+}
+
+.brand-block {
+  min-width: 0;
+}
+
+.main-title {
+  margin: 0;
+
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 900;
+  line-height: 1;
+
+  letter-spacing: 0.055em;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.20),
+    0 0 28px rgba(56, 230, 223, 0.18);
+}
+
+.main-subtitle {
+  margin: 14px 0 0;
+
+  color: #b8c7e6;
+
+  font-size: clamp(10px, 1.05vw, 14px);
+  font-weight: 500;
+
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.subtitle-separator {
+  margin-inline: 5px;
+  color: var(--cyan);
+}
+
+/* HEADER EQUATION */
+
+.header-equation {
+  display: grid;
+  gap: 8px;
+
+  justify-items: end;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.equation-label {
+  color: var(--text-muted);
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.equation {
+  color: var(--gold-bright);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(17px, 2vw, 25px);
+  white-space: nowrap;
+
+  text-shadow: var(--glow-gold);
+}
+
+.equation sub {
+  font-size: 0.65em;
+}
+
+/* HEADER DIVIDER */
+
+.header-divider {
+  position: relative;
+  height: 1px;
+  width: 100%;
+
+  background: rgba(92, 120, 172, 0.32);
+}
+
+.divider-glow {
+  position: absolute;
+  inset: -1px 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 230, 223, 0.75) 25%,
+    rgba(192, 132, 252, 0.70) 75%,
+    transparent
+  );
+
+  opacity: 0.8;
+  filter: drop-shadow(0 0 5px rgba(56, 230, 223, 0.5));
+}
+
+/* GENERAL SECTION FOUNDATION */
+
+.section {
+  position: relative;
+  min-width: 0;
+  margin-top: 38px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-wrap: wrap;
+  gap: 12px 24px;
+
+  margin-bottom: 22px;
+}
+
+.section-heading-left {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.section-index {
+  display: inline-grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+
+  border: 1px solid rgba(56, 230, 223, 0.38);
+  border-radius: 9px;
+
+  background: rgba(56, 230, 223, 0.07);
+
+  color: var(--cyan);
+
+  font-family: Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  color: var(--text-main);
+
+  font-size: clamp(14px, 1.45vw, 20px);
+  font-weight: 800;
+
+  letter-spacing: 0.035em;
+  line-height: 1.4;
+}
+
+.section-caption {
+  color: var(--text-muted);
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 0.035em;
+}
+
+/* RESPONSIVE HEADER */
+
+@media (max-width: 760px) {
+  .interface {
+    padding: 24px 20px;
+  }
+
+  .main-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .header-equation {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .main-subtitle {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .section-caption {
+    padding-left: 47px;
+    line-height: 1.5;
+  }
+
+  .grid-overlay {
+    background-size: 60px 60px;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 02
+   UNIVERSAL ARCHITECTURE / NEON MODULES
+   ========================================= */
+
+/* ARCHITECTURE SECTION */
+
+.architecture-section {
+  position: relative;
+}
+
+/* MODULE GRID */
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  align-items: stretch;
+}
+
+/* MODULE CARD */
+
+.module-card {
+  --module-color: var(--cyan);
+  --module-glow: rgba(56, 230, 223, 0.14);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  min-height: 190px;
+  padding: 17px 14px 14px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--module-color) 42%,
+    transparent
+  );
+
+  border-radius: var(--radius-md);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(26, 47, 75, 0.88),
+      rgba(11, 23, 42, 0.94)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 12px 32px rgba(0, 0, 0, 0.14);
+
+  transition:
+    transform 350ms cubic-bezier(.2,.8,.2,1),
+    border-color 350ms ease,
+    box-shadow 350ms ease,
+    background 350ms ease;
+}
+
+/* INNER AMBIENT LIGHT */
+
+.module-card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  width: 160px;
+  height: 160px;
+
+  top: -90px;
+  right: -70px;
+
+  border-radius: 50%;
+
+  background: var(--module-glow);
+  filter: blur(28px);
+
+  pointer-events: none;
+}
+
+/* TOP EDGE */
+
+.module-card::after {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  left: 14%;
+  right: 14%;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--module-color),
+    transparent
+  );
+
+  opacity: 0.7;
+}
+
+/* COLOR VARIANTS */
+
+.module-cyan {
+  --module-color: var(--cyan);
+  --module-glow: rgba(56, 230, 223, 0.16);
+}
+
+.module-violet {
+  --module-color: var(--violet);
+  --module-glow: rgba(192, 132, 252, 0.17);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(43, 32, 66, 0.90),
+      rgba(19, 20, 43, 0.95)
+    );
+}
+
+.module-gold {
+  --module-color: var(--gold);
+  --module-glow: rgba(246, 201, 107, 0.16);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(59, 46, 28, 0.88),
+      rgba(29, 25, 28, 0.95)
+    );
+}
+
+/* CARD TOPLINE */
+
+.module-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+  min-width: 0;
+}
+
+.module-number {
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  white-space: nowrap;
+}
+
+.module-status {
+  position: relative;
+
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+  background: var(--module-color);
+
+  box-shadow:
+    0 0 7px var(--module-color),
+    0 0 15px var(--module-glow);
+}
+
+/* MODULE SYMBOL */
+
+.module-symbol {
+  margin-top: 17px;
+
+  color: var(--module-color);
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: clamp(35px, 3vw, 47px);
+  font-weight: 400;
+  line-height: 1.05;
+
+  text-shadow:
+    0 0 10px var(--module-glow),
+    0 0 24px var(--module-glow);
+}
+
+/* MODULE TITLE */
+
+.module-card h3 {
+  margin: 11px 0 16px;
+
+  color: var(--text-main);
+
+  font-size: clamp(11px, 0.92vw, 13px);
+  font-weight: 650;
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+/* CARD FOOTER */
+
+.module-bottomline {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 12px;
+
+  border-top: 1px solid rgba(159, 178, 213, 0.13);
+}
+
+.module-bottomline > span:first-child {
+  color: var(--text-muted);
+
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.045em;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+}
+
+.module-code {
+  color: var(--module-color);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+/* HOVER EFFECT */
+
+@media (hover: hover) and (pointer: fine) {
+  .module-card:hover {
+    transform: translateY(-6px);
+
+    border-color: var(--module-color);
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 0 0 1px var(--module-glow),
+      0 0 25px var(--module-glow),
+      0 18px 35px rgba(0, 0, 0, 0.28);
+  }
+
+  .module-card:hover .module-symbol {
+    text-shadow:
+      0 0 12px var(--module-color),
+      0 0 30px var(--module-glow),
+      0 0 48px var(--module-glow);
+  }
+}
+
+/* ARCHITECTURE FOOTER */
+
+.architecture-footer {
+  margin-top: 23px;
+  padding: 0 3px;
+}
+
+.signal-line {
+  position: relative;
+
+  width: 100%;
+  height: 1px;
+
+  overflow: hidden;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 230, 223, 0.18) 10%,
+    rgba(56, 230, 223, 0.42) 50%,
+    rgba(192, 132, 252, 0.22) 90%,
+    transparent
+  );
+}
+
+.signal-pulse {
+  position: absolute;
+  top: -1px;
+  left: 0;
+
+  width: 110px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cyan-bright),
+    transparent
+  );
+
+  filter: blur(0.5px);
+  box-shadow: 0 0 12px var(--cyan);
+}
+
+.architecture-footer > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 9px;
+  margin: 12px 0 0;
+
+  color: var(--text-muted);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.footer-indicator {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+  background: var(--cyan);
+
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.footer-separator {
+  color: var(--violet);
+}
+
+/* RESPONSIVE GRID */
+
+@media (max-width: 1200px) {
+  .module-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .module-card {
+    min-height: 180px;
+    padding: 17px;
+  }
+
+  .module-symbol {
+    font-size: 42px;
+  }
+
+  .module-card h3 {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .module-card {
+    min-height: 172px;
+    padding: 13px 11px 12px;
+    border-radius: 13px;
+  }
+
+  .module-number {
+    font-size: 8px;
+  }
+
+  .module-symbol {
+    margin-top: 15px;
+    font-size: 38px;
+  }
+
+  .module-card h3 {
+    margin-top: 9px;
+    font-size: 12px;
+  }
+
+  .module-bottomline > span:first-child {
+    font-size: 7px;
+  }
+
+  .module-code {
+    font-size: 8px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .module-card,
+  .module-symbol,
+  .module-status,
+  .signal-pulse {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .module-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 03
+   LOGIC FLOW / CONTRADICTION ENGINE
+   ========================================= */
+
+.logic-section {
+  --logic-accent: var(--cyan);
+}
+
+/* THREE-CARD FLOW */
+
+.logic-flow {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) 30px
+    minmax(0, 1fr) 30px
+    minmax(0, 1fr);
+
+  align-items: stretch;
+  gap: 12px;
+}
+
+/* LOGIC CARDS */
+
+.logic-card {
+  --logic-color: var(--cyan);
+  --logic-glow: rgba(56, 230, 223, 0.12);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  padding: 22px 19px 20px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1px solid rgba(56, 230, 223, 0.28);
+  border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(21, 39, 65, 0.92),
+      rgba(9, 22, 41, 0.96)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 14px 35px rgba(0, 0, 0, 0.14);
+
+  transition:
+    transform 300ms ease,
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+.logic-card::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  top: -65px;
+  right: -65px;
+
+  width: 145px;
+  height: 145px;
+
+  border-radius: 50%;
+  background: var(--logic-glow);
+
+  filter: blur(28px);
+  pointer-events: none;
+}
+
+.logic-card::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--logic-color),
+    transparent
+  );
+
+  opacity: 0.65;
+}
+
+/* CARD VARIANTS */
+
+.logic-premise {
+  --logic-color: var(--cyan);
+  --logic-glow: rgba(56, 230, 223, 0.13);
+}
+
+.logic-cosmology {
+  --logic-color: var(--gold);
+  --logic-glow: rgba(246, 201, 107, 0.12);
+
+  border-color: rgba(246, 201, 107, 0.32);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(54, 43, 31, 0.90),
+      rgba(20, 23, 37, 0.97)
+    );
+}
+
+/* CARD HEADER */
+
+.logic-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.logic-kicker {
+  color: var(--logic-color);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+}
+
+.logic-step-number {
+  color: var(--text-muted);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+/* CARD TITLE */
+
+.logic-card h3 {
+  margin: 21px 0 18px;
+
+  color: var(--text-main);
+
+  font-size: clamp(14px, 1.25vw, 19px);
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+/* FORMULA DISPLAY */
+
+.formula-box {
+  display: flex;
+  align-items: center;
+
+  min-height: 60px;
+  padding: 14px 12px;
+
+  border: 1px solid rgba(159, 178, 213, 0.13);
+  border-radius: var(--radius-sm);
+
+  background: rgba(3, 12, 26, 0.42);
+
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 230, 223, 0.35) transparent;
+}
+
+.formula {
+  color: #ffffff;
+
+  font-family:
+    "Cambria Math",
+    "STIX Two Math",
+    Georgia,
+    serif;
+
+  font-size: clamp(13px, 1.1vw, 17px);
+  line-height: 1.6;
+
+  white-space: nowrap;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.06);
+}
+
+.logic-description {
+  margin: 17px 0 19px;
+
+  color: var(--text-body);
+
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.logic-card-line {
+  height: 1px;
+  width: 100%;
+  margin-top: auto;
+
+  background: linear-gradient(
+    90deg,
+    var(--logic-color),
+    transparent
+  );
+
+  opacity: 0.30;
+}
+
+/* LOGIC CONNECTORS */
+
+.logic-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+}
+
+.connector-line {
+  position: relative;
+
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(56, 230, 223, 0.18),
+    rgba(56, 230, 223, 0.85)
+  );
+
+  box-shadow: 0 0 10px rgba(56, 230, 223, 0.20);
+}
+
+.connector-core {
+  display: none;
+}
+
+/* CONVERGENCE TO CONTRADICTION */
+
+.logic-convergence {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: 64px;
+  margin-top: 0;
+}
+
+.convergence-stem {
+  width: 2px;
+  height: 28px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(246, 201, 107, 0.85),
+    rgba(251, 113, 133, 0.85)
+  );
+
+  box-shadow: 0 0 12px rgba(251, 113, 133, 0.22);
+}
+
+.convergence-node {
+  position: absolute;
+
+  top: 23px;
+
+  width: 10px;
+  height: 10px;
+
+  border: 2px solid var(--red);
+  border-radius: 50%;
+
+  background: #321d30;
+
+  box-shadow:
+    0 0 9px rgba(251, 113, 133, 0.7),
+    0 0 22px rgba(251, 113, 133, 0.18);
+}
+
+.convergence-stem-bottom {
+  position: absolute;
+  top: 33px;
+
+  height: 31px;
+}
+
+/* CONTRADICTION PANEL */
+
+.contradiction-panel {
+  --alert: var(--red);
+
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+  min-width: 0;
+  padding: 28px 32px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1px solid rgba(251, 113, 133, 0.70);
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      105deg,
+      rgba(70, 25, 43, 0.93),
+      rgba(36, 22, 42, 0.96) 70%,
+      rgba(23, 22, 43, 0.98)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.045),
+    0 0 25px rgba(251, 113, 133, 0.08),
+    0 20px 45px rgba(0, 0, 0, 0.20);
+}
+
+/* RED AMBIENT LIGHT */
+
+.contradiction-panel::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 240px;
+  height: 240px;
+
+  top: 50%;
+  left: 0;
+
+  transform: translate(-40%, -50%);
+
+  border-radius: 50%;
+
+  background: rgba(251, 113, 133, 0.13);
+  filter: blur(42px);
+
+  pointer-events: none;
+}
+
+.contradiction-panel::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 3px;
+  height: 100%;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--red),
+    transparent
+  );
+
+  box-shadow: 0 0 15px rgba(251, 113, 133, 0.65);
+}
+
+/* WARNING ICON */
+
+.contradiction-icon {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+
+  border: 1px solid rgba(251, 113, 133, 0.45);
+  border-radius: 50%;
+
+  background: rgba(251, 113, 133, 0.08);
+}
+
+.warning-ring {
+  position: absolute;
+  inset: -6px;
+
+  border: 1px solid rgba(251, 113, 133, 0.24);
+  border-radius: 50%;
+}
+
+.warning-symbol {
+  color: #fda4af;
+
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 1;
+
+  text-shadow:
+    0 0 12px rgba(251, 113, 133, 0.65);
+}
+
+/* CONTRADICTION CONTENT */
+
+.contradiction-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.contradiction-kicker {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  margin-bottom: 9px;
+
+  color: #fda4af;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.alert-indicator {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+  background: var(--red);
+
+  box-shadow: 0 0 12px rgba(251, 113, 133, 0.8);
+}
+
+.contradiction-content h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(19px, 2vw, 27px);
+  font-weight: 900;
+  letter-spacing: 0.025em;
+  line-height: 1.35;
+}
+
+.contradiction-content > p {
+  margin: 10px 0 0;
+
+  color: var(--text-body);
+
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* STATUS LABEL */
+
+.contradiction-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  align-self: flex-start;
+  flex-shrink: 0;
+
+  padding: 9px 11px;
+
+  border: 1px solid rgba(251, 113, 133, 0.25);
+  border-radius: 8px;
+
+  color: #fda4af;
+  background: rgba(251, 113, 133, 0.06);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+  background: var(--red);
+}
+
+/* FOOTNOTE */
+
+.logic-footnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  margin: 16px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.footnote-mark {
+  display: inline-grid;
+  place-items: center;
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  border: 1px solid rgba(159, 178, 213, 0.3);
+  border-radius: 50%;
+
+  font-family: Georgia, serif;
+  font-size: 10px;
+}
+
+/* RESPONSIVE LOGIC FLOW */
+
+@media (max-width: 1050px) {
+  .logic-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .logic-card {
+    padding: 21px;
+  }
+
+  .logic-card h3 {
+    margin: 16px 0;
+    font-size: 17px;
+  }
+
+  .formula {
+    font-size: 16px;
+  }
+
+  .logic-connector {
+    height: 24px;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 100%;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(56, 230, 223, 0.15),
+      rgba(56, 230, 223, 0.85)
+    );
+  }
+
+  .logic-convergence {
+    height: 40px;
+  }
+
+  .convergence-stem {
+    height: 18px;
+  }
+
+  .convergence-node {
+    top: 14px;
+  }
+
+  .convergence-stem-bottom {
+    top: 24px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .logic-card {
+    padding: 17px 15px;
+    border-radius: 15px;
+  }
+
+  .logic-card h3 {
+    font-size: 16px;
+  }
+
+  .formula-box {
+    min-height: 54px;
+    padding: 11px 9px;
+  }
+
+  .formula {
+    font-size: 14px;
+  }
+
+  .contradiction-panel {
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    gap: 16px;
+
+    padding: 22px 18px;
+    border-radius: 16px;
+  }
+
+  .contradiction-icon {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .warning-symbol {
+    font-size: 24px;
+  }
+
+  .contradiction-content {
+    flex-basis: calc(100% - 65px);
+  }
+
+  .contradiction-content h3 {
+    font-size: 19px;
+  }
+
+  .contradiction-status {
+    margin-left: 60px;
+  }
+
+  .logic-footnote {
+    font-size: 10px;
+  }
+}
+
+/* REDUCED MOTION SUPPORT */
+
+@media (prefers-reduced-motion: reduce) {
+  .logic-card,
+  .contradiction-panel,
+  .contradiction-icon {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 04
+   TEMPORAL TRANSFER / SCIENTIFIC PANELS
+   ========================================= */
+
+.temporal-section {
+  --temporal-accent: var(--violet);
+}
+
+/* TWO-COLUMN LAYOUT */
+
+.temporal-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr) 36px
+    minmax(0, 1fr);
+
+  align-items: stretch;
+  gap: 14px;
+}
+
+/* TEMPORAL CARDS */
+
+.temporal-card {
+  --temporal-color: var(--violet);
+  --temporal-glow: rgba(192, 132, 252, 0.12);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  padding: 25px 24px 20px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1px solid rgba(192, 132, 252, 0.34);
+  border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(39, 32, 63, 0.90),
+      rgba(12, 22, 42, 0.96)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 15px 35px rgba(0, 0, 0, 0.14);
+
+  transition:
+    border-color 300ms ease,
+    box-shadow 300ms ease,
+    transform 300ms ease;
+}
+
+.temporal-card::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 200px;
+  height: 200px;
+
+  top: -125px;
+  right: -80px;
+
+  border-radius: 50%;
+  background: var(--temporal-glow);
+
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+.temporal-card::after {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--temporal-color),
+    transparent
+  );
+
+  opacity: 0.8;
+}
+
+/* TRANSFER PANEL */
+
+.transfer-card {
+  --temporal-color: var(--violet);
+  --temporal-glow: rgba(192, 132, 252, 0.14);
+}
+
+/* CONSEQUENCE PANEL */
+
+.consequence-card {
+  --temporal-color: var(--cyan);
+  --temporal-glow: rgba(56, 230, 223, 0.13);
+
+  border-color: rgba(56, 230, 223, 0.35);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 43, 55, 0.92),
+      rgba(10, 24, 42, 0.97)
+    );
+}
+
+/* CARD HEADER */
+
+.temporal-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  min-width: 0;
+}
+
+.temporal-icon {
+  display: grid;
+  place-items: center;
+
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+
+  border: 1px solid color-mix(
+    in srgb,
+    var(--temporal-color) 45%,
+    transparent
+  );
+
+  border-radius: 13px;
+
+  color: var(--temporal-color);
+  background: var(--temporal-glow);
+
+  font-family: Georgia, serif;
+  font-size: 26px;
+
+  text-shadow: 0 0 15px var(--temporal-glow);
+}
+
+.temporal-card-header > div {
+  min-width: 0;
+}
+
+.temporal-kicker {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--temporal-color);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+}
+
+.temporal-card h3 {
+  margin: 0;
+
+  color: var(--text-main);
+
+  font-size: clamp(15px, 1.35vw, 19px);
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+/* TEMPORAL FORMULA */
+
+.temporal-formula {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: 5px;
+
+  min-height: 75px;
+  margin-top: 24px;
+  padding: 16px;
+
+  border: 1px solid rgba(159, 178, 213, 0.14);
+  border-radius: 12px;
+
+  background: rgba(3, 12, 26, 0.48);
+
+  color: #ffffff;
+
+  font-family:
+    "Cambria Math",
+    "STIX Two Math",
+    Georgia,
+    serif;
+
+  font-size: clamp(14px, 1.25vw, 18px);
+  line-height: 1.7;
+
+  overflow-wrap: anywhere;
+}
+
+.formula-break {
+  display: block;
+  width: 100%;
+}
+
+.temporal-description {
+  margin: 19px 0;
+
+  color: var(--text-body);
+
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+/* CARD DIVIDER */
+
+.temporal-divider {
+  width: 100%;
+  height: 1px;
+
+  margin-top: auto;
+  margin-bottom: 16px;
+
+  background: linear-gradient(
+    90deg,
+    var(--temporal-color),
+    rgba(159, 178, 213, 0.08)
+  );
+
+  opacity: 0.4;
+}
+
+/* VERIFICATION NOTE */
+
+.verification-note,
+.consequence-note {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+  min-width: 0;
+}
+
+.verification-icon {
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+
+  border: 1px solid rgba(246, 201, 107, 0.38);
+  border-radius: 50%;
+
+  color: var(--gold);
+  background: rgba(246, 201, 107, 0.08);
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.verification-note p,
+.consequence-note p {
+  margin: 1px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* CONSEQUENCE STATUS */
+
+.consequence-pulse {
+  position: relative;
+
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+
+  margin-top: 5px;
+
+  border-radius: 50%;
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 9px rgba(56, 230, 223, 0.75),
+    0 0 20px rgba(56, 230, 223, 0.25);
+}
+
+/* CARD INDEX */
+
+.temporal-card-index {
+  margin-top: 20px;
+  padding-top: 12px;
+
+  border-top: 1px solid rgba(159, 178, 213, 0.12);
+
+  color: var(--temporal-color);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+
+/* CENTRAL CONNECTOR */
+
+.temporal-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+}
+
+.temporal-connector-line {
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(192, 132, 252, 0.25),
+    rgba(56, 230, 223, 0.85)
+  );
+
+  box-shadow: 0 0 12px rgba(56, 230, 223, 0.14);
+}
+
+.temporal-connector-node {
+  display: none;
+}
+
+/* TRANSFER STATUS BAR */
+
+.transfer-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+  flex-wrap: wrap;
+
+  margin-top: 17px;
+  padding: 14px 17px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  background: rgba(8, 19, 37, 0.65);
+}
+
+.transfer-status-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transfer-status-indicator {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+  background: var(--gold);
+
+  box-shadow: 0 0 10px rgba(246, 201, 107, 0.35);
+}
+
+.transfer-status-label {
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+}
+
+.transfer-status-value {
+  color: var(--gold);
+
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+/* HOVER */
+
+@media (hover: hover) and (pointer: fine) {
+  .temporal-card:hover {
+    transform: translateY(-4px);
+
+    border-color: var(--temporal-color);
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 22px var(--temporal-glow),
+      0 18px 38px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* RESPONSIVE TEMPORAL PANELS */
+
+@media (max-width: 900px) {
+  .temporal-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .temporal-card {
+    padding: 22px;
+  }
+
+  .temporal-connector {
+    height: 27px;
+  }
+
+  .temporal-connector-line {
+    width: 2px;
+    height: 100%;
+
+    background: linear-gradient(
+      to bottom,
+      rgba(192, 132, 252, 0.3),
+      rgba(56, 230, 223, 0.8)
+    );
+  }
+
+  .temporal-formula {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .temporal-card {
+    padding: 18px 15px;
+    border-radius: 15px;
+  }
+
+  .temporal-card-header {
+    gap: 11px;
+  }
+
+  .temporal-icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+    font-size: 22px;
+  }
+
+  .temporal-card h3 {
+    font-size: 15px;
+  }
+
+  .temporal-kicker {
+    font-size: 8px;
+  }
+
+  .temporal-formula {
+    min-height: 64px;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .temporal-description {
+    font-size: 11px;
+  }
+
+  .transfer-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .transfer-status-label,
+  .transfer-status-value {
+    font-size: 9px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .temporal-card {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .temporal-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 05
+   COSMIC TIMELINE / ENERGY FLOW / FOOTER
+   ========================================= */
+
+/* TIMELINE SECTION */
+
+.timeline-section {
+  position: relative;
+  --timeline-color: var(--cyan);
+}
+
+/* TIMELINE PANEL */
+
+.timeline-panel {
+  position: relative;
+
+  padding: 28px 25px 23px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  border: 1px solid rgba(56, 230, 223, 0.23);
+  border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14, 31, 52, 0.91),
+      rgba(8, 18, 35, 0.97)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 20px 50px rgba(0, 0, 0, 0.16);
+}
+
+.timeline-panel::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  width: 320px;
+  height: 220px;
+
+  top: -160px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background: rgba(56, 230, 223, 0.09);
+  filter: blur(50px);
+
+  pointer-events: none;
+}
+
+/* TIMELINE HEADER */
+
+.timeline-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 18px;
+  flex-wrap: wrap;
+
+  margin-bottom: 27px;
+}
+
+.timeline-heading {
+  min-width: 0;
+}
+
+.timeline-heading h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.timeline-heading p {
+  margin: 8px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+/* LIVE LABEL */
+
+.timeline-live {
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+  flex-shrink: 0;
+
+  padding: 8px 10px;
+
+  border: 1px solid rgba(56, 230, 223, 0.24);
+  border-radius: 8px;
+
+  color: var(--cyan);
+
+  background: rgba(56, 230, 223, 0.05);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.timeline-live-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+
+  border-radius: 50%;
+  background: var(--cyan);
+
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+/* TIMELINE TRACK */
+
+.timeline-track {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 0;
+
+  width: 100%;
+  padding: 25px 0 0;
+}
+
+/* BASE TRACK */
+
+.timeline-track::before {
+  content: "";
+
+  position: absolute;
+
+  top: 32px;
+  left: 0;
+  right: 0;
+
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(56, 230, 223, 0.15),
+    rgba(56, 230, 223, 0.6) 45%,
+    rgba(66, 133, 255, 0.75) 75%,
+    rgba(192, 132, 252, 0.8)
+  );
+
+  box-shadow: 0 0 12px rgba(56, 230, 223, 0.12);
+}
+
+/* ANIMATED ENERGY BEAM */
+
+.timeline-energy {
+  position: absolute;
+
+  top: 30px;
+  left: 0;
+
+  width: 22%;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--cyan-bright),
+    #ffffff,
+    transparent
+  );
+
+  filter: blur(1px);
+
+  opacity: 0.9;
+
+  box-shadow:
+    0 0 10px rgba(56, 230, 223, 0.65),
+    0 0 25px rgba(56, 230, 223, 0.25);
+
+  pointer-events: none;
+}
+
+/* TIMELINE ITEM */
+
+.timeline-item {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 16.666%;
+  min-width: 0;
+
+  text-align: center;
+}
+
+/* NODE OUTER RING */
+
+.timeline-node {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+
+  border: 2px solid var(--cyan);
+  border-radius: 50%;
+
+  background: #0b172a;
+
+  box-shadow:
+    0 0 9px rgba(56, 230, 223, 0.45),
+    0 0 20px rgba(56, 230, 223, 0.12);
+
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    border-color 250ms ease;
+}
+
+/* NODE CORE */
+
+.timeline-node::before {
+  content: "";
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--cyan-bright);
+  box-shadow: 0 0 7px var(--cyan);
+}
+
+/* NODE HALO */
+
+.timeline-node::after {
+  content: "";
+
+  position: absolute;
+  inset: -7px;
+
+  border: 1px solid rgba(56, 230, 223, 0.17);
+  border-radius: 50%;
+}
+
+/* TIME LABEL */
+
+.timeline-time {
+  margin-top: 21px;
+
+  color: var(--text-body);
+
+  font-family:
+    "Cambria Math",
+    Georgia,
+    serif;
+
+  font-size: clamp(12px, 1.1vw, 15px);
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* NODE CAPTION */
+
+.timeline-caption {
+  margin-top: 7px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+/* OPTIONAL CURRENT NODE */
+
+.timeline-item.is-current .timeline-node {
+  border-color: var(--gold);
+
+  box-shadow:
+    0 0 12px rgba(246, 201, 107, 0.45),
+    0 0 28px rgba(246, 201, 107, 0.17);
+}
+
+.timeline-item.is-current .timeline-node::before {
+  background: var(--gold-bright);
+  box-shadow: 0 0 8px var(--gold);
+}
+
+.timeline-item.is-current .timeline-time {
+  color: var(--gold-bright);
+}
+
+/* TIMELINE ANNOTATION */
+
+.timeline-annotation {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 11px;
+
+  margin-top: 30px;
+  padding: 15px 17px;
+
+  border: 1px solid rgba(192, 132, 252, 0.22);
+  border-radius: 11px;
+
+  background: rgba(192, 132, 252, 0.045);
+}
+
+.timeline-annotation-icon {
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: 50%;
+
+  color: var(--violet);
+
+  font-family: Georgia, serif;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.timeline-annotation p {
+  margin: 1px 0 0;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.timeline-annotation strong {
+  color: #e5c6ff;
+  font-weight: 700;
+}
+
+/* FINAL DISCLAIMER */
+
+.scientific-disclaimer {
+  margin: 20px 0 0;
+  padding: 0 8px;
+
+  color: var(--gold);
+
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.8;
+
+  text-align: center;
+  letter-spacing: 0.025em;
+}
+
+/* FOOTER */
+
+.main-footer {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+  flex-wrap: wrap;
+
+  margin-top: 38px;
+  padding-top: 19px;
+  padding-bottom: 5px;
+}
+
+.main-footer::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(92, 120, 172, 0.55) 12%,
+    rgba(56, 230, 223, 0.22) 50%,
+    rgba(92, 120, 172, 0.55) 88%,
+    transparent
+  );
+}
+
+.footer-brand {
+  color: var(--text-muted);
+
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.07em;
+}
+
+.footer-brand strong {
+  color: var(--cyan);
+  font-weight: 800;
+}
+
+.footer-path {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 7px;
+  flex-wrap: wrap;
+
+  color: var(--text-muted);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  line-height: 1.8;
+}
+
+.footer-path span {
+  color: var(--violet);
+}
+
+.footer-path .footer-arrow {
+  color: var(--cyan);
+}
+
+/* =========================================
+   MOTION SYSTEM
+   ========================================= */
+
+/* The energy beam travels along the track. */
+
+@keyframes timeline-energy-flow {
+  0% {
+    left: -22%;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 0.95;
+  }
+
+  82% {
+    opacity: 0.8;
+  }
+
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Soft breathing glow. */
+
+@keyframes timeline-node-breathe {
+  0%,
+  100% {
+    box-shadow:
+      0 0 7px rgba(56, 230, 223, 0.30),
+      0 0 15px rgba(56, 230, 223, 0.08);
+  }
+
+  50% {
+    box-shadow:
+      0 0 12px rgba(56, 230, 223, 0.65),
+      0 0 28px rgba(56, 230, 223, 0.18);
+  }
+}
+
+/* Ambient indicator pulse. */
+
+@keyframes timeline-status-pulse {
+  0%,
+  100% {
+    opacity: 0.65;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
+/* Decorative background drift. */
+
+@keyframes cosmic-orb-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(-12px, 14px, 0);
+  }
+}
+
+/* Activate continuous effects. */
+
+.timeline-energy {
+  animation: timeline-energy-flow 5s ease-in-out infinite;
+}
+
+.timeline-node {
+  animation: timeline-node-breathe 3.2s ease-in-out infinite;
+}
+
+.timeline-live-dot,
+.footer-indicator {
+  animation: timeline-status-pulse 2s ease-in-out infinite;
+}
+
+.orb-violet {
+  animation: cosmic-orb-drift 12s ease-in-out infinite;
+}
+
+.orb-cyan {
+  animation: cosmic-orb-drift 16s ease-in-out infinite reverse;
+}
+
+/* Hover interaction */
+
+@media (hover: hover) and (pointer: fine) {
+  .timeline-item:hover .timeline-node {
+    transform: scale(1.22);
+
+    box-shadow:
+      0 0 15px rgba(56, 230, 223, 0.7),
+      0 0 35px rgba(56, 230, 223, 0.24);
+  }
+}
+
+/* RESPONSIVE TIMELINE */
+
+@media (max-width: 760px) {
+  .timeline-panel {
+    padding: 22px 16px 18px;
+  }
+
+  .timeline-header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .timeline-track {
+    padding-top: 18px;
+  }
+
+  .timeline-track::before {
+    top: 25px;
+  }
+
+  .timeline-energy {
+    top: 23px;
+    height: 4px;
+  }
+
+  .timeline-node {
+    width: 14px;
+    height: 14px;
+    flex-basis: 14px;
+  }
+
+  .timeline-node::before {
+    width: 4px;
+    height: 4px;
+  }
+
+  .timeline-node::after {
+    inset: -5px;
+  }
+
+  .timeline-time {
+    margin-top: 17px;
+    font-size: 11px;
+  }
+
+  .timeline-caption {
+    font-size: 8px;
+  }
+
+  .timeline-annotation {
+    margin-top: 24px;
+    padding: 13px;
+  }
+
+  .main-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .footer-path {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 420px) {
+  .timeline-panel {
+    padding-inline: 11px;
+  }
+
+  .timeline-time {
+    font-size: 10px;
+  }
+
+  .timeline-caption {
+    font-size: 7px;
+  }
+
+  .timeline-live {
+    font-size: 8px;
+  }
+
+  .scientific-disclaimer {
+    font-size: 9px;
+  }
+
+  .footer-path {
+    font-size: 8px;
+    gap: 5px;
+  }
+}
+
+/* ACCESSIBILITY: RESPECT SYSTEM MOTION SETTINGS */
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-energy,
+  .timeline-node,
+  .timeline-live-dot,
+  .footer-indicator,
+  .orb-violet,
+  .orb-cyan {
+    animation: none !important;
+  }
+
+  .timeline-node {
+    transition: none !important;
+  }
+
+  .timeline-item:hover .timeline-node {
+    transform: none;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 06
+   CINEMATIC REVEAL / MOTION ENGINE
+   ========================================= */
+
+/* MASTER MOTION VARIABLES */
+
+:root {
+  --motion-fast: 220ms;
+  --motion-medium: 450ms;
+  --motion-slow: 850ms;
+
+  --ease-cinematic: cubic-bezier(.16, 1, .3, 1);
+  --ease-smooth: cubic-bezier(.22, .61, .36, 1);
+}
+
+/* =========================================
+   CINEMATIC ENTRANCE
+   ========================================= */
+
+@keyframes auf-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes auf-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes auf-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes auf-slide-right {
+  from {
+    opacity: 0;
+    transform: translate3d(-24px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes auf-slide-left {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* =========================================
+   HEADER SEQUENCE
+   ========================================= */
+
+.main-title {
+  animation:
+    auf-fade-up 900ms var(--ease-cinematic) both;
+}
+
+.main-subtitle {
+  animation:
+    auf-fade-up 850ms 120ms var(--ease-cinematic) both;
+}
+
+.header-equation {
+  animation:
+    auf-slide-left 950ms 220ms var(--ease-cinematic) both;
+}
+
+.header-divider {
+  transform-origin: left center;
+
+  animation:
+    auf-fade-in 1100ms 300ms ease both;
+}
+
+/* =========================================
+   SECTION REVEALS
+   ========================================= */
+
+.section-heading {
+  animation:
+    auf-fade-up 750ms var(--ease-cinematic) both;
+}
+
+/* Architecture cards */
+
+.module-card {
+  animation:
+    auf-fade-up 800ms var(--ease-cinematic) both;
+}
+
+.module-card:nth-child(1) {
+  animation-delay: 100ms;
+}
+
+.module-card:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+.module-card:nth-child(3) {
+  animation-delay: 260ms;
+}
+
+.module-card:nth-child(4) {
+  animation-delay: 340ms;
+}
+
+.module-card:nth-child(5) {
+  animation-delay: 420ms;
+}
+
+.module-card:nth-child(6) {
+  animation-delay: 500ms;
+}
+
+/* Logic flow */
+
+.logic-card {
+  animation:
+    auf-scale-in 800ms var(--ease-cinematic) both;
+}
+
+.logic-card:nth-child(1) {
+  animation-delay: 150ms;
+}
+
+.logic-card:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+.logic-card:nth-child(5) {
+  animation-delay: 450ms;
+}
+
+.contradiction-panel {
+  animation:
+    auf-fade-up 900ms 650ms var(--ease-cinematic) both;
+}
+
+/* Temporal cards */
+
+.transfer-card {
+  animation:
+    auf-slide-right 850ms 150ms var(--ease-cinematic) both;
+}
+
+.consequence-card {
+  animation:
+    auf-slide-left 850ms 350ms var(--ease-cinematic) both;
+}
+
+/* Timeline */
+
+.timeline-panel {
+  animation:
+    auf-fade-up 900ms 200ms var(--ease-cinematic) both;
+}
+
+.timeline-annotation {
+  animation:
+    auf-fade-in 900ms 650ms ease both;
+}
+
+.main-footer {
+  animation:
+    auf-fade-in 1000ms 400ms ease both;
+}
+
+/* =========================================
+   NEON EDGE SWEEP
+   ========================================= */
+
+@keyframes auf-edge-sweep {
+  0% {
+    transform: translateX(-150%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: .8;
+  }
+
+  80% {
+    opacity: .65;
+  }
+
+  100% {
+    transform: translateX(250%);
+    opacity: 0;
+  }
+}
+
+.module-card,
+.logic-card,
+.temporal-card {
+  --edge-highlight: rgba(255, 255, 255, 0.75);
+}
+
+.module-card:hover::after,
+.logic-card:hover::after,
+.temporal-card:hover::after {
+  animation:
+    auf-edge-sweep 850ms var(--ease-smooth) both;
+}
+
+/* =========================================
+   SCAN-LINE OVERLAY
+   ========================================= */
+
+.scan-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  border-radius: inherit;
+
+  opacity: 0.12;
+}
+
+.scan-overlay::before {
+  content: "";
+
+  position: absolute;
+  top: -100%;
+  left: 0;
+  right: 0;
+
+  height: 45%;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(56, 230, 223, 0.10),
+    transparent
+  );
+
+  animation:
+    auf-scan 9s linear infinite;
+}
+
+@keyframes auf-scan {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(350%);
+  }
+}
+
+/* =========================================
+   AMBIENT LIGHT PULSE
+   ========================================= */
+
+@keyframes auf-ambient-pulse {
+  0%,
+  100% {
+    opacity: .45;
+  }
+
+  50% {
+    opacity: .9;
+  }
+}
+
+.module-card::before,
+.logic-card::before,
+.temporal-card::before {
+  animation:
+    auf-ambient-pulse 5s ease-in-out infinite;
+}
+
+/* Stagger ambient effects */
+
+.module-card:nth-child(even)::before {
+  animation-delay: -2.5s;
+}
+
+.temporal-card:nth-child(2)::before {
+  animation-delay: -2s;
+}
+
+/* =========================================
+   CONTRADICTION ALERT
+   ========================================= */
+
+@keyframes auf-alert-glow {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .025),
+      0 0 18px rgba(251, 113, 133, .05),
+      0 20px 45px rgba(0, 0, 0, .20);
+  }
+
+  50% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, .04),
+      0 0 28px rgba(251, 113, 133, .14),
+      0 20px 45px rgba(0, 0, 0, .20);
+  }
+}
+
+.contradiction-panel {
+  animation:
+    auf-fade-up 900ms 650ms var(--ease-cinematic) both,
+    auf-alert-glow 4s 1.6s ease-in-out infinite;
+}
+
+.alert-indicator {
+  animation:
+    timeline-status-pulse 2s ease-in-out infinite;
+}
+
+/* =========================================
+   FORMULA HIGHLIGHT
+   ========================================= */
+
+@keyframes auf-formula-glint {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.formula,
+.temporal-formula {
+  background-image: linear-gradient(
+    105deg,
+    #ffffff 0%,
+    #ffffff 38%,
+    #b9fffb 48%,
+    #ffffff 58%,
+    #ffffff 100%
+  );
+
+  background-size: 250% 100%;
+  background-repeat: no-repeat;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .logic-card:hover .formula,
+  .temporal-card:hover .temporal-formula {
+    animation:
+      auf-formula-glint 1.5s ease-in-out;
+  }
+}
+
+/* =========================================
+   INTERACTIVE FOCUS
+   ========================================= */
+
+.module-card:focus-within,
+.logic-card:focus-within,
+.temporal-card:focus-within {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+/* =========================================
+   MOTION SAFETY
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .main-title,
+  .main-subtitle,
+  .header-equation,
+  .module-card,
+  .logic-card,
+  .contradiction-panel,
+  .transfer-card,
+  .consequence-card,
+  .timeline-panel,
+  .timeline-annotation,
+  .main-footer {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 07
+   RESPONSIVE FINISH / PERFORMANCE / POLISH
+   ========================================= */
+
+/* =========================================
+   1. GLOBAL OVERFLOW PROTECTION
+   ========================================= */
+
+#auf2026,
+.interface,
+.section,
+.module-grid,
+.logic-flow,
+.temporal-grid,
+.timeline-panel {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#auf2026 img,
+#auf2026 svg,
+#auf2026 canvas,
+#auf2026 video {
+  max-width: 100%;
+}
+
+#auf2026 p,
+#auf2026 h1,
+#auf2026 h2,
+#auf2026 h3 {
+  overflow-wrap: anywhere;
+}
+
+/* Preserve mathematical notation where necessary. */
+
+#auf2026 .formula,
+#auf2026 .equation,
+#auf2026 .temporal-formula,
+#auf2026 .timeline-time {
+  overflow-wrap: normal;
+}
+
+/* =========================================
+   2. CONSISTENT SECTION RHYTHM
+   ========================================= */
+
+.section {
+  margin-top: clamp(28px, 4vw, 42px);
+}
+
+.section-heading {
+  margin-bottom: clamp(16px, 2vw, 24px);
+}
+
+.architecture-footer,
+.transfer-status,
+.logic-footnote {
+  max-width: 100%;
+}
+
+/* =========================================
+   3. GLASS PANEL REFINEMENT
+   ========================================= */
+
+.module-card,
+.logic-card,
+.temporal-card,
+.timeline-panel {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.module-card,
+.logic-card,
+.temporal-card {
+  backface-visibility: hidden;
+}
+
+/* Avoid expensive blur filters on small screens. */
+
+@media (max-width: 600px) {
+  .module-card,
+  .logic-card,
+  .temporal-card,
+  .timeline-panel {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .orb-violet,
+  .orb-cyan {
+    filter: none;
+    opacity: 0.7;
+  }
+}
+
+/* =========================================
+   4. RESPONSIVE DESKTOP
+   ========================================= */
+
+@media (min-width: 1201px) {
+  .interface {
+    padding-inline: clamp(48px, 4.4vw, 70px);
+  }
+
+  .module-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .module-card {
+    min-height: 190px;
+  }
+
+  .logic-card {
+    min-height: 150px;
+  }
+}
+
+/* =========================================
+   5. TABLET LANDSCAPE
+   ========================================= */
+
+@media (min-width: 761px) and (max-width: 1200px) {
+  .interface {
+    padding-inline: 34px;
+  }
+
+  .module-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .logic-flow {
+    grid-template-columns:
+      minmax(0, 1fr) 24px
+      minmax(0, 1fr) 24px
+      minmax(0, 1fr);
+
+    gap: 8px;
+  }
+
+  .logic-card {
+    padding: 17px 13px;
+  }
+
+  .logic-card h3 {
+    font-size: 14px;
+  }
+
+  .formula {
+    font-size: 12px;
+  }
+
+  .temporal-grid {
+    grid-template-columns:
+      minmax(0, 1fr) 25px
+      minmax(0, 1fr);
+
+    gap: 10px;
+  }
+
+  .temporal-card {
+    padding: 19px 15px;
+  }
+
+  .temporal-formula {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+/* =========================================
+   6. TABLET PORTRAIT / SMALL LAPTOP
+   ========================================= */
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .logic-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .logic-connector {
+    height: 22px;
+  }
+
+  .connector-line {
+    width: 2px;
+    height: 100%;
+  }
+
+  .temporal-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .temporal-connector {
+    height: 24px;
+  }
+
+  .temporal-connector-line {
+    width: 2px;
+    height: 100%;
+  }
+}
+
+/* =========================================
+   7. MOBILE LAYOUT
+   ========================================= */
+
+@media (max-width: 600px) {
+  .interface {
+    padding: 22px 16px 20px;
+  }
+
+  .main-title {
+    font-size: clamp(32px, 10vw, 44px);
+    letter-spacing: 0.035em;
+  }
+
+  .main-subtitle {
+    font-size: 10px;
+    letter-spacing: 0.07em;
+  }
+
+  .equation {
+    font-size: 19px;
+  }
+
+  .section {
+    margin-top: 30px;
+  }
+
+  .section-heading h2 {
+    font-size: 14px;
+  }
+
+  .module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .logic-flow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .logic-card {
+    padding: 16px 14px;
+  }
+
+  .temporal-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .temporal-card {
+    padding: 17px 14px;
+  }
+
+  .contradiction-panel {
+    padding: 18px 14px;
+    gap: 13px;
+  }
+
+  .timeline-panel {
+    padding: 20px 12px 16px;
+  }
+
+  .main-footer {
+    gap: 10px;
+    margin-top: 28px;
+  }
+}
+
+/* =========================================
+   8. VERY SMALL PHONES
+   ========================================= */
+
+@media (max-width: 360px) {
+  .interface {
+    padding-inline: 12px;
+  }
+
+  .main-title {
+    font-size: 30px;
+  }
+
+  .main-subtitle {
+    font-size: 9px;
+  }
+
+  .module-grid {
+    gap: 8px;
+  }
+
+  .module-card {
+    min-height: 160px;
+    padding: 11px 9px;
+  }
+
+  .module-symbol {
+    font-size: 34px;
+  }
+
+  .module-card h3 {
+    font-size: 11px;
+  }
+
+  .formula-box {
+    padding: 9px 7px;
+  }
+
+  .formula {
+    font-size: 12px;
+  }
+
+  .contradiction-content h3 {
+    font-size: 16px;
+  }
+
+  .timeline-time {
+    font-size: 9px;
+  }
+
+  .timeline-caption {
+    font-size: 7px;
+  }
+}
+
+/* =========================================
+   9. ANIMATION CONFLICT CORRECTION
+   ========================================= */
+
+/*
+   Keep the contradiction panel's entrance and
+   alert pulse in separate animation layers.
+   The entrance animation uses forwards fill mode.
+*/
+
+@keyframes auf-alert-breath {
+  0%,
+  100% {
+    box-shadow:
+      0 0 18px rgba(251, 113, 133, 0.05),
+      0 20px 45px rgba(0, 0, 0, 0.20);
+  }
+
+  50% {
+    box-shadow:
+      0 0 30px rgba(251, 113, 133, 0.16),
+      0 20px 45px rgba(0, 0, 0, 0.20);
+  }
+}
+
+/* The base entrance remains in CSS 06. */
+
+.contradiction-panel {
+  animation:
+    auf-fade-up 900ms 650ms var(--ease-cinematic) both,
+    auf-alert-breath 4s 1.6s ease-in-out infinite;
+}
+
+/* =========================================
+   10. GPU-FRIENDLY MOTION
+   ========================================= */
+
+/*
+   Animate transform and opacity instead of
+   layout dimensions wherever possible.
+*/
+
+.timeline-energy,
+.orb-violet,
+.orb-cyan,
+.signal-pulse,
+.scan-overlay::before {
+  will-change: transform;
+}
+
+.module-card,
+.logic-card,
+.temporal-card {
+  transform: translateZ(0);
+}
+
+/* Remove unnecessary layer hints on small screens. */
+
+@media (max-width: 600px) {
+  .timeline-energy,
+  .orb-violet,
+  .orb-cyan,
+  .signal-pulse,
+  .scan-overlay::before {
+    will-change: auto;
+  }
+
+  .module-card,
+  .logic-card,
+  .temporal-card {
+    transform: none;
+  }
+}
+
+/* =========================================
+   11. HIGH CONTRAST / ACCESSIBILITY
+   ========================================= */
+
+@media (prefers-contrast: more) {
+  :root {
+    --text-body: #f0f5ff;
+    --text-muted: #c0d0ed;
+    --border: rgba(180, 205, 245, 0.55);
+  }
+
+  .module-card,
+  .logic-card,
+  .temporal-card,
+  .timeline-panel {
+    border-color: var(--border-bright);
+  }
+
+  .section-caption,
+  .module-number,
+  .timeline-caption,
+  .footer-brand {
+    color: #c0d0ed;
+  }
+}
+
+/* =========================================
+   12. FINAL REDUCED MOTION OVERRIDE
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  #auf2026 *,
+  #auf2026 *::before,
+  #auf2026 *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  #auf2026 .main-title,
+  #auf2026 .main-subtitle,
+  #auf2026 .header-equation,
+  #auf2026 .module-card,
+  #auf2026 .logic-card,
+  #auf2026 .contradiction-panel,
+  #auf2026 .transfer-card,
+  #auf2026 .consequence-card,
+  #auf2026 .timeline-panel,
+  #auf2026 .timeline-annotation,
+  #auf2026 .main-footer {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 08
+   PREMIUM NEON / IRIDESCENCE / FINISH
+   ========================================= */
+
+/* 01 — COLOR SYSTEM */
+
+:root {
+  --neon-cyan: #38e6df;
+  --neon-blue: #4285ff;
+  --neon-violet: #c084fc;
+  --neon-gold: #f6c96b;
+  --neon-pink: #fb7185;
+
+  --glass-surface: rgba(14, 27, 49, 0.82);
+  --glass-border: rgba(150, 180, 230, 0.16);
+
+  --neon-shadow-cyan:
+    0 0 14px rgba(56, 230, 223, 0.14);
+
+  --neon-shadow-violet:
+    0 0 18px rgba(192, 132, 252, 0.14);
+}
+
+/* 02 — PREMIUM PANEL SURFACES */
+
+.module-card,
+.logic-card,
+.temporal-card {
+  position: relative;
+  isolation: isolate;
+
+  border-color: var(--glass-border);
+
+  background-image:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.035),
+      transparent 38%
+    ),
+    linear-gradient(
+      155deg,
+      rgba(20, 37, 64, 0.96),
+      rgba(9, 19, 36, 0.98)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035),
+    0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+/* 03 — IRIDESCENT TOP EDGE */
+
+.module-card::after,
+.logic-card::after,
+.temporal-card::after {
+  content: "";
+
+  position: absolute;
+  z-index: 2;
+
+  top: 0;
+  left: 8%;
+  right: 8%;
+
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--neon-cyan),
+    var(--neon-violet),
+    var(--neon-gold),
+    transparent
+  );
+
+  background-size: 200% 100%;
+
+  opacity: 0.48;
+
+  pointer-events: none;
+}
+
+/* 04 — BORDER LIGHT ON HOVER */
+
+@media (hover: hover) and (pointer: fine) {
+  .module-card:hover,
+  .logic-card:hover,
+  .temporal-card:hover {
+    border-color: rgba(56, 230, 223, 0.55);
+
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      0 0 22px rgba(56, 230, 223, 0.075),
+      0 18px 36px rgba(0, 0, 0, 0.22);
+  }
+
+  .module-card:hover::after,
+  .logic-card:hover::after,
+  .temporal-card:hover::after {
+    opacity: 0.95;
+    background-position: 100% 0;
+  }
+}
+
+/* 05 — SYMBOL GLOW */
+
+.module-symbol,
+.module-card .symbol,
+.module-card .module-icon {
+  color: var(--neon-cyan);
+
+  text-shadow:
+    0 0 10px rgba(56, 230, 223, 0.18),
+    0 0 24px rgba(56, 230, 223, 0.08);
+
+  transition:
+    color 250ms ease,
+    text-shadow 250ms ease,
+    transform 250ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .module-card:hover .module-symbol,
+  .module-card:hover .symbol,
+  .module-card:hover .module-icon {
+    color: #a8fffb;
+
+    text-shadow:
+      0 0 12px rgba(56, 230, 223, 0.55),
+      0 0 30px rgba(56, 230, 223, 0.18);
+
+    transform: translateY(-2px);
+  }
+}
+
+/* 06 — FORMULA PANEL FINISH */
+
+.formula-box,
+.temporal-formula {
+  border-color: rgba(56, 230, 223, 0.15);
+
+  background-color: rgba(3, 12, 26, 0.54);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 5px 18px rgba(0, 0, 0, 0.09);
+}
+
+.formula-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.formula-box::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    115deg,
+    transparent 20%,
+    rgba(56, 230, 223, 0.045) 50%,
+    transparent 80%
+  );
+
+  pointer-events: none;
+}
+
+.formula,
+.temporal-formula {
+  text-shadow: 0 0 12px rgba(56, 230, 223, 0.055);
+}
+
+/* 07 — SECTION NUMBER ACCENTS */
+
+.section-heading .section-number,
+.section-number {
+  color: var(--neon-cyan);
+
+  font-family: "Courier New", monospace;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+
+  text-shadow: 0 0 12px rgba(56, 230, 223, 0.12);
+}
+
+/* 08 — GOLD EMPHASIS */
+
+.gold-accent,
+.header-equation,
+.scientific-disclaimer {
+  text-shadow: 0 0 14px rgba(246, 201, 107, 0.08);
+}
+
+.gold-accent {
+  color: var(--neon-gold);
+}
+
+/* 09 — CONTRADICTION PANEL EDGE */
+
+.contradiction-panel {
+  position: relative;
+  isolation: isolate;
+
+  border-color: rgba(251, 113, 133, 0.58);
+
+  background-image:
+    linear-gradient(
+      120deg,
+      rgba(251, 113, 133, 0.045),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(54, 26, 44, 0.98),
+      rgba(27, 19, 39, 0.98)
+    );
+}
+
+.contradiction-panel::before {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  background: radial-gradient(
+    ellipse at 12% 50%,
+    rgba(251, 113, 133, 0.09),
+    transparent 65%
+  );
+
+  pointer-events: none;
+}
+
+/* 10 — TIMELINE NODE REFINEMENT */
+
+.timeline-node {
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(56, 230, 223, 0.13),
+    #09172a 72%
+  );
+}
+
+.timeline-node::after {
+  box-shadow: 0 0 12px rgba(56, 230, 223, 0.035);
+}
+
+.timeline-track::before {
+  box-shadow:
+    0 0 8px rgba(56, 230, 223, 0.12),
+    0 0 22px rgba(56, 230, 223, 0.04);
+}
+
+/* 11 — FOOTER DETAILS */
+
+.main-footer {
+  color: var(--text-muted);
+}
+
+.footer-brand strong {
+  text-shadow: 0 0 12px rgba(56, 230, 223, 0.12);
+}
+
+.footer-path span {
+  transition: color 200ms ease;
+}
+
+/* 12 — AMBIENT ORBS */
+
+.orb-violet,
+.orb-cyan {
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.orb-violet {
+  background: radial-gradient(
+    circle,
+    rgba(192, 132, 252, 0.13),
+    rgba(124, 58, 237, 0.035) 48%,
+    transparent 72%
+  );
+}
+
+.orb-cyan {
+  background: radial-gradient(
+    circle,
+    rgba(56, 230, 223, 0.09),
+    rgba(66, 133, 255, 0.025) 48%,
+    transparent 72%
+  );
+}
+
+/* 13 — SELECTION COLOR */
+
+#auf2026 ::selection {
+  color: #07111f;
+  background: rgba(56, 230, 223, 0.78);
+}
+
+/* 14 — SCROLLBAR */
+
+#auf2026 {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 230, 223, 0.38) rgba(7, 17, 31, 0.7);
+}
+
+#auf2026 ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#auf2026 ::-webkit-scrollbar-track {
+  background: rgba(7, 17, 31, 0.7);
+}
+
+#auf2026 ::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(7, 17, 31, 0.7);
+  border-radius: 20px;
+
+  background: rgba(56, 230, 223, 0.38);
+}
+
+#auf2026 ::-webkit-scrollbar-thumb:hover {
+  background: rgba(56, 230, 223, 0.65);
+}
+
+/* 15 — FINAL ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  #auf2026 *,
+  #auf2026 *::before,
+  #auf2026 *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 16 — MOBILE PERFORMANCE */
+
+@media (max-width: 600px) {
+  .module-card,
+  .logic-card,
+  .temporal-card {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.025),
+      0 7px 18px rgba(0, 0, 0, 0.13);
+  }
+
+  .module-card::before,
+  .logic-card::before,
+  .temporal-card::before {
+    animation: none;
+  }
+
+  .module-symbol,
+  .module-card .symbol,
+  .module-card .module-icon {
+    text-shadow: 0 0 8px rgba(56, 230, 223, 0.12);
+  }
+}
+
+/* =========================================
+   AUF2026 — CSS 09
+   FUTURISTIC HUD / MICROINTERACTIONS
+   ========================================= */
+
+/* 01 — TECHNICAL CORNER MARKERS */
+
+.module-card,
+.logic-card,
+.temporal-card,
+.timeline-panel {
+  --hud-corner: rgba(56, 230, 223, 0.52);
+}
+
+.module-card,
+.logic-card,
+.temporal-card {
+  background-clip: padding-box;
+}
+
+.module-card::before,
+.logic-card::before,
+.temporal-card::before {
+  pointer-events: none;
+}
+
+/* 02 — CORNER ACCENTS */
+
+.hud-corners {
+  position: absolute;
+  inset: 0;
+
+  border-radius: inherit;
+  pointer-events: none;
+
+  background:
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      left top / 13px 1px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      left top / 1px 13px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      right top / 13px 1px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      right top / 1px 13px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      left bottom / 13px 1px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      left bottom / 1px 13px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      right bottom / 13px 1px no-repeat,
+    linear-gradient(var(--hud-corner), var(--hud-corner))
+      right bottom / 1px 13px no-repeat;
+
+  opacity: 0.55;
+  transition: opacity 250ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .module-card:hover .hud-corners,
+  .logic-card:hover .hud-corners,
+  .temporal-card:hover .hud-corners {
+    opacity: 1;
+  }
+}
+
+/* 03 — TECHNICAL MICRO LABELS */
+
+.hud-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  max-width: 100%;
+  padding: 6px 9px;
+
+  border: 1px solid rgba(56, 230, 223, 0.2);
+  border-radius: 5px;
+
+  color: var(--cyan);
+
+  background: rgba(56, 230, 223, 0.035);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.hud-label--gold {
+  color: var(--gold);
+  border-color: rgba(246, 201, 107, 0.25);
+  background: rgba(246, 201, 107, 0.035);
+}
+
+.hud-label--violet {
+  color: var(--violet);
+  border-color: rgba(192, 132, 252, 0.25);
+  background: rgba(192, 132, 252, 0.035);
+}
+
+/* 04 — STATUS INDICATORS */
+
+.hud-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--text-muted);
+
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+}
+
+.hud-status-dot {
+  position: relative;
+
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+
+  border-radius: 50%;
+  background: var(--cyan);
+
+  box-shadow: 0 0 9px rgba(56, 230, 223, 0.45);
+}
+
+.hud-status-dot--warning {
+  background: var(--gold);
+  box-shadow: 0 0 9px rgba(246, 201, 107, 0.35);
+}
+
+.hud-status-dot--critical {
+  background: var(--neon-pink);
+  box-shadow: 0 0 9px rgba(251, 113, 133, 0.4);
+}
+
+/* 05 — SCANNING LIGHT */
+
+.hud-scan {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hud-scan::after {
+  content: "";
+
+  position: absolute;
+  z-index: 1;
+
+  top: 0;
+  bottom: 0;
+  left: -60%;
+
+  width: 35%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 230, 223, 0.045),
+    rgba(255, 255, 255, 0.075),
+    transparent
+  );
+
+  transform: skewX(-18deg);
+
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hud-scan:hover::after {
+    animation: auf-hud-scan 900ms ease-out;
+  }
+}
+
+@keyframes auf-hud-scan {
+  from {
+    left: -60%;
+  }
+
+  to {
+    left: 140%;
+  }
+}
+
+/* 06 — DATA READOUT */
+
+.hud-readout {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  gap: 12px;
+  flex-wrap: wrap;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid rgba(159, 178, 213, 0.1);
+}
+
+.hud-readout:last-child {
+  border-bottom: 0;
+}
+
+.hud-readout-label {
+  color: var(--text-muted);
+
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.hud-readout-value {
+  color: #ffffff;
+
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  font-weight: 700;
+
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.hud-readout-value--cyan {
+  color: var(--cyan);
+}
+
+.hud-readout-value--gold {
+  color: var(--gold);
+}
+
+/* 07 — FOCUS RINGS */
+
+.hud-interactive:focus-visible,
+#auf2026 button:focus-visible,
+#auf2026 a:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 4px;
+
+  box-shadow: 0 0 0 5px rgba(56, 230, 223, 0.08);
+}
+
+/* 08 — SECTION DIVIDER */
+
+.hud-divider {
+  position: relative;
+
+  width: 100%;
+  height: 1px;
+
+  margin: 20px 0;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(56, 230, 223, 0.28),
+    rgba(192, 132, 252, 0.24),
+    transparent
+  );
+}
+
+.hud-divider::after {
+  content: "";
+
+  position: absolute;
+  top: -2px;
+  left: 50%;
+
+  width: 5px;
+  height: 5px;
+
+  border: 1px solid rgba(56, 230, 223, 0.6);
+  background: #0d1b30;
+
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* 09 — EQUATION EMPHASIS */
+
+.equation-highlight {
+  color: #ffffff;
+
+  text-shadow:
+    0 0 10px rgba(56, 230, 223, 0.15),
+    0 0 24px rgba(56, 230, 223, 0.06);
+}
+
+.equation-highlight .accent-cyan {
+  color: var(--cyan);
+}
+
+.equation-highlight .accent-violet {
+  color: var(--violet);
+}
+
+.equation-highlight .accent-gold {
+  color: var(--gold);
+}
+
+/* 10 — INTERACTION FEEDBACK */
+
+.hud-interactive {
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hud-interactive:hover {
+    border-color: rgba(56, 230, 223, 0.42);
+    background-color: rgba(56, 230, 223, 0.025);
+  }
+}
+
+/* 11 — MOBILE HUD CLEANUP */
+
+@media (max-width: 600px) {
+  .hud-label {
+    padding: 5px 7px;
+    font-size: 8px;
+  }
+
+  .hud-status {
+    font-size: 8px;
+  }
+
+  .hud-readout {
+    gap: 7px;
+  }
+
+  .hud-readout-label,
+  .hud-readout-value {
+    font-size: 10px;
+  }
+
+  .hud-corners {
+    opacity: 0.4;
+  }
+}
+
+/* 12 — REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .hud-scan::after {
+    animation: none !important;
+  }
+
+  .hud-interactive,
+  .hud-corners {
+    transition: none !important;
+  }
+}
+
+  </style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUF2026 — Animated Framework</title>
+</head>
+<body>
+
+  <main id="auf2026">
+
+    <!-- SFONDO CINEMATOGRAFICO -->
+    <div id="cosmic-background" aria-hidden="true">
+      <div class="cosmic-orb orb-violet"></div>
+      <div class="cosmic-orb orb-cyan"></div>
+      <div class="grid-overlay"></div>
+      <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- CONTENUTO PRINCIPALE -->
+    <div class="interface">
+
+      <!-- HEADER -->
+      <header class="main-header">
+        <div class="brand-block">
+          <h1 class="main-title">AUF2026</h1>
+          <p class="main-subtitle">
+            FAURE UNIVERSAL TUPLE
+            <span class="subtitle-separator">·</span>
+            FORMAL MATHEMATICAL FRAMEWORK
+          </p>
+        </div>
+
+        <div class="header-equation">
+          <span class="equation-label">UNIVERSAL TUPLE</span>
+          <div class="equation">
+            U<sub>F</sub> = (M, G, A, Ψ, Λ, Π)
+          </div>
+        </div>
+      </header>
+
+      <!-- LINEA ENERGETICA -->
+      <div class="header-divider" aria-hidden="true">
+        <div class="divider-glow"></div>
+      </div>
+
+      
+      <!-- SEZIONE 01: ARCHITETTURA UNIVERSALE -->
+      <section class="section architecture-section" id="architecture">
+
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-index">01</span>
+            <h2>ARCHITETTURA UNIVERSALE</h2>
+          </div>
+
+          <span class="section-caption">
+            Sei componenti · un quadro formale
+          </span>
+        </div>
+
+        <!-- I SEI MODULI -->
+        <div class="module-grid">
+
+          <article class="module-card module-cyan" data-module="M">
+            <div class="module-topline">
+              <span class="module-number">MODULE 01</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">M</div>
+            <h3>Algebra discreta</h3>
+            <div class="module-bottomline">
+              <span>DISCRETE ALGEBRA</span>
+              <span class="module-code">01 / 06</span>
+            </div>
+          </article>
+
+          <article class="module-card module-cyan" data-module="G">
+            <div class="module-topline">
+              <span class="module-number">MODULE 02</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">G</div>
+            <h3>Determinante</h3>
+            <div class="module-bottomline">
+              <span>DETERMINANT</span>
+              <span class="module-code">02 / 06</span>
+            </div>
+          </article>
+
+          <article class="module-card module-cyan" data-module="A">
+            <div class="module-topline">
+              <span class="module-number">MODULE 03</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">A</div>
+            <h3>Struttura algebrica</h3>
+            <div class="module-bottomline">
+              <span>ALGEBRAIC STRUCTURE</span>
+              <span class="module-code">03 / 06</span>
+            </div>
+          </article>
+
+          <article class="module-card module-violet" data-module="Ψ">
+            <div class="module-topline">
+              <span class="module-number">MODULE 04</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">Ψ</div>
+            <h3>Identità quadratica</h3>
+            <div class="module-bottomline">
+              <span>QUADRATIC IDENTITY</span>
+              <span class="module-code">04 / 06</span>
+            </div>
+          </article>
+
+          <article class="module-card module-violet" data-module="Λ">
+            <div class="module-topline">
+              <span class="module-number">MODULE 05</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">Λ</div>
+            <h3>Simmetria di segno</h3>
+            <div class="module-bottomline">
+              <span>SIGN SYMMETRY</span>
+              <span class="module-code">05 / 06</span>
+            </div>
+          </article>
+
+          <article class="module-card module-gold" data-module="Π">
+            <div class="module-topline">
+              <span class="module-number">MODULE 06</span>
+              <span class="module-status" aria-hidden="true"></span>
+            </div>
+            <div class="module-symbol">Π</div>
+            <h3>Teoria dell'ordine</h3>
+            <div class="module-bottomline">
+              <span>ORDER THEORY</span>
+              <span class="module-code">06 / 06</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- COLLEGAMENTO TRA I MODULI -->
+        <div class="architecture-footer">
+          <div class="signal-line" aria-hidden="true">
+            <span class="signal-pulse"></span>
+          </div>
+          <p>
+            <span class="footer-indicator"></span>
+            UNIVERSAL SYSTEM
+            <span class="footer-separator">/</span>
+            SIX INTERCONNECTED COMPONENTS
+          </p>
+        </div>
+
+      </section>
+
+      <!-- SEZIONE 02: CATENA LOGICA -->
+      <section class="section logic-section" id="logic">
+
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-index">02</span>
+            <h2>CATENA LOGICA CERTIFICATA</h2>
+          </div>
+
+          <span class="section-caption">
+            Dalle ipotesi formali alla contraddizione
+          </span>
+        </div>
+
+        <!-- TRE PASSAGGI LOGICI -->
+        <div class="logic-flow">
+
+          <!-- PASSAGGIO A -->
+          <article class="logic-card logic-premise" data-step="1">
+
+            <div class="logic-card-header">
+              <span class="logic-kicker">PREMESSA A</span>
+              <span class="logic-step-number">STEP / 01</span>
+            </div>
+
+            <h3>Discesa stretta</h3>
+
+            <div class="formula-box">
+              <span class="formula">
+                ∀ x, ∃ y : f(y) ≺ f(x)
+              </span>
+            </div>
+
+            <p class="logic-description">
+              Per ogni elemento esiste un elemento strettamente inferiore.
+            </p>
+
+            <div class="logic-card-line"></div>
+          </article>
+
+          <!-- FRECCIA 1 -->
+          <div class="logic-connector" aria-hidden="true">
+            <span class="connector-line"></span>
+            <span class="connector-core">›</span>
+          </div>
+
+          <!-- PASSAGGIO B -->
+          <article class="logic-card logic-premise" data-step="2">
+
+            <div class="logic-card-header">
+              <span class="logic-kicker">TEOREMA D'ORDINE</span>
+              <span class="logic-step-number">STEP / 02</span>
+            </div>
+
+            <h3>Nessun minimo globale</h3>
+
+            <div class="formula-box">
+              <span class="formula">
+                ¬∃ x*, ∀ x : f(x*) ≤ f(x)
+              </span>
+            </div>
+
+            <p class="logic-description">
+              La proprietà di discesa esclude un minimo globale.
+            </p>
+
+            <div class="logic-card-line"></div>
+          </article>
+
+          <!-- FRECCIA 2 -->
+          <div class="logic-connector" aria-hidden="true">
+            <span class="connector-line"></span>
+            <span class="connector-core">›</span>
+          </div>
+
+          <!-- PASSAGGIO C -->
+          <article class="logic-card logic-cosmology" data-step="3">
+
+            <div class="logic-card-header">
+              <span class="logic-kicker">CORRISPONDENZA COSMOLOGICA</span>
+              <span class="logic-step-number">STEP / 03</span>
+            </div>
+
+            <h3>Minimo globale imposto</h3>
+
+            <div class="formula-box">
+              <span class="formula">
+                a(t*) = 0 ∧ ∀ t, a(t*) ≤ a(t)
+              </span>
+            </div>
+
+            <p class="logic-description">
+              L'ipotesi cosmologica introduce un minimo globale.
+            </p>
+
+            <div class="logic-card-line"></div>
+          </article>
+
+        </div>
+
+        <!-- CONVERGENZA DELLE IPOTESI -->
+        <div class="logic-convergence" aria-hidden="true">
+          <div class="convergence-stem"></div>
+          <div class="convergence-node"></div>
+          <div class="convergence-stem convergence-stem-bottom"></div>
+        </div>
+
+        <!-- PANNELLO DELLA CONTRADDIZIONE -->
+        <article class="contradiction-panel" id="contradiction">
+
+          <div class="contradiction-icon" aria-hidden="true">
+            <span class="warning-ring"></span>
+            <span class="warning-symbol">!</span>
+          </div>
+
+          <div class="contradiction-content">
+
+            <div class="contradiction-kicker">
+              <span class="alert-indicator"></span>
+              RISULTATO FORMALE
+            </div>
+
+            <h3>INCOMPATIBILITÀ LOGICA</h3>
+
+            <p>
+              Le premesse non possono essere soddisfatte
+              simultaneamente, se valgono le ipotesi indicate.
+            </p>
+
+          </div>
+
+          <div class="contradiction-status">
+            <span class="status-dot"></span>
+            <span>LOGIC CONFLICT</span>
+          </div>
+
+        </article>
+
+        <!-- NOTA DI RIGORE -->
+        <p class="logic-footnote">
+          <span class="footnote-mark">i</span>
+          La conclusione dipende dalla validità delle premesse
+          e dalla dimostrazione della corrispondenza cosmologica.
+        </p>
+
+      </section>
+
+      <!-- SEZIONE 03: ORDINE TEMPORALE -->
+      <section class="section temporal-section" id="temporal">
+
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-index">03</span>
+            <h2>ORDINE DEI VALORI → ORDINE TEMPORALE</h2>
+          </div>
+
+          <span class="section-caption">
+            Trasferimento strutturale da verificare
+          </span>
+        </div>
+
+        <div class="temporal-grid">
+
+          <!-- IPOTESI DI TRASFERIMENTO -->
+          <article class="temporal-card transfer-card">
+
+            <div class="temporal-card-header">
+              <span class="temporal-icon">Ψ</span>
+              <div>
+                <span class="temporal-kicker">MAPPATURA FORMALE</span>
+                <h3>Teorema di trasferimento</h3>
+              </div>
+            </div>
+
+            <div class="temporal-formula">
+              ∀ t ∈ T, ∃ s ∈ T : s ≺ₜ t
+            </div>
+
+            <p class="temporal-description">
+              Ogni istante rappresentato ammette un predecessore
+              nell'ordine temporale formalizzato.
+            </p>
+
+            <div class="temporal-divider"></div>
+
+            <div class="verification-note">
+              <span class="verification-icon">!</span>
+              <p>
+                Richiede una dimostrazione del collegamento
+                fra discesa algebrica e precedenza temporale.
+              </p>
+            </div>
+
+            <div class="temporal-card-index">TRANSFER / 01</div>
+          </article>
+
+          <!-- CONNETTORE TRA I PANNELLI -->
+          <div class="temporal-connector" aria-hidden="true">
+            <div class="temporal-connector-line"></div>
+            <div class="temporal-connector-node">›</div>
+          </div>
+
+          <!-- CONSEGUENZA -->
+          <article class="temporal-card consequence-card">
+
+            <div class="temporal-card-header">
+              <span class="temporal-icon">∞</span>
+              <div>
+                <span class="temporal-kicker">CONSEGUENZA CONDIZIONALE</span>
+                <h3>Nessun primo elemento</h3>
+              </div>
+            </div>
+
+            <div class="temporal-formula">
+              ¬∃ t₀ ∈ T :
+              <span class="formula-break">¬∃ s ∈ T : s ≺ₜ t₀</span>
+            </div>
+
+            <p class="temporal-description">
+              Se ogni elemento possiede un predecessore,
+              l'ordine non ha un elemento minimo.
+            </p>
+
+            <div class="temporal-divider"></div>
+
+            <div class="consequence-note">
+              <span class="consequence-pulse"></span>
+              <p>
+                Risultato relativo all'ordine matematico
+                definito dal modello.
+              </p>
+            </div>
+
+            <div class="temporal-card-index">RESULT / 02</div>
+          </article>
+
+        </div>
+
+        <!-- BARRA DI STATO DEL TRASFERIMENTO -->
+        <div class="transfer-status" id="transfer-status">
+
+          <div class="transfer-status-left">
+            <span class="transfer-status-indicator"></span>
+            <span class="transfer-status-label">
+              STATO DELLA CORRISPONDENZA
+            </span>
+          </div>
+
+          <span class="transfer-status-value">
+            DA DIMOSTRARE
+          </span>
+
+        </div>
+
+      </section>
+
+      <!-- SEZIONE 04: TIMELINE COSMICA -->
+      <section class="section timeline-section" id="timeline">
+
+        <div class="section-heading">
+          <div class="section-heading-left">
+            <span class="section-index">04</span>
+            <h2>STRUTTURA TEMPORALE SENZA PRIMO ELEMENTO</h2>
+          </div>
+
+          <span class="section-caption">
+            Schema illustrativo della proprietà di predecessore
+          </span>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="timeline-panel">
+
+          <div class="timeline-topbar">
+            <span class="timeline-live">
+              <span class="timeline-live-dot"></span>
+              TEMPORAL SEQUENCE
+            </span><br><br>
+
+            <span class="timeline-coordinate">
+              ORDER STRUCTURE / T
+            </span>
+          </div>
+
+          <!-- ETICHETTE SUPERIORI -->
+          <div class="timeline-predecessor-label">
+            <span class="predecessor-bracket"></span>
+            <span class="predecessor-text">
+              PER OGNI t, UN PREDECESSORE s
+            </span>
+          </div>
+
+          <!-- LINEA E NODI -->
+          <div class="timeline-track" id="timeline-track">
+
+            <div class="timeline-rail">
+              <div class="timeline-rail-glow"></div>
+              <div class="timeline-flow-particle"></div>
+            </div>
+
+            <div class="timeline-node" data-time="t-5">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t₋₅</span>
+            </div>
+
+            <div class="timeline-node" data-time="t-4">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t₋₄</span>
+            </div>
+
+            <div class="timeline-node" data-time="t-3">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t₋₃</span>
+            </div>
+
+            <div class="timeline-node" data-time="t-2">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t₋₂</span>
+            </div>
+
+            <div class="timeline-node" data-time="t-1">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t₋₁</span>
+            </div>
+
+            <div class="timeline-node timeline-node-current"
+                 data-time="t">
+              <span class="timeline-node-core"></span>
+              <span class="timeline-node-ring"></span><br>
+              <span class="timeline-node-label">t</span>
+            </div>
+
+          </div>
+
+          <!-- INDICAZIONE DI CONTINUITÀ -->
+          <div class="timeline-continuation">
+            <span class="continuation-line"></span>
+            <span class="continuation-symbol">∞</span>
+            <span class="continuation-label"><br><br>
+              ESTENSIONE DELLA STRUTTURA D'ORDINE
+            </span>
+            <span class="continuation-line"></span>
+          </div>
+
+          <!-- NOTA MATEMATICA -->
+          <div class="timeline-notes">
+
+            <div class="timeline-note-icon"></div>
+
+            <p>
+              Schema concettuale, non una scala temporale numerica
+              certificata. L'assenza di un primo istante fisico
+              richiede che l'ordine formalizzato rappresenti
+              adeguatamente la storia cosmologica pertinente.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- FOOTER FINALE -->
+      <footer class="main-footer">
+
+        <div class="footer-brand">
+          <span class="footer-brand-mark"></span>
+          <div class="footer-brand-text">
+            <strong>AUF2026</strong>
+            <span>FAURE UNIVERSAL TUPLE</span>
+          </div>
+        </div>
+
+        <div class="footer-process">
+          <span>ALGEBRA</span>
+          <span class="footer-arrow">→</span>
+          <span>ORDINE</span>
+          <span class="footer-arrow">→</span>
+          <span>CORRISPONDENZA</span>
+          <span class="footer-arrow">→</span>
+          <span>CONSEGUENZE</span>
+        </div>
+
+        <div class="footer-version">
+          <span class="footer-version-dot"></span>
+          FORMAL FRAMEWORK
+          <span class="footer-version-number">V.2026</span>
+        </div>
+
+      </footer>
+    </div>
+  </main>
+<script>
+  
+/* =====================================================
+   AUF2026 — ANIMATION ENGINE
+   PARTE 1/3 — HTML REALE
+   ===================================================== */
+
+(() => {
+  "use strict";
+
+  // Evita di avviare due motori contemporaneamente.
+  if (window.AUF2026?.destroy) {
+    window.AUF2026.destroy();
+  }
+
+  const root = document.querySelector("#auf2026");
+
+  if (!root) {
+    console.error(
+      "[AUF2026] ERRORE: elemento #auf2026 non trovato."
+    );
+    return;
+  }
+
+  const $ = (selector, parent = root) =>
+    parent.querySelector(selector);
+
+  const $$ = (selector, parent = root) =>
+    [...parent.querySelectorAll(selector)];
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  const state = {
+    running: false,
+    destroyed: false,
+    cleanups: [],
+    observers: [],
+    timers: new Set()
+  };
+
+  function addStyle() {
+    $("#auf2026-animation-engine")?.remove();
+
+    const style = document.createElement("style");
+    style.id = "auf2026-animation-engine";
+
+    style.textContent = `
+      #auf2026 {
+        position: relative;
+        isolation: isolate;
+      }
+
+      #auf2026 .auf-reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 750ms cubic-bezier(.16,1,.3,1),
+          transform 750ms cubic-bezier(.16,1,.3,1);
+        will-change: opacity, transform;
+      }
+
+      #auf2026 .auf-reveal.auf-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      #auf2026 .module-card {
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 350ms cubic-bezier(.2,.8,.2,1),
+          border-color 350ms ease,
+          box-shadow 350ms ease;
+      }
+
+      #auf2026 .module-card.auf-active {
+        transform: translateY(-7px);
+        box-shadow:
+          0 0 0 1px rgba(56,230,223,.28),
+          0 12px 40px rgba(56,230,223,.13);
+      }
+
+      #auf2026 .module-card.auf-active .module-symbol {
+        filter:
+          drop-shadow(0 0 12px currentColor);
+      }
+
+      #auf2026 .module-symbol {
+        transition:
+          transform 400ms cubic-bezier(.16,1,.3,1),
+          filter 400ms ease;
+      }
+
+      #auf2026 .logic-card,
+      #auf2026 .temporal-card,
+      #auf2026 .contradiction-panel {
+        transition:
+          border-color 400ms ease,
+          box-shadow 400ms ease,
+          transform 400ms ease;
+      }
+
+      #auf2026 .logic-card.auf-active {
+        box-shadow: 0 0 30px rgba(56,230,223,.13);
+      }
+
+      #auf2026 .logic-cosmology.auf-active {
+        box-shadow: 0 0 35px rgba(246,201,107,.18);
+      }
+
+      #auf2026 .contradiction-panel.auf-alert {
+        box-shadow:
+          0 0 0 1px rgba(251,113,133,.25),
+          0 0 50px rgba(251,113,133,.24);
+      }
+
+      #auf2026 .module-status {
+        transition:
+          background 250ms ease,
+          box-shadow 250ms ease;
+      }
+
+      #auf2026 .module-card.auf-active .module-status {
+        background: #38e6df;
+        box-shadow: 0 0 12px #38e6df;
+      }
+
+      #auf2026 .logic-connector .connector-line {
+        transition:
+          background 300ms ease,
+          box-shadow 300ms ease;
+      }
+
+      #auf2026 .logic-connector.auf-active .connector-line {
+        box-shadow: 0 0 12px #38e6df;
+      }
+
+      #auf2026 .divider-glow {
+        will-change: transform;
+      }
+
+      #auf2026 .signal-pulse {
+        will-change: transform;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #auf2026 .auf-reveal {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+
+        #auf2026 .module-card,
+        #auf2026 .module-symbol,
+        #auf2026 .logic-card,
+        #auf2026 .temporal-card,
+        #auf2026 .contradiction-panel {
+          transition: none;
+        }
+      }
+    `;
+
+    document.head.appendChild(style);
+  }
+
+  function wait(ms) {
+    return new Promise(resolve => {
+      const id = window.setTimeout(() => {
+        state.timers.delete(id);
+        resolve();
+      }, ms);
+
+      state.timers.add(id);
+    });
+  }
+
+  function revealOnScroll() {
+    const elements = [
+      $(".main-header"),
+      $(".header-divider"),
+      ...$$(".section-heading"),
+      ...$$(".module-card"),
+      ...$$(".logic-card"),
+      $(".contradiction-panel"),
+      ...$$(".temporal-card"),
+      $(".timeline-panel"),
+      $(".main-footer")
+    ].filter(Boolean);
+
+    elements.forEach((element, index) => {
+      element.classList.add("auf-reveal");
+
+      // Ritardo progressivo per i sei moduli.
+      if (element.matches(".module-card")) {
+        const moduleIndex = $$(".module-card").indexOf(element);
+        element.style.transitionDelay =
+          `${moduleIndex * 90}ms`;
+      } else {
+        element.style.transitionDelay =
+          `${Math.min(index * 25, 250)}ms`;
+      }
+    });
+
+    if (reducedMotion.matches) {
+      elements.forEach(element => {
+        element.classList.add("auf-visible");
+      });
+      return;
+    }
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("auf-visible");
+          observer.unobserve(entry.target);
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -35px 0px"
+      });
+
+      elements.forEach(element => observer.observe(element));
+      state.observers.push(observer);
+    } else {
+      elements.forEach(element => {
+        element.classList.add("auf-visible");
+      });
+    }
+  }
+
+  function animateModules() {
+    const cards = $$(".module-card");
+    if (!cards.length) return;
+
+    let current = 0;
+    let timer = null;
+
+    function activateNext() {
+      if (state.destroyed || reducedMotion.matches) return;
+
+      cards.forEach(card => {
+        card.classList.remove("auf-active");
+      });
+
+      const card = cards[current];
+      card.classList.add("auf-active");
+
+      // Accende anche l'indicatore del modulo.
+      const status = $(".module-status", card);
+
+      if (status) {
+        status.style.background = "#38e6df";
+        status.style.boxShadow = "0 0 14px #38e6df";
+      }
+
+      current = (current + 1) % cards.length;
+
+      timer = window.setTimeout(activateNext, 1150);
+      state.timers.add(timer);
+    }
+
+    activateNext();
+
+    state.cleanups.push(() => {
+      if (timer !== null) {
+        clearTimeout(timer);
+        state.timers.delete(timer);
+      }
+
+      cards.forEach(card => {
+        card.classList.remove("auf-active");
+        const status = $(".module-status", card);
+
+        if (status) {
+          status.style.removeProperty("background");
+          status.style.removeProperty("box-shadow");
+        }
+      });
+    });
+  }
+
+  function animateLogic() {
+    const cards = $$(".logic-card");
+    const connectors = $$(".logic-connector");
+    const contradiction = $("#contradiction");
+
+    if (!cards.length) return;
+
+    let index = 0;
+    let timer = null;
+
+    function step() {
+      if (state.destroyed || reducedMotion.matches) return;
+
+      cards.forEach(card => card.classList.remove("auf-active"));
+      connectors.forEach(connector =>
+        connector.classList.remove("auf-active")
+      );
+
+      cards[index]?.classList.add("auf-active");
+
+      if (index > 0) {
+        connectors[index - 1]?.classList.add("auf-active");
+      }
+
+      if (index === cards.length - 1 && contradiction) {
+        contradiction.classList.add("auf-alert");
+
+        const alertTimer = window.setTimeout(() => {
+          contradiction.classList.remove("auf-alert");
+          state.timers.delete(alertTimer);
+        }, 700);
+
+        state.timers.add(alertTimer);
+      }
+
+      index = (index + 1) % cards.length;
+      timer = window.setTimeout(step, 1600);
+      state.timers.add(timer);
+    }
+
+    step();
+
+    state.cleanups.push(() => {
+      if (timer !== null) {
+        clearTimeout(timer);
+        state.timers.delete(timer);
+      }
+
+      cards.forEach(card => card.classList.remove("auf-active"));
+      connectors.forEach(connector =>
+        connector.classList.remove("auf-active")
+      );
+
+      contradiction?.classList.remove("auf-alert");
+    });
+  }
+
+  function init() {
+    if (state.destroyed || state.running) return;
+
+    state.running = true;
+
+    addStyle();
+    revealOnScroll();
+    animateModules();
+    animateLogic();
+
+    console.info(
+      "[AUF2026] Motore avviato:",
+      {
+        moduli: $$(".module-card").length,
+        passaggiLogici: $$(".logic-card").length,
+        sezioni: $$(".section").length
+      }
+    );
+  }
+
+  function destroy() {
+    if (state.destroyed) return;
+
+    state.destroyed = true;
+    state.running = false;
+
+    state.timers.forEach(id => {
+      clearTimeout(id);
+    });
+
+    state.timers.clear();
+
+    state.observers.forEach(observer => observer.disconnect());
+    state.cleanups.forEach(cleanup => cleanup());
+
+    $("#auf2026-animation-engine")?.remove();
+
+    root.querySelectorAll(
+      ".auf-reveal, .auf-visible, .auf-active, .auf-alert"
+    ).forEach(element => {
+      element.classList.remove(
+        "auf-reveal",
+        "auf-visible",
+        "auf-active",
+        "auf-alert"
+      );
+
+      element.style.removeProperty("transition-delay");
+    });
+
+    delete window.AUF2026;
+  }
+
+  window.AUF2026 = {
+    root,
+    state,
+    init,
+    destroy,
+
+    refresh() {
+      state.running = false;
+      init();
+    }
+  };
+
+  init();
+})();
+
+/* =====================================================
+   AUF2026 — PARTE 2/3
+   COSMIC ENGINE: PARTICELLE + ORBITE + SCIE
+   Richiede la Parte 1 nello stesso script.js
+   ===================================================== */
+
+(() => {
+  "use strict";
+
+  const AUF = window.AUF2026;
+
+  if (!AUF || !AUF.root) {
+    console.error(
+      "[AUF2026 / P2] Parte 1 non trovata. Controlla script.js."
+    );
+    return;
+  }
+
+  const root = AUF.root;
+  const state = AUF.state;
+
+  // Impedisce l'avvio duplicato della seconda parte.
+  if (state.cosmicEngine) {
+    state.cosmicEngine.destroy();
+  }
+
+  const background = root.querySelector("#cosmic-background");
+  const particleHost = root.querySelector("#particles");
+  const orbs = [...root.querySelectorAll(".cosmic-orb")];
+  const grid = root.querySelector(".grid-overlay");
+
+  if (!background || !particleHost) {
+    console.error(
+      "[AUF2026 / P2] Mancano #cosmic-background o #particles nell'HTML."
+    );
+    return;
+  }
+
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  );
+
+  const NS = "http://www.w3.org/2000/svg";
+
+  const config = {
+    desktopParticles: 65,
+    mobileParticles: 28,
+    connectionDistance: 125,
+    speed: 0.24,
+    fps: 30
+  };
+
+  let canvas;
+  let ctx;
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  let raf = 0;
+  let running = false;
+  let lastFrame = 0;
+  let resizeObserver = null;
+  let destroyed = false;
+  let time = 0;
+
+  const previousBackgroundStyle = background.style.cssText;
+  const previousParticleStyle = particleHost.style.cssText;
+  const previousOrbStyles = orbs.map(orb => orb.style.cssText);
+  const previousGridStyle = grid?.style.cssText ?? "";
+
+  function random(min, max) {
+    return min + Math.random() * (max - min);
+  }
+
+  function createParticle() {
+    const palette = [
+      [56, 230, 223],
+      [66, 133, 255],
+      [192, 132, 252],
+      [246, 201, 107]
+    ];
+
+    return {
+      x: random(0, width),
+      y: random(0, height),
+      vx: random(-config.speed, config.speed),
+      vy: random(-config.speed, config.speed),
+      radius: random(0.7, 2.2),
+      phase: random(0, Math.PI * 2),
+      color: palette[
+        Math.floor(Math.random() * palette.length)
+      ]
+    };
+  }
+
+  function setupCanvas() {
+    canvas = document.createElement("canvas");
+    canvas.id = "auf2026-cosmic-canvas";
+    canvas.setAttribute("aria-hidden", "true");
+
+    Object.assign(canvas.style, {
+      position: "absolute",
+      inset: "0",
+      width: "100%",
+      height: "100%",
+      display: "block",
+      pointerEvents: "none",
+      zIndex: "0"
+    });
+
+    // Conserva gli orb e la griglia già presenti.
+    particleHost.replaceChildren();
+    particleHost.appendChild(canvas);
+
+    ctx = canvas.getContext("2d", { alpha: true });
+
+    if (!ctx) {
+      throw new Error("Canvas 2D non disponibile.");
+    }
+
+    // Il canvas deve occupare lo sfondo, non coprire i contenuti.
+    background.style.position ||= "absolute";
+    background.style.inset ||= "0";
+    background.style.overflow = "hidden";
+    background.style.pointerEvents = "none";
+
+    // Porta il contenuto davanti allo sfondo.
+    const interfaceElement = root.querySelector(".interface");
+
+    if (interfaceElement) {
+      interfaceElement.style.position ||= "relative";
+      interfaceElement.style.zIndex ||= "1";
+    }
+
+    resize();
+  }
+
+  function resize() {
+    if (!canvas || destroyed) return;
+
+    const rect = background.getBoundingClientRect();
+
+    width = Math.max(
+      1,
+      rect.width || root.clientWidth || window.innerWidth
+    );
+
+    height = Math.max(
+      1,
+      rect.height || root.clientHeight || window.innerHeight
+    );
+
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = window.innerWidth <= 650
+      ? config.mobileParticles
+      : config.desktopParticles;
+
+    // Conserva le particelle esistenti quando possibile.
+    if (particles.length > count) {
+      particles.length = count;
+    }
+
+    while (particles.length < count) {
+      particles.push(createParticle());
+    }
+
+    particles.forEach(p => {
+      p.x = Math.min(p.x, width);
+      p.y = Math.min(p.y, height);
+    });
+
+    draw();
+  }
+
+  function drawBackground() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Nebbia luminosa di fondo.
+    const glow = ctx.createRadialGradient(
+      width * 0.72,
+      height * 0.24,
+      0,
+      width * 0.72,
+      height * 0.24,
+      Math.max(width, height) * 0.68
+    );
+
+    glow.addColorStop(0, "rgba(124,58,237,0.10)");
+    glow.addColorStop(0.45, "rgba(56,230,223,0.035)");
+    glow.addColorStop(1, "rgba(5,10,25,0)");
+
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  function drawConnections() {
+    const maxD2 =
+      config.connectionDistance * config.connectionDistance;
+
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const d2 = dx * dx + dy * dy;
+
+        if (d2 > maxD2) continue;
+
+        const distance = Math.sqrt(d2);
+        const opacity =
+          (1 - distance / config.connectionDistance) * 0.22;
+
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+
+        ctx.strokeStyle =
+          `rgba(56,230,223,${opacity.toFixed(3)})`;
+
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+  }
+
+  function drawParticles() {
+    particles.forEach(p => {
+      const pulse =
+        0.45 + 0.55 *
+        ((Math.sin(time * 0.002 + p.phase) + 1) / 2);
+
+      const [r, g, b] = p.color;
+
+      // Alone esterno.
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${0.08 * pulse})`;
+      ctx.fill();
+
+      // Nucleo luminoso.
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * pulse, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${0.9 * pulse})`;
+      ctx.fill();
+    });
+  }
+
+  function draw() {
+    if (!ctx) return;
+
+    drawBackground();
+    drawConnections();
+    drawParticles();
+  }
+
+  function update(delta) {
+    const factor = Math.min(delta / 16.67, 2);
+
+    particles.forEach(p => {
+      p.x += p.vx * factor;
+      p.y += p.vy * factor;
+
+      // Riappare dal lato opposto.
+      if (p.x < -5) p.x = width + 5;
+      if (p.x > width + 5) p.x = -5;
+      if (p.y < -5) p.y = height + 5;
+      if (p.y > height + 5) p.y = -5;
+    });
+  }
+
+  function animate(timestamp) {
+    raf = 0;
+
+    if (!running || destroyed) return;
+
+    if (document.hidden) {
+      stop();
+      return;
+    }
+
+    const interval = 1000 / config.fps;
+
+    if (timestamp - lastFrame < interval) {
+      raf = requestAnimationFrame(animate);
+      return;
+    }
+
+    const delta = lastFrame
+      ? Math.min(timestamp - lastFrame, 50)
+      : 16.67;
+
+    lastFrame = timestamp;
+    time = timestamp;
+
+    update(delta);
+    draw();
+
+    raf = requestAnimationFrame(animate);
+  }
+
+  function start() {
+    if (destroyed || running || document.hidden) return;
+
+    running = true;
+    lastFrame = 0;
+
+    if (!reduceMotion.matches) {
+      raf = requestAnimationFrame(animate);
+    } else {
+      draw();
+    }
+  }
+
+  function stop() {
+    running = false;
+
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
+  }
+
+  // Movimento lento delle grandi orbite.
+  function animateOrbs(timestamp) {
+    if (destroyed || !running) return;
+
+    if (!reduceMotion.matches && !document.hidden) {
+      orbs.forEach((orb, index) => {
+        const phase = timestamp * 0.00035 + index * 2.2;
+        const x = Math.sin(phase) * 12;
+        const y = Math.cos(phase * 0.8) * 15;
+        const scale = 1 + Math.sin(phase * 0.6) * 0.045;
+
+        orb.style.transform =
+          `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+      });
+
+      if (grid) {
+        const offset = (timestamp * 0.008) % 40;
+        grid.style.backgroundPosition =
+          `${offset}px ${-offset}px`;
+      }
+    }
+  }
+
+  let orbRaf = 0;
+
+  function animateOrbsLoop(timestamp) {
+    orbRaf = 0;
+
+    if (!running || destroyed || document.hidden) return;
+
+    animateOrbs(timestamp);
+    orbRaf = requestAnimationFrame(animateOrbsLoop);
+  }
+
+  function onVisibilityChange() {
+    if (document.hidden) {
+      stop();
+
+      if (orbRaf) cancelAnimationFrame(orbRaf);
+      orbRaf = 0;
+    } else {
+      start();
+
+      if (!reduceMotion.matches) {
+        orbRaf = requestAnimationFrame(animateOrbsLoop);
+      }
+    }
+  }
+
+  function onMotionChange() {
+    stop();
+
+    if (reduceMotion.matches) {
+      orbs.forEach(orb => {
+        orb.style.transform = "";
+      });
+
+      if (grid) grid.style.backgroundPosition = "";
+      draw();
+    } else {
+      start();
+      orbRaf = requestAnimationFrame(animateOrbsLoop);
+    }
+  }
+
+  function destroy() {
+    if (destroyed) return;
+
+    destroyed = true;
+    stop();
+
+    if (orbRaf) cancelAnimationFrame(orbRaf);
+
+    window.removeEventListener("resize", resize);
+    document.removeEventListener(
+      "visibilitychange",
+      onVisibilityChange
+    );
+
+    if (resizeObserver) resizeObserver.disconnect();
+
+    if (reduceMotion.removeEventListener) {
+      reduceMotion.removeEventListener("change", onMotionChange);
+    } else {
+      reduceMotion.removeListener(onMotionChange);
+    }
+
+    // Ripristina lo stato originale.
+    particleHost.replaceChildren();
+    particleHost.style.cssText = previousParticleStyle;
+    background.style.cssText = previousBackgroundStyle;
+
+    orbs.forEach((orb, index) => {
+      orb.style.cssText = previousOrbStyles[index];
+    });
+
+    if (grid) grid.style.cssText = previousGridStyle;
+
+    const interfaceElement = root.querySelector(".interface");
+
+    if (interfaceElement) {
+      interfaceElement.style.removeProperty("position");
+      interfaceElement.style.removeProperty("z-index");
+    }
+
+    if (state.cosmicEngine === api) {
+      delete state.cosmicEngine;
+    }
+  }
+
+  const api = {
+    start,
+    stop,
+    resize,
+    draw,
+    destroy,
+
+    get particleCount() {
+      return particles.length;
+    }
+  };
+
+  try {
+    setupCanvas();
+  } catch (error) {
+    console.error("[AUF2026 / P2] Errore Canvas:", error);
+    return;
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+
+  document.addEventListener(
+    "visibilitychange",
+    onVisibilityChange
+  );
+
+  if (reduceMotion.addEventListener) {
+    reduceMotion.addEventListener("change", onMotionChange);
+  } else {
+    reduceMotion.addListener(onMotionChange);
+  }
+
+  if ("ResizeObserver" in window) {
+    resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(background);
+  }
+
+  state.cosmicEngine = api;
+  state.cleanups.push(destroy);
+
+  start();
+
+  if (!reduceMotion.matches) {
+    orbRaf = requestAnimationFrame(animateOrbsLoop);
+  }
+
+  console.info(
+    `[AUF2026 / P2] Sfondo cosmico attivo: ${particles.length} particelle.`
+  );
+})();
+
+  </script>
+</body>
+</html>
