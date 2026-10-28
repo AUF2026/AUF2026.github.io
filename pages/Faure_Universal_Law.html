@@ -1,0 +1,938 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 1697">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#050914"/>
+      <stop offset="55%" stop-color="#0B1830"/>
+      <stop offset="100%" stop-color="#030711"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FFF0B0"/>
+      <stop offset="45%" stop-color="#D9B76A"/>
+      <stop offset="100%" stop-color="#A67C37"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#64D8FF"/>
+      <stop offset="100%" stop-color="#B4F3FF"/>
+    </linearGradient>
+    <radialGradient id="halo">
+      <stop offset="0%" stop-color="#1C5180" stop-opacity=".45"/>
+      <stop offset="100%" stop-color="#081225" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#8CB9E0" stroke-opacity=".07" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.5" fill="#8CB9E0" fill-opacity=".22"/>
+    </pattern>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="1697" fill="url(#bg)"/>
+  <rect width="1200" height="1697" fill="url(#grid)"/>
+  <ellipse cx="600" cy="800" rx="570" ry="650" fill="url(#halo)"/>
+
+  <rect x="44" y="44" width="1112" height="1609" rx="8"
+        fill="none" stroke="url(#gold)" stroke-opacity=".65" stroke-width="2"/>
+  <path d="M44 160H80 M44 80V44H80 M1120 44H1156V80 M1156 1617V1653H1120"
+        fill="none" stroke="url(#gold)" stroke-width="4"/>
+
+  <text x="600" y="112" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="19"
+        letter-spacing="8" fill="#91B6D6">AUF2026  /  MATHEMATICAL FRAMEWORK</text>
+
+  <text x="600" y="220" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-size="69"
+        font-weight="bold" letter-spacing="2" fill="url(#gold)">FAURE</text>
+  <text x="600" y="291" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="44"
+        font-weight="300" letter-spacing="7" fill="#F0F5FF">UNIVERSAL LAW</text>
+
+  <line x1="190" y1="330" x2="1010" y2="330"
+        stroke="url(#gold)" stroke-width="1.5" opacity=".8"/>
+  <circle cx="600" cy="330" r="5" fill="#F2D58C"/>
+
+  <text x="600" y="391" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="17"
+        letter-spacing="5" fill="#76DDF8">UNIFIED VARIATIONAL FORM</text>
+
+  <g fill="#F4F7FF" text-anchor="middle"
+     font-family="'Times New Roman', Georgia, serif">
+    <text x="600" y="480" font-size="40" font-style="italic">
+      U<tspan font-size="25" baseline-shift="sub">F</tspan>
+      <tspan font-size="34"> = (X, G, O, F, R, Π)</tspan>
+    </text>
+
+    <text x="600" y="591" font-size="39">
+      n<tspan font-size="25" baseline-shift="super">*</tspan>
+      <tspan> = arg min</tspan>
+    </text>
+    <text x="790" y="610" font-size="19">n ∈ A</text>
+
+    <text x="600" y="669" font-size="38" fill="url(#cyan)">
+      E<tspan font-size="24" baseline-shift="sub">F</tspan>[n]
+      <tspan> = </tspan>
+      <tspan font-size="32">Σ</tspan>
+      <tspan font-size="20" baseline-shift="sub">t=0</tspan>
+      <tspan font-size="20" baseline-shift="super">T−1</tspan>
+      <tspan font-size="34"> [</tspan>
+    </text>
+
+    <text x="600" y="745" font-size="30">
+      ‖O(n<tspan font-size="19" baseline-shift="sub">t</tspan>) − x<tspan font-size="19" baseline-shift="sub">t</tspan>‖² / s²<tspan font-size="19" baseline-shift="sub">o</tspan>
+    </text>
+
+    <text x="600" y="819" font-size="30">
+      + α ‖Ln<tspan font-size="19" baseline-shift="sub">t</tspan> + K(n<tspan font-size="19" baseline-shift="sub">t</tspan>)‖² / s²<tspan font-size="19" baseline-shift="sub">s</tspan>
+    </text>
+
+    <text x="600" y="893" font-size="29">
+      + β ‖n<tspan font-size="19" baseline-shift="sub">t+1</tspan> − F(n<tspan font-size="19" baseline-shift="sub">t</tspan>, u<tspan font-size="19" baseline-shift="sub">t</tspan>)‖² / s²<tspan font-size="19" baseline-shift="sub">d</tspan>
+    </text>
+
+    <text x="600" y="966" font-size="26">
+      + γ ‖F(ρ<tspan font-size="18" baseline-shift="sub">g</tspan>n<tspan font-size="18" baseline-shift="sub">t</tspan>, ρ<tspan font-size="18" baseline-shift="sub">u</tspan>(g)u<tspan font-size="18" baseline-shift="sub">t</tspan>)
+    </text>
+    <text x="600" y="1011" font-size="26">
+      − ρ<tspan font-size="18" baseline-shift="sub">g</tspan>F(n<tspan font-size="18" baseline-shift="sub">t</tspan>,u<tspan font-size="18" baseline-shift="sub">t</tspan>)‖² / s²<tspan font-size="18" baseline-shift="sub">i</tspan>
+    </text>
+    <text x="600" y="1065" font-size="38">]</text>
+  </g>
+
+  <rect x="132" y="1120" width="936" height="2"
+        fill="url(#gold)" opacity=".8"/>
+
+  <text x="600" y="1195" text-anchor="middle"
+        font-family="'Times New Roman', Georgia, serif"
+        font-size="34" fill="#F4F7FF">
+    L<tspan font-size="22" baseline-shift="sub">F</tspan>
+    <tspan>(φ, ∂φ ; θ) = 0</tspan>
+  </text>
+
+  <g stroke="#73D8F4" stroke-width="1.3" opacity=".7" fill="none">
+    <circle cx="600" cy="1330" r="74"/>
+    <circle cx="600" cy="1330" r="52"/>
+    <circle cx="600" cy="1330" r="28"/>
+    <ellipse cx="600" cy="1330" rx="108" ry="43" transform="rotate(35 600 1330)"/>
+    <ellipse cx="600" cy="1330" rx="108" ry="43" transform="rotate(-35 600 1330)"/>
+    <path d="M492 1330H708 M600 1222V1438"/>
+  </g>
+  <circle cx="600" cy="1330" r="8" fill="url(#gold)" filter="url(#glow)"/>
+  <circle cx="515" cy="1276" r="5" fill="#A6E8FF"/>
+  <circle cx="684" cy="1383" r="5" fill="#A6E8FF"/>
+  <circle cx="648" cy="1249" r="5" fill="#A6E8FF"/>
+
+  <text x="600" y="1480" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="15"
+        letter-spacing="4" fill="#86A8C9">STRUCTURE · DYNAMICS · INVARIANCE</text>
+
+  <line x1="270" y1="1520" x2="930" y2="1520"
+        stroke="#D6B66F" stroke-width="1" opacity=".65"/>
+
+  <text x="600" y="1568" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-size="20" font-style="italic" fill="#D8E4F3">
+    A candidate framework for universal modelling
+  </text>
+  <text x="600" y="1610" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="12"
+        letter-spacing="3" fill="#7690AE">MATHEMATICAL FORMULATION · CANDIDATE VERIFIED UNIVERSAL PHYSICAL LAW</text>
+</svg>
+<sxript>
+
+(() => {
+  "use strict";
+
+  const svg = document.querySelector('svg[viewBox="0 0 1200 1697"]');
+
+  if (!svg) {
+    console.error("FAURE: SVG originale non trovato.");
+    return;
+  }
+
+  // Evita di inizializzare il motore due volte.
+  if (window.FAURE_ANIMATION) {
+    window.FAURE_ANIMATION.destroy();
+  }
+
+  const $ = (selector) => [...svg.querySelectorAll(selector)];
+  const reducedMotion = matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  let raf = 0;
+  let startTime = 0;
+  let paused = false;
+  let destroyed = false;
+
+  const animated = [];
+
+  const ease = (t) => 1 - Math.pow(1 - t, 4);
+  const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+
+  function prepare(el, delay, duration = 1) {
+    const original = {
+      opacity: el.getAttribute("opacity"),
+      transform: el.getAttribute("transform"),
+      filter: el.style.filter,
+      transition: el.style.transition
+    };
+
+    animated.push({ el, delay, duration, original });
+
+    el.style.opacity = "0";
+    el.style.transition = "none";
+
+    return el;
+  }
+
+  // 1. Cornice esterna e angoli dorati.
+  const frame = $('rect[stroke="url(#gold)"]')[0];
+
+  if (frame) {
+    prepare(frame, 0.05, 1.6);
+    frame.style.strokeDasharray = "5500";
+    frame.style.strokeDashoffset = "5500";
+    frame.dataset.faureFrame = "true";
+  }
+
+  const corners = $('path[stroke="url(#gold)"]');
+
+  corners.forEach((el, i) => {
+    prepare(el, 0.35 + i * 0.12, 0.9);
+  });
+
+  // 2. Intestazione.
+  const header = $('text').find((el) =>
+    el.textContent.includes("AUF2026")
+  );
+
+  if (header) prepare(header, 0.4, 1.1);
+
+  // 3. Titolo principale.
+  const title = $('text').find(
+    (el) => el.textContent.trim() === "FAURE"
+  );
+
+  if (title) {
+    prepare(title, 0.65, 1.5);
+    title.style.filter =
+      "drop-shadow(0 0 12px rgba(217,183,106,.8))";
+  }
+
+  // 4. Sottotitolo.
+  const subtitle = $('text').find(
+    (el) => el.textContent.trim() === "UNIVERSAL LAW"
+  );
+
+  if (subtitle) prepare(subtitle, 1.15, 1.3);
+
+  // 5. Linea dorata sotto il titolo.
+  const separator = $('line').find(
+    (el) => el.getAttribute("y1") === "330"
+  );
+
+  if (separator) {
+    prepare(separator, 1.4, 1);
+    separator.style.strokeDasharray = "820";
+    separator.style.strokeDashoffset = "820";
+  }
+
+  // 6. Punto luminoso al centro della linea.
+  const centerPoint = $('circle').find(
+    (el) =>
+      el.getAttribute("cx") === "600" &&
+      el.getAttribute("cy") === "330"
+  );
+
+  if (centerPoint) prepare(centerPoint, 1.9, 0.7);
+
+  // 7. Etichetta della sezione matematica.
+  const sectionLabel = $('text').find((el) =>
+    el.textContent.includes("UNIFIED VARIATIONAL FORM")
+  );
+
+  if (sectionLabel) prepare(sectionLabel, 1.8, 1);
+
+  // 8. Formule: ingresso progressivo dall'alto verso il basso.
+  const formulas = $('text').filter((el) => {
+    const y = Number(el.getAttribute("y"));
+    return y >= 450 && y <= 1200;
+  });
+
+  formulas.forEach((el, i) => {
+    prepare(el, 2.1 + i * 0.16, 0.85);
+  });
+
+  // 9. Avvio del ciclo di animazione.
+  function animate(now) {
+    if (destroyed || paused) return;
+
+    if (!startTime) startTime = now;
+
+    const elapsed = (now - startTime) / 1000;
+
+    animated.forEach(({ el, delay, duration }) => {
+      const progress = clamp((elapsed - delay) / duration);
+      const eased = ease(progress);
+
+      el.style.opacity = String(eased);
+
+      if (el.dataset.faureFrame === "true") {
+        el.style.strokeDashoffset =
+          String(5500 * (1 - eased));
+      } else if (
+        el === separator
+      ) {
+        el.style.strokeDashoffset =
+          String(820 * (1 - eased));
+      } else {
+        el.style.transform =
+          `translateY(${(1 - eased) * 18}px)`;
+      }
+    });
+
+    raf = requestAnimationFrame(animate);
+  }
+
+  const api = {
+    play() {
+      if (destroyed || !paused) return;
+
+      paused = false;
+      startTime = performance.now() - startTime;
+      raf = requestAnimationFrame(animate);
+    },
+
+    pause() {
+      if (paused || destroyed) return;
+
+      paused = true;
+      cancelAnimationFrame(raf);
+    },
+
+    restart() {
+      cancelAnimationFrame(raf);
+      startTime = 0;
+      paused = false;
+
+      animated.forEach(({ el }) => {
+        el.style.opacity = "0";
+        el.style.transform = "";
+        if (el.dataset.faureFrame === "true") {
+          el.style.strokeDashoffset = "5500";
+        }
+      });
+
+      raf = requestAnimationFrame(animate);
+    },
+
+    destroy() {
+      destroyed = true;
+      cancelAnimationFrame(raf);
+
+      animated.forEach(({ el, original }) => {
+        if (original.opacity === null) {
+          el.removeAttribute("opacity");
+        } else {
+          el.setAttribute("opacity", original.opacity);
+        }
+
+        el.style.filter = original.filter;
+        el.style.transition = original.transition;
+        el.style.transform = "";
+      });
+    }
+  };
+
+  window.FAURE_ANIMATION = api;
+
+  if (reducedMotion) {
+    animated.forEach(({ el }) => {
+      el.style.opacity = "1";
+      el.style.transform = "";
+    });
+  } else {
+    raf = requestAnimationFrame(animate);
+  }
+})();
+
+(() => {
+  "use strict";
+
+  const svg = document.querySelector('svg[viewBox="0 0 1200 1697"]');
+  if (!svg) return;
+
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = (s) => [...svg.querySelectorAll(s)];
+
+  // Evita duplicazioni se il codice viene reinizializzato.
+  svg.querySelector("#faure-formula-effects")?.remove();
+
+  const defs = svg.querySelector("defs");
+
+  if (!defs) return;
+
+  // Filtro luminoso ciano.
+  if (!defs.querySelector("#faureFormulaGlow")) {
+    const filter = document.createElementNS(NS, "filter");
+    filter.id = "faureFormulaGlow";
+    filter.setAttribute("x", "-60%");
+    filter.setAttribute("y", "-60%");
+    filter.setAttribute("width", "220%");
+    filter.setAttribute("height", "220%");
+
+    const blur = document.createElementNS(NS, "feGaussianBlur");
+    blur.setAttribute("stdDeviation", "3.5");
+    blur.setAttribute("result", "blur");
+
+    const merge = document.createElementNS(NS, "feMerge");
+    const node1 = document.createElementNS(NS, "feMergeNode");
+    node1.setAttribute("in", "blur");
+
+    const node2 = document.createElementNS(NS, "feMergeNode");
+    node2.setAttribute("in", "SourceGraphic");
+
+    merge.append(node1, node2);
+    filter.append(blur, merge);
+    defs.append(filter);
+  }
+
+  // Layer effetti: non modifica le formule originali.
+  const effects = document.createElementNS(NS, "g");
+  effects.id = "faure-formula-effects";
+  effects.setAttribute("pointer-events", "none");
+  svg.append(effects);
+
+  // Linea di scansione.
+  const scan = document.createElementNS(NS, "rect");
+  scan.setAttribute("x", "145");
+  scan.setAttribute("y", "650");
+  scan.setAttribute("width", "910");
+  scan.setAttribute("height", "2");
+  scan.setAttribute("rx", "1");
+  scan.setAttribute("fill", "#8BEAFF");
+  scan.setAttribute("opacity", "0");
+  scan.setAttribute("filter", "url(#faureFormulaGlow)");
+  effects.append(scan);
+
+  const formulas = $("text").filter((el) => {
+    const y = Number(el.getAttribute("y"));
+    return y >= 450 && y <= 1100;
+  });
+
+  const originalFilters = new Map();
+  const originalColors = new Map();
+
+  formulas.forEach((el, i) => {
+    originalFilters.set(el, el.style.filter);
+    originalColors.set(el, el.getAttribute("fill"));
+
+    // Le formule conservano posizione e contenuto originali.
+    el.style.filter = i === 2
+      ? "url(#faureFormulaGlow)"
+      : "none";
+  });
+
+  const reducedMotion = matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (reducedMotion) {
+    formulas.forEach((el) => {
+      el.style.filter = originalFilters.get(el);
+    });
+    scan.setAttribute("opacity", "0");
+    return;
+  }
+
+  let start = 0;
+  let raf = 0;
+  let paused = false;
+  let destroyed = false;
+
+  function animate(now) {
+    if (paused || destroyed) return;
+
+    if (!start) start = now;
+    const t = (now - start) / 1000;
+
+    // Bagliore ciano pulsante sulla formula principale.
+    if (formulas[2]) {
+      const glow = 2.5 + (Math.sin(t * 2.2) + 1) * 2;
+
+      formulas[2].style.filter =
+        `drop-shadow(0 0 ${glow}px rgba(100,216,255,.8))`;
+    }
+
+    // Scansione ripetuta sulle equazioni.
+    const period = 8;
+    const phase = (t - 2) % period;
+    const active = t > 2 && phase >= 0 && phase < 2.6;
+
+    if (active) {
+      const progress = phase / 2.6;
+
+      scan.setAttribute("y", String(690 + progress * 345));
+      scan.setAttribute(
+        "opacity",
+        String(Math.sin(progress * Math.PI) * 0.75)
+      );
+    } else {
+      scan.setAttribute("opacity", "0");
+    }
+
+    // Piccole variazioni di luminosità, senza spostare il testo.
+    formulas.forEach((el, i) => {
+      if (i === 2) return;
+
+      const pulse = 0.88 + 0.12 *
+        ((Math.sin(t * 1.3 + i * 0.65) + 1) / 2);
+
+      el.style.opacity = String(pulse);
+    });
+
+    raf = requestAnimationFrame(animate);
+  }
+
+  const api = {
+    pause() {
+      paused = true;
+      cancelAnimationFrame(raf);
+    },
+
+    play() {
+      if (destroyed || !paused) return;
+      paused = false;
+      start = performance.now() - start;
+      raf = requestAnimationFrame(animate);
+    },
+
+    destroy() {
+      destroyed = true;
+      cancelAnimationFrame(raf);
+
+      formulas.forEach((el) => {
+        el.style.filter = originalFilters.get(el);
+        el.style.opacity = "";
+      });
+
+      effects.remove();
+    }
+  };
+
+  window.FAURE_FORMULAS = api;
+  raf = requestAnimationFrame(animate);
+})();
+
+(() => {
+  "use strict";
+
+  const svg = document.querySelector('svg[viewBox="0 0 1200 1697"]');
+  if (!svg) return;
+
+  const NS = "http://www.w3.org/2000/svg";
+  const $ = (s) => [...svg.querySelectorAll(s)];
+
+  // Trova il gruppo orbitale originale.
+  const circles = $("circle");
+  const ellipses = $("ellipse").filter((el) =>
+    el.hasAttribute("transform") &&
+    el.getAttribute("cx") === "600" &&
+    el.getAttribute("cy") === "1330"
+  );
+
+  const orbitalGroup = ellipses[0]?.parentElement;
+  if (!orbitalGroup || orbitalGroup.dataset.faureOrbitReady) return;
+
+  orbitalGroup.dataset.faureOrbitReady = "true";
+
+  const original = {
+    transform: orbitalGroup.getAttribute("transform"),
+    opacity: orbitalGroup.getAttribute("opacity")
+  };
+
+  const orbitPoints = circles.filter((el) => {
+    const cx = Number(el.getAttribute("cx"));
+    const cy = Number(el.getAttribute("cy"));
+    const r = Number(el.getAttribute("r"));
+
+    return (
+      r <= 8 &&
+      cx >= 500 && cx <= 700 &&
+      cy >= 1220 && cy <= 1400
+    );
+  });
+
+  const centralCore = orbitPoints.find((el) =>
+    Number(el.getAttribute("cx")) === 600 &&
+    Number(el.getAttribute("cy")) === 1330 &&
+    Number(el.getAttribute("r")) >= 7
+  );
+
+  // Coordinate originali dei punti.
+  const planets = orbitPoints
+    .filter((el) => el !== centralCore)
+    .map((el, i) => ({
+      el,
+      cx: Number(el.getAttribute("cx")),
+      cy: Number(el.getAttribute("cy")),
+      radius: Number(el.getAttribute("r")) || 5,
+      phase: i * 2.1,
+      speed: i % 2 ? -0.65 : 0.48
+    }));
+
+  // Scie luminose create nel layer orbitale.
+  const trails = planets.map((planet, i) => {
+    const trail = document.createElementNS(NS, "circle");
+
+    trail.setAttribute("r", String(planet.radius * 2.2));
+    trail.setAttribute(
+      "fill",
+      i % 2 ? "#B4F3FF" : "#D9B76A"
+    );
+    trail.setAttribute("opacity", "0");
+    trail.setAttribute("pointer-events", "none");
+
+    orbitalGroup.append(trail);
+    return trail;
+  });
+
+  // Bagliore centrale, senza cambiare il gradiente originale.
+  if (centralCore) {
+    centralCore.style.filter =
+      "drop-shadow(0 0 8px rgba(255,220,140,.95))";
+  }
+
+  // Salva i punti iniziali: le orbite restano quelle del disegno.
+  const startPositions = planets.map((p) => ({
+    x: p.cx - 600,
+    y: p.cy - 1330
+  }));
+
+  let raf = 0;
+  let start = 0;
+  let paused = false;
+  let destroyed = false;
+
+  const reducedMotion = matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function animate(now) {
+    if (paused || destroyed) return;
+
+    if (!start) start = now;
+    const t = (now - start) / 1000;
+
+    // Rotazione molto lenta dell'intero sistema.
+    const rotation = Math.sin(t * 0.28) * 1.5;
+
+    orbitalGroup.setAttribute(
+      "transform",
+      `rotate(${rotation} 600 1330)`
+    );
+
+    orbitalGroup.setAttribute(
+      "opacity",
+      String(0.78 + 0.12 * (Math.sin(t * 0.9) + 1) / 2)
+    );
+
+    // Nucleo pulsante.
+    if (centralCore) {
+      const pulse = 1 + Math.sin(t * 2.1) * 0.2;
+
+      centralCore.setAttribute("r", String(8 * pulse));
+      centralCore.setAttribute(
+        "opacity",
+        String(0.75 + 0.25 * Math.sin(t * 2.1) ** 2)
+      );
+    }
+
+    // Orbite dei pianeti: traiettorie ellittiche attorno al centro.
+    planets.forEach((planet, i) => {
+      const base = startPositions[i];
+      const angle = t * planet.speed + planet.phase;
+
+      const rx = Math.max(12, Math.abs(base.x));
+      const ry = Math.max(12, Math.abs(base.y));
+
+      const x = 600 + rx * Math.cos(angle);
+      const y = 1330 + ry * Math.sin(angle);
+
+      planet.el.setAttribute("cx", String(x));
+      planet.el.setAttribute("cy", String(y));
+
+      const pulse =
+        1 + 0.22 * Math.sin(t * 2.6 + planet.phase);
+
+      planet.el.setAttribute(
+        "r",
+        String(planet.radius * pulse)
+      );
+
+      planet.el.setAttribute(
+        "opacity",
+        String(0.72 + 0.28 * Math.sin(t * 1.7 + planet.phase) ** 2)
+      );
+
+      // La scia segue il pianeta con un lieve ritardo visivo.
+      const trail = trails[i];
+      trail.setAttribute("cx", String(x - Math.cos(angle) * 8));
+      trail.setAttribute("cy", String(y - Math.sin(angle) * 8));
+      trail.setAttribute(
+        "opacity",
+        String(0.12 + 0.2 * Math.sin(t * 2 + planet.phase) ** 2)
+      );
+    });
+
+    raf = requestAnimationFrame(animate);
+  }
+
+  const api = {
+    pause() {
+      paused = true;
+      cancelAnimationFrame(raf);
+    },
+
+    play() {
+      if (destroyed || !paused) return;
+      paused = false;
+      start = performance.now() - start;
+      raf = requestAnimationFrame(animate);
+    },
+
+    destroy() {
+      destroyed = true;
+      cancelAnimationFrame(raf);
+
+      planets.forEach((p) => {
+        p.el.setAttribute("cx", String(p.cx));
+        p.el.setAttribute("cy", String(p.cy));
+        p.el.setAttribute("r", String(p.radius));
+      });
+
+      trails.forEach((el) => el.remove());
+
+      if (original.transform === null) {
+        orbitalGroup.removeAttribute("transform");
+      } else {
+        orbitalGroup.setAttribute("transform", original.transform);
+      }
+
+      if (original.opacity === null) {
+        orbitalGroup.removeAttribute("opacity");
+      } else {
+        orbitalGroup.setAttribute("opacity", original.opacity);
+      }
+
+      if (centralCore) centralCore.style.filter = "";
+      delete orbitalGroup.dataset.faureOrbitReady;
+    }
+  };
+
+  window.FAURE_ORBITS = api;
+
+  if (!reducedMotion) {
+    raf = requestAnimationFrame(animate);
+  }
+})();
+
+(() => {
+  "use strict";
+
+  const svg = document.querySelector('svg[viewBox="0 0 1200 1697"]');
+  if (!svg) return;
+
+  const NS = "http://www.w3.org/2000/svg";
+  const rand = (min, max) => Math.random() * (max - min) + min;
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
+
+  // Evita di creare più sistemi di particelle.
+  if (window.FAURE_PARTICLES) {
+    window.FAURE_PARTICLES.destroy();
+  }
+
+  const layer = document.createElementNS(NS, "g");
+  layer.setAttribute("id", "faure-particle-layer");
+  layer.setAttribute("pointer-events", "none");
+  svg.append(layer);
+
+  const colors = ["#D9B76A", "#FFF0B0", "#73D8F4", "#B4F3FF"];
+
+  const particles = Array.from({ length: 115 }, (_, i) => {
+    const r = rand(0.6, 1.9);
+    const el = document.createElementNS(NS, "circle");
+
+    el.setAttribute("cx", rand(55, 1145));
+    el.setAttribute("cy", rand(55, 1640));
+    el.setAttribute("r", r);
+    el.setAttribute("fill", colors[i % colors.length]);
+    el.setAttribute("opacity", rand(0.15, 0.65));
+
+    layer.append(el);
+
+    return {
+      el,
+      x: Number(el.getAttribute("cx")),
+      y: Number(el.getAttribute("cy")),
+      r,
+      speed: rand(5, 19),
+      drift: rand(2, 11),
+      phase: rand(0, Math.PI * 2),
+      frequency: rand(0.5, 2.1)
+    };
+  });
+
+  // Scintille diagonali.
+  const sparks = Array.from({ length: 8 }, () => {
+    const el = document.createElementNS(NS, "path");
+
+    el.setAttribute("fill", "none");
+    el.setAttribute("stroke", "#A8EFFF");
+    el.setAttribute("stroke-width", "1.2");
+    el.setAttribute("stroke-linecap", "round");
+    el.setAttribute("opacity", "0");
+
+    layer.append(el);
+
+    return {
+      el,
+      x: rand(100, 1100),
+      y: rand(250, 1450),
+      phase: rand(0, 12),
+      duration: rand(0.35, 0.8)
+    };
+  });
+
+  let pointerX = 0;
+  let pointerY = 0;
+  let targetX = 0;
+  let targetY = 0;
+
+  function onPointerMove(event) {
+    const rect = svg.getBoundingClientRect();
+
+    targetX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    targetY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+  }
+
+  function onPointerLeave() {
+    targetX = 0;
+    targetY = 0;
+  }
+
+  svg.addEventListener("pointermove", onPointerMove, { passive: true });
+  svg.addEventListener("pointerleave", onPointerLeave);
+
+  let raf = 0;
+  let start = 0;
+  let paused = false;
+  let destroyed = false;
+
+  const reducedMotion = matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function animate(now) {
+    if (paused || destroyed) return;
+
+    if (!start) start = now;
+
+    const t = (now - start) / 1000;
+    const dt = 1 / 60;
+
+    pointerX += (targetX - pointerX) * 0.035;
+    pointerY += (targetY - pointerY) * 0.035;
+
+    // Parallasse lieve dell'intero campo.
+    layer.setAttribute(
+      "transform",
+      `translate(${pointerX * -5} ${pointerY * -5})`
+    );
+
+    // Movimento e scintillio delle particelle.
+    particles.forEach((p) => {
+      p.y -= p.speed * dt;
+      p.x += Math.sin(t * p.frequency + p.phase) * p.drift * dt;
+
+      if (p.y < 48) {
+        p.y = 1645;
+        p.x = rand(55, 1145);
+      }
+
+      if (p.x < 50) p.x = 1150;
+      if (p.x > 1150) p.x = 50;
+
+      const twinkle =
+        0.12 +
+        0.58 * ((Math.sin(t * p.frequency + p.phase) + 1) / 2);
+
+      p.el.setAttribute("cx", p.x);
+      p.el.setAttribute("cy", p.y);
+      p.el.setAttribute("opacity", twinkle);
+      p.el.setAttribute(
+        "r",
+        p.r * (0.8 + 0.4 * twinkle)
+      );
+    });
+
+    // Scintille che appaiono e svaniscono.
+    sparks.forEach((s) => {
+      const cycle = 4.5;
+      const phase = (t + s.phase) % cycle;
+
+      if (phase > s.duration) {
+        s.el.setAttribute("opacity", "0");
+        return;
+      }
+
+      const p = phase / s.duration;
+      const alpha = Math.sin(p * Math.PI) * 0.85;
+
+      const x = s.x + p * 42;
+      const y = s.y - p * 26;
+
+      s.el.setAttribute(
+        "d",
+        `M ${x} ${y} l -12 12`
+      );
+      s.el.setAttribute("opacity", alpha);
+    });
+
+    raf = requestAnimationFrame(animate);
+  }
+
+  const api = {
+    pause() {
+      paused = true;
+      cancelAnimationFrame(raf);
+    },
+
+    play() {
+      if (destroyed || !paused) return;
+
+      paused = false;
+      start = performance.now() - start;
+      raf = requestAnimationFrame(animate);
+    },
+
+    destroy() {
+      destroyed = true;
+      cancelAnimationFrame(raf);
+
+      svg.removeEventListener("pointermove", onPointerMove);
+      svg.removeEventListener("pointerleave", onPointerLeave);
+
+      layer.remove();
+    }
+  };
+
+  window.FAURE_PARTICLES = api;
+
+  if (!reducedMotion) {
+    raf = requestAnimationFrame(animate);
+  }
+})();
+</sxript>
